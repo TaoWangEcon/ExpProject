@@ -1,0 +1,31 @@
+dictionary using AAGGuwMl.raw {
+*****************************************************************
+*  Replace 'Y' with the name of the data file.
+*  The default suffix is '.raw'.
+*
+*  Put this dictionary into a separate file (with the suffix .dct).
+*  (The first line of the dictionary file must contain the
+*  'dictionary' command.)
+*
+*  Then edit the name of that dictionary file into the 'do-file'
+*  portion of the STATA definitions.
+*******************************************************************
+*  Records per case:
+_lines(1)
+
+_line(1)
+
+_column(1)     long  CASEID             %6f    "CASE IDENTIFICATION NUMBER"
+_column(7)     long  YYYYMM             %6f    "SURVEY YEAR & MONTH"
+_column(13)    long  YYYYQ              %5f    "SURVEY YEAR & QUARTER"
+_column(18)    int   YYYY               %4f    "SURVEY YEAR"
+_column(22)    int   ID                 %4f    "INTERVIEW ID"
+_column(26)    int   IDPREV             %4f    "PREVIOUS ID IN RDD"
+_column(30)    long  DATEPR             %6f    "DATE OF PREVIOUS INTERVIEW"
+_column(36)    float PINC     :PINC     %5.2f  "CHANCE OF Y INCREASE IN 5 YEARS"
+_column(41)    float PINC2    :PINC2    %5.2f  "PERCENT CHANCE OF INCOME INCREASE"
+_column(46)    float PJOB     :PJOB     %5.2f  "CHANCE WILL LOSE JOB IN 5 YEARS"
+_column(51)    float PSSA     :PSSA     %5.2f  "CHANCE WILL HAVE SOCIAL SECURITY"
+_column(56)    int   PCRY     :PCRY     %1f    "CHANCE WILL HAVE COMFORTABLE RETIREMENT"
+_column(57)    float PSTK     :PSTK     %5.2f  "PERCENT CHANCE OF INVEST INCREASE 1 YEAR"
+}
