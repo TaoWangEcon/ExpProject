@@ -74,7 +74,7 @@ from scipy.optimize import minimize
 #
 # The existing SVAR package in *statsmodels* only handles cases with direct zero restrictions on $B$ matrices. Therefore I write my own codes using long-run restrictions here.  
 
-# + {"code_folding": [0, 8, 12, 21]}
+# + {"code_folding": [12, 21]}
 ## loading technology shock data
 ts_data = pd.read_excel('../OtherData/Emp.xls',sheet_name='data')
 ts_data2 = pd.read_excel('../OtherData/EmpSaQ.xls',sheet_name='data')
@@ -100,7 +100,7 @@ inf_datesQ = inf_dataQ['date'].dt.year.astype(int).astype(str) + \
              "Q" + inf_dataQ['date'].dt.quarter.astype(int).astype(str)
 inf_datesQ = dates_from_str(inf_datesQ)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # set date index to productivity and labor series
 ts_var1 = ts_data[['DLPROD1','DLHOURS']]
 ts_var2 = ts_data2[['DLPROD2','DLEMP']]
@@ -254,7 +254,7 @@ var_coefs_est,A1,C1,sigma_u,B_svar_est,epsilon_est,nlags,neqs,residuals = (SVAR_
 str_shocks_est=pd.DataFrame(epsilon_est.T)
 str_shocks_est.index=ts_var1.index[nlags:]
 if str_shocks_est.shape[1]==3:
-    str_shocks_est.columns=['productivity','hours','inflation']
+    str_shocks_est.columns=['pty_shock','hours_shock','inf_shock']
 if str_shocks_est.shape[1]==2:
     str_shocks_est.columns=['productivity','hours']
 str_shocks_est.plot(figsize=(10,6))
@@ -333,7 +333,7 @@ fig = plotting.irf_grid_plot(irfs, stderr, impulse, response,
                                      plot_params=plot_params,
                                      stderr_type=stderr_type)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## replicate Gali(1999) figure 1
 
 plt.figure(figsize=(15,5))
@@ -344,12 +344,12 @@ plt.xlabel('hours')
 plt.ylabel('productivity')
 
 plt.subplot(1,3,2)
-plt.scatter(ts_var1.iloc[nlags:,1],str_shocks_est['productivity'])
+plt.scatter(ts_var1.iloc[nlags:,1],str_shocks_est['pty_shock'])
 plt.xlabel('hours')
 plt.ylabel('technology shocks')
 
 plt.subplot(1,3,3)
-plt.scatter(ts_var1.iloc[nlags:,1],str_shocks_est['hours'])
+plt.scatter(ts_var1.iloc[nlags:,1],str_shocks_est['hours_shock'])
 plt.xlabel('hours')
 plt.ylabel('non-technology shocks')
 
@@ -531,42 +531,84 @@ alpha_est = SVAR_maxshare_rst['alpha_est']
 
 # +
 ## save it to data frames 
-str_shocks_est['pty_maxshare']=tech_shock.T
+str_shocks_est['pty_shock_max']=tech_shock.T
 
 # compare two tech shocks estimated from different approaches 
 plt.figure(figsize=(10,6))
-plt.plot(str_shocks_est['pty_maxshare'],label='pty_maxshare')
-plt.plot(str_shocks_est['productivity'],'r-.',label='pty_lr')
+plt.plot(str_shocks_est['pty_shock_max'],label='pty_maxshare')
+plt.plot(str_shocks_est['pty_shock'],'r-.',label='pty_lr')
 plt.legend(loc=1)
 
 # + {"code_folding": []}
 print('The correlation coefficient of tech shocks identified using long-run \
 \n restriction and max-share approach is '+ \
-      str(round(str_shocks_est['pty_maxshare'].corr(str_shocks_est['productivity']),3)))
+      str(round(str_shocks_est['pty_shock_max'].corr(str_shocks_est['pty_shock']),3)))
 # -
 
-# ### News shocks by Sims (2014)
+# ### News shocks by Sims et al.(2014)
 #
 # The news shock is defined as structural shock that is orthogonal to current productivity but accounts the maximum share of forecast error of productivity in medium horizon. The identification approach is a small variation of max-share approach discussed above. 
 #
-# The difference is that now there is addional one contraint to the $\alpha$ matrice, that is 
+# The difference is that now there is addional two contraints on the $\alpha$ matrice, both of which together guarantee that the news shock has no contemporaneous effect on productivity. 
 #
-# $$\alpha(0,0)= 0$$
+# Define $$B \gamma = \alpha $$
+#
+# Then the constraints are 
+#
+# $$B(1,j) = 0 \quad \forall j>1$$
+# $$\gamma(1,1)= 0$$
 
 news_shock_rst = SVAR_MaxShare(rs1,horizon,contemp=False)
 news_shock = news_shock_rst['epsilon_est'].flatten()
-str_shocks_est['news']=news_shock.T
+str_shocks_est['news_shock']=news_shock.T
 
 # compare two tech shocks estimated from different approaches 
 plt.figure(figsize=(10,6))
-plt.plot(str_shocks_est['pty_maxshare'],label='pty_maxshare')
-plt.plot(str_shocks_est['news'],'r-.',label='news')
+plt.plot(str_shocks_est['pty_shock_max'],label='pty_maxshare')
+plt.plot(str_shocks_est['news_shock'],'r-.',label='news shock')
 plt.legend(loc=1)
 
 print('The correlation coefficient of tech shocks \
 identified using max-share approach and the news shock is '+ \
-      str(round(str_shocks_est['pty_maxshare'].corr(str_shocks_est['news']),3)))
+      str(round(str_shocks_est['pty_shock_max'].corr(str_shocks_est['news_shock']),3)))
 
-# + {"code_folding": [0]}
+# ### Oil shocks (Hamilton 1996)
+
+# +
+## loading oil price shocks data 
+os_dataM = pd.read_excel('../OtherData/OilShock.xls',sheet_name='data')
+
+## dates 
+os_dataM['observation_date'] = pd.to_datetime(os_dataM['observation_date'],format='%Y%m%d')
+os_dataM['quarter'] = os_dataM['observation_date'].dt.year.astype(int).astype(str) + \
+         "Q" + os_dataM['observation_date'].dt.quarter.astype(int).astype(str)
+
+## compute quarterly shock
+os_shockQ  = os_dataM.groupby(['quarter'], sort=False)['OPShock'].max()
+
+
+## creating quarterly date index
+os_datesQ = os_dataM['quarter'].drop_duplicates()
+os_datesQ = dates_from_str(os_datesQ)
+
+## prepare quarterly series 
+os_shockQ.index = pd.DatetimeIndex(os_datesQ,freq='Q')
+
+## merge with other shocks
+str_shocks_est = pd.concat([str_shocks_est,os_shockQ], join='inner', axis=1)
+# -
+
+str_shocks_est.tail()
+
+# ### Monetary policy shocks 
+
+# +
+## loading mp shocks data
+#mps_data = pd.read_excel('../OtherData/2MPShocksJW.xls',sheet_name='data')
+
+# + {"code_folding": []}
 ### save shocks
-str_shocks_est.to_stata('../OtherData/TechInfShocks.dta')
+str_shocks_est.to_stata('../OtherData/InfShocks.dta')
+# -
+
+
