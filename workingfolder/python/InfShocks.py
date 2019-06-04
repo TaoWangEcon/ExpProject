@@ -14,6 +14,14 @@
 #     name: python3
 # ---
 
+# ## Shocks to Inflation
+#
+# This notebook constructs all shocks to inflation used to explore conditional responses of inflation expectations
+#
+# - Oil shocks: Hamilton (1996) （no need for SVAR)
+# - Technology shocks: Gali(1999) and Francis et al.(2014)
+# - News shocks: Sims et al.(2014)
+
 # +
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,14 +39,6 @@ from scipy.stats import pearsonr as prs
 
 from scipy.optimize import minimize
 # -
-
-# ### Shocks to Inflation
-#
-# This notebook constructs all shocks to inflation used to explore conditional responses of inflation expectations
-#
-# - Oil shocks: Hamilton (1996) （no need for SVAR)
-# - Technology shocks: Gali(1999) and Francis et al.(2014)
-# - News shocks: Sims et al.(2014)
 
 # ### Tech shocks identified via SVAR with long-run restrictions (Gali (1999))
 #
@@ -506,7 +506,8 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
         return np.dot(eye_ij.T,alpha)
 
     ##
-    constr = {'type':'eq', 'fun': constr_eq1}
+    constr =[]
+    constr.append({'type':'eq', 'fun': constr_eq1})
     if contemp==False:
         constr.append( {'type':'eq', 'fun': constr_eq2})
 
@@ -538,7 +539,7 @@ plt.plot(str_shocks_est['pty_maxshare'],label='pty_maxshare')
 plt.plot(str_shocks_est['productivity'],'r-.',label='pty_lr')
 plt.legend(loc=1)
 
-# + {"code_folding": [1]}
+# + {"code_folding": []}
 print('The correlation coefficient of tech shocks identified using long-run \
 \n restriction and max-share approach is '+ \
       str(round(str_shocks_est['pty_maxshare'].corr(str_shocks_est['productivity']),3)))
@@ -546,13 +547,25 @@ print('The correlation coefficient of tech shocks identified using long-run \
 
 # ### News shocks by Sims (2014)
 #
-# The news shocks is defined as the shock that is orthogonal to current productivity but accounts the maximum share of forecast error of productivity in medium horizon. The identification approach is a small variation of max-share approach discussed above. 
+# The news shock is defined as structural shock that is orthogonal to current productivity but accounts the maximum share of forecast error of productivity in medium horizon. The identification approach is a small variation of max-share approach discussed above. 
 #
 # The difference is that now there is addional one contraint to the $\alpha$ matrice, that is 
 #
 # $$\alpha(0,0)= 0$$
 
-news_shock = SVAR_MaxShare(rs1,horizon,contemp=False)
+news_shock_rst = SVAR_MaxShare(rs1,horizon,contemp=False)
+news_shock = news_shock_rst['epsilon_est'].flatten()
+str_shocks_est['news']=news_shock.T
+
+# compare two tech shocks estimated from different approaches 
+plt.figure(figsize=(10,6))
+plt.plot(str_shocks_est['pty_maxshare'],label='pty_maxshare')
+plt.plot(str_shocks_est['news'],'r-.',label='news')
+plt.legend(loc=1)
+
+print('The correlation coefficient of tech shocks \
+identified using max-share approach and the news shock is '+ \
+      str(round(str_shocks_est['pty_maxshare'].corr(str_shocks_est['news']),3)))
 
 # + {"code_folding": [0]}
 ### save shocks
