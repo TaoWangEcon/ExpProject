@@ -111,11 +111,11 @@ ts_var2.index = pd.DatetimeIndex(datesQ2,freq='Q')
 # set date index to inf series 
 infQ.index= pd.DatetimeIndex(inf_datesQ)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## merge with inflation
 # order of vector for var:  [productivity, labor input, inflation]
-#ts_var1 = pd.concat([ts_var1,infQ], join='inner', axis=1)
-#ts_var2 = pd.concat([ts_var2,infQ], join='inner', axis=1)
+ts_var1 = pd.concat([ts_var1,infQ], join='inner', axis=1)
+ts_var2 = pd.concat([ts_var2,infQ], join='inner', axis=1)
 
 ts_var1=ts_var1.copy().dropna()
 ts_var2=ts_var2.copy().dropna()
@@ -393,8 +393,8 @@ plt.ylabel('non-technology shocks')
 #
 # and $$H=chol(\Omega_u)$$
 
-# + {"code_folding": [0]}
-def SVAR_MaxShare(rs,h,pty_id=0):
+# + {"code_folding": []}
+def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
     """
     inputs
     ------
@@ -496,10 +496,20 @@ def SVAR_MaxShare(rs,h,pty_id=0):
     alpha_init = np.random.rand(k,1)   
     
     ### constraint on alpha
-    def constr_eq(alpha):
-        return np.dot(alpha.T, alpha)-1  # constraint that F is otho
-    constr = {'type':'eq', 'fun': constr_eq}
+    def constr_eq1(alpha):
+        return np.dot(alpha.T, alpha)-1  # constraint that F is ortho
     
+    
+    def constr_eq2(alpha):
+        eye_ij = np.zeros([k,1])
+        eye_ij[0,0] = 1
+        return np.dot(eye_ij.T,alpha)
+
+    ##
+    constr = {'type':'eq', 'fun': constr_eq1}
+    if contemp==False:
+        constr.append( {'type':'eq', 'fun': constr_eq2})
+
     ### maximization  
     alpha_est = minimize(obj,x0=alpha_init,constraints=constr)['x']
     print("Estimated alpha that maximizes the share of forecast error is "+ str(alpha_est))
@@ -511,11 +521,9 @@ def SVAR_MaxShare(rs,h,pty_id=0):
 
     return {'var_coefs':var_coefs,'sigma_u':sigma_u,'fe':fe,'nlags':nlags, 'neqs': k,\
                 'residuals':u,'alpha_est':alpha_est,'epsilon_est':epsilon_est}
-
-
 # -
 
-horizon = 12
+horizon = 20
 SVAR_maxshare_rst = SVAR_MaxShare(rs1,horizon)
 tech_shock = SVAR_maxshare_rst['epsilon_est'].flatten()
 alpha_est = SVAR_maxshare_rst['alpha_est']
@@ -532,12 +540,20 @@ plt.legend(loc=1)
 
 # + {"code_folding": [1]}
 print('The correlation coefficient of tech shocks identified using long-run \
-\n restriction and max share approach is '+ \
+\n restriction and max-share approach is '+ \
       str(round(str_shocks_est['pty_maxshare'].corr(str_shocks_est['productivity']),3)))
+# -
+
+# ### News shocks by Sims (2014)
+#
+# The news shocks is defined as the shock that is orthogonal to current productivity but accounts the maximum share of forecast error of productivity in medium horizon. The identification approach is a small variation of max-share approach discussed above. 
+#
+# The difference is that now there is addional one contraint to the $\alpha$ matrice, that is 
+#
+# $$\alpha(0,0)= 0$$
+
+news_shock = SVAR_MaxShare(rs1,horizon,contemp=False)
 
 # + {"code_folding": [0]}
 ### save shocks
 str_shocks_est.to_stata('../OtherData/TechInfShocks.dta')
-# -
-
-
