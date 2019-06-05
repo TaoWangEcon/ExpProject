@@ -307,14 +307,93 @@ svar_ma_rep = np.array([np.dot(coefs, P) for coefs in ma_mats])  # T+1 x k x k
 
 
 # + {"code_folding": [0]}
+## generate m-c confidence bands 
+
+def sirf_errband_mc(self, orth=False, repl=1000, T=10,
+signif=0.05, seed=None, burn=100, cum=False):
+"""
+        Compute Monte Carlo integrated error bands assuming normally
+        distributed for impulse response functions
+        Parameters
+        ----------
+        orth: bool, default False
+            Compute orthoganalized impulse response error bands
+        repl: int
+            number of Monte Carlo replications to perform
+        T: int, default 10
+            number of impulse response periods
+        signif: float (0 < signif <1)
+            Significance level for error bars, defaults to 95% CI
+        seed: int
+            np.random.seed for replications
+        burn: int
+            number of initial observations to discard for simulation
+        cum: bool, default False
+            produce cumulative irf error bands
+        Notes
+        -----
+        Lütkepohl (2005) Appendix D
+        Returns
+        -------
+        Tuple of lower and upper arrays of ma_rep monte carlo standard errors
+        """
+        neqs = self.neqs
+        mean = self.mean()
+        k_ar = self.k_ar
+        coefs = self.coefs
+        sigma_u = self.sigma_u
+        intercept = self.intercept
+        df_model = self.df_model
+        nobs = self.nobs
+        ma_coll = np.zeros((repl, T+1, neqs, neqs))
+        A = self.A
+        B = self.B
+        A_mask = self.A_mask
+        B_mask = self.B_mask
+        A_pass = self.model.A_original
+        B_pass = self.model.B_original
+        s_type = self.model.svar_type
+        g_list = []
+def agg(impulses):
+if cum:
+return impulses.cumsum(axis=0)
+return impulses
+        opt_A = A[A_mask]
+        opt_B = B[B_mask]
+for i in range(repl):
+# discard first hundred to correct for starting bias
+            sim = util.varsim(coefs, intercept, sigma_u, seed=seed,
+steps=nobs + burn)
+            sim = sim[burn:]
+            smod = SVAR(sim, svar_type=s_type, A=A_pass, B=B_pass)
+if i == 10:
+# Use first 10 to update starting val for remainder of fits
+                mean_AB = np.mean(g_list, axis=0)
+                split = len(A[A_mask])
+                opt_A = mean_AB[:split]
+                opt_B = mean_AB[split:]
+            sres = smod.fit(maxlags=k_ar, A_guess=opt_A, B_guess=opt_B)
+if i < 10:
+# save estimates for starting val if in first 10
+                g_list.append(np.append(sres.A[A_mask].tolist(),
+                                        sres.B[B_mask].tolist()))
+            ma_coll[i] = agg(sres.svar_ma_rep(maxn=T))
+        ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
+        index = (int(round(signif / 2 * repl) - 1),
+int(round((1 - signif / 2) * repl) - 1))
+        lower = ma_sort[index[0], :, :, :]
+        upper = ma_sort[index[1], :, :, :]
+return lower, upper
+
+# + {"code_folding": [0]}
 ## IR plot parameters prepared 
 
 ## svar_ma to impulse respulse parameters
 
 irfs = svar_ma_rep 
 stderr = None  # T x k x k
-impulse = None  # 
-response =  None  #
+impulse = 0  # int, the location of shock of interest   
+response =  None  # int, the location of variable of response
 
 if neqs==3:
     model_names= np.array(['productivity','hours','inflation'])
