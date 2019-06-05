@@ -170,16 +170,48 @@ rs1=model1.fit(4)
 rs1.summary()
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0, 2]}
 ## define function of Blanchard and Quah long-run restriction
 
-def SVAR_BQLR(rs):
+def ma_rep(coefs, maxn=10):
     """
-    inputs
+    MA(\infty) representation of VAR(p) process
+    Parameters
+    ----------
+    coefs : ndarray (p x k x k)
+    maxn : int
+        Number of MA matrices to compute
+    Notes
+    -----
+    VAR(p) process as
+    .. math:: y_t = A_1 y_{t-1} + \ldots + A_p y_{t-p} + u_t
+    can be equivalently represented as
+    .. math:: y_t = \mu + \sum_{i=0}^\infty \Phi_i u_{t-i}
+    e.g. can recursively compute the \Phi_i matrices with \Phi_0 = I_k
+    Returns
+    -------
+    phis : ndarray (maxn + 1 x k x k)
+    """
+    p, k, k = coefs.shape
+    phis = np.zeros((maxn+1, k, k))
+    phis[0] = np.eye(k)
+    # recursively compute Phi matrices
+    for i in range(1, maxn + 1):
+        for j in range(1, i+1):
+            if j > p:
+                break
+                
+            phis[i] += np.dot(phis[i-j], coefs[j-1])
+    return phis
+
+
+def SVAR_BQLR(rs,T_irf=10):
+    """
+    Parameters
     ------
     rs: result object of reduced VAR estimated using statsmodels.tsa.VAR
     
-    outputs
+    Returns
     -------
     dictionary:
       sigma_u: ndarrray
@@ -229,9 +261,10 @@ def SVAR_BQLR(rs):
         ## check if the restrictions hold
         
         C1=np.dot(LA.inv(A1),B_svar_est)
-        if np.allclose(C1, np.tril(C1)):
-            print('C1 is indeed lower triangular, consistent with long-run restriction')
-        else:
+        
+        #if np.allclose(C1, np.tril(C1)):
+            #print('C1 is indeed lower triangular, consistent with long-run restriction')
+        if not np.allclose(C1, np.tril(C1)):
             print('Something is wrong: C1 is not lower triangular, inconsistent with long-run restriction')
 
         
@@ -242,22 +275,32 @@ def SVAR_BQLR(rs):
         #IR_svar = np.kron(var_coefs,B_svar_est)
         #print(IR_svar.shape)
         
+        # compute impulse responses 
+        ma_mats = ma_rep(var_coefs_est,maxn=T_irf)  
+        
+        P_svar_est = np.dot(LA.inv(A_svar_est), B_svar_est) 
+        
+        ## ma_rep to svar_ma_rep
+        svar_ma_rep = np.array([np.dot(coefs, P) for coefs in ma_mats])  # T+1 x k x k 
+        
         return {'var_coefs':var_coefs,'sigma_u':sigma_u,'A_est':A_svar_est,'B_est':B_svar_est,\
                 'eps_est':epsilon_est,'A1':A1,'C1':C1,'nlags':nlags, 'neqs': k,\
-                'residuals':u}
+                'residuals':u,'P_est':P_svar_est,'irf':svar_ma_rep}
 
 # + {"code_folding": []}
 ### Invokes BQLR 
 
-SVAR_rst = SVAR_BQLR(rs1)
-var_coefs_est,A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,residuals \
+T_irf = 10  # 10 quarters irf 
+
+SVAR_rst = SVAR_BQLR(rs1,T_irf=T_irf)
+var_coefs_est,A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,residuals, P_est, svar_irf \
 = (SVAR_rst['var_coefs'],SVAR_rst['A1'],SVAR_rst['C1'],
    SVAR_rst['sigma_u'], SVAR_rst['A_est'], SVAR_rst['B_est'],
-   SVAR_rst['eps_est'],SVAR_rst['nlags'],SVAR_rst['neqs'],SVAR_rst['residuals'])
+   SVAR_rst['eps_est'],SVAR_rst['nlags'],SVAR_rst['neqs'],
+   SVAR_rst['residuals'],SVAR_rst['P_est'],SVAR_rst['irf'])
 
-# + {"code_folding": [6]}
+# + {"code_folding": [0, 5]}
 ## Look into the structural shocks epsilon
-
 str_shocks_est=pd.DataFrame(epsilon_est.T)
 str_shocks_est.index=ts_var1.index[nlags:]
 if str_shocks_est.shape[1]==3:
@@ -265,54 +308,71 @@ if str_shocks_est.shape[1]==3:
 if str_shocks_est.shape[1]==2:
     str_shocks_est.columns=['productivity','hours']
 str_shocks_est.plot(figsize=(10,6))
+# -
+
+np.random.choice(4,size=(2,3,4))[0].shape
 
 
-# + {"code_folding": [0]}
-def ma_rep(coefs, maxn=10):
+# + {"code_folding": [0, 59]}
+def var_boot(rs, seed, steps):
     """
-    MA(\infty) representation of VAR(p) process
+    Bootstrapping VAR(p) process, given estimated coefficients coefs and reduced residuals u
+    
     Parameters
     ----------
-    coefs : ndarray (p x k x k)
-    maxn : int
-        Number of MA matrices to compute
-    Notes
-    -----
-    VAR(p) process as
-    .. math:: y_t = A_1 y_{t-1} + \ldots + A_p y_{t-p} + u_t
-    can be equivalently represented as
-    .. math:: y_t = \mu + \sum_{i=0}^\infty \Phi_i u_{t-i}
-    e.g. can recursively compute the \Phi_i matrices with \Phi_0 = I_k
+    rs :   result from reduced VAR estimate 
+    
+    sig_u : ndarray
+        Covariance matrix of the residuals or innovations.
+        If sig_u is None, then an identity matrix is used.
+    steps : None or int
+        number of observations to simulate, this includes the initial
+        observations to start the autoregressive process.
+        If offset is not None, then exog of the model are used if they were
+        provided in the model
+    seed : None or integer
+        If seed is not None, then it will be used with for the random
+        variables generated by numpy.random.
     Returns
     -------
-    phis : ndarray (maxn + 1 x k x k)
+    data_boot : nd_array
+         artificial data from bootstrapping same
     """
-    p, k, k = coefs.shape
-    phis = np.zeros((maxn+1, k, k))
-    phis[0] = np.eye(k)
-    # recursively compute Phi matrices
-    for i in range(1, maxn + 1):
-        for j in range(1, i+1):
-            if j > p:
-                break
-                
-            phis[i] += np.dot(phis[i-j], coefs[j-1])
-    return phis
+    
+    k = rs.neqs               # number of variables
+    nlags =rs1.coefs.shape[0] # number of lags  
+    coefs = rs.coefs
+    u = np.array(rs.resid)
+    sigma_u = rs.sigma_u
+    intercept = rs.intercept
+    #print(intercept.shape)
+    nobs = rs.nobs
+    ## resampling redisuals with replacement 
+    ugen = np.array([np.random.choice(u[:,i], size=steps,replace=True) for i in range(neqs)]).T
+    #print(ugen.shape)
+    ##  empty 
+    result = np.zeros((steps, k))
+    
+    if intercept is not None:
+        # intercept can be 2-D like an offset variable
+        if np.ndim(intercept) > 1:
+            if not len(intercept) == len(ugen):
+                raise ValueError('2-D intercept needs to have length `steps`')
+        # add intercept/offset also to intial values
+        result += intercept
+        result[nlags:] += ugen[nlags:]
+    else:
+        result[nlags:] = ugen[nlags:]
+    
+    for t in range(nlags, steps):
+        ygen = result[t]
+        for j in range(nlags):
+            ygen += np.dot(coefs[j], result[t-j-1])
+    
+    return result 
 
+## generate confidence bands using bootstrapping 
 
-T_irf = 10  # 10 quarters irf 
-
-# compute impulse responses 
-ma_mats = ma_rep(var_coefs_est,maxn=T_irf)  
-
-P = np.dot(LA.inv(A_svar_est), B_svar_est) 
-
-## ma_rep to svar_ma_rep
-
-svar_ma_rep = np.array([np.dot(coefs, P) for coefs in ma_mats])  # T+1 x k x k 
-
-
-# + {"code_folding": []}
 def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
                     signif=0.05, seed=None, burn=100, cum=False):
     """
@@ -337,7 +397,7 @@ def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
     -------
         Tuple of lower and upper arrays of ma_rep monte carlo standard errors
     """
-    neqs = rs.neqs
+    k = rs.neqs
     mean = rs.mean()
     k_ar = rs.k_ar
     coefs = rs.coefs
@@ -345,111 +405,43 @@ def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
     intercept = rs.intercept
     df_model = rs.df_model
     nobs = rs.nobs
-    ma_coll = np.zeros((repl, T+1, neqs, neqs))
+    ma_coll = np.zeros((repl, T+1, k, k))
     
-    sim = util.varsim(coefs, intercept, sigma_u, seed=seed, steps=nobs + burn)
-    sim = sim[burn:]
-    print(sim.shape)
-    return {'simulated':sim}
+    for i in range(repl):
+        # discard first hundred to correct for starting bias
+        sim = var_boot(rs1, seed=seed, steps=nobs + burn)
+        sim = sim[burn:]
+        sim_var = VAR(sim)
+        sim_var_rs = sim_var.fit()
+        sim_svar_rs = SVAR_BQLR(sim_var_rs,T_irf=T)
+        sim_irf = sim_svar_rs['irf']         
+        ma_coll[i] = sim_irf
+        
+    ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
+    index = (int(round(signif / 2 * repl) - 1),int(round((1 - signif / 2) * repl) - 1))
+    lower = ma_sort[index[0], :, :, :]
+    upper = ma_sort[index[1], :, :, :]
+    
+    return lower, upper
 
 
 # -
 
 sirf_errband_rs = sirf_errband_boot(rs1)
-sim_data = sirf_errband_rs['simulated']
 
-
-# + {"code_folding": []}
-## generate confidence bands using bootstrapping 
-
-def sirf_errband_mc(rs, orth=False, repl=1000, T=10, \
-                    signif=0.05, seed=None, burn=100, cum=False):
-        """
-        Compute Monte Carlo integrated error bands assuming normally
-        distributed for impulse response functions
-        Parameters
-        ----------
-        rs:   result from reduced VAR 
-        orth: bool, default False
-            Compute orthoganalized impulse response error bands
-        repl: int
-            number of Monte Carlo replications to perform
-        T: int, default 10
-            number of impulse response periods
-        signif: float (0 < signif <1)
-            Significance level for error bars, defaults to 95% CI
-        seed: int
-            np.random.seed for replications
-        burn: int
-            number of initial observations to discard for simulation
-        cum: bool, default False
-            produce cumulative irf error bands
-        Notes
-        -----
-        Lütkepohl (2005) Appendix D
-        Returns
-        -------
-        Tuple of lower and upper arrays of ma_rep monte carlo standard errors
-        """
-        neqs = rs.neqs
-        mean = rs.mean()
-        k_ar = rs.k_ar
-        coefs = rs.coefs
-        sigma_u = rs.sigma_u
-        intercept = rs.intercept
-        df_model = rs.df_model
-        nobs = rs.nobs
-        ma_coll = np.zeros((repl, T+1, neqs, neqs))
-        A = rs.A
-        B = rs.B
-        A_mask = rs.A_mask
-        B_mask = rs.B_mask
-        A_pass = rs.model.A_original
-        B_pass = rs.model.B_original
-        s_type = rs.model.svar_type
-        g_list = []
-        
-        def agg(impulses):
-            if cum:
-                return impulses.cumsum(axis=0)
-            return impulses
-        
-        opt_A = A[A_mask]
-        opt_B = B[B_mask]
-        
-        for i in range(repl):
-            # discard first hundred to correct for starting bias
-            sim = util.varsim(coefs, intercept, sigma_u, seed=seed, steps=nobs + burn)
-            sim = sim[burn:]
-            smod = SVAR(sim, svar_type=s_type, A=A_pass, B=B_pass)
-            
-            if i == 10:
-                # Use first 10 to update starting val for remainder of fits
-                mean_AB = np.mean(g_list, axis=0)
-                split = len(A[A_mask])
-                opt_A = mean_AB[:split]
-                opt_B = mean_AB[split:]
-                sres = smod.fit(maxlags=k_ar, A_guess=opt_A, B_guess=opt_B)
-            if i < 10:
-                # save estimates for starting val if in first 10
-                g_list.append(np.append(sres.A[A_mask].tolist(),
-                                        sres.B[B_mask].tolist()))
-                ma_coll[i] = agg(sres.svar_ma_rep(maxn=T))
-        ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
-        index = (int(round(signif / 2 * repl) - 1),int(round((1 - signif / 2) * repl) - 1))
-        lower = ma_sort[index[0], :, :, :]
-        upper = ma_sort[index[1], :, :, :]
-        return lower, upper
-
+plt.figure()
+plt.plot(sirf_errband_rs[0][:,0,0],label='lb')
+plt.plot(sirf_errband_rs[1][:,0,0],label='ub')
+plt.legend(loc=0)
 
 # + {"code_folding": [0]}
 ## IR plot parameters prepared 
 
 ## svar_ma to impulse respulse parameters
 
-irfs = svar_ma_rep 
-stderr = None  # T x k x k
-impulse = 0  # int, the location of shock of interest   
+irfs = svar_irf 
+stderr = sirf_errband_rs  # T x k x k
+impulse = None  # int, the location of shock of interest   
 response =  None  # int, the location of variable of response
 
 if neqs==3:
@@ -458,9 +450,9 @@ if neqs==2:
     model_names= np.array(['productivity','hours'])
 
 title = 'Impulse responses (structural)'
-signif =0.05
+signif =0.20
 subplot_params =None
-stderr_type ='asym'
+stderr_type ='mc'
 plot_params={}
 
 # plot the figure using existing module  
