@@ -21,6 +21,7 @@
 # - Oil shocks: Hamilton (1996) （no need for SVAR)
 # - Technology shocks: Gali(1999) and Francis et al.(2014)
 # - News shocks: Sims et al.(2014)
+# - Monetary policy shocks: unexpected funds rate change and future change (reference to be added)
 
 # +
 import numpy as np
@@ -393,7 +394,7 @@ plt.ylabel('non-technology shocks')
 #
 # and $$H=chol(\Omega_u)$$
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
     """
     inputs
@@ -602,9 +603,20 @@ str_shocks_est.tail()
 
 # ### Monetary policy shocks 
 
-# +
+# + {"code_folding": [0]}
 ## loading mp shocks data
-#mps_data = pd.read_excel('../OtherData/2MPShocksJW.xls',sheet_name='data')
+mps_data = pd.read_excel('../OtherData/2MPShocksJW.xls',sheet_name='data')
+mps_data['Date'] = pd.to_datetime(mps_data['Date'],format='%m/%d/%Y')
+mps_var = mps_data[['MP1','ED4','ED8']] 
+
+## dates 
+mps_datesM = mps_data['Date'].dt.year.astype(int).astype(str) + \
+         "M" + mps_data['Date'].dt.month.astype(int).astype(str)
+mps_datesM = dates_from_str(mps_datesM)
+
+mps_var.index = pd.DatetimeIndex(mps_datesM)
+
+plt.plot(mps_var['ED4'].dropna())
 
 # + {"code_folding": []}
 ### save shocks
