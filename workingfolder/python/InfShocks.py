@@ -30,11 +30,15 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from numpy import linalg as LA
 import statsmodels.api as sm
+
+## tools var available in statsmodels 
 from statsmodels.tsa.api import VAR, SVAR
 from statsmodels.tsa.vector_ar.irf import IRAnalysis
 from statsmodels.tsa.vector_ar.irf import BaseIRAnalysis
 from statsmodels.tsa.base.datetools import dates_from_str
 import statsmodels.tsa.vector_ar.plotting as plotting
+import statsmodels.tsa.vector_ar.util as util
+
 
 from scipy.stats import pearsonr as prs
 
@@ -166,7 +170,7 @@ rs1=model1.fit(4)
 rs1.summary()
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## define function of Blanchard and Quah long-run restriction
 
 def SVAR_BQLR(rs):
@@ -199,7 +203,10 @@ def SVAR_BQLR(rs):
     nlags =rs1.coefs.shape[0] # number of lags 
     sigma_u = rs1.sigma_u 
     u = np.array(rs1.resid)
-
+    
+    # By construction A is identity 
+    A_svar_est = np.identity(k)
+    
     ## Estimate B matrices 
     I_k = np.eye(k)
     var_coefs=rs1.coefs   # p x k x k 
@@ -235,19 +242,18 @@ def SVAR_BQLR(rs):
         #IR_svar = np.kron(var_coefs,B_svar_est)
         #print(IR_svar.shape)
         
-        return {'var_coefs':var_coefs,'sigma_u':sigma_u,'B_est':B_svar_est,\
+        return {'var_coefs':var_coefs,'sigma_u':sigma_u,'A_est':A_svar_est,'B_est':B_svar_est,\
                 'eps_est':epsilon_est,'A1':A1,'C1':C1,'nlags':nlags, 'neqs': k,\
                 'residuals':u}
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### Invokes BQLR 
 
 SVAR_rst = SVAR_BQLR(rs1)
-var_coefs_est,A1,C1,sigma_u,B_svar_est,epsilon_est,nlags,neqs,residuals = (SVAR_rst['var_coefs'],SVAR_rst['A1'],\
-                                                                             SVAR_rst['C1'],SVAR_rst['sigma_u'], \
-                                                                             SVAR_rst['B_est'],SVAR_rst['eps_est'],\
-                                                                             SVAR_rst['nlags'],SVAR_rst['neqs'],\
-                                                                             SVAR_rst['residuals'])
+var_coefs_est,A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,residuals \
+= (SVAR_rst['var_coefs'],SVAR_rst['A1'],SVAR_rst['C1'],
+   SVAR_rst['sigma_u'], SVAR_rst['A_est'], SVAR_rst['B_est'],
+   SVAR_rst['eps_est'],SVAR_rst['nlags'],SVAR_rst['neqs'],SVAR_rst['residuals'])
 
 # + {"code_folding": [6]}
 ## Look into the structural shocks epsilon
@@ -293,12 +299,12 @@ def ma_rep(coefs, maxn=10):
             phis[i] += np.dot(phis[i-j], coefs[j-1])
     return phis
 
-# 
-T_irf = 10 
+
+T_irf = 10  # 10 quarters irf 
+
 # compute impulse responses 
 ma_mats = ma_rep(var_coefs_est,maxn=T_irf)  
 
-A_svar_est = np.eye(neqs)   # A is identity matrix by assumption
 P = np.dot(LA.inv(A_svar_est), B_svar_est) 
 
 ## ma_rep to svar_ma_rep
@@ -306,16 +312,64 @@ P = np.dot(LA.inv(A_svar_est), B_svar_est)
 svar_ma_rep = np.array([np.dot(coefs, P) for coefs in ma_mats])  # T+1 x k x k 
 
 
-# + {"code_folding": [0]}
-## generate m-c confidence bands 
+# + {"code_folding": []}
+def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
+                    signif=0.05, seed=None, burn=100, cum=False):
+    """
+    Parameters
+    ----------
+        rs:   result from reduced VAR 
+        orth: bool, default False
+            Compute orthoganalized impulse response error bands
+        repl: int
+            number of Monte Carlo replications to perform
+        T: int, default 10
+            number of impulse response periods
+        signif: float (0 < signif <1)
+            Significance level for error bars, defaults to 95% CI
+        seed: int
+            np.random.seed for replications
+        burn: int
+            number of initial observations to discard for simulation
+        cum: bool, default False
+            produce cumulative irf error bands
+    Returns
+    -------
+        Tuple of lower and upper arrays of ma_rep monte carlo standard errors
+    """
+    neqs = rs.neqs
+    mean = rs.mean()
+    k_ar = rs.k_ar
+    coefs = rs.coefs
+    sigma_u = rs.sigma_u
+    intercept = rs.intercept
+    df_model = rs.df_model
+    nobs = rs.nobs
+    ma_coll = np.zeros((repl, T+1, neqs, neqs))
+    
+    sim = util.varsim(coefs, intercept, sigma_u, seed=seed, steps=nobs + burn)
+    sim = sim[burn:]
+    print(sim.shape)
+    return {'simulated':sim}
 
-def sirf_errband_mc(self, orth=False, repl=1000, T=10,
-signif=0.05, seed=None, burn=100, cum=False):
-"""
+
+# -
+
+sirf_errband_rs = sirf_errband_boot(rs1)
+sim_data = sirf_errband_rs['simulated']
+
+
+# + {"code_folding": []}
+## generate confidence bands using bootstrapping 
+
+def sirf_errband_mc(rs, orth=False, repl=1000, T=10, \
+                    signif=0.05, seed=None, burn=100, cum=False):
+        """
         Compute Monte Carlo integrated error bands assuming normally
         distributed for impulse response functions
         Parameters
         ----------
+        rs:   result from reduced VAR 
         orth: bool, default False
             Compute orthoganalized impulse response error bands
         repl: int
@@ -337,53 +391,56 @@ signif=0.05, seed=None, burn=100, cum=False):
         -------
         Tuple of lower and upper arrays of ma_rep monte carlo standard errors
         """
-        neqs = self.neqs
-        mean = self.mean()
-        k_ar = self.k_ar
-        coefs = self.coefs
-        sigma_u = self.sigma_u
-        intercept = self.intercept
-        df_model = self.df_model
-        nobs = self.nobs
+        neqs = rs.neqs
+        mean = rs.mean()
+        k_ar = rs.k_ar
+        coefs = rs.coefs
+        sigma_u = rs.sigma_u
+        intercept = rs.intercept
+        df_model = rs.df_model
+        nobs = rs.nobs
         ma_coll = np.zeros((repl, T+1, neqs, neqs))
-        A = self.A
-        B = self.B
-        A_mask = self.A_mask
-        B_mask = self.B_mask
-        A_pass = self.model.A_original
-        B_pass = self.model.B_original
-        s_type = self.model.svar_type
+        A = rs.A
+        B = rs.B
+        A_mask = rs.A_mask
+        B_mask = rs.B_mask
+        A_pass = rs.model.A_original
+        B_pass = rs.model.B_original
+        s_type = rs.model.svar_type
         g_list = []
-def agg(impulses):
-if cum:
-return impulses.cumsum(axis=0)
-return impulses
+        
+        def agg(impulses):
+            if cum:
+                return impulses.cumsum(axis=0)
+            return impulses
+        
         opt_A = A[A_mask]
         opt_B = B[B_mask]
-for i in range(repl):
-# discard first hundred to correct for starting bias
-            sim = util.varsim(coefs, intercept, sigma_u, seed=seed,
-steps=nobs + burn)
+        
+        for i in range(repl):
+            # discard first hundred to correct for starting bias
+            sim = util.varsim(coefs, intercept, sigma_u, seed=seed, steps=nobs + burn)
             sim = sim[burn:]
             smod = SVAR(sim, svar_type=s_type, A=A_pass, B=B_pass)
-if i == 10:
-# Use first 10 to update starting val for remainder of fits
+            
+            if i == 10:
+                # Use first 10 to update starting val for remainder of fits
                 mean_AB = np.mean(g_list, axis=0)
                 split = len(A[A_mask])
                 opt_A = mean_AB[:split]
                 opt_B = mean_AB[split:]
-            sres = smod.fit(maxlags=k_ar, A_guess=opt_A, B_guess=opt_B)
-if i < 10:
-# save estimates for starting val if in first 10
+                sres = smod.fit(maxlags=k_ar, A_guess=opt_A, B_guess=opt_B)
+            if i < 10:
+                # save estimates for starting val if in first 10
                 g_list.append(np.append(sres.A[A_mask].tolist(),
                                         sres.B[B_mask].tolist()))
-            ma_coll[i] = agg(sres.svar_ma_rep(maxn=T))
+                ma_coll[i] = agg(sres.svar_ma_rep(maxn=T))
         ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
-        index = (int(round(signif / 2 * repl) - 1),
-int(round((1 - signif / 2) * repl) - 1))
+        index = (int(round(signif / 2 * repl) - 1),int(round((1 - signif / 2) * repl) - 1))
         lower = ma_sort[index[0], :, :, :]
         upper = ma_sort[index[1], :, :, :]
-return lower, upper
+        return lower, upper
+
 
 # + {"code_folding": [0]}
 ## IR plot parameters prepared 
