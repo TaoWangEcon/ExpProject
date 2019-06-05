@@ -75,7 +75,7 @@ from scipy.optimize import minimize
 #
 # The existing SVAR package in *statsmodels* only handles cases with direct zero restrictions on $B$ matrices. Therefore I write my own codes using long-run restrictions here.  
 
-# + {"code_folding": [12, 21]}
+# + {"code_folding": [0, 12, 21]}
 ## loading technology shock data
 ts_data = pd.read_excel('../OtherData/Emp.xls',sheet_name='data')
 ts_data2 = pd.read_excel('../OtherData/EmpSaQ.xls',sheet_name='data')
@@ -101,7 +101,7 @@ inf_datesQ = inf_dataQ['date'].dt.year.astype(int).astype(str) + \
              "Q" + inf_dataQ['date'].dt.quarter.astype(int).astype(str)
 inf_datesQ = dates_from_str(inf_datesQ)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # set date index to productivity and labor series
 ts_var1 = ts_data[['DLPROD1','DLHOURS']]
 ts_var2 = ts_data2[['DLPROD2','DLEMP']]
@@ -112,7 +112,7 @@ ts_var2.index = pd.DatetimeIndex(datesQ2,freq='Q')
 # set date index to inf series 
 infQ.index= pd.DatetimeIndex(inf_datesQ)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## merge with inflation
 # order of vector for var:  [productivity, labor input, inflation]
 ts_var1 = pd.concat([ts_var1,infQ], join='inner', axis=1)
@@ -138,7 +138,7 @@ model2 =VAR(ts_var2)   # var model2 with no restriction
 #svmodel2=SVAR(ts_var2.loc[start_t:end_t],svar_type='B',\
               # B=np.array([['E',0],['E','E']]))  # svar model with restriction
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Checks the data 
 
 ## Pearson test of correlation 
@@ -334,7 +334,7 @@ fig = plotting.irf_grid_plot(irfs, stderr, impulse, response,
                                      plot_params=plot_params,
                                      stderr_type=stderr_type)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## replicate Gali(1999) figure 1
 
 plt.figure(figsize=(15,5))
@@ -449,7 +449,7 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
         fe_mats += np.dot(np.dot(ma_mats[t],
                                  sigma_u),
                           ma_mats[t].T)    # \sum_0^{h-1} D_tau \Sigma_u D_tau' 
-    print(fe_mats)
+    #print(fe_mats)
     eye_i = np.zeros([k,1])
     eye_i[pty_id] = 1
     fe = np.dot(np.dot(eye_i.T,
@@ -496,10 +496,18 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
     obj = lambda alpha: -fe_share(alpha)
     alpha_init = np.random.rand(k,1)   
     
+    
+    
     ### constraint on alpha
+    
+    # the following 3 lines are not necessary 
+    #I_k = np.identity(k)
+    #e_j = np.zeros([k,1]) 
+    #e_j[0] = 1       # used to pick up the j-th column of F
+    
+    
     def constr_eq1(alpha):
         return np.dot(alpha.T, alpha)-1  # constraint that F is ortho
-    
     
     def constr_eq2(alpha):
         eye_ij = np.zeros([k,1])
@@ -507,11 +515,14 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
         return np.dot(eye_ij.T,alpha)
 
     ##
-    constr =[]
-    constr.append({'type':'eq', 'fun': constr_eq1})
-    if contemp==False:
-        constr.append( {'type':'eq', 'fun': constr_eq2})
-
+    #constr = {'type':'eq', 'fun': constr_eq1}
+    constr_lst =[]
+    constr_lst.append({'type':'eq', 'fun': constr_eq1})
+    
+    #if contemp==False:
+    #    constr_lst.append( {'type':'eq', 'fun': constr_eq2})
+        
+    constr = tuple(constr_lst)
     ### maximization  
     alpha_est = minimize(obj,x0=alpha_init,constraints=constr)['x']
     print("Estimated alpha that maximizes the share of forecast error is "+ str(alpha_est))
@@ -523,14 +534,15 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
 
     return {'var_coefs':var_coefs,'sigma_u':sigma_u,'fe':fe,'nlags':nlags, 'neqs': k,\
                 'residuals':u,'alpha_est':alpha_est,'epsilon_est':epsilon_est}
-# -
 
-horizon = 20
+# + {"code_folding": [0]}
+## invoke max_share estimation
+horizon = 40  #10 years
 SVAR_maxshare_rst = SVAR_MaxShare(rs1,horizon)
 tech_shock = SVAR_maxshare_rst['epsilon_est'].flatten()
 alpha_est = SVAR_maxshare_rst['alpha_est']
 
-# +
+# + {"code_folding": [0]}
 ## save it to data frames 
 str_shocks_est['pty_shock_max']=tech_shock.T
 
@@ -563,11 +575,13 @@ news_shock_rst = SVAR_MaxShare(rs1,horizon,contemp=False)
 news_shock = news_shock_rst['epsilon_est'].flatten()
 str_shocks_est['news_shock']=news_shock.T
 
+# + {"code_folding": [0]}
 # compare two tech shocks estimated from different approaches 
 plt.figure(figsize=(10,6))
 plt.plot(str_shocks_est['pty_shock_max'],label='pty_maxshare')
 plt.plot(str_shocks_est['news_shock'],'r-.',label='news shock')
 plt.legend(loc=1)
+# -
 
 print('The correlation coefficient of tech shocks \
 identified using max-share approach and the news shock is '+ \
@@ -575,7 +589,7 @@ identified using max-share approach and the news shock is '+ \
 
 # ### Oil shocks (Hamilton 1996)
 
-# +
+# + {"code_folding": [0]}
 ## loading oil price shocks data 
 os_dataM = pd.read_excel('../OtherData/OilShock.xls',sheet_name='data')
 
@@ -586,7 +600,6 @@ os_dataM['quarter'] = os_dataM['observation_date'].dt.year.astype(int).astype(st
 
 ## compute quarterly shock
 os_shockQ  = os_dataM.groupby(['quarter'], sort=False)['OPShock'].max()
-
 
 ## creating quarterly date index
 os_datesQ = os_dataM['quarter'].drop_duplicates()
@@ -621,6 +634,3 @@ plt.plot(mps_var['ED4'].dropna())
 # + {"code_folding": []}
 ### save shocks
 str_shocks_est.to_stata('../OtherData/InfShocks.dta')
-# -
-
-
