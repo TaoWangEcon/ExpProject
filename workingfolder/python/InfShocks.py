@@ -170,7 +170,7 @@ rs1=model1.fit(4)
 rs1.summary()
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [2]}
 ## define function of Blanchard and Quah long-run restriction
 
 def ma_rep(coefs, maxn=10):
@@ -281,7 +281,7 @@ def SVAR_BQLR(rs,T_irf=10):
         P_svar_est = np.dot(LA.inv(A_svar_est), B_svar_est) 
         
         ## ma_rep to svar_ma_rep
-        svar_ma_rep = np.array([np.dot(coefs, P_svar_est) for coefs in ma_mats])  # T+1 x k x k 
+        svar_ma_rep = np.array([np.dot(var_coefs, P_svar_est) for var_coefs in ma_mats])  # T+1 x k x k 
         
         return {'var_coefs':var_coefs,'sigma_u':sigma_u,'A_est':A_svar_est,'B_est':B_svar_est,\
                 'eps_est':epsilon_est,'A1':A1,'C1':C1,'nlags':nlags, 'neqs': k,\
@@ -310,7 +310,7 @@ if str_shocks_est.shape[1]==2:
 str_shocks_est.plot(figsize=(10,6))
 
 
-# + {"code_folding": [1, 59]}
+# + {"code_folding": [1]}
 ## function of bootstrapping var series 
 def var_boot(rs, steps):
     """
@@ -341,37 +341,39 @@ def var_boot(rs, steps):
     nlags =rs.coefs.shape[0] # number of lags  
     coefs = rs.coefs
     u = np.array(rs.resid)
-    intercept = rs.intercept
-    #print(intercept.shape)
+    intercept = rs.intercept    # (k, )
     nobs = rs.nobs
     ## resampling redisuals with replacement 
-    ugen = np.array([np.random.choice(u[:,i], size=steps,replace=True) for i in range(neqs)]).T
-    #print(ugen[0][0])
-    #print(ugen.shape)
+    ugen = np.array([np.random.choice(u[:,i], size=steps,replace=True) for i in range(neqs)]).T   # steps x k 
+
     ##  empty array to be filled 
-    result = np.zeros((steps, k))
-    
+    result = np.zeros((steps, k))    # steps x k 
     if intercept is not None:
-        # intercept can be 2-D like an offset variable
-        if np.ndim(intercept) > 1:
-            if not len(intercept) == len(ugen):
-                raise ValueError('2-D intercept needs to have length `steps`')
-        # add intercept/offset also to intial values
         result += intercept
         result[nlags:] += ugen[nlags:]
     else:
         result[nlags:] = ugen[nlags:]
     
-    for t in range(nlags, steps):
-        ygen = result[t]
-        for j in range(nlags):
-            ygen += np.dot(coefs[j], result[t-j-1])
+    ygen = np.zeros((steps,k))
     
-    return result 
+    for t in range(nlags,steps):
+        ygen[t] = result[t]
+        for j in range(nlags):
+            ygen[t]+=np.dot(coefs[j],ygen[t-j-1])
+    return ygen
 
+
+# + {"code_folding": [0]}
+# var_boot does give different samples
+plt.figure()
+for i in range(5):
+    plt.plot(var_boot(rs1,100)[:,1])
+
+
+# + {"code_folding": [1]}
 ## generate confidence bands by bootstrapping 
 def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
-                    signif=0.05, burn=100, cum=False):
+                    signif=0.05, burn=10, cum=False):
     """
     Parameters
     ----------
@@ -399,15 +401,19 @@ def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
     sigma_u = rs.sigma_u
     nobs = rs.nobs
     ma_coll = np.zeros((repl, T+1, k, k))
-    
+    plt.figure()
     for i in range(repl):
         # discard first hundred to correct for starting bias
         sim = var_boot(rs, steps=nobs + burn)
         sim = sim[burn:]
         sim_var = VAR(sim)
-        sim_var_rs = sim_var.fit()
+        sim_var_rs = sim_var.fit(4)
+        #if i <4:
+        #    print(sim_var_rs.aic)   # used to check if each time the reduced VAR gives different results
         sim_svar_rs = SVAR_BQLR(sim_var_rs,T_irf=T)
-        sim_irf = sim_svar_rs['irf']         
+        sim_B_est = sim_svar_rs['B_est']
+        sim_shock_est =sim_svar_rs['eps_est'] 
+        sim_irf = sim_svar_rs['irf']
         ma_coll[i] = sim_irf
     ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
     index = (int(round(signif / 2 * repl) - 1),int(round((1 - signif / 2) * repl) - 1))
