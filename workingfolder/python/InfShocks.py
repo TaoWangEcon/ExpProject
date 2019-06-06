@@ -170,7 +170,7 @@ rs1=model1.fit(4)
 rs1.summary()
 
 
-# + {"code_folding": [0, 2]}
+# + {"code_folding": [0]}
 ## define function of Blanchard and Quah long-run restriction
 
 def ma_rep(coefs, maxn=10):
@@ -276,12 +276,12 @@ def SVAR_BQLR(rs,T_irf=10):
         #print(IR_svar.shape)
         
         # compute impulse responses 
-        ma_mats = ma_rep(var_coefs_est,maxn=T_irf)  
+        ma_mats = ma_rep(var_coefs,maxn=T_irf)  
         
         P_svar_est = np.dot(LA.inv(A_svar_est), B_svar_est) 
         
         ## ma_rep to svar_ma_rep
-        svar_ma_rep = np.array([np.dot(coefs, P) for coefs in ma_mats])  # T+1 x k x k 
+        svar_ma_rep = np.array([np.dot(coefs, P_svar_est) for coefs in ma_mats])  # T+1 x k x k 
         
         return {'var_coefs':var_coefs,'sigma_u':sigma_u,'A_est':A_svar_est,'B_est':B_svar_est,\
                 'eps_est':epsilon_est,'A1':A1,'C1':C1,'nlags':nlags, 'neqs': k,\
@@ -293,7 +293,7 @@ def SVAR_BQLR(rs,T_irf=10):
 T_irf = 10  # 10 quarters irf 
 
 SVAR_rst = SVAR_BQLR(rs1,T_irf=T_irf)
-var_coefs_est,A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,residuals, P_est, svar_irf \
+var_coefs_est, A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,residuals, P_est, svar_irf \
 = (SVAR_rst['var_coefs'],SVAR_rst['A1'],SVAR_rst['C1'],
    SVAR_rst['sigma_u'], SVAR_rst['A_est'], SVAR_rst['B_est'],
    SVAR_rst['eps_est'],SVAR_rst['nlags'],SVAR_rst['neqs'],
@@ -308,13 +308,11 @@ if str_shocks_est.shape[1]==3:
 if str_shocks_est.shape[1]==2:
     str_shocks_est.columns=['productivity','hours']
 str_shocks_est.plot(figsize=(10,6))
-# -
-
-np.random.choice(4,size=(2,3,4))[0].shape
 
 
-# + {"code_folding": [0, 59]}
-def var_boot(rs, seed, steps):
+# + {"code_folding": [1, 59]}
+## function of bootstrapping var series 
+def var_boot(rs, steps):
     """
     Bootstrapping VAR(p) process, given estimated coefficients coefs and reduced residuals u
     
@@ -336,21 +334,21 @@ def var_boot(rs, seed, steps):
     Returns
     -------
     data_boot : nd_array
-         artificial data from bootstrapping same
+         artificial data from bootstrapping 
     """
     
     k = rs.neqs               # number of variables
-    nlags =rs1.coefs.shape[0] # number of lags  
+    nlags =rs.coefs.shape[0] # number of lags  
     coefs = rs.coefs
     u = np.array(rs.resid)
-    sigma_u = rs.sigma_u
     intercept = rs.intercept
     #print(intercept.shape)
     nobs = rs.nobs
     ## resampling redisuals with replacement 
     ugen = np.array([np.random.choice(u[:,i], size=steps,replace=True) for i in range(neqs)]).T
+    #print(ugen[0][0])
     #print(ugen.shape)
-    ##  empty 
+    ##  empty array to be filled 
     result = np.zeros((steps, k))
     
     if intercept is not None:
@@ -371,10 +369,9 @@ def var_boot(rs, seed, steps):
     
     return result 
 
-## generate confidence bands using bootstrapping 
-
+## generate confidence bands by bootstrapping 
 def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
-                    signif=0.05, seed=None, burn=100, cum=False):
+                    signif=0.05, burn=100, cum=False):
     """
     Parameters
     ----------
@@ -398,25 +395,20 @@ def sirf_errband_boot(rs, orth=False, repl=1000, T=10, \
         Tuple of lower and upper arrays of ma_rep monte carlo standard errors
     """
     k = rs.neqs
-    mean = rs.mean()
-    k_ar = rs.k_ar
     coefs = rs.coefs
     sigma_u = rs.sigma_u
-    intercept = rs.intercept
-    df_model = rs.df_model
     nobs = rs.nobs
     ma_coll = np.zeros((repl, T+1, k, k))
     
     for i in range(repl):
         # discard first hundred to correct for starting bias
-        sim = var_boot(rs1, seed=seed, steps=nobs + burn)
+        sim = var_boot(rs, steps=nobs + burn)
         sim = sim[burn:]
         sim_var = VAR(sim)
         sim_var_rs = sim_var.fit()
         sim_svar_rs = SVAR_BQLR(sim_var_rs,T_irf=T)
         sim_irf = sim_svar_rs['irf']         
         ma_coll[i] = sim_irf
-        
     ma_sort = np.sort(ma_coll, axis=0)  # sort to get quantiles
     index = (int(round(signif / 2 * repl) - 1),int(round((1 - signif / 2) * repl) - 1))
     lower = ma_sort[index[0], :, :, :]
