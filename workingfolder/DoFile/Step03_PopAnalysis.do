@@ -44,6 +44,11 @@ replace quarter=4 if month<=12 & month >=10
 merge m:1 year quarter using "${folder}/SPF/individual/InfExpSPFPointPopQ.dta",keep(match using master)
 rename _merge spf_merge 
 
+
+merge m:1 year quarter using "${folder}/SPF/InfExpSPFDstPopQ.dta",keep(match using master)
+rename _merge spf_dst_merge 
+
+
 *************************
 ** Declare time series **
 **************************
@@ -56,6 +61,9 @@ drop date2 date
 rename date3 date
 
 tsset date
+sort year quarter month 
+
+
 
 
 ******************************
@@ -66,6 +74,7 @@ gen SCE_FE = Q9_mean - Inf1yf_CPICore
 label var SCE_FE "1-yr-ahead forecast error"
 gen SPF_FE = CORECPI1y - Inf1yf_CPICore
 label var SPF_FE "1-yr-ahead forecast error"
+
 
 
 *****************************
@@ -126,6 +135,16 @@ twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
 graph export "${sum_graph_folder}/disg_disg", as(png) replace 
 
 
+twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
+       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if Q9_var!=., ///
+	   title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+	   legend(label(1 "Uncertainty (SCE)")  /// 
+	          label(2 "Uncertainty (SPF CPI)(RHS)")) 
+			  
+graph export "${sum_graph_folder}/var_var", as(png) replace 
+
+
 twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
 	   if Q9_disg!=., ///
@@ -166,10 +185,12 @@ graph export "${sum_graph_folder}/fe_fe", as(png) replace
 ***************************
 ***  Population Moments *** 
 ***************************
+tsset date
 
-
-estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg, st(mean var median) columns(statistics)
-esttab . using "${sum_table_folder}/pop_sum_stats.csv",cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
+estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y ///
+                CPI_disg PCE_disg CORECPI_disg COREPCE_disg, ///
+			    st(mean var median) columns(statistics)
+esttab . using "${sum_table_folder}/pop_sum_stats.csv", cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
 
 eststo clear
 foreach var in Q9_mean Q9_var Q9_disg CPI1y PCE1y CORECPI1y COREPCE1y{

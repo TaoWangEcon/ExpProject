@@ -4,7 +4,11 @@
 
 clear
 set more off
+
+global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData"
+global sum_graph_folder "${mainfolder}/graphs/pop"
+global sum_table_folder "${mainfolder}/tables"
 global datafolder "${folder}/SPF"
 
 cd ${datafolder}
@@ -117,7 +121,7 @@ rename date3 date
 order date year quarter 
 tsset date,q
 
-save InfExpSPFProbPopQ,replace
+save "${datafolder}/InfExpSPFProbPopQ.dta",replace
 
 rm "SPFProbPopQ.dta"
 rm "SPFDispersionPopQ.dta"

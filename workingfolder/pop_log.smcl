@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}14 May 2019, 09:37:47
+ {txt}opened on:  {res} 8 Jun 2019, 08:00:35
 {txt}
 {com}. 
 . ****************************************
@@ -103,6 +103,32 @@ byte, now float to accommodate using data's values)
 {com}. rename _merge spf_merge 
 {res}{txt}
 {com}. 
+. 
+. merge m:1 year quarter using "${c -(}folder{c )-}/SPF/InfExpSPFDstPopQ.dta",keep(match using master)
+{res}{txt}{p 0 7 2}
+(note: variable
+year was 
+float, now double to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(note: variable
+quarter was 
+float, now double to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             708
+{txt}{col 9}from master{col 30}{res}             708{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             148{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge spf_dst_merge 
+{res}{txt}
+{com}. 
+. 
 . *************************
 . ** Declare time series **
 . **************************
@@ -124,7 +150,11 @@ byte, now float to accommodate using data's values)
 {res}{txt}{col 9}time variable:  {res}{col 25}date, 1948m1 to 2019m3
 {txt}{col 17}delta:  {res}1 month
 {txt}
+{com}. sort year quarter month 
+{txt}
 {com}. 
+. 
+. 
 . 
 . ******************************
 . *** Computing some measures **
@@ -141,6 +171,7 @@ byte, now float to accommodate using data's values)
 {com}. label var SPF_FE "1-yr-ahead forecast error"
 {txt}
 {com}. 
+. 
 . 
 . *****************************
 . ****    Summary Charts ******
@@ -224,6 +255,19 @@ linepattern,  default attributes used)
 
 {com}. 
 . 
+. twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_var!=., ///
+>            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Uncertainty (SCE)")  /// 
+>                   label(2 "Uncertainty (SPF CPI)(RHS)")) 
+{res}{txt}
+{com}.                           
+. graph export "${c -(}sum_graph_folder{c )-}/var_var", as(png) replace 
+{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/var_var written in PNG format)
+
+{com}. 
+. 
 . twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
 >        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
 >            if Q9_disg!=., ///
@@ -296,9 +340,14 @@ linepattern,  default attributes used)
 . ***************************
 . ***  Population Moments *** 
 . ***************************
-. 
-. 
-. estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg, st(mean var median) columns(statistics)
+. tsset date
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 2007m1 to 2019m3
+{txt}{col 17}delta:  {res}1 month
+{txt}
+{com}. 
+. estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y ///
+>                 CPI_disg PCE_disg CORECPI_disg COREPCE_disg, ///
+>                             st(mean var median) columns(statistics)
 
 {txt}Summary statistics: mean variance p50
      for variables: Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg
@@ -318,7 +367,7 @@ linepattern,  default attributes used)
 {space 0}{space 0}{ralign 12:CORECPI_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .192936}}}{space 1}{space 1}{ralign 9:{res:{sf: .0294365}}}{space 1}{space 1}{ralign 9:{res:{sf:  .107817}}}{space 1}
 {space 0}{space 0}{ralign 12:COREPCE_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .1579588}}}{space 1}{space 1}{ralign 9:{res:{sf: .0229367}}}{space 1}{space 1}{ralign 9:{res:{sf: .1031996}}}{space 1}
 
-{com}. esttab . using "${c -(}sum_table_folder{c )-}/pop_sum_stats.csv",cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
+{com}. esttab . using "${c -(}sum_table_folder{c )-}/pop_sum_stats.csv", cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/pop_sum_stats.csv"'})
 
 {com}. 
@@ -709,7 +758,7 @@ COREPCE1y_ch {c |}
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}14 May 2019, 09:38:17
+ {txt}closed on:  {res} 8 Jun 2019, 08:01:06
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

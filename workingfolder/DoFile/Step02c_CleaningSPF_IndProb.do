@@ -1,3 +1,10 @@
+*******************************************************************************
+** This do file imports and cleans the raw data of individual probability forecasts
+**  from SPF. It creats the InfExpSPFProbIndQ.dta file to be imported into DensEst.py
+**   for density and moment estimation. The output of that is InfExpSPFDstIndQ.dta."
+** That data will be processed by the do file next to this. *********************
+********************************************************************************* 
+
 clear 
 set more off 
 cd "/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData/SPF/individual"
@@ -84,3 +91,5 @@ label var `var'20 "prob `var' <0% from y to y+1(Q4 YoY)"
 
 
 save InfExpSPFProbIndQ,replace
+
+
