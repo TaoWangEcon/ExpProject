@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 8 Jun 2019, 20:38:22
+ {txt}opened on:  {res} 9 Jun 2019, 13:08:34
 {txt}
 {com}. 
 . ****************************************
@@ -352,22 +352,14 @@ float, now double to accommodate using data's values)
 {txt}(237 observations deleted)
 
 {com}. 
-. twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dot-dash")) ///
->                                                  (tsline CPI1y, lp("shortdash")), ///
+. twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
+>        (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
 >                                                  title("1-yr-ahead Expected Inflation") ///
 >                                                  xtitle("Time") ytitle("") ///
->                                                  legend(label(1 "Mean Expectation(SCE)") label(2 "Median Expectation(SCE)") ///
->                                                         label(3 "Median Expectation(Michigan)") label(4 "Mean Expectation(SPF)"))
-{p 0 4 2}
-{txt}(note:  named style
-dot-dash not found in class
-linepattern,  default attributes used)
-{p_end}
-{p 0 4 2}
-{txt}(note:  named style
-dot-dash not found in class
-linepattern,  default attributes used)
-{p_end}
+>                                                  legend(label(1 "Mean Expectation(SCE)") ///
+>                                                         label(2 "Median Expectation(Michigan)") ///
+>                                                                 label(3 "Mean Expectation CPI (SPF)") ///
+>                                                                 label(4 "Mean Expectation PCE (SPF)") col(1))
 {res}{txt}
 {com}. graph export "${c -(}sum_graph_folder{c )-}/mean_medQ", as(png) replace
 {txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/mean_medQ written in PNG format)
@@ -385,24 +377,14 @@ linepattern,  default attributes used)
 
 {com}. 
 . 
-. twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
->        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash-dot")) ///
+. twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
+>            (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
 >            if Q9_var!=., ///
 >            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
 >            legend(label(1 "Uncertainty (SCE)")  /// 
 >                   label(2 "Uncertainty (SPF CPI)(RHS)") ///
 >                           label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
-{p 0 4 2}
-{txt}(note:  named style
-dash-dot not found in class
-linepattern,  default attributes used)
-{p_end}
-{p 0 4 2}
-{txt}(note:  named style
-dash-dot not found in class
-linepattern,  default attributes used)
-{p_end}
 {res}{txt}
 {com}.                           
 . graph export "${c -(}sum_graph_folder{c )-}/var_varQ", as(png) replace 
@@ -901,8 +883,7 @@ PRCPCEVar1mean_ch {c |}
 {txt}5     {res}{col 9} 0.1809{col 18}-0.0968{col 27} 39.156{col 36}0.0000{col 44}        {c LT}{hline 1}       {col 63}        {c |}        
 {txt}
 {com}. esttab using "${c -(}sum_table_folder{c )-}/autoregQ.csv", se r2 replace
-{res}{txt}(note: file /Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregQ.csv not found)
-(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregQ.csv"'})
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregQ.csv"'})
 
 {com}. eststo clear
 {txt}
@@ -912,7 +893,7 @@ PRCPCEVar1mean_ch {c |}
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 8 Jun 2019, 20:38:34
+ {txt}closed on:  {res} 9 Jun 2019, 13:08:46
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

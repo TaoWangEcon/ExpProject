@@ -243,12 +243,14 @@ sort year quarter
 *******************************************
 drop if CPI1y ==. | PCE1y==.
 
-twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dot-dash")) ///
-						 (tsline CPI1y, lp("shortdash")), ///
+twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
+       (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
 						 title("1-yr-ahead Expected Inflation") ///
 						 xtitle("Time") ytitle("") ///
-						 legend(label(1 "Mean Expectation(SCE)") label(2 "Median Expectation(SCE)") ///
-						        label(3 "Median Expectation(Michigan)") label(4 "Mean Expectation(SPF)"))
+						 legend(label(1 "Mean Expectation(SCE)") ///
+						        label(2 "Median Expectation(Michigan)") ///
+								label(3 "Mean Expectation CPI (SPF)") ///
+								label(4 "Mean Expectation PCE (SPF)") col(1))
 graph export "${sum_graph_folder}/mean_medQ", as(png) replace
 
 
@@ -260,9 +262,9 @@ twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
 graph export "${sum_graph_folder}/disg_disgQ", as(png) replace 
 
 
-twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
-       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash-dot")) ///
+twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
+       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
+	   (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
 	   if Q9_var!=., ///
 	   title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
 	   legend(label(1 "Uncertainty (SCE)")  /// 
