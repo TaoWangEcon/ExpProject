@@ -72,9 +72,13 @@ sort year quarter month
 
 gen SCE_FE = Q9_mean - Inf1yf_CPICore
 label var SCE_FE "1-yr-ahead forecast error"
-gen SPF_FE = CORECPI1y - Inf1yf_CPICore
-label var SPF_FE "1-yr-ahead forecast error"
 
+gen SPFCPI_FE = CPI1y - Inf1yf_CPIAU
+label var SPFCPI_FE "1-yr-ahead forecast error(SCE CPI)"
+gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
+label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
+gen SPFPCE_FE = PCE1y - Inf1yf_PCE
+label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
 
 
 *****************************
@@ -82,11 +86,11 @@ label var SPF_FE "1-yr-ahead forecast error"
 *****************************
 
 
+/*
 **************************
 ** Single series charts **
 **************************
 
-/*
 foreach var in Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg ///
                CPI1y PCE1y CORECPI1y COREPCE1y ///
 			   CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
@@ -95,6 +99,8 @@ local var_lb: var label `var'
 tsline `var' if `var'!=.,title("`var_lb'") xtitle("Time") ytitle("")
 graph export "${sum_graph_folder}/`var'", as(png) replace 
 }
+
+
 
 ***************************
 ** Multiple series charts**
@@ -165,7 +171,7 @@ graph export "${sum_graph_folder}/var_disg2", as(png) replace
 twoway (tsline Q9_mean) (tsline CORECPI1y,lp("longdash")) ///
        (tsline Inf1yf_PCEPI,lp("dash")) ///
        (tsline Inf1yf_CPIAU,lp("shortdash")) ///
-	   (tsline Inf1yf_CPICore,lp("dash-dot")) ///
+	   (tsline Inf1yf_CPICore,lp("dash_dot")) ///
 	   if Q9_mean!=., ///
 	   title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
 	   legend(label(1 "Mean Forecast(SCE)") label(2 "Mean Forecast(SPF)") label(3 "Realized Inflation(PCE)") ///
@@ -175,7 +181,7 @@ graph export "${sum_graph_folder}/mean_true", as(png) replace
 
 twoway (tsline Q9_mean)  (tsline Inf1y_PCEPI,lp("dash")) ///
        (tsline Inf1y_CPIAU,lp("shortdash")) ///
-	   (tsline Inf1y_CPICore,lp("dash-dot")) ///
+	   (tsline Inf1y_CPICore,lp("dash_dot")) ///
 	   if Q9_mean!=., ///
 	   title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
 	   legend(label(1 "Mean Expectation") label(2 "Past Inflation(PCE)") ///
@@ -183,11 +189,13 @@ twoway (tsline Q9_mean)  (tsline Inf1y_PCEPI,lp("dash")) ///
 graph export "${sum_graph_folder}/mean_past", as(png) replace
 
 
-twoway (tsline SCE_FE)  (tsline SPF_FE, yaxis(2) lp("dash")) ///
-                         if SPF_FE!=., ///
+twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
+       (tsline SPFPCE_FE, yaxis(2) lp("dash_dot"))  ///  
+                         if SPFPCE_FE!=., ///
 						 title("1-yr-ahead Forecast Errors") ///
 						 xtitle("Time") ytitle("") ///
-						 legend(label(1 "SCE") label(2 "SPF(RHS)"))
+						 legend(label(1 "SCE") label(2 "SPF CPI(RHS)") ///
+						 label(3 "SPF PCE(RHS)"))
 graph export "${sum_graph_folder}/fe_fe", as(png) replace
 
 
@@ -225,7 +233,7 @@ eststo clear
 *******************************************
 
 collapse (mean) Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
-                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
+                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
 				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean, ///
 				by(year quarter) 
 
@@ -237,11 +245,13 @@ rename date3 date
 
 tsset date
 sort year quarter  
-
+/*
 ******************************************
 *** Multiple series charts Quarterly  ****
 *******************************************
 drop if CPI1y ==. | PCE1y==.
+
+
 
 twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
        (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
@@ -274,6 +284,16 @@ twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
 graph export "${sum_graph_folder}/var_varQ", as(png) replace 
 
 
+twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
+        (tsline SPFPCE_FE, yaxis(2) lp("dash_dot")) ///
+                         if SPFCPI_FE!=., ///
+						 title("1-yr-ahead Forecast Errors") ///
+						 xtitle("Time") ytitle("") ///
+						 legend(col(1) label(1 "SCE") label(2 "SPF CPI (RHS)") ///
+						                label(3 "SPF PCE(RHS)"))
+graph export "${sum_graph_folder}/fe_feQ", as(png) replace
+
+*/
 ********************************
 ***  Autoregression Quarterly **
 *******************************
@@ -282,17 +302,93 @@ tsset date
 
 eststo clear
 
-foreach var in Q9_mean Q9_var Q9_disg CPI1y PCE1y CORECPI1y COREPCE1y PRCCPIVar1mean PRCPCEVar1mean{
-gen `var'_ch = `var'-l1.`var'
-label var `var'_ch "m to m+1 change of `var'"
-eststo: reg `var' l(1/5).`var'
-eststo: reg `var'_ch l(1/5).`var'_ch
-corrgram `var', lags(5) 
-*gen `var'1=`r(ac1)'
-*label var `var'1 "Auto-correlation coefficient of `var'"
+gen InfExp1y = .
+gen InfExpFE1y = .
+gen InfExpVar1y=.
+gen InfExpDisg1y = .
+
+*****************************************
+****  Renaming so that more consistent **
+*****************************************
+
+
+rename Q9_mean SCE_Mean
+rename Q9_var SCE_Var
+rename Q9_disg SCE_Disg
+rename SCE_FE SCE_FE
+
+rename CPI1y SPFCPI_Mean
+rename PCE1y SPFPCE_Mean
+rename COREPCE1y SPFCPCE_Mean
+rename CORECPI1y SPFCCPI_Mean
+
+
+rename CPI_disg SPFCPI_Disg
+rename PCE_disg SPFPCE_Disg 
+rename CORECPI_disg SPFCCPI_Disg
+rename COREPCE_disg SPFCPCE_Disg
+
+rename PRCPCEVar1mean SPFPCE_Var
+rename PRCCPIVar1mean SPFCPI_Var
+
+rename SPFCPI_FE SPFCPI_FE
+rename SPFPCE_FE SPFPCE_FE
+
+gen InfExp_Mean = .
+gen InfExp_Var = .
+gen InfExp_FE = .
+gen InfExp_Disg = . 
+
+
+gen InfExp_Mean_ch = .
+gen InfExp_Var_ch = .
+gen InfExp_FE_ch = .
+gen InfExp_Disg_ch = . 
+
+*******************************************************
+**** Autoregression on the levels of population moments
+********************************************************
+
+
+eststo clear 
+foreach mom in Mean Var Disg FE{
+   foreach var in SCE SPFCPI SPFPCE{
+    replace InfExp_`mom' = `var'_`mom'
+    eststo `var'_`mom': reg InfExp_`mom' l(1/5).InfExp_`mom'
+  }
+  
 }
-esttab using "${sum_table_folder}/autoregQ.csv", se r2 replace
+
+esttab using "${sum_table_folder}/autoregLvlQ.csv", mtitles se r2 replace
+
+**********************************************************************
+******** Autoregression on the first difference of population moments
+ **********************************************************************
+
 eststo clear
+foreach mom in Mean Var Disg FE{
+   foreach var in SCE SPFCPI SPFPCE{
+    replace InfExp_`mom' = `var'_`mom'
+    replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+    eststo `var'_`mom': reg InfExp_`mom'_ch l(1/5).InfExp_`mom'_ch  
+  }
+}
+esttab using "${sum_table_folder}/autoregDiffQ.csv", mtitles se r2 replace
+
+***************
+*** SPF Only **
+***************
+
+eststo clear
+
+foreach mom in Mean Var Disg FE{
+   foreach var in SPFCPI SPFPCE{
+    replace InfExp_`mom' = `var'_`mom'
+    replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+    eststo `var'_`mom': reg InfExp_`mom'_ch l(1/5).InfExp_`mom'_ch  
+  }
+}
+esttab using "${sum_table_folder}/autoregSPFDiffQ.csv", mtitles se r2 replace
 
 
 log close 
