@@ -128,7 +128,7 @@ ts_var2=ts_var2.copy().dropna()
 # + {"code_folding": [0]}
 # period filter 
 start_t='1948-01-01'
-end_t = '1994-12-30'   # the same period as in Gali (1991)
+end_t = '2019-03-30'   # the same period as in Gali (1991)
 
 ts_var1=ts_var1.copy().loc[start_t:end_t]
 ts_var2=ts_var2.copy().loc[start_t:end_t]
@@ -715,7 +715,7 @@ identified using max-share approach and the news shock is '+ \
 
 # ### Oil shocks (Hamilton 1996)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## loading oil price shocks data 
 os_dataM = pd.read_excel('../OtherData/OilShock.xls',sheet_name='data')
 
@@ -724,8 +724,12 @@ os_dataM['observation_date'] = pd.to_datetime(os_dataM['observation_date'],forma
 os_dataM['quarter'] = os_dataM['observation_date'].dt.year.astype(int).astype(str) + \
          "Q" + os_dataM['observation_date'].dt.quarter.astype(int).astype(str)
 
+## normolization using std 
+
+os_dataM['OPShock_nm'] =  os_dataM['OPShock']/os_dataM['OPShock'].std()
+
 ## compute quarterly shock
-os_shockQ  = os_dataM.groupby(['quarter'], sort=False)['OPShock'].max()
+os_shockQ  = os_dataM.groupby(['quarter'], sort=False)['OPShock_nm'].max()
 
 ## creating quarterly date index
 os_datesQ = os_dataM['quarter'].drop_duplicates()
@@ -742,21 +746,38 @@ str_shocks_est.tail()
 
 # ### Monetary policy shocks 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## loading mp shocks data
 mps_data = pd.read_excel('../OtherData/2MPShocksJW.xls',sheet_name='data')
 mps_data['Date'] = pd.to_datetime(mps_data['Date'],format='%m/%d/%Y')
-mps_var = mps_data[['MP1','ED4','ED8']] 
+mps_datesQ = mps_data['Date'].dt.year.astype(int).astype(str) + \
+         "Q" + mps_data['Date'].dt.quarter.astype(int).astype(str)
+
+## quarter series used to collapse 
+mps_datesQ = dates_from_str(mps_datesQ)
+mps_data['quarter'] = mps_datesQ 
+
+mps_var = mps_data[['quarter','MP1','ED4','ED8']] 
 
 ## dates 
 mps_datesM = mps_data['Date'].dt.year.astype(int).astype(str) + \
          "M" + mps_data['Date'].dt.month.astype(int).astype(str)
+
 mps_datesM = dates_from_str(mps_datesM)
 
+## monthly index 
 mps_var.index = pd.DatetimeIndex(mps_datesM)
+mps_shockQ  = mps_var.groupby(['quarter'], sort=False)[['MP1','ED4','ED8']].sum(axis=1)
 
-plt.plot(mps_var['ED4'].dropna())
+## merge with other shocks
+str_shocks_est = pd.concat([str_shocks_est,mps_shockQ], join='inner', axis=1)
+# -
+
+str_shocks_est.head()
 
 # + {"code_folding": []}
 ### save shocks
-str_shocks_est.to_stata('../OtherData/InfShocks.dta')
+str_shocks_est.to_excel('../OtherData/InfShocks.xlsx')
+# -
+
+
