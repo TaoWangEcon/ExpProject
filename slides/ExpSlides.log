@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  21 MAY 2019 14:24
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  8 JUN 2019 19:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1191,11 +1191,11 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [25
 
  <./figures/mean_var.png>]
-<figures/mean_diag.png, id=844, 932.98563pt x 678.535pt>
-File: figures/mean_diag.png Graphic file (type png)
+<figures/var_var.png, id=844, 932.98563pt x 678.535pt>
+File: figures/var_var.png Graphic file (type png)
 
-<use figures/mean_diag.png>
-Package pdftex.def Info: figures/mean_diag.png used on input line 420.
+<use figures/var_var.png>
+Package pdftex.def Info: figures/var_var.png used on input line 419.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1204,12 +1204,12 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [26
 
- <./figures/mean_diag.png>]
-<figures/disg_disg.png, id=873, 932.98563pt x 678.535pt>
-File: figures/disg_disg.png Graphic file (type png)
+ <./figures/var_var.png>]
+<figures/mean_disg.png, id=873, 932.98563pt x 678.535pt>
+File: figures/mean_disg.png Graphic file (type png)
 
-<use figures/disg_disg.png>
-Package pdftex.def Info: figures/disg_disg.png used on input line 427.
+<use figures/mean_disg.png>
+Package pdftex.def Info: figures/mean_disg.png used on input line 426.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1218,12 +1218,10 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [27
 
- <./figures/disg_disg.png>]
-<figures/var_diag.png, id=902, 932.98563pt x 678.535pt>
-File: figures/var_diag.png Graphic file (type png)
-
-<use figures/var_diag.png>
-Package pdftex.def Info: figures/var_diag.png used on input line 434.
+ <./figures/mean_disg.png>]
+File: figures/mean_disg.png Graphic file (type png)
+ <use figures/mean_disg.png>
+Package pdftex.def Info: figures/mean_disg.png used on input line 433.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1232,12 +1230,11 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [28
 
- <./figures/var_diag.png>]
-<figures/mean_true.png, id=932, 932.98563pt x 678.535pt>
-File: figures/mean_true.png Graphic file (type png)
+] <figures/disg_disg.png, id=930, 932.98563pt x 678.535pt>
+File: figures/disg_disg.png Graphic file (type png)
 
-<use figures/mean_true.png>
-Package pdftex.def Info: figures/mean_true.png used on input line 442.
+<use figures/disg_disg.png>
+Package pdftex.def Info: figures/disg_disg.png used on input line 440.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1246,12 +1243,54 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [29
 
- <./figures/mean_true.png>]
+ <./figures/disg_disg.png>]
+<figures/var_disg.png, id=959, 932.98563pt x 678.535pt>
+File: figures/var_disg.png Graphic file (type png)
+
+<use figures/var_disg.png>
+Package pdftex.def Info: figures/var_disg.png used on input line 447.
+(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [30
+
+ <./figures/var_disg.png>]
+<figures/var_disg2.png, id=988, 932.98563pt x 678.535pt>
+File: figures/var_disg2.png Graphic file (type png)
+
+<use figures/var_disg2.png>
+Package pdftex.def Info: figures/var_disg2.png used on input line 454.
+(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
+
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[31
+
+ <./figures/var_disg2.png>]
+<figures/mean_true.png, id=1018, 932.98563pt x 678.535pt>
+File: figures/mean_true.png Graphic file (type png)
+
+<use figures/mean_true.png>
+Package pdftex.def Info: figures/mean_true.png used on input line 461.
+(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
+
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[32
+
+ <./figures/mean_true.png>]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[33
 
 ] (./ExpSlides.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1261,7 +1300,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[31
+[34
 
  </usr/local/texlive/2014/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf
 >]
@@ -1272,49 +1311,28 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[32]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[33])
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[34]
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
 [35]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[36
+[36])
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-]
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[37
-
-]
+[37]
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[38
-
-]
+[38]
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
@@ -1371,6 +1389,27 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [46
 
 ]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[47
+
+]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[48
+
+]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[49
+
+]
 \tf@nav=\write6
 \openout6 = `ExpSlides.nav'.
 
@@ -1380,11 +1419,11 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 \tf@snm=\write8
 \openout8 = `ExpSlides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 688.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 688.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 707.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 707.
  (./ExpSlides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 688.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 688.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 707.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 707.
 Package rerunfilecheck Info: File `ExpSlides.out' has not changed.
 (rerunfilecheck)             Checksum: 6A4405B8109E58B8D9525F256C622811;366.
 
@@ -1392,13 +1431,13 @@ Package rerunfilecheck Info: File `ExpSlides.out' has not changed.
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 688.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 707.
  ) 
 Here is how much of TeX's memory you used:
- 17186 strings out of 493117
- 332047 string characters out of 6135433
+ 17206 strings out of 493117
+ 332362 string characters out of 6135433
  395172 words of memory out of 5000000
- 20106 multiletter control sequences out of 15000+600000
+ 20118 multiletter control sequences out of 15000+600000
  15428 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,21n,64p,409b,771s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1416,10 +1455,10 @@ al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/loca
 l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 /texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
 exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on ExpSlides.pdf (46 pages, 1414046 bytes).
+Output written on ExpSlides.pdf (49 pages, 1688267 bytes).
 PDF statistics:
- 1511 PDF objects out of 1728 (max. 8388607)
- 1392 compressed objects within 14 object streams
- 117 named destinations out of 1000 (max. 500000)
- 206 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1599 PDF objects out of 1728 (max. 8388607)
+ 1472 compressed objects within 15 object streams
+ 123 named destinations out of 1000 (max. 500000)
+ 216 words of extra memory for PDF output out of 10000 (max. 10000000)
 

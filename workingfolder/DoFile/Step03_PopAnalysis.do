@@ -95,7 +95,7 @@ local var_lb: var label `var'
 tsline `var' if `var'!=.,title("`var_lb'") xtitle("Time") ytitle("")
 graph export "${sum_graph_folder}/`var'", as(png) replace 
 }
-*/
+
 ***************************
 ** Multiple series charts**
 ***************************
@@ -152,6 +152,16 @@ twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
 	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
 graph export "${sum_graph_folder}/var_disg", as(png) replace 
 
+
+
+twoway (tsline CORECPI_disg, ytitle(" ",axis(1))) ///
+       (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if Q9_disg!=., ///
+	   title("1-yr-ahead Expected Inflation(SPF)") xtitle("Time") ///
+	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/var_disg2", as(png) replace 
+
+
 twoway (tsline Q9_mean) (tsline CORECPI1y,lp("longdash")) ///
        (tsline Inf1yf_PCEPI,lp("dash")) ///
        (tsline Inf1yf_CPIAU,lp("shortdash")) ///
@@ -188,7 +198,7 @@ graph export "${sum_graph_folder}/fe_fe", as(png) replace
 tsset date
 
 estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y ///
-                CPI_disg PCE_disg CORECPI_disg COREPCE_disg, ///
+                CPI_disg PCE_disg CORECPI_disg COREPCE_disg PRCCPIVar1mean PRCPCEVar1mean, ///
 			    st(mean var median) columns(statistics)
 esttab . using "${sum_table_folder}/pop_sum_stats.csv", cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
 
@@ -203,6 +213,83 @@ corrgram `var', lags(5)
 *label var `var'1 "Auto-correlation coefficient of `var'"
 }
 esttab using "${sum_table_folder}/autoreg.csv", se r2 replace
+eststo clear
+*/
+
+****************************************
+**** Quarterly Level Analysis  ******
+****************************************
+
+*******************************************
+***  Collapse monthly data to quarterly  **
+*******************************************
+
+collapse (mean) Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
+                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
+				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean, ///
+				by(year quarter) 
+
+gen date2=string(year)+"Q"+string(quarter)
+gen date3= quarterly(date2,"YQ")
+format date3 %tq 
+drop date2 
+rename date3 date
+
+tsset date
+sort year quarter  
+
+******************************************
+*** Multiple series charts Quarterly  ****
+*******************************************
+drop if CPI1y ==. | PCE1y==.
+
+twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dot-dash")) ///
+						 (tsline CPI1y, lp("shortdash")), ///
+						 title("1-yr-ahead Expected Inflation") ///
+						 xtitle("Time") ytitle("") ///
+						 legend(label(1 "Mean Expectation(SCE)") label(2 "Median Expectation(SCE)") ///
+						        label(3 "Median Expectation(Michigan)") label(4 "Mean Expectation(SPF)"))
+graph export "${sum_graph_folder}/mean_medQ", as(png) replace
+
+
+twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+       (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if CORECPI_disg!=., ///
+	   title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
+	   legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
+graph export "${sum_graph_folder}/disg_disgQ", as(png) replace 
+
+
+twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
+       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash-dot")) ///
+	   if Q9_var!=., ///
+	   title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+	   legend(label(1 "Uncertainty (SCE)")  /// 
+	          label(2 "Uncertainty (SPF CPI)(RHS)") ///
+			  label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
+			  
+graph export "${sum_graph_folder}/var_varQ", as(png) replace 
+
+
+********************************
+***  Autoregression Quarterly **
+*******************************
+
+tsset date 
+
+eststo clear
+
+foreach var in Q9_mean Q9_var Q9_disg CPI1y PCE1y CORECPI1y COREPCE1y PRCCPIVar1mean PRCPCEVar1mean{
+gen `var'_ch = `var'-l1.`var'
+label var `var'_ch "m to m+1 change of `var'"
+eststo: reg `var' l(1/5).`var'
+eststo: reg `var'_ch l(1/5).`var'_ch
+corrgram `var', lags(5) 
+*gen `var'1=`r(ac1)'
+*label var `var'1 "Auto-correlation coefficient of `var'"
+}
+esttab using "${sum_table_folder}/autoregQ.csv", se r2 replace
 eststo clear
 
 
