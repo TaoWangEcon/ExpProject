@@ -1,7 +1,6 @@
 clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "${mainfolder}/SurveyData/"
-global surveyfolder "NYFEDSurvey"
 global sum_graph_folder "${mainfolder}/graphs/pop"
 global sum_table_folder "${mainfolder}/tables"
 
@@ -245,6 +244,9 @@ rename date3 date
 
 tsset date
 sort year quarter  
+
+order date year quarter 
+
 /*
 ******************************************
 *** Multiple series charts Quarterly  ****
@@ -389,6 +391,10 @@ foreach mom in Mean Var Disg FE{
   }
 }
 esttab using "${sum_table_folder}/autoregSPFDiffQ.csv", mtitles se r2 replace
+eststo clear
+
+
+save "${folder}/InfExpQ.dta",replace 
 
 
 log close 

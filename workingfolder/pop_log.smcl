@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 9 Jun 2019, 14:21:38
+ {txt}opened on:  {res} 9 Jun 2019, 19:08:33
 {txt}
 {com}. 
 . ****************************************
@@ -358,7 +358,11 @@ float, now double to accommodate using data's values)
 {txt}
 {com}. sort year quarter  
 {txt}
-{com}. /*
+{com}. 
+. order date year quarter 
+{txt}
+{com}. 
+. /*
 > ******************************************
 > *** Multiple series charts Quarterly  ****
 > *******************************************
@@ -505,6 +509,11 @@ float, now double to accommodate using data's values)
 {txt}(286 missing values generated)
 
 {com}. 
+. *******************************************************
+. **** Autoregression on the levels of population moments
+. ********************************************************
+. 
+. 
 . eststo clear 
 {txt}
 {com}. foreach mom in Mean Var Disg FE{c -(}
@@ -772,10 +781,13 @@ float, now double to accommodate using data's values)
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregLvlQ.csv"'})
 
 {com}. 
+. **********************************************************************
+. ******** Autoregression on the first difference of population moments
+.  **********************************************************************
+. 
 . eststo clear
 {txt}
-{com}. 
-. foreach mom in Mean Var Disg FE{c -(}
+{com}. foreach mom in Mean Var Disg FE{c -(}
 {txt}  2{com}.    foreach var in SCE SPFCPI SPFPCE{c -(}
 {txt}  3{com}.     replace InfExp_`mom' = `var'_`mom'
 {txt}  4{com}.     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
@@ -1051,8 +1063,10 @@ InfExp_FE_ch {c |}
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregDiffQ.csv"'})
 
 {com}. 
+. ***************
+. *** SPF Only **
+. ***************
 . 
-. *** SPF Only 
 . eststo clear
 {txt}
 {com}. 
@@ -1243,13 +1257,20 @@ InfExp_FE_ch {c |}
 {com}. esttab using "${c -(}sum_table_folder{c )-}/autoregSPFDiffQ.csv", mtitles se r2 replace
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregSPFDiffQ.csv"'})
 
+{com}. eststo clear
+{txt}
+{com}. 
+. 
+. save "${c -(}folder{c )-}/InfExpQ.dta",replace 
+{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData//InfExpQ.dta saved
+
 {com}. 
 . 
 . log close 
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res} 9 Jun 2019, 14:21:39
+ {txt}closed on:  {res} 9 Jun 2019, 19:08:35
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

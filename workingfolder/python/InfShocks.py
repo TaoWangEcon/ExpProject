@@ -79,7 +79,7 @@ from scipy.optimize import minimize
 #
 # The existing SVAR package in *statsmodels* only handles cases with direct zero restrictions on $B$ matrices. Therefore I write my own codes using long-run restrictions here.  
 
-# + {"code_folding": [0, 12, 21]}
+# + {"code_folding": [12, 21]}
 ## loading technology shock data
 ts_data = pd.read_excel('../OtherData/Emp.xls',sheet_name='data')
 ts_data2 = pd.read_excel('../OtherData/EmpSaQ.xls',sheet_name='data')
@@ -105,7 +105,7 @@ inf_datesQ = inf_dataQ['date'].dt.year.astype(int).astype(str) + \
              "Q" + inf_dataQ['date'].dt.quarter.astype(int).astype(str)
 inf_datesQ = dates_from_str(inf_datesQ)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # set date index to productivity and labor series
 ts_var1 = ts_data[['DLPROD1','DLHOURS']]
 ts_var2 = ts_data2[['DLPROD2','DLEMP']]
@@ -170,7 +170,7 @@ rs1=model1.fit(4)
 rs1.summary()
 
 
-# + {"code_folding": [2]}
+# + {"code_folding": [0, 2]}
 ## define function of Blanchard and Quah long-run restriction
 
 def ma_rep(coefs, maxn=10):
@@ -287,7 +287,7 @@ def SVAR_BQLR(rs,T_irf=10):
                 'eps_est':epsilon_est,'A1':A1,'C1':C1,'nlags':nlags, 'neqs': k,\
                 'residuals':u,'P_est':P_svar_est,'irf':svar_ma_rep}
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### Invokes BQLR 
 
 T_irf = 10  # 10 quarters irf 
@@ -769,15 +769,24 @@ mps_datesM = dates_from_str(mps_datesM)
 mps_var.index = pd.DatetimeIndex(mps_datesM)
 mps_shockQ  = mps_var.groupby(['quarter'], sort=False)[['MP1','ED4','ED8']].sum(axis=1)
 
+## convert to numeric 
+
+mps_shockQ['MP1']=pd.to_numeric(mps_shockQ['MP1'],errors='coerce')   
+mps_shockQ['ED4']=pd.to_numeric(mps_shockQ['ED4'],errors='coerce')   
+mps_shockQ['ED8']=pd.to_numeric(mps_shockQ['ED8'],errors='coerce')   
+
+
 ## merge with other shocks
 str_shocks_est = pd.concat([str_shocks_est,mps_shockQ], join='inner', axis=1)
 # -
+
+str_shocks_est['year']=str_shocks_est.index.year
+str_shocks_est['quarter']=str_shocks_est.index.quarter
+str_shocks_est['month']=str_shocks_est.index.month
 
 str_shocks_est.head()
 
 # + {"code_folding": []}
 ### save shocks
-str_shocks_est.to_excel('../OtherData/InfShocks.xlsx')
-# -
 
-
+str_shocks_est.to_stata('../OtherData/InfShocks.dta')

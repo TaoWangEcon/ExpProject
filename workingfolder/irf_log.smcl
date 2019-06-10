@@ -1,0 +1,468 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res} 9 Jun 2019, 19:20:49
+{txt}
+{com}. 
+. 
+. **********************************************
+. *** Clean Inflation Shock data from Python ***
+. **********************************************
+. 
+. use "${c -(}mainfolder{c )-}/OtherData/InfShocks.dta",clear 
+{txt}
+{com}. 
+. drop index 
+{txt}
+{com}. 
+. *** Date 
+. gen date_str=string(year)+"Q"+string(quarter) 
+{txt}
+{com}. 
+. gen date = quarterly(date_str,"YQ")
+{txt}
+{com}. format date %tq 
+{txt}
+{com}. 
+. drop date_str
+{txt}
+{com}. 
+. order date year quarter month
+{txt}
+{com}. 
+. ** Time series 
+. 
+. tsset date 
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1984q1 to 2018q4
+{txt}{col 17}delta:  {res}1 quarter
+{txt}
+{com}. 
+. ** Merge with survey and inflation  
+. 
+. merge 1:1 year quarter using "${c -(}folder{c )-}/InfExpQ.dta",keep(match using master)
+{res}{txt}{p 0 7 2}
+(note: variable
+year was 
+long, now double to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(note: variable
+quarter was 
+long, now double to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}             146
+{txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
+{col 9}from using{col 30}{res}             146{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}             140{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge InfExp_merge
+{res}{txt}
+{com}. 
+. drop if month==. 
+{txt}(146 observations deleted)
+
+{com}. drop if quarter ==.
+{txt}(0 observations deleted)
+
+{com}. 
+. merge 1:1 year month using "${c -(}mainfolder{c )-}/OtherData/InfM.dta",keep(match master)
+{res}{txt}{p 0 7 2}
+(note: variable
+month was 
+long, now double to accommodate using data's values)
+{p_end}
+(label _merge already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}               0
+{txt}{col 5}matched{col 30}{res}             140{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge InfM_merge 
+{res}{txt}
+{com}. 
+. ** Label and rename
+. 
+. label var pty_shock "Technology shock(Gali 1999)"
+{txt}
+{com}. label var hours_shock "Non-technology shock(Gali 1999)"
+{txt}
+{com}. label var inf_shock "Shock to inflation(Gali 1999)"
+{txt}
+{com}. label var pty_shock_max "Technology shock (Francis etal 2014)"
+{txt}
+{com}. label var news_shock "News shock(Sims etal.2011)"
+{txt}
+{com}. rename OPShock_nm op_shock 
+{res}{txt}
+{com}. label var op_shock "Oil price shock (Hamilton 1996)"
+{txt}
+{com}. rename MP1 mp1_shock
+{res}{txt}
+{com}. label var mp1_shock "Unexpected change in federal funds rate(%)"
+{txt}
+{com}. label var ED4 "1-year ahead future-implied change in federal funds rate(%)"
+{txt}
+{com}. label var ED8 "2-year ahead future-implied change in federal funds rate(%)"
+{txt}
+{com}. 
+. ** MP shock 
+. 
+. foreach ed in ED4 ED8{c -(}
+{txt}  2{com}.   reg `ed' mp1_shock
+{txt}  3{com}.   predict `ed'_shock, residual
+{txt}  4{com}. label var `ed'_shock "Unexpected shock to future federal funds rate"
+{txt}  5{com}. {c )-}
+
+      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     121
+{txt}{hline 13}{char +}{hline 30}           F(  1,   119) ={res}   21.17
+    {txt}   Model {char |} {res}  .22003407     1   .22003407           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 1.23701593   119  .010395092           {txt}R-squared     = {res} 0.1510
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1439
+    {txt}   Total {char |} {res}    1.45705   120  .012142083           {txt}Root MSE      = {res} .10196
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ED4{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}mp1_shock {c |}{col 14}{res}{space 2} .3596785{col 26}{space 2} .0781778{col 37}{space 1}    4.60{col 46}{space 3}0.000{col 54}{space 4} .2048786{col 67}{space 3} .5144785
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0109294{col 26}{space 2} .0097298{col 37}{space 1}   -1.12{col 46}{space 3}0.264{col 54}{space 4}-.0301953{col 67}{space 3} .0083366
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}(19 missing values generated)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}     100
+{txt}{hline 13}{char +}{hline 30}           F(  1,    98) ={res}    1.91
+    {txt}   Model {char |} {res} .022918019     1  .022918019           {txt}Prob > F      = {res} 0.1704
+    {txt}Residual {char |} {res} 1.17762183    98  .012016549           {txt}R-squared     = {res} 0.0191
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0091
+    {txt}   Total {char |} {res} 1.20053985    99  .012126665           {txt}Root MSE      = {res} .10962
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}         ED8{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}mp1_shock {c |}{col 14}{res}{space 2} .1493479{col 26}{space 2} .1081435{col 37}{space 1}    1.38{col 46}{space 3}0.170{col 54}{space 4}-.0652594{col 67}{space 3} .3639551
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}-.0148961{col 26}{space 2}   .01126{col 37}{space 1}   -1.32{col 46}{space 3}0.189{col 54}{space 4}-.0372413{col 67}{space 3}  .007449
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}(40 missing values generated)
+
+{com}. 
+. 
+. ** First-run of inflation 
+. tsset date
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1984q1 to 2018q4
+{txt}{col 17}delta:  {res}1 quarter
+{txt}
+{com}. 
+. eststo clear
+{txt}
+{com}. foreach sk in pty op mp1 ED4 ED8{c -(}
+{txt}  2{com}.   foreach Inf in CPIAU CPICore PCEPI{c -(} 
+{txt}  3{com}.    eststo `Inf'_`sk': reg Inf1y_`Inf' l(1/4).`sk'_shock, robust 
+{txt}  4{com}.  {c )-}
+{txt}  5{com}. {c )-}
+
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    0.37
+                                                       {txt}Prob > F      = {res} 0.8330
+                                                       {txt}R-squared     = {res} 0.0099
+                                                       {txt}Root MSE      = {res} 1.3424
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pty_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1016881{col 26}{space 2} .1511413{col 37}{space 1}   -0.67{col 46}{space 3}0.502{col 54}{space 4}-.4006816{col 67}{space 3} .1973054
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0835136{col 26}{space 2}   .14604{col 37}{space 1}   -0.57{col 46}{space 3}0.568{col 54}{space 4}-.3724156{col 67}{space 3} .2053884
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0630919{col 26}{space 2} .1406085{col 37}{space 1}   -0.45{col 46}{space 3}0.654{col 54}{space 4}-.3412491{col 67}{space 3} .2150653
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}   .06893{col 26}{space 2} .1353627{col 37}{space 1}    0.51{col 46}{space 3}0.611{col 54}{space 4}-.1988496{col 67}{space 3} .3367096
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}   2.6148{col 26}{space 2} .1244172{col 37}{space 1}   21.02{col 46}{space 3}0.000{col 54}{space 4} 2.368673{col 67}{space 3} 2.860927
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    0.14
+                                                       {txt}Prob > F      = {res} 0.9654
+                                                       {txt}R-squared     = {res} 0.0037
+                                                       {txt}Root MSE      = {res} 1.0832
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pty_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .0313818{col 26}{space 2} .1176251{col 37}{space 1}    0.27{col 46}{space 3}0.790{col 54}{space 4}-.2013087{col 67}{space 3} .2640724
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0563178{col 26}{space 2}  .115263{col 37}{space 1}    0.49{col 46}{space 3}0.626{col 54}{space 4}-.1716999{col 67}{space 3} .2843355
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0299407{col 26}{space 2} .1154917{col 37}{space 1}    0.26{col 46}{space 3}0.796{col 54}{space 4}-.1985295{col 67}{space 3} .2584108
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0202089{col 26}{space 2} .1129986{col 37}{space 1}    0.18{col 46}{space 3}0.858{col 54}{space 4}-.2033293{col 67}{space 3} .2437472
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.695903{col 26}{space 2} .0978228{col 37}{space 1}   27.56{col 46}{space 3}0.000{col 54}{space 4} 2.502386{col 67}{space 3}  2.88942
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    0.50
+                                                       {txt}Prob > F      = {res} 0.7357
+                                                       {txt}R-squared     = {res} 0.0139
+                                                       {txt}Root MSE      = {res}  1.112
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}pty_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1256333{col 26}{space 2} .1250296{col 37}{space 1}   -1.00{col 46}{space 3}0.317{col 54}{space 4}-.3729717{col 67}{space 3} .1217051
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0733649{col 26}{space 2} .1195719{col 37}{space 1}   -0.61{col 46}{space 3}0.541{col 54}{space 4}-.3099066{col 67}{space 3} .1631767
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0320028{col 26}{space 2} .1152016{col 37}{space 1}   -0.28{col 46}{space 3}0.782{col 54}{space 4}-.2598991{col 67}{space 3} .1958934
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0582467{col 26}{space 2} .1126265{col 37}{space 1}    0.52{col 46}{space 3}0.606{col 54}{space 4}-.1645554{col 67}{space 3} .2810488
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.201831{col 26}{space 2} .1020284{col 37}{space 1}   21.58{col 46}{space 3}0.000{col 54}{space 4} 1.999995{col 67}{space 3} 2.403667
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    9.50
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.1980
+                                                       {txt}Root MSE      = {res} 1.2081
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}op_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .4093933{col 26}{space 2} .1122619{col 37}{space 1}    3.65{col 46}{space 3}0.000{col 54}{space 4} .1873126{col 67}{space 3}  .631474
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1333989{col 26}{space 2} .1304683{col 37}{space 1}    1.02{col 46}{space 3}0.308{col 54}{space 4}-.1246986{col 67}{space 3} .3914963
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}  .263325{col 26}{space 2} .1174983{col 37}{space 1}    2.24{col 46}{space 3}0.027{col 54}{space 4} .0308854{col 67}{space 3} .4957646
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0787338{col 26}{space 2} .1137403{col 37}{space 1}   -0.69{col 46}{space 3}0.490{col 54}{space 4}-.3037392{col 67}{space 3} .1462715
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.177304{col 26}{space 2} .1416294{col 37}{space 1}   15.37{col 46}{space 3}0.000{col 54}{space 4} 1.897128{col 67}{space 3} 2.457481
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    0.01
+                                                       {txt}Prob > F      = {res} 0.9997
+                                                       {txt}R-squared     = {res} 0.0005
+                                                       {txt}Root MSE      = {res} 1.0849
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}op_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.0155701{col 26}{space 2} .1412948{col 37}{space 1}   -0.11{col 46}{space 3}0.912{col 54}{space 4}-.2950848{col 67}{space 3} .2639447
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0125999{col 26}{space 2} .1640559{col 37}{space 1}   -0.08{col 46}{space 3}0.939{col 54}{space 4}-.3371416{col 67}{space 3} .3119417
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}  .004229{col 26}{space 2}  .152071{col 37}{space 1}    0.03{col 46}{space 3}0.978{col 54}{space 4}-.2966037{col 67}{space 3} .3050616
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0021026{col 26}{space 2} .1210418{col 37}{space 1}   -0.02{col 46}{space 3}0.986{col 54}{space 4}-.2415521{col 67}{space 3}  .237347
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.699345{col 26}{space 2} .1214862{col 37}{space 1}   22.22{col 46}{space 3}0.000{col 54}{space 4} 2.459016{col 67}{space 3} 2.939674
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     136
+                                                       {txt}F(  4,   131) ={res}    7.19
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.1434
+                                                       {txt}Root MSE      = {res} 1.0365
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}op_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .3006516{col 26}{space 2} .0902662{col 37}{space 1}    3.33{col 46}{space 3}0.001{col 54}{space 4} .1220834{col 67}{space 3} .4792197
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0936445{col 26}{space 2} .0992186{col 37}{space 1}    0.94{col 46}{space 3}0.347{col 54}{space 4}-.1026337{col 67}{space 3} .2899226
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1702187{col 26}{space 2} .0919439{col 37}{space 1}    1.85{col 46}{space 3}0.066{col 54}{space 4}-.0116683{col 67}{space 3} .3521057
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0668408{col 26}{space 2} .0916269{col 37}{space 1}   -0.73{col 46}{space 3}0.467{col 54}{space 4}-.2481007{col 67}{space 3} .1144192
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.907089{col 26}{space 2}  .126526{col 37}{space 1}   15.07{col 46}{space 3}0.000{col 54}{space 4} 1.656791{col 67}{space 3} 2.157388
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    1.46
+                                                       {txt}Prob > F      = {res} 0.2177
+                                                       {txt}R-squared     = {res} 0.0577
+                                                       {txt}Root MSE      = {res} 1.2887
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}mp1_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-2.498688{col 26}{space 2} 1.221387{col 37}{space 1}   -2.05{col 46}{space 3}0.043{col 54}{space 4} -4.91871{col 67}{space 3}-.0786663
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.5110178{col 26}{space 2} 1.528562{col 37}{space 1}   -0.33{col 46}{space 3}0.739{col 54}{space 4}-3.539668{col 67}{space 3} 2.517633
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .8757267{col 26}{space 2} 1.775527{col 37}{space 1}    0.49{col 46}{space 3}0.623{col 54}{space 4}-2.642253{col 67}{space 3} 4.393707
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .4022419{col 26}{space 2} 1.491387{col 37}{space 1}    0.27{col 46}{space 3}0.788{col 54}{space 4} -2.55275{col 67}{space 3} 3.357233
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.412271{col 26}{space 2} .1116617{col 37}{space 1}   21.60{col 46}{space 3}0.000{col 54}{space 4} 2.191028{col 67}{space 3} 2.633515
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    4.67
+                                                       {txt}Prob > F      = {res} 0.0016
+                                                       {txt}R-squared     = {res} 0.2317
+                                                       {txt}Root MSE      = {res} .82132
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}mp1_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-2.158614{col 26}{space 2} .8784617{col 37}{space 1}   -2.46{col 46}{space 3}0.016{col 54}{space 4}-3.899174{col 67}{space 3}-.4180553
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-1.771225{col 26}{space 2}  .882496{col 37}{space 1}   -2.01{col 46}{space 3}0.047{col 54}{space 4}-3.519778{col 67}{space 3}-.0226725
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-1.142743{col 26}{space 2} 1.061087{col 37}{space 1}   -1.08{col 46}{space 3}0.284{col 54}{space 4}-3.245151{col 67}{space 3} .9596645
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.4232468{col 26}{space 2}  .968346{col 37}{space 1}   -0.44{col 46}{space 3}0.663{col 54}{space 4}  -2.3419{col 67}{space 3} 1.495407
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.206485{col 26}{space 2} .0767868{col 37}{space 1}   28.74{col 46}{space 3}0.000{col 54}{space 4} 2.054341{col 67}{space 3} 2.358628
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    0.61
+                                                       {txt}Prob > F      = {res} 0.6589
+                                                       {txt}R-squared     = {res} 0.0319
+                                                       {txt}Root MSE      = {res} 1.0186
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}mp1_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-1.479181{col 26}{space 2} 1.053116{col 37}{space 1}   -1.40{col 46}{space 3}0.163{col 54}{space 4}-3.565797{col 67}{space 3} .6074336
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.1818244{col 26}{space 2} 1.222755{col 37}{space 1}   -0.15{col 46}{space 3}0.882{col 54}{space 4}-2.604556{col 67}{space 3} 2.240907
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .5061739{col 26}{space 2} 1.367341{col 37}{space 1}    0.37{col 46}{space 3}0.712{col 54}{space 4}-2.203036{col 67}{space 3} 3.215384
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}  .099671{col 26}{space 2} 1.150815{col 37}{space 1}    0.09{col 46}{space 3}0.931{col 54}{space 4}-2.180521{col 67}{space 3} 2.379862
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.987371{col 26}{space 2} .0857743{col 37}{space 1}   23.17{col 46}{space 3}0.000{col 54}{space 4}  1.81742{col 67}{space 3} 2.157321
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    5.73
+                                                       {txt}Prob > F      = {res} 0.0003
+                                                       {txt}R-squared     = {res} 0.1871
+                                                       {txt}Root MSE      = {res}  1.197
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED4_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 3.592864{col 26}{space 2} 1.200973{col 37}{space 1}    2.99{col 46}{space 3}0.003{col 54}{space 4} 1.213289{col 67}{space 3} 5.972438
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} 4.607326{col 26}{space 2} 1.271567{col 37}{space 1}    3.62{col 46}{space 3}0.000{col 54}{space 4} 2.087879{col 67}{space 3} 7.126774
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} 2.462986{col 26}{space 2} 1.260558{col 37}{space 1}    1.95{col 46}{space 3}0.053{col 54}{space 4}-.0346487{col 67}{space 3} 4.960621
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .2196343{col 26}{space 2} 1.020868{col 37}{space 1}    0.22{col 46}{space 3}0.830{col 54}{space 4}-1.803084{col 67}{space 3} 2.242353
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.492339{col 26}{space 2} .1105893{col 37}{space 1}   22.54{col 46}{space 3}0.000{col 54}{space 4} 2.273221{col 67}{space 3} 2.711458
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    4.46
+                                                       {txt}Prob > F      = {res} 0.0022
+                                                       {txt}R-squared     = {res} 0.0659
+                                                       {txt}Root MSE      = {res}  .9056
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED4_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 1.062686{col 26}{space 2} .5484966{col 37}{space 1}    1.94{col 46}{space 3}0.055{col 54}{space 4}-.0240901{col 67}{space 3} 2.149461
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} 1.571528{col 26}{space 2} .5734688{col 37}{space 1}    2.74{col 46}{space 3}0.007{col 54}{space 4}  .435273{col 67}{space 3} 2.707783
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} 1.434415{col 26}{space 2}  .650677{col 37}{space 1}    2.20{col 46}{space 3}0.030{col 54}{space 4} .1451818{col 67}{space 3} 2.723648
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} 1.289288{col 26}{space 2} .6265578{col 37}{space 1}    2.06{col 46}{space 3}0.042{col 54}{space 4} .0478441{col 67}{space 3} 2.530732
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.433572{col 26}{space 2} .0841412{col 37}{space 1}   28.92{col 46}{space 3}0.000{col 54}{space 4} 2.266857{col 67}{space 3} 2.600287
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     117
+                                                       {txt}F(  4,   112) ={res}    5.11
+                                                       {txt}Prob > F      = {res} 0.0008
+                                                       {txt}R-squared     = {res} 0.1703
+                                                       {txt}Root MSE      = {res} .94301
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED4_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 2.854055{col 26}{space 2} .9926655{col 37}{space 1}    2.88{col 46}{space 3}0.005{col 54}{space 4} .8872158{col 67}{space 3} 4.820895
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} 3.303634{col 26}{space 2}  .998554{col 37}{space 1}    3.31{col 46}{space 3}0.001{col 54}{space 4} 1.325127{col 67}{space 3}  5.28214
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} 1.780197{col 26}{space 2} .9671478{col 37}{space 1}    1.84{col 46}{space 3}0.068{col 54}{space 4}-.1360826{col 67}{space 3} 3.696476
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .2633178{col 26}{space 2} .7959458{col 37}{space 1}    0.33{col 46}{space 3}0.741{col 54}{space 4}-1.313747{col 67}{space 3} 1.840382
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.037175{col 26}{space 2} .0871104{col 37}{space 1}   23.39{col 46}{space 3}0.000{col 54}{space 4} 1.864577{col 67}{space 3} 2.209773
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      96
+                                                       {txt}F(  4,    91) ={res}    3.19
+                                                       {txt}Prob > F      = {res} 0.0168
+                                                       {txt}R-squared     = {res} 0.1756
+                                                       {txt}Root MSE      = {res} 1.0943
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED8_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 2.712137{col 26}{space 2} 1.292637{col 37}{space 1}    2.10{col 46}{space 3}0.039{col 54}{space 4} .1444733{col 67}{space 3} 5.279801
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} 3.865193{col 26}{space 2} 1.354703{col 37}{space 1}    2.85{col 46}{space 3}0.005{col 54}{space 4} 1.174241{col 67}{space 3} 6.556146
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .9471638{col 26}{space 2} 1.219888{col 37}{space 1}    0.78{col 46}{space 3}0.440{col 54}{space 4}-1.475993{col 67}{space 3} 3.370321
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.8680755{col 26}{space 2} 1.233617{col 37}{space 1}   -0.70{col 46}{space 3}0.483{col 54}{space 4}-3.318504{col 67}{space 3} 1.582353
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.220072{col 26}{space 2} .1121919{col 37}{space 1}   19.79{col 46}{space 3}0.000{col 54}{space 4} 1.997216{col 67}{space 3} 2.442927
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      96
+                                                       {txt}F(  4,    91) ={res}    1.94
+                                                       {txt}Prob > F      = {res} 0.1101
+                                                       {txt}R-squared     = {res} 0.0650
+                                                       {txt}Root MSE      = {res} .47428
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED8_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .5508865{col 26}{space 2}  .455535{col 37}{space 1}    1.21{col 46}{space 3}0.230{col 54}{space 4}-.3539778{col 67}{space 3} 1.455751
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .9682389{col 26}{space 2} .4423456{col 37}{space 1}    2.19{col 46}{space 3}0.031{col 54}{space 4} .0895738{col 67}{space 3} 1.846904
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .4341855{col 26}{space 2} .4020297{col 37}{space 1}    1.08{col 46}{space 3}0.283{col 54}{space 4}-.3643972{col 67}{space 3} 1.232768
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .4571508{col 26}{space 2} .4099397{col 37}{space 1}    1.12{col 46}{space 3}0.268{col 54}{space 4}-.3571441{col 67}{space 3} 1.271446
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.096585{col 26}{space 2} .0484717{col 37}{space 1}   43.25{col 46}{space 3}0.000{col 54}{space 4} 2.000302{col 67}{space 3} 2.192868
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      96
+                                                       {txt}F(  4,    91) ={res}    3.09
+                                                       {txt}Prob > F      = {res} 0.0197
+                                                       {txt}R-squared     = {res} 0.1699
+                                                       {txt}Root MSE      = {res} .84413
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}ED8_shock {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 2.287017{col 26}{space 2} .9758908{col 37}{space 1}    2.34{col 46}{space 3}0.021{col 54}{space 4} .3485296{col 67}{space 3} 4.225504
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} 2.733414{col 26}{space 2} 1.059083{col 37}{space 1}    2.58{col 46}{space 3}0.011{col 54}{space 4} .6296757{col 67}{space 3} 4.837151
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .6339339{col 26}{space 2} .9178969{col 37}{space 1}    0.69{col 46}{space 3}0.492{col 54}{space 4}-1.189356{col 67}{space 3} 2.457223
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.7561474{col 26}{space 2} .9474548{col 37}{space 1}   -0.80{col 46}{space 3}0.427{col 54}{space 4} -2.63815{col 67}{space 3} 1.125855
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  1.81227{col 26}{space 2} .0864658{col 37}{space 1}   20.96{col 46}{space 3}0.000{col 54}{space 4} 1.640517{col 67}{space 3} 1.984024
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. esttab using "${c -(}sum_table_folder{c )-}/IRFQ.csv", mtitles se r2 replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/IRFQ.csv"'})
+
+{com}. 
+. 
+. log close 
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 9 Jun 2019, 19:20:50
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
