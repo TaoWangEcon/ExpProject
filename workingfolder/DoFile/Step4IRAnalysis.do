@@ -58,7 +58,7 @@ label var mp1_shock "Unexpected change in federal funds rate(%)"
 label var ED4 "1-year ahead future-implied change in federal funds rate(%)"
 label var ED8 "2-year ahead future-implied change in federal funds rate(%)"
 
-** MP shock 
+** MP-path shock 
 
 foreach ed in ED4 ED8{
   reg `ed' mp1_shock
@@ -75,8 +75,8 @@ tsset date
 eststo clear
 
 foreach Inf in CPIAU CPICore PCEPI{ 
-   var Inf1y_`Inf', lags(4) ex(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1_shock l(0/1).ED8_shock)
-   predict `Inf'_uid_shock,residual
+   reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1_shock l(0/1).ED8_shock
+   predict `Inf'_uid_shock, residual
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
  }
 
@@ -98,11 +98,24 @@ eststo clear
 foreach sk in pty op mp1 ED4 ED8 {
   foreach Inf in CPIAU CPICore PCEPI{ 
    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
-   eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
+   eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
  }
 }
 esttab using "${sum_table_folder}/IRFQ.csv", mtitles se r2 replace
 
 
+** IRF of inflation 
+
+eststo clear
+foreach sk in pty op mp1 ED4 ED8 {
+  foreach Inf in CPIAU CPICore PCEPI{ 
+   var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
+   set seed 123456
+   irf create irf1, set(`Inf'_`sk',replace) step(10) bsp
+   irf graph dm, impulse(`sk'_shock)
+   graph export "${sum_graph_folder}/irf/`Inf'_`sk'", as(png) replace
+
+ }
+}
 
 log close 
