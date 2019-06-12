@@ -1,0 +1,181 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/svar.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}12 Jun 2019, 14:53:07
+{txt}
+{com}. 
+. use "${c -(}mainfolder{c )-}/OtherData/LRVar.dta",clear
+{txt}
+{com}. 
+. ** clean data
+. 
+. drop index
+{txt}
+{com}. order year quarter 
+{txt}
+{com}. gen date_str= string(year)+"Q"+string(quarter)
+{txt}
+{com}. gen date = quarterly(date_str,"YQ")
+{txt}
+{com}. order date year quarter 
+{txt}
+{com}. 
+. tsset date 
+{res}{txt}{col 9}time variable:  {res}{col 25}date, -48 to 236
+{txt}{col 17}delta:  {res}1 unit
+{txt}
+{com}. 
+. ** Label 
+. 
+. label var DLPROD1 "Log Diff of Labor Productivity"
+{txt}
+{com}. label var DLHOURS "Log Diff of Total Hours"
+{txt}
+{com}. label var CPIAU "Headline inflation"
+{txt}
+{com}. label var CoreCPI "Core CPI Inflation"
+{txt}
+{com}. label var PCE "PCE Inflation"
+{txt}
+{com}. 
+. 
+. 
+. ** SVAR with long-run restriction 
+. 
+. matrix C = (., 0 ,0\ .,.,0 \.,.,.)
+{txt}
+{com}. 
+. foreach inf in CPIAU CoreCPI PCE{c -(}
+{txt}  2{com}.  svar DLPROD1 DLHOURS `inf', lags(1/4) lreq(C)
+{txt}  3{com}.  irf create lr`inf', set(lrirf,replace) step(10) bs replace
+{txt}  4{com}.  irf graph sirf, yline(0,lcolor(black)) xlabel(0(1)10) byopts(yrescale)
+{txt}  5{com}.  graph export "${c -(}sum_graph_folder{c )-}/irf/other/LRSVAR_`inf'", as(png) replace
+{txt}  6{com}. {c )-}
+{res}{txt}Estimating long-run parameters
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res: -166.9343}  
+Iteration 1:{space 3}log likelihood = {res: 2134.2929}  
+Iteration 2:{space 3}log likelihood = {res: 3176.6364}  
+Iteration 3:{space 3}log likelihood = {res: 3477.1364}  
+Iteration 4:{space 3}log likelihood = {res: 3550.1301}  
+Iteration 5:{space 3}log likelihood = {res: 3552.1522}  
+Iteration 6:{space 3}log likelihood = {res: 3552.1563}  
+Iteration 7:{space 3}log likelihood = {res: 3552.1563}  
+{res}
+{txt}Structural vector autoregression
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[c_1_2]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [c_1_3]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [c_2_3]_cons = 0{p_end}
+
+{col 1}{txt}Sample:  {res}-43 - 236 {txt}{col 52}No. of obs{col 68}= {res}      280
+{txt}Exactly identified model{col 52}Log likelihood{col 68}= {res} 3552.156
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+      /c_1_1 {c |}{col 14}{res}{space 2} .0035989{col 26}{space 2} .0001521{col 37}{space 1}   23.66{col 46}{space 3}0.000{col 54}{space 4} .0033008{col 67}{space 3}  .003897
+{txt}      /c_2_1 {c |}{col 14}{res}{space 2}-.0024315{col 26}{space 2} .0003086{col 37}{space 1}   -7.88{col 46}{space 3}0.000{col 54}{space 4}-.0030365{col 67}{space 3}-.0018266
+{txt}      /c_3_1 {c |}{col 14}{res}{space 2} -.007637{col 26}{space 2} .0015652{col 37}{space 1}   -4.88{col 46}{space 3}0.000{col 54}{space 4}-.0107048{col 67}{space 3}-.0045693
+{txt}      /c_1_2 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_2 {c |}{col 14}{res}{space 2} .0048701{col 26}{space 2} .0002058{col 37}{space 1}   23.66{col 46}{space 3}0.000{col 54}{space 4} .0044667{col 67}{space 3} .0052734
+{txt}      /c_3_2 {c |}{col 14}{res}{space 2}-.0052412{col 26}{space 2} .0015155{col 37}{space 1}   -3.46{col 46}{space 3}0.001{col 54}{space 4}-.0082114{col 67}{space 3}-.0022709
+{txt}      /c_1_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_3_3 {c |}{col 14}{res}{space 2} .0250864{col 26}{space 2} .0010601{col 37}{space 1}   23.66{col 46}{space 3}0.000{col 54}{space 4} .0230086{col 67}{space 3} .0271641
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file lrirf.irf created)
+(file lrirf.irf now active)
+irfname lrCPIAU not found in lrirf.irf
+........................................................................................................................................................................................................
+(file lrirf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/other/LRSVAR_CPIAU written in PNG format)
+{res}{txt}Estimating long-run parameters
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res: 86.565094}  
+Iteration 1:{space 3}log likelihood = {res: 2076.5785}  
+Iteration 2:{space 3}log likelihood = {res: 2990.3312}  
+Iteration 3:{space 3}log likelihood = {res: 3188.3154}  
+Iteration 4:{space 3}log likelihood = {res: 3273.5793}  
+Iteration 5:{space 3}log likelihood = {res: 3277.2282}  
+Iteration 6:{space 3}log likelihood = {res: 3277.2424}  
+Iteration 7:{space 3}log likelihood = {res: 3277.2424}  
+{res}
+{txt}Structural vector autoregression
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[c_1_2]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [c_1_3]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [c_2_3]_cons = 0{p_end}
+
+{col 1}{txt}Sample:  {res}-7 - 236 {txt}{col 52}No. of obs{col 68}= {res}      244
+{txt}Exactly identified model{col 52}Log likelihood{col 68}= {res} 3277.242
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+      /c_1_1 {c |}{col 14}{res}{space 2} .0039161{col 26}{space 2} .0001773{col 37}{space 1}   22.09{col 46}{space 3}0.000{col 54}{space 4} .0035686{col 67}{space 3} .0042635
+{txt}      /c_2_1 {c |}{col 14}{res}{space 2}-.0025204{col 26}{space 2} .0003345{col 37}{space 1}   -7.53{col 46}{space 3}0.000{col 54}{space 4}-.0031761{col 67}{space 3}-.0018648
+{txt}      /c_3_1 {c |}{col 14}{res}{space 2}-.0209135{col 26}{space 2} .0020995{col 37}{space 1}   -9.96{col 46}{space 3}0.000{col 54}{space 4}-.0250284{col 67}{space 3}-.0167986
+{txt}      /c_1_2 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_2 {c |}{col 14}{res}{space 2} .0049122{col 26}{space 2} .0002224{col 37}{space 1}   22.09{col 46}{space 3}0.000{col 54}{space 4} .0044764{col 67}{space 3}  .005348
+{txt}      /c_3_2 {c |}{col 14}{res}{space 2}-.0082327{col 26}{space 2} .0018365{col 37}{space 1}   -4.48{col 46}{space 3}0.000{col 54}{space 4}-.0118322{col 67}{space 3}-.0046333
+{txt}      /c_1_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_3_3 {c |}{col 14}{res}{space 2} .0280899{col 26}{space 2} .0012716{col 37}{space 1}   22.09{col 46}{space 3}0.000{col 54}{space 4} .0255977{col 67}{space 3} .0305821
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file lrirf.irf created)
+(file lrirf.irf now active)
+irfname lrCoreCPI not found in lrirf.irf
+........................................................................................................................................................................................................
+(file lrirf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/other/LRSVAR_CoreCPI written in PNG format)
+{res}{txt}Estimating long-run parameters
+{res}
+{txt}Iteration 0:{space 3}log likelihood = {res: 2.5971476}  
+Iteration 1:{space 3}log likelihood = {res:  1937.229}  
+Iteration 2:{space 3}log likelihood = {res: 2804.4072}  
+Iteration 3:{space 3}log likelihood = {res: 3049.3847}  
+Iteration 4:{space 3}log likelihood = {res: 3122.4292}  
+Iteration 5:{space 3}log likelihood = {res: 3124.4027}  
+Iteration 6:{space 3}log likelihood = {res: 3124.4091}  
+Iteration 7:{space 3}log likelihood = {res: 3124.4091}  
+{res}
+{txt}Structural vector autoregression
+
+{p 0 7}{space 1}{text:( 1)}{space 1} {res}[c_1_2]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 2)}{space 1} [c_1_3]_cons = 0{p_end}
+{p 0 7}{space 1}{text:( 3)}{space 1} [c_2_3]_cons = 0{p_end}
+
+{col 1}{txt}Sample:  {res}1 - 236 {txt}{col 52}No. of obs{col 68}= {res}      236
+{txt}Exactly identified model{col 52}Log likelihood{col 68}= {res} 3124.409
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+      /c_1_1 {c |}{col 14}{res}{space 2} .0034568{col 26}{space 2} .0001591{col 37}{space 1}   21.73{col 46}{space 3}0.000{col 54}{space 4} .0031449{col 67}{space 3} .0037686
+{txt}      /c_2_1 {c |}{col 14}{res}{space 2}-.0031855{col 26}{space 2} .0003473{col 37}{space 1}   -9.17{col 46}{space 3}0.000{col 54}{space 4}-.0038662{col 67}{space 3}-.0025048
+{txt}      /c_3_1 {c |}{col 14}{res}{space 2}-.0079236{col 26}{space 2}    .0019{col 37}{space 1}   -4.17{col 46}{space 3}0.000{col 54}{space 4}-.0116476{col 67}{space 3}-.0041997
+{txt}      /c_1_2 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_2 {c |}{col 14}{res}{space 2} .0048363{col 26}{space 2} .0002226{col 37}{space 1}   21.73{col 46}{space 3}0.000{col 54}{space 4}    .0044{col 67}{space 3} .0052727
+{txt}      /c_3_2 {c |}{col 14}{res}{space 2}-.0070125{col 26}{space 2} .0018365{col 37}{space 1}   -3.82{col 46}{space 3}0.000{col 54}{space 4} -.010612{col 67}{space 3}-.0034129
+{txt}      /c_1_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_2_3 {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (constrained)
+      /c_3_3 {c |}{col 14}{res}{space 2} .0277741{col 26}{space 2} .0012784{col 37}{space 1}   21.73{col 46}{space 3}0.000{col 54}{space 4} .0252684{col 67}{space 3} .0302797
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file lrirf.irf created)
+(file lrirf.irf now active)
+irfname lrPCE not found in lrirf.irf
+........................................................................................................................................................................................................
+(file lrirf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/other/LRSVAR_PCE written in PNG format)
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/svar.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}12 Jun 2019, 14:55:48
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

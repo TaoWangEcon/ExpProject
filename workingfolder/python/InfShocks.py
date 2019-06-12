@@ -79,7 +79,7 @@ from scipy.optimize import minimize
 #
 # The existing SVAR package in *statsmodels* only handles cases with direct zero restrictions on $B$ matrices. Therefore I write my own codes using long-run restrictions here.  
 
-# + {"code_folding": [12, 21]}
+# + {"code_folding": [12]}
 ## loading technology shock data
 ts_data = pd.read_excel('../OtherData/Emp.xls',sheet_name='data')
 ts_data2 = pd.read_excel('../OtherData/EmpSaQ.xls',sheet_name='data')
@@ -101,9 +101,14 @@ inf_dataM = pd.read_stata('../OtherData/InfM.dta')
 filterQ = inf_dataM['month'].isin([3,6,9,12])
 inf_dataQ = inf_dataM[filterQ]
 infQ = inf_dataQ['CPIAU'].pct_change()
+
 inf_datesQ = inf_dataQ['date'].dt.year.astype(int).astype(str) + \
              "Q" + inf_dataQ['date'].dt.quarter.astype(int).astype(str)
 inf_datesQ = dates_from_str(inf_datesQ)
+
+## Other inflation measurs as backup
+
+infQ_all = inf_dataQ[['CPIAU','CPICore','PCEPI']].pct_change()
 
 # + {"code_folding": []}
 # set date index to productivity and labor series
@@ -114,16 +119,28 @@ ts_var1.index = pd.DatetimeIndex(datesQ1,freq='Q')
 ts_var2.index = pd.DatetimeIndex(datesQ2,freq='Q')
 
 # set date index to inf series 
-infQ.index= pd.DatetimeIndex(inf_datesQ)
+infQ.index = pd.DatetimeIndex(inf_datesQ)
+infQ_all.index = pd.DatetimeIndex(inf_datesQ)
+infQ_all.columns=['CPIAU','CoreCPI','PCE']
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## merge with inflation
+
+### include all inflation measures
+LRVar_dt = pd.concat([ts_var1,infQ_all],join='inner',axis=1)
+
 # order of vector for var:  [productivity, labor input, inflation]
 ts_var1 = pd.concat([ts_var1,infQ], join='inner', axis=1)
 ts_var2 = pd.concat([ts_var2,infQ], join='inner', axis=1)
 
 ts_var1=ts_var1.copy().dropna()
 ts_var2=ts_var2.copy().dropna()
+
+## save the data for stata use
+
+LRVar_dt['year'] = LRVar_dt.index.year
+LRVar_dt['quarter'] = LRVar_dt.index.quarter
+LRVar_dt.to_stata('../OtherData/LRVar.dta')
 
 # + {"code_folding": [0]}
 # period filter 
@@ -299,7 +316,7 @@ var_coefs_est, A1,C1,sigma_u,A_svar_est, B_svar_est,epsilon_est,nlags,neqs,resid
    SVAR_rst['eps_est'],SVAR_rst['nlags'],SVAR_rst['neqs'],
    SVAR_rst['residuals'],SVAR_rst['P_est'],SVAR_rst['irf'])
 
-# + {"code_folding": [0, 5]}
+# + {"code_folding": [5]}
 ## Look into the structural shocks epsilon
 str_shocks_est=pd.DataFrame(epsilon_est.T)
 str_shocks_est.index=ts_var1.index[nlags:]
@@ -481,7 +498,7 @@ plt.xlabel('hours')
 plt.ylabel('non-technology shocks')
 
 
-# +
+# + {"code_folding": []}
 #ts_plot1=rs1.plot()
 # -
 
@@ -668,7 +685,7 @@ SVAR_maxshare_rst = SVAR_MaxShare(rs1,horizon)
 tech_shock = SVAR_maxshare_rst['epsilon_est'].flatten()
 alpha_est = SVAR_maxshare_rst['alpha_est']
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## save it to data frames 
 str_shocks_est['pty_shock_max']=tech_shock.T
 

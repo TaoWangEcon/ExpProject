@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}11 Jun 2019, 17:20:21
+ {txt}opened on:  {res}12 Jun 2019, 15:26:19
 {txt}
 {com}. 
 . 
@@ -109,9 +109,9 @@ long, now double to accommodate using data's values)
 {res}{txt}
 {com}. label var mp1_shock "Unexpected change in federal funds rate(%)"
 {txt}
-{com}. label var ED4 "1-year ahead future-implied change in federal funds rate(%)"
+{com}. label var ED4 "1-year ahead future-implied change in federal funds rate"
 {txt}
-{com}. label var ED8 "2-year ahead future-implied change in federal funds rate(%)"
+{com}. label var ED8 "2-year ahead future-implied change in federal funds rate"
 {txt}
 {com}. 
 . ** MP-path shock 
@@ -119,7 +119,7 @@ long, now double to accommodate using data's values)
 . foreach ed in ED4 ED8{c -(}
 {txt}  2{com}.   reg `ed' mp1_shock
 {txt}  3{com}.   predict `ed'_shock, residual
-{txt}  4{com}. label var `ed'_shock "Unexpected shock to future federal funds rate(%)"
+{txt}  4{com}. label var `ed'_shock "Unexpected shock to future federal funds rate"
 {txt}  5{com}. {c )-}
 
       {txt}Source {c |}       SS       df       MS              Number of obs ={res}     121
@@ -153,7 +153,19 @@ long, now double to accommodate using data's values)
 {res}{txt}(40 missing values generated)
 
 {com}. 
+. ** Normorlize MP shcoks
 . 
+. foreach var in mp1 ED4 ED8{c -(}
+{txt}  2{com}.   egen `var'_shock_sd =sd(`var'_shock)
+{txt}  3{com}.   gen `var'ut_shock = `var'_shock/`var'_shock_sd 
+{txt}  4{com}.   local lb : var label `var'_shock
+{txt}  5{com}.   label var `var'ut_shock "`lb' in std unit"
+{txt}  6{com}. {c )-}
+{txt}(19 missing values generated)
+(19 missing values generated)
+(40 missing values generated)
+
+{com}. 
 . 
 . ** Generated unidentified shocks. 
 . 
@@ -166,15 +178,15 @@ long, now double to accommodate using data's values)
 {txt}
 {com}. 
 . foreach Inf in CPIAU CPICore PCEPI{c -(} 
-{txt}  2{com}.    reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1_shock l(0/1).ED8_shock
+{txt}  2{com}.    reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock
 {txt}  3{com}.    predict `Inf'_uid_shock, residual
 {txt}  4{com}.    label var `Inf'_uid_shock "Unidentified shocks to inflation"
 {txt}  5{com}.  {c )-}
 
       {txt}Source {c |}       SS       df       MS              Number of obs ={res}      99
 {txt}{hline 13}{char +}{hline 30}           F( 12,    86) ={res}   13.24
-    {txt}   Model {char |} {res} 86.2529482    12  7.18774569           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 46.6984119    86  .543004789           {txt}R-squared     = {res} 0.6488
+    {txt}   Model {char |} {res} 86.2529482    12  7.18774568           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 46.6984119    86   .54300479           {txt}R-squared     = {res} 0.6488
 {txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.5997
     {txt}   Total {char |} {res}  132.95136    98  1.35664653           {txt}Root MSE      = {res} .73689
 
@@ -195,13 +207,13 @@ long, now double to accommodate using data's values)
 {space 9}--. {c |}{col 14}{res}{space 2} .3063532{col 26}{space 2} .0869153{col 37}{space 1}    3.52{col 46}{space 3}0.001{col 54}{space 4} .1335712{col 67}{space 3} .4791351
 {txt}{space 9}L1. {c |}{col 14}{res}{space 2} .1197119{col 26}{space 2} .0931144{col 37}{space 1}    1.29{col 46}{space 3}0.202{col 54}{space 4}-.0653934{col 67}{space 3} .3048173
 {txt}{space 12} {c |}
-{space 3}mp1_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .4833994{col 26}{space 2} .7894855{col 37}{space 1}    0.61{col 46}{space 3}0.542{col 54}{space 4}-1.086046{col 67}{space 3} 2.052845
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.9491461{col 26}{space 2} .8072769{col 37}{space 1}   -1.18{col 46}{space 3}0.243{col 54}{space 4}-2.553959{col 67}{space 3} .6556673
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0575501{col 26}{space 2} .0939905{col 37}{space 1}    0.61{col 46}{space 3}0.542{col 54}{space 4}-.1292969{col 67}{space 3}  .244397
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1129986{col 26}{space 2} .0961086{col 37}{space 1}   -1.18{col 46}{space 3}0.243{col 54}{space 4}-.3040562{col 67}{space 3} .0780591
 {txt}{space 12} {c |}
-{space 3}ED8_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} 1.219421{col 26}{space 2} .7521387{col 37}{space 1}    1.62{col 46}{space 3}0.109{col 54}{space 4}-.2757815{col 67}{space 3} 2.714623
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.3836723{col 26}{space 2} .7853607{col 37}{space 1}   -0.49{col 46}{space 3}0.626{col 54}{space 4}-1.944918{col 67}{space 3} 1.177573
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .1329961{col 26}{space 2}  .082032{col 37}{space 1}    1.62{col 46}{space 3}0.109{col 54}{space 4}-.0300781{col 67}{space 3} .2960703
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0418452{col 26}{space 2} .0856554{col 37}{space 1}   -0.49{col 46}{space 3}0.626{col 54}{space 4}-.2121224{col 67}{space 3}  .128432
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}   .66395{col 26}{space 2}  .221371{col 37}{space 1}    3.00{col 46}{space 3}0.004{col 54}{space 4} .2238789{col 67}{space 3} 1.104021
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -210,7 +222,7 @@ long, now double to accommodate using data's values)
       Source {c |}       SS       df       MS              Number of obs ={res}      99
 {txt}{hline 13}{char +}{hline 30}           F( 12,    86) ={res}   34.55
     {txt}   Model {char |} {res} 19.4293656    12   1.6191138           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 4.03004629    86  .046861003           {txt}R-squared     = {res} 0.8282
+    {txt}Residual {char |} {res}  4.0300463    86  .046861003           {txt}R-squared     = {res} 0.8282
 {txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8042
     {txt}   Total {char |} {res} 23.4594119    98  .239381754           {txt}Root MSE      = {res} .21647
 
@@ -231,13 +243,13 @@ Inf1y_CPICore {c |}
 {space 10}--. {c |}{col 15}{res}{space 2} .0607946{col 27}{space 2}  .026395{col 38}{space 1}    2.30{col 47}{space 3}0.024{col 55}{space 4}  .008323{col 68}{space 3} .1132661
 {txt}{space 10}L1. {c |}{col 15}{res}{space 2} .0067052{col 27}{space 2}  .026437{col 38}{space 1}    0.25{col 47}{space 3}0.800{col 55}{space 4}-.0458498{col 68}{space 3} .0592603
 {txt}{space 13} {c |}
-{space 4}mp1_shock {c |}
-{space 10}--. {c |}{col 15}{res}{space 2}-.0777729{col 27}{space 2} .2344306{col 38}{space 1}   -0.33{col 47}{space 3}0.741{col 55}{space 4}-.5438055{col 68}{space 3} .3882596
-{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0994242{col 27}{space 2} .2406194{col 38}{space 1}   -0.41{col 47}{space 3}0.680{col 55}{space 4}-.5777596{col 68}{space 3} .3789113
+{space 2}mp1ut_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2}-.0092591{col 27}{space 2} .0279096{col 38}{space 1}   -0.33{col 47}{space 3}0.741{col 55}{space 4}-.0647416{col 68}{space 3} .0462234
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0118367{col 27}{space 2} .0286464{col 38}{space 1}   -0.41{col 47}{space 3}0.680{col 55}{space 4}-.0687839{col 68}{space 3} .0451105
 {txt}{space 13} {c |}
-{space 4}ED8_shock {c |}
-{space 10}--. {c |}{col 15}{res}{space 2}-.0698045{col 27}{space 2} .2183988{col 38}{space 1}   -0.32{col 47}{space 3}0.750{col 55}{space 4}-.5039668{col 68}{space 3} .3643579
-{txt}{space 10}L1. {c |}{col 15}{res}{space 2} .0199073{col 27}{space 2} .2243776{col 38}{space 1}    0.09{col 47}{space 3}0.930{col 55}{space 4}-.4261406{col 68}{space 3} .4659552
+{space 2}ED8ut_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2}-.0076132{col 27}{space 2} .0238197{col 38}{space 1}   -0.32{col 47}{space 3}0.750{col 55}{space 4}-.0549651{col 68}{space 3} .0397387
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2} .0021712{col 27}{space 2} .0244717{col 38}{space 1}    0.09{col 47}{space 3}0.930{col 55}{space 4} -.046477{col 68}{space 3} .0508194
 {txt}{space 13} {c |}
 {space 8}_cons {c |}{col 15}{res}{space 2} .2013513{col 27}{space 2} .1176176{col 38}{space 1}    1.71{col 47}{space 3}0.091{col 55}{space 4}-.0324647{col 68}{space 3} .4351673
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -245,7 +257,7 @@ Inf1y_CPICore {c |}
 
       Source {c |}       SS       df       MS              Number of obs ={res}      99
 {txt}{hline 13}{char +}{hline 30}           F( 12,    86) ={res}   16.21
-    {txt}   Model {char |} {res} 54.4071369    12  4.53392807           {txt}Prob > F      = {res} 0.0000
+    {txt}   Model {char |} {res} 54.4071368    12  4.53392807           {txt}Prob > F      = {res} 0.0000
     {txt}Residual {char |} {res}  24.046811    86  .279614081           {txt}R-squared     = {res} 0.6935
 {txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.6507
     {txt}   Total {char |} {res} 78.4539478    98  .800550488           {txt}Root MSE      = {res} .52879
@@ -267,23 +279,24 @@ Inf1y_CPICore {c |}
 {space 9}--. {c |}{col 14}{res}{space 2} .2400242{col 26}{space 2}   .06228{col 37}{space 1}    3.85{col 46}{space 3}0.000{col 54}{space 4} .1162156{col 67}{space 3} .3638328
 {txt}{space 9}L1. {c |}{col 14}{res}{space 2} .0618353{col 26}{space 2} .0674198{col 37}{space 1}    0.92{col 46}{space 3}0.362{col 54}{space 4}-.0721908{col 67}{space 3} .1958615
 {txt}{space 12} {c |}
-{space 3}mp1_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .5552419{col 26}{space 2} .5656136{col 37}{space 1}    0.98{col 46}{space 3}0.329{col 54}{space 4}-.5691608{col 67}{space 3} 1.679645
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.3018604{col 26}{space 2} .5808361{col 37}{space 1}   -0.52{col 46}{space 3}0.605{col 54}{space 4}-1.456524{col 67}{space 3} .8528036
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0661031{col 26}{space 2} .0673379{col 37}{space 1}    0.98{col 46}{space 3}0.329{col 54}{space 4}-.0677602{col 67}{space 3} .1999665
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0359373{col 26}{space 2} .0691502{col 37}{space 1}   -0.52{col 46}{space 3}0.605{col 54}{space 4}-.1734034{col 67}{space 3} .1015287
 {txt}{space 12} {c |}
-{space 3}ED8_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .6391422{col 26}{space 2} .5409534{col 37}{space 1}    1.18{col 46}{space 3}0.241{col 54}{space 4}-.4362376{col 67}{space 3} 1.714522
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.2262274{col 26}{space 2} .5577984{col 37}{space 1}   -0.41{col 46}{space 3}0.686{col 54}{space 4}-1.335094{col 67}{space 3}  .882639
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}  .069708{col 26}{space 2} .0589991{col 37}{space 1}    1.18{col 46}{space 3}0.241{col 54}{space 4}-.0475782{col 67}{space 3} .1869943
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0246735{col 26}{space 2} .0608363{col 37}{space 1}   -0.41{col 46}{space 3}0.686{col 54}{space 4} -.145612{col 67}{space 3}  .096265
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .5505704{col 26}{space 2} .1606296{col 37}{space 1}    3.43{col 46}{space 3}0.001{col 54}{space 4} .2312493{col 67}{space 3} .8698916
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}(41 missing values generated)
 
 {com}. 
+. 
 . ** Plot all shocks for checking 
 . 
 . twoway (tsline pty_shock) (tsline op_shock) ///
->         (tsline mp1_shock) (tsline ED8_shock) ///
+>         (tsline mp1ut_shock) (tsline ED8ut_shock) ///
 >                 (tsline CPIAU_uid_shock), ///
 >                 title("Shocks to Inflation",size(6)) ///
 >                 xtitle("Time") ytitle("") ///
@@ -294,12 +307,11 @@ Inf1y_CPICore {c |}
 {txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/inf_shocksQ written in PNG format)
 
 {com}. 
-. 
 . ** First-run of inflation 
 . 
 . eststo clear
 {txt}
-{com}. foreach sk in pty op mp1 ED4 ED8 {c -(}
+{com}. foreach sk in pty op mp1ut ED4ut ED8ut{c -(}
 {txt}  2{com}.   foreach Inf in CPIAU CPICore PCEPI{c -(} 
 {txt}  3{com}.    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
 {txt}  4{com}.    eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
@@ -520,9 +532,9 @@ PCEPI_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}mp1_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-1.815034{col 26}{space 2} 1.155432{col 37}{space 1}   -1.57{col 46}{space 3}0.119{col 54}{space 4}-4.103307{col 67}{space 3} .4732396
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-1.567277{col 26}{space 2} 1.295864{col 37}{space 1}   -1.21{col 46}{space 3}0.229{col 54}{space 4}-4.133668{col 67}{space 3} .9991141
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} -.216085{col 26}{space 2} .1375575{col 37}{space 1}   -1.57{col 46}{space 3}0.119{col 54}{space 4}-.4885105{col 67}{space 3} .0563405
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1865888{col 26}{space 2} .1542763{col 37}{space 1}   -1.21{col 46}{space 3}0.229{col 54}{space 4} -.492125{col 67}{space 3} .1189474
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.410989{col 26}{space 2} .1228853{col 37}{space 1}   19.62{col 46}{space 3}0.000{col 54}{space 4} 2.167621{col 67}{space 3} 2.654357
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -554,9 +566,9 @@ CPIAU_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}mp1_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-2.482921{col 26}{space 2} .8259944{col 37}{space 1}   -3.01{col 46}{space 3}0.003{col 54}{space 4} -4.11876{col 67}{space 3}-.8470821
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-1.890917{col 26}{space 2} .8827409{col 37}{space 1}   -2.14{col 46}{space 3}0.034{col 54}{space 4}-3.639139{col 67}{space 3}-.1426946
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}-.2955988{col 26}{space 2}  .098337{col 37}{space 1}   -3.01{col 46}{space 3}0.003{col 54}{space 4}-.4903501{col 67}{space 3}-.1008476
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} -.225119{col 26}{space 2} .1050928{col 37}{space 1}   -2.14{col 46}{space 3}0.034{col 54}{space 4}-.4332499{col 67}{space 3}-.0169882
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.310568{col 26}{space 2} .0854137{col 37}{space 1}   27.05{col 46}{space 3}0.000{col 54}{space 4} 2.141411{col 67}{space 3} 2.479726
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -588,9 +600,9 @@ CPICore_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}mp1_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-1.179249{col 26}{space 2} .9383827{col 37}{space 1}   -1.26{col 46}{space 3}0.211{col 54}{space 4}-3.037667{col 67}{space 3} .6791684
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.7460218{col 26}{space 2} 1.099569{col 37}{space 1}   -0.68{col 46}{space 3}0.499{col 54}{space 4}-2.923661{col 67}{space 3} 1.431617
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} -.140393{col 26}{space 2} .1117171{col 37}{space 1}   -1.26{col 46}{space 3}0.211{col 54}{space 4} -.361643{col 67}{space 3} .0808569
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} -.088816{col 26}{space 2} .1309069{col 37}{space 1}   -0.68{col 46}{space 3}0.499{col 54}{space 4}-.3480702{col 67}{space 3} .1704382
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.015374{col 26}{space 2} .0989506{col 37}{space 1}   20.37{col 46}{space 3}0.000{col 54}{space 4} 1.819407{col 67}{space 3}  2.21134
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -622,9 +634,9 @@ PCEPI_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED4_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} 3.861034{col 26}{space 2} 1.206261{col 37}{space 1}    3.20{col 46}{space 3}0.002{col 54}{space 4} 1.472096{col 67}{space 3} 6.249972
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} 3.390175{col 26}{space 2} 1.232131{col 37}{space 1}    2.75{col 46}{space 3}0.007{col 54}{space 4} .9500038{col 67}{space 3} 5.830345
+{space 1}ED4ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .3920132{col 26}{space 2} .1224725{col 37}{space 1}    3.20{col 46}{space 3}0.002{col 54}{space 4} .1494628{col 67}{space 3} .6345635
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .3442065{col 26}{space 2}  .125099{col 37}{space 1}    2.75{col 46}{space 3}0.007{col 54}{space 4} .0964545{col 67}{space 3} .5919586
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.543352{col 26}{space 2} .1150875{col 37}{space 1}   22.10{col 46}{space 3}0.000{col 54}{space 4} 2.315427{col 67}{space 3} 2.771277
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -656,9 +668,9 @@ CPIAU_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED4_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .7044707{col 26}{space 2} .6135228{col 37}{space 1}    1.15{col 46}{space 3}0.253{col 54}{space 4}-.5105792{col 67}{space 3} 1.919521
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} 1.047897{col 26}{space 2} .5928212{col 37}{space 1}    1.77{col 46}{space 3}0.080{col 54}{space 4}-.1261546{col 67}{space 3} 2.221948
+{space 1}ED4ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0715253{col 26}{space 2} .0622914{col 37}{space 1}    1.15{col 46}{space 3}0.253{col 54}{space 4}-.0518394{col 67}{space 3} .1948901
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .1063936{col 26}{space 2} .0601895{col 37}{space 1}    1.77{col 46}{space 3}0.080{col 54}{space 4}-.0128086{col 67}{space 3} .2255958
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.480257{col 26}{space 2} .0881165{col 37}{space 1}   28.15{col 46}{space 3}0.000{col 54}{space 4} 2.305747{col 67}{space 3} 2.654767
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -690,9 +702,9 @@ CPICore_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED4_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} 2.838972{col 26}{space 2}  1.03163{col 37}{space 1}    2.75{col 46}{space 3}0.007{col 54}{space 4} .7958816{col 67}{space 3} 4.882062
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} 2.768906{col 26}{space 2} .9883823{col 37}{space 1}    2.80{col 46}{space 3}0.006{col 54}{space 4} .8114662{col 67}{space 3} 4.726345
+{space 1}ED4ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .2882425{col 26}{space 2} .1047421{col 37}{space 1}    2.75{col 46}{space 3}0.007{col 54}{space 4} .0808063{col 67}{space 3} .4956787
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .2811287{col 26}{space 2} .1003511{col 37}{space 1}    2.80{col 46}{space 3}0.006{col 54}{space 4} .0823887{col 67}{space 3} .4798687
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.091063{col 26}{space 2} .0926716{col 37}{space 1}   22.56{col 46}{space 3}0.000{col 54}{space 4} 1.907532{col 67}{space 3} 2.274594
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -724,9 +736,9 @@ PCEPI_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED8_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} 3.109192{col 26}{space 2} 1.186463{col 37}{space 1}    2.62{col 46}{space 3}0.010{col 54}{space 4} .7540823{col 67}{space 3} 5.464302
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} 2.457156{col 26}{space 2} 1.371653{col 37}{space 1}    1.79{col 46}{space 3}0.076{col 54}{space 4}-.2655536{col 67}{space 3} 5.179867
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}  .339104{col 26}{space 2} .1294015{col 37}{space 1}    2.62{col 46}{space 3}0.010{col 54}{space 4}  .082244{col 67}{space 3}  .595964
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .2679897{col 26}{space 2} .1495993{col 37}{space 1}    1.79{col 46}{space 3}0.076{col 54}{space 4}-.0289626{col 67}{space 3}  .564942
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.234582{col 26}{space 2} .1110462{col 37}{space 1}   20.12{col 46}{space 3}0.000{col 54}{space 4} 2.014157{col 67}{space 3} 2.455007
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -758,9 +770,9 @@ CPIAU_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1}Inf1y_CPIC~e{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED8_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .2413175{col 26}{space 2} .4373404{col 37}{space 1}    0.55{col 46}{space 3}0.582{col 54}{space 4}-.6267963{col 67}{space 3} 1.109431
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .4369373{col 26}{space 2} .4469186{col 37}{space 1}    0.98{col 46}{space 3}0.331{col 54}{space 4}-.4501891{col 67}{space 3} 1.324064
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0263193{col 26}{space 2} .0476985{col 37}{space 1}    0.55{col 46}{space 3}0.582{col 54}{space 4}-.0683615{col 67}{space 3} .1210001
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .0476546{col 26}{space 2} .0487432{col 37}{space 1}    0.98{col 46}{space 3}0.331{col 54}{space 4}-.0490999{col 67}{space 3}  .144409
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 2.117497{col 26}{space 2} .0494174{col 37}{space 1}   42.85{col 46}{space 3}0.000{col 54}{space 4} 2.019404{col 67}{space 3} 2.215589
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -792,9 +804,9 @@ CPICore_uid_shock {c |}
 {col 14}{c |}{col 26}    Robust
 {col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}ED8_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} 2.381697{col 26}{space 2} .8938626{col 37}{space 1}    2.66{col 46}{space 3}0.009{col 54}{space 4} .6073939{col 67}{space 3}    4.156
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} 2.132369{col 26}{space 2}  1.04349{col 37}{space 1}    2.04{col 46}{space 3}0.044{col 54}{space 4} .0610574{col 67}{space 3}  4.20368
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .2597597{col 26}{space 2} .0974891{col 37}{space 1}    2.66{col 46}{space 3}0.009{col 54}{space 4} .0662454{col 67}{space 3} .4532741
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .2325668{col 26}{space 2} .1138082{col 37}{space 1}    2.04{col 46}{space 3}0.044{col 54}{space 4} .0066592{col 67}{space 3} .4584743
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} 1.822641{col 26}{space 2} .0847425{col 37}{space 1}   21.51{col 46}{space 3}0.000{col 54}{space 4} 1.654429{col 67}{space 3} 1.990854
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -820,29 +832,184 @@ PCEPI_uid_shock {c |}
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/IRFQ.csv"'})
 
 {com}. 
-. 
-. 
-. ** IRF of inflation 
 . /*
+> ** IRF of inflation (one shock each time) 
+> 
 > eststo clear
-> foreach sk in pty op mp1 ED4 ED8 {c -(}
+> foreach sk in pty op mp1ut ED4ut ED8ut {c -(}
 >   foreach Inf in CPIAU CPICore PCEPI{c -(} 
 >    var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
 >    set seed 123456
->    irf create irf1, set(`Inf'_`sk',replace) step(10) bsp
+>    irf create irf1, set(irf,replace) step(10) bsp
 >    irf graph dm, impulse(`sk'_shock)
 >    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_`sk'", as(png) replace
-> 
 >  {c )-}
 > {c )-}
-> 
 > */
 . 
+. ** IRF of inflation (all shocks at one time) 
+. 
+. 
+. eststo clear
+{txt}
+{com}. 
+. foreach Inf in CPIAU CPICore PCEPI{c -(} 
+{txt}  2{com}.    var Inf1y_`Inf', lags(1/4) ///
+>                      exo(l(0/1).pty_shock l(0/1).op_shock ///
+>                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
+{txt}  3{com}.    set seed 123456
+{txt}  4{com}.    irf create irf1, set(irf,replace) step(10) bsp replace 
+{txt}  5{com}.    irf graph dm, impulse(pty_shock op_shock mp1ut_shock ED8ut_shock)
+{txt}  6{com}.    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks", as(png) replace
+{txt}  7{com}.  {c )-}
+{res}
+{txt}Vector autoregression
+
+{col 1}Sample:  {res}1994q2 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}       99
+{txt}Log likelihood = {res}-103.2801{txt}{col 40}{col 52}AIC{col 68}= {res} 2.349094
+{txt}FPE{col 16}= {res} .6143084{txt}{col 52}HQIC{col 68}= {res} 2.486971
+{txt}Det(Sigma_ml){col 16}= {res} .4717011{txt}{col 52}SBIC{col 68}= {res} 2.689867
+
+{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+{col 1}{text}Inf1y_CPIAU     {col 18}{result}    13{col 26}{space 2} .736889{col 37}{space 1} 0.6488{col 47} 182.8551{col 58} 0.0000
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}Inf1y_CPIAU  {txt}{c |}
+{space 1}Inf1y_CPIAU {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .5691486{col 26}{space 2} .1001372{col 37}{space 1}    5.68{col 46}{space 3}0.000{col 54}{space 4} .3728832{col 67}{space 3}  .765414
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0210417{col 26}{space 2} .1104039{col 37}{space 1}    0.19{col 46}{space 3}0.849{col 54}{space 4} -.195346{col 67}{space 3} .2374295
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1725765{col 26}{space 2} .1106178{col 37}{space 1}    1.56{col 46}{space 3}0.119{col 54}{space 4}-.0442304{col 67}{space 3} .3893834
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.2093588{col 26}{space 2} .0880456{col 37}{space 1}   -2.38{col 46}{space 3}0.017{col 54}{space 4} -.381925{col 67}{space 3}-.0367926
+{txt}{space 12} {c |}
+{space 3}pty_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}-.1586146{col 26}{space 2} .1008816{col 37}{space 1}   -1.57{col 46}{space 3}0.116{col 54}{space 4}-.3563389{col 67}{space 3} .0391096
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} -.096206{col 26}{space 2} .0954205{col 37}{space 1}   -1.01{col 46}{space 3}0.313{col 54}{space 4}-.2832268{col 67}{space 3} .0908148
+{txt}{space 12} {c |}
+{space 4}op_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .3063532{col 26}{space 2}  .081008{col 37}{space 1}    3.78{col 46}{space 3}0.000{col 54}{space 4} .1475804{col 67}{space 3}  .465126
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .1197119{col 26}{space 2} .0867858{col 37}{space 1}    1.38{col 46}{space 3}0.168{col 54}{space 4}-.0503851{col 67}{space 3} .2898089
+{txt}{space 12} {c |}
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0575501{col 26}{space 2} .0876023{col 37}{space 1}    0.66{col 46}{space 3}0.511{col 54}{space 4}-.1141473{col 67}{space 3} .2292475
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1129986{col 26}{space 2} .0895765{col 37}{space 1}   -1.26{col 46}{space 3}0.207{col 54}{space 4}-.2885652{col 67}{space 3} .0625681
+{txt}{space 12} {c |}
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .1329961{col 26}{space 2} .0764566{col 37}{space 1}    1.74{col 46}{space 3}0.082{col 54}{space 4} -.016856{col 67}{space 3} .2828482
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0418452{col 26}{space 2} .0798337{col 37}{space 1}   -0.52{col 46}{space 3}0.600{col 54}{space 4}-.1983163{col 67}{space 3} .1146259
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}   .66395{col 26}{space 2} .2063253{col 37}{space 1}    3.22{col 46}{space 3}0.001{col 54}{space 4} .2595599{col 67}{space 3}  1.06834
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file irf.irf created)
+(file irf.irf now active)
+irfname irf1 not found in irf.irf
+........................................................................................................................................................................................................
+{res}{txt}(file irf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/CPIAU_ashocks written in PNG format)
+{res}
+{txt}Vector autoregression
+
+{col 1}Sample:  {res}1994q2 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}       99
+{txt}Log likelihood = {res} 17.99151{txt}{col 40}{col 52}AIC{col 68}= {res}-.1008387
+{txt}FPE{col 16}= {res} .0530145{txt}{col 52}HQIC{col 68}= {res} .0370388
+{txt}Det(Sigma_ml){col 16}= {res} .0407075{txt}{col 52}SBIC{col 68}= {res} .2399347
+
+{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+{col 1}{text}Inf1y_CPICore   {col 18}{result}    13{col 26}{space 2} .216474{col 37}{space 1} 0.8282{col 47} 477.2916{col 58} 0.0000
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+
+{res}{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}Inf1y_CPICore{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      z{col 47}   P>|z|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}Inf1y_CPICore {txt}{c |}
+Inf1y_CPICore {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .9882084{col 27}{space 2} .1069675{col 38}{space 1}    9.24{col 47}{space 3}0.000{col 55}{space 4}  .778556{col 68}{space 3} 1.197861
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2}-.0510983{col 27}{space 2} .1519577{col 38}{space 1}   -0.34{col 47}{space 3}0.737{col 55}{space 4}-.3489298{col 68}{space 3} .2467333
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2} .1103214{col 27}{space 2} .1442531{col 38}{space 1}    0.76{col 47}{space 3}0.444{col 55}{space 4}-.1724095{col 68}{space 3} .3930524
+{txt}{space 10}L4. {c |}{col 15}{res}{space 2}-.1719145{col 27}{space 2} .0962215{col 38}{space 1}   -1.79{col 47}{space 3}0.074{col 55}{space 4}-.3605052{col 68}{space 3} .0166762
+{txt}{space 13} {c |}
+{space 4}pty_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2}-.0610438{col 27}{space 2} .0305207{col 38}{space 1}   -2.00{col 47}{space 3}0.045{col 55}{space 4}-.1208633{col 68}{space 3}-.0012242
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0198286{col 27}{space 2} .0289602{col 38}{space 1}   -0.68{col 47}{space 3}0.494{col 55}{space 4}-.0765895{col 68}{space 3} .0369323
+{txt}{space 13} {c |}
+{space 5}op_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2} .0607946{col 27}{space 2}  .024601{col 38}{space 1}    2.47{col 47}{space 3}0.013{col 55}{space 4} .0125774{col 68}{space 3} .1090117
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2} .0067052{col 27}{space 2} .0246402{col 38}{space 1}    0.27{col 47}{space 3}0.786{col 55}{space 4}-.0415886{col 68}{space 3} .0549991
+{txt}{space 13} {c |}
+{space 2}mp1ut_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2}-.0092591{col 27}{space 2} .0260127{col 38}{space 1}   -0.36{col 47}{space 3}0.722{col 55}{space 4}-.0602431{col 68}{space 3} .0417249
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0118367{col 27}{space 2} .0266994{col 38}{space 1}   -0.44{col 47}{space 3}0.658{col 55}{space 4}-.0641667{col 68}{space 3} .0404932
+{txt}{space 13} {c |}
+{space 2}ED8ut_shock {c |}
+{space 10}--. {c |}{col 15}{res}{space 2}-.0076132{col 27}{space 2} .0222007{col 38}{space 1}   -0.34{col 47}{space 3}0.732{col 55}{space 4}-.0511258{col 68}{space 3} .0358994
+{txt}{space 10}L1. {c |}{col 15}{res}{space 2} .0021712{col 27}{space 2} .0228085{col 38}{space 1}    0.10{col 47}{space 3}0.924{col 55}{space 4}-.0425326{col 68}{space 3}  .046875
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2} .2013513{col 27}{space 2} .1096235{col 38}{space 1}    1.84{col 47}{space 3}0.066{col 55}{space 4}-.0135069{col 68}{space 3} .4162095
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file irf.irf created)
+(file irf.irf now active)
+irfname irf1 not found in irf.irf
+........................................................................................................................................................................................................
+{res}{txt}(file irf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/CPICore_ashocks written in PNG format)
+{res}
+{txt}Vector autoregression
+
+{col 1}Sample:  {res}1994q2 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}       99
+{txt}Log likelihood = {res} -70.4266{txt}{col 40}{col 52}AIC{col 68}= {res} 1.685386
+{txt}FPE{col 16}= {res} .3163311{txt}{col 52}HQIC{col 68}= {res} 1.823263
+{txt}Det(Sigma_ml){col 16}= {res} .2428971{txt}{col 52}SBIC{col 68}= {res} 2.026159
+
+{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+{col 1}{text}Inf1y_PCEPI     {col 18}{result}    13{col 26}{space 2} .528785{col 37}{space 1} 0.6935{col 47} 223.9926{col 58} 0.0000
+{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}Inf1y_PCEPI  {txt}{c |}
+{space 1}Inf1y_PCEPI {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .6505327{col 26}{space 2}  .102569{col 37}{space 1}    6.34{col 46}{space 3}0.000{col 54}{space 4}  .449501{col 67}{space 3} .8515643
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0384709{col 26}{space 2} .1168075{col 37}{space 1}   -0.33{col 46}{space 3}0.742{col 54}{space 4}-.2674093{col 67}{space 3} .1904675
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1267602{col 26}{space 2} .1169227{col 37}{space 1}    1.08{col 46}{space 3}0.278{col 54}{space 4}-.1024042{col 67}{space 3} .3559245
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1636981{col 26}{space 2}  .088606{col 37}{space 1}   -1.85{col 46}{space 3}0.065{col 54}{space 4}-.3373627{col 67}{space 3} .0099666
+{txt}{space 12} {c |}
+{space 3}pty_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}-.0969642{col 26}{space 2} .0719044{col 37}{space 1}   -1.35{col 46}{space 3}0.177{col 54}{space 4}-.2378942{col 67}{space 3} .0439658
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1089007{col 26}{space 2} .0676831{col 37}{space 1}   -1.61{col 46}{space 3}0.108{col 54}{space 4}-.2415571{col 67}{space 3} .0237556
+{txt}{space 12} {c |}
+{space 4}op_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .2400242{col 26}{space 2} .0580471{col 37}{space 1}    4.13{col 46}{space 3}0.000{col 54}{space 4}  .126254{col 67}{space 3} .3537944
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .0618353{col 26}{space 2} .0628376{col 37}{space 1}    0.98{col 46}{space 3}0.325{col 54}{space 4} -.061324{col 67}{space 3} .1849947
+{txt}{space 12} {c |}
+{space 1}mp1ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2} .0661031{col 26}{space 2} .0627612{col 37}{space 1}    1.05{col 46}{space 3}0.292{col 54}{space 4}-.0569066{col 67}{space 3} .1891129
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0359373{col 26}{space 2} .0644503{col 37}{space 1}   -0.56{col 46}{space 3}0.577{col 54}{space 4}-.1622577{col 67}{space 3}  .090383
+{txt}{space 12} {c |}
+{space 1}ED8ut_shock {c |}
+{space 9}--. {c |}{col 14}{res}{space 2}  .069708{col 26}{space 2} .0549891{col 37}{space 1}    1.27{col 46}{space 3}0.205{col 54}{space 4}-.0380687{col 67}{space 3} .1774847
+{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0246735{col 26}{space 2} .0567015{col 37}{space 1}   -0.44{col 46}{space 3}0.663{col 54}{space 4}-.1358063{col 67}{space 3} .0864593
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .5505704{col 26}{space 2} .1497122{col 37}{space 1}    3.68{col 46}{space 3}0.000{col 54}{space 4} .2571398{col 67}{space 3} .8440011
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+(file irf.irf created)
+(file irf.irf now active)
+irfname irf1 not found in irf.irf
+........................................................................................................................................................................................................
+{res}{txt}(file irf.irf updated)
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/PCEPI_ashocks written in PNG format)
+
+{com}. 
 . log close 
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}11 Jun 2019, 17:20:25
+ {txt}closed on:  {res}12 Jun 2019, 15:27:26
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

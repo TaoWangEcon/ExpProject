@@ -55,17 +55,25 @@ rename OPShock_nm op_shock
 label var op_shock "Oil price shock (Hamilton 1996)"
 rename MP1 mp1_shock
 label var mp1_shock "Unexpected change in federal funds rate(%)"
-label var ED4 "1-year ahead future-implied change in federal funds rate(%)"
-label var ED8 "2-year ahead future-implied change in federal funds rate(%)"
+label var ED4 "1-year ahead future-implied change in federal funds rate"
+label var ED8 "2-year ahead future-implied change in federal funds rate"
 
 ** MP-path shock 
 
 foreach ed in ED4 ED8{
   reg `ed' mp1_shock
   predict `ed'_shock, residual
-label var `ed'_shock "Unexpected shock to future federal funds rate(%)"
+label var `ed'_shock "Unexpected shock to future federal funds rate"
 }
 
+** Normorlize MP shcoks
+
+foreach var in mp1 ED4 ED8{
+  egen `var'_shock_sd =sd(`var'_shock)
+  gen `var'ut_shock = `var'_shock/`var'_shock_sd 
+  local lb : var label `var'_shock
+  label var `var'ut_shock "`lb' in std unit"
+}
 
 
 ** Generated unidentified shocks. 
@@ -75,27 +83,27 @@ tsset date
 eststo clear
 
 foreach Inf in CPIAU CPICore PCEPI{ 
-   reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1_shock l(0/1).ED8_shock
+   reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock
    predict `Inf'_uid_shock, residual
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
  }
 
+
 ** Plot all shocks for checking 
 
 twoway (tsline pty_shock) (tsline op_shock) ///
-        (tsline mp1_shock) (tsline ED8_shock) ///
+        (tsline mp1ut_shock) (tsline ED8ut_shock) ///
 		(tsline CPIAU_uid_shock), ///
-		title("Shocks to Inflation",size(6)) ///
+		title("Shocks to Inflation",size(4)) ///
 		xtitle("Time") ytitle("") ///
 		legend(cols(1)) 
 		
 graph export "${sum_graph_folder}/inf_shocksQ", as(png) replace
 
-
 ** First-run of inflation 
 
 eststo clear
-foreach sk in pty op mp1 ED4 ED8 {
+foreach sk in pty op mp1ut ED4ut ED8ut{
   foreach Inf in CPIAU CPICore PCEPI{ 
    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
    eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
@@ -104,18 +112,33 @@ foreach sk in pty op mp1 ED4 ED8 {
 esttab using "${sum_table_folder}/IRFQ.csv", mtitles se r2 replace
 
 
-** IRF of inflation 
+** IRF of inflation (one shock each time) 
 
 eststo clear
-foreach sk in pty op mp1 ED4 ED8 {
+foreach sk in pty op mp1ut ED4ut ED8ut {
   foreach Inf in CPIAU CPICore PCEPI{ 
    var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
    set seed 123456
-   irf create irf1, set(`Inf'_`sk',replace) step(10) bsp
+   irf create irf1, set(irf,replace) step(10) bsp
    irf graph dm, impulse(`sk'_shock)
    graph export "${sum_graph_folder}/irf/`Inf'_`sk'", as(png) replace
-
  }
 }
+
+***********************************************
+** IRF of inflation (all shocks at one time) **
+***********************************************
+
+eststo clear
+
+foreach Inf in CPIAU CPICore PCEPI{ 
+   var Inf1y_`Inf', lags(1/4) ///
+                     exo(l(0/1).pty_shock l(0/1).op_shock ///
+					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
+   set seed 123456
+   irf create irf1, set(irf,replace) step(10) bsp replace 
+   irf graph dm, impulse(pty_shock op_shock mp1ut_shock ED8ut_shock)
+   graph export "${sum_graph_folder}/irf/`Inf'_ashocks", as(png) replace
+ }
 
 log close 
