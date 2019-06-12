@@ -1,3 +1,11 @@
+************************************************
+***  This do file is optional. The purpose is   *
+**    to redo SVAR with long-run restriction in *
+**    in Stata as a robust check for the tech   *
+**    shock estimated in python codes. It also  *
+**    generates IR plots that can be compared.  *
+************************************************ 
+
 clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "${mainfolder}/SurveyData/"

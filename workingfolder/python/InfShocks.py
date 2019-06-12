@@ -678,7 +678,7 @@ def SVAR_MaxShare(rs,h,pty_id=0,contemp=True):
     return {'var_coefs':var_coefs,'sigma_u':sigma_u,'fe':fe,'nlags':nlags, 'neqs': k,\
                 'residuals':u,'alpha_est':alpha_est,'epsilon_est':epsilon_est}
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## invoke max_share estimation
 horizon = 40  #10 years
 SVAR_maxshare_rst = SVAR_MaxShare(rs1,horizon)
@@ -687,18 +687,18 @@ alpha_est = SVAR_maxshare_rst['alpha_est']
 
 # + {"code_folding": []}
 ## save it to data frames 
-str_shocks_est['pty_shock_max']=tech_shock.T
+str_shocks_est['pty_max_shock']=tech_shock.T
 
 # compare two tech shocks estimated from different approaches 
 plt.figure(figsize=(10,6))
-plt.plot(str_shocks_est['pty_shock_max'],label='pty_maxshare')
+plt.plot(str_shocks_est['pty_max_shock'],label='pty_maxshare')
 plt.plot(str_shocks_est['pty_shock'],'r-.',label='pty_lr')
 plt.legend(loc=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 print('The correlation coefficient of tech shocks identified using long-run \
 \n restriction and max-share approach is '+ \
-      str(round(str_shocks_est['pty_shock_max'].corr(str_shocks_est['pty_shock']),3)))
+      str(round(str_shocks_est['pty_max_shock'].corr(str_shocks_est['pty_shock']),3)))
 # -
 
 # ### News shocks by Sims et al.(2014)
@@ -721,14 +721,14 @@ str_shocks_est['news_shock']=news_shock.T
 # + {"code_folding": [0]}
 # compare two tech shocks estimated from different approaches 
 plt.figure(figsize=(10,6))
-plt.plot(str_shocks_est['pty_shock_max'],label='pty_maxshare')
+plt.plot(str_shocks_est['pty_max_shock'],label='pty_maxshare')
 plt.plot(str_shocks_est['news_shock'],'r-.',label='news shock')
 plt.legend(loc=1)
 # -
 
 print('The correlation coefficient of tech shocks \
 identified using max-share approach and the news shock is '+ \
-      str(round(str_shocks_est['pty_shock_max'].corr(str_shocks_est['news_shock']),3)))
+      str(round(str_shocks_est['pty_max_shock'].corr(str_shocks_est['news_shock']),3)))
 
 # ### Oil shocks (Hamilton 1996)
 

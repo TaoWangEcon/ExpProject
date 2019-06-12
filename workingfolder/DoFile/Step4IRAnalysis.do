@@ -49,7 +49,7 @@ rename _merge InfM_merge
 label var pty_shock "Technology shock(Gali 1999)"
 label var hours_shock "Non-technology shock(Gali 1999)"
 label var inf_shock "Shock to inflation(Gali 1999)"
-label var pty_shock_max "Technology shock (Francis etal 2014)"
+label var pty_max_shock "Technology shock (Francis etal 2014)"
 label var news_shock "News shock(Sims etal.2011)"
 rename OPShock_nm op_shock 
 label var op_shock "Oil price shock (Hamilton 1996)"
@@ -57,6 +57,7 @@ rename MP1 mp1_shock
 label var mp1_shock "Unexpected change in federal funds rate(%)"
 label var ED4 "1-year ahead future-implied change in federal funds rate"
 label var ED8 "2-year ahead future-implied change in federal funds rate"
+
 
 ** MP-path shock 
 
@@ -103,7 +104,7 @@ graph export "${sum_graph_folder}/inf_shocksQ", as(png) replace
 ** First-run of inflation 
 
 eststo clear
-foreach sk in pty op mp1ut ED4ut ED8ut{
+foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
   foreach Inf in CPIAU CPICore PCEPI{ 
    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
    eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
@@ -115,7 +116,7 @@ esttab using "${sum_table_folder}/IRFQ.csv", mtitles se r2 replace
 ** IRF of inflation (one shock each time) 
 
 eststo clear
-foreach sk in pty op mp1ut ED4ut ED8ut {
+foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
   foreach Inf in CPIAU CPICore PCEPI{ 
    var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
    set seed 123456
