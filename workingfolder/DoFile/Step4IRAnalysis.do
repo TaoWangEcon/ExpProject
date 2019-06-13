@@ -89,7 +89,7 @@ foreach Inf in CPIAU CPICore PCEPI{
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
  }
 
-
+/*
 ** Plot all shocks for checking 
 
 twoway (tsline pty_shock) (tsline op_shock) ///
@@ -140,6 +140,27 @@ foreach Inf in CPIAU CPICore PCEPI{
    irf create irf1, set(irf,replace) step(10) bsp replace 
    irf graph dm, impulse(pty_shock op_shock mp1ut_shock ED8ut_shock)
    graph export "${sum_graph_folder}/irf/`Inf'_ashocks", as(png) replace
- }
+
+}
+ 
+
+*/
+
+****************************************************
+** IRF of SPF moments (all shocks at one time)    **
+****************************************************
+
+
+foreach mom in Mean Var Disg FE{
+   foreach var in SPFCPI SPFPCE{
+       capture var `var'_`mom', lags(1/4) ///
+                     exo(l(0/1).pty_shock l(0/1).op_shock ///
+					 l(0/1).mp1ut_shock )
+   set seed 123456
+   capture irf create mmirf_`var', set(irf_`mom') step(10) bsp replace 
+}
+   capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock)
+   capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks", as(png) replace
+}
 
 log close 
