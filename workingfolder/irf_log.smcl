@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}12 Jun 2019, 21:04:33
+ {txt}opened on:  {res}13 Jun 2019, 18:11:02
 {txt}
 {com}. 
 . 
@@ -107,7 +107,7 @@ long, now double to accommodate using data's values)
 {txt}
 {com}. rename MP1 mp1_shock
 {res}{txt}
-{com}. label var mp1_shock "Unexpected change in federal funds rate(%)"
+{com}. label var mp1_shock "Unexpected change in federal funds rate"
 {txt}
 {com}. label var ED4 "1-year ahead future-implied change in federal funds rate"
 {txt}
@@ -351,20 +351,46 @@ Inf1y_CPICore {c |}
 > */
 . 
 . ****************************************************
-. ** IRF of survey moments (all shocks at one time) **
+. ** IRF of SPF moments (all shocks at one time)    **
+. ****************************************************
+. 
+. /*
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>        capture var `var'_`mom', lags(1/4) ///
+>                      exo(l(0/1).pty_shock l(0/1).op_shock ///
+>                                          l(0/1).mp1ut_shock )
+>    set seed 123456
+>    capture irf create `var', set(`mom') step(10) bsp replace 
+> {c )-}
+>    capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+>                                                  xtitle("Quarters") 
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks", as(png) replace
+> {c )-}
+> */
+. 
+. ****************************************************
+. ** IRF of SCE moments (all shocks at one time)    **
 . ****************************************************
 . 
 . 
 . foreach mom in Mean Var Disg FE{c -(}
-{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
+{txt}  2{com}.    foreach var in SCE{c -(}
 {txt}  3{com}.        capture var `var'_`mom', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 >                                          l(0/1).mp1ut_shock )
 {txt}  4{com}.    set seed 123456
-{txt}  5{com}.    capture irf create mmirf_`var', set(irf_`mom') step(10) bsp replace 
+{txt}  5{com}.    capture irf create `var', set(`mom') step(10) bsp replace 
 {txt}  6{com}. {c )-}
-{txt}  7{com}.    capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock)
-{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/`mom'_ashocks", as(png) replace
+{txt}  7{com}.    capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+>                                                  xtitle("Quarters") 
+{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SCE`mom'_ashocks", as(png) replace
 {txt}  9{com}. {c )-}
 {txt}
 {com}. 
@@ -372,7 +398,7 @@ Inf1y_CPICore {c |}
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}12 Jun 2019, 21:07:09
+ {txt}closed on:  {res}13 Jun 2019, 18:13:01
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

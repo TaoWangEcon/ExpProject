@@ -54,7 +54,7 @@ label var news_shock "News shock(Sims etal.2011)"
 rename OPShock_nm op_shock 
 label var op_shock "Oil price shock (Hamilton 1996)"
 rename MP1 mp1_shock
-label var mp1_shock "Unexpected change in federal funds rate(%)"
+label var mp1_shock "Unexpected change in federal funds rate"
 label var ED4 "1-year ahead future-implied change in federal funds rate"
 label var ED8 "2-year ahead future-implied change in federal funds rate"
 
@@ -150,17 +150,43 @@ foreach Inf in CPIAU CPICore PCEPI{
 ** IRF of SPF moments (all shocks at one time)    **
 ****************************************************
 
-
+/*
 foreach mom in Mean Var Disg FE{
    foreach var in SPFCPI SPFPCE{
        capture var `var'_`mom', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 					 l(0/1).mp1ut_shock )
    set seed 123456
-   capture irf create mmirf_`var', set(irf_`mom') step(10) bsp replace 
+   capture irf create `var', set(`mom') step(10) bsp replace 
 }
-   capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock)
+   capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
+                         byopts(title("`mom'") yrescale /// 
+						 xrescale note("")) legend(col(2) /// 
+						 order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks", as(png) replace
+}
+*/
+
+****************************************************
+** IRF of SCE moments (all shocks at one time)    **
+****************************************************
+
+
+foreach mom in Mean Var Disg FE{
+   foreach var in SCE{
+       capture var `var'_`mom', lags(1/4) ///
+                     exo(l(0/1).pty_shock l(0/1).op_shock ///
+					 l(0/1).mp1ut_shock )
+   set seed 123456
+   capture irf create `var', set(`mom') step(10) bsp replace 
+}
+   capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
+                         byopts(title("`mom'") yrescale /// 
+						 xrescale note("")) legend(col(2) /// 
+						 order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+						 xtitle("Quarters") 
+   capture graph export "${sum_graph_folder}/irf/moments/SCE`mom'_ashocks", as(png) replace
 }
 
 log close 
