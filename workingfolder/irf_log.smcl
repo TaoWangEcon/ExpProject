@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}17 Jun 2019, 08:21:07
+ {txt}opened on:  {res}17 Jun 2019, 11:42:37
 {txt}
 {com}. 
 . 
@@ -167,7 +167,17 @@ long, now double to accommodate using data's values)
 (40 missing values generated)
 
 {com}. 
+. ** Absolute values of the shocks
 . 
+. foreach var in op pty mp1ut ED8ut{c -(}
+{txt}  2{com}. gen `var'_abshock = abs(`var'_shock)
+{txt}  3{com}. local lb: var label `var'_shock
+{txt}  4{com}. label var `var'_abshock "Absolute value of `lb'"
+{txt}  5{com}. {c )-} 
+{txt}(19 missing values generated)
+(40 missing values generated)
+
+{com}. 
 . ** Generated unidentified shocks. 
 . 
 . tsset date
@@ -349,150 +359,28 @@ Inf1y_CPICore {c |}
 >    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks", as(png) replace
 > 
 > {c )-}
-> */
-. 
-. 
-. ***********************************************
-. ** IRF of inflation (all shocks exl MP at one time) **
-. ***********************************************
-. 
-. 
-. eststo clear
-{txt}
-{com}. 
-. foreach Inf in CPIAU CPICore PCEPI{c -(} 
-{txt}  2{com}.    var Inf1y_`Inf', lags(1/4) ///
+> 
+> ***********************************************
+> ** IRF of inflation (all shocks exl MP at one time) **
+> ***********************************************
+> 
+> 
+> eststo clear
+> 
+> foreach Inf in CPIAU CPICore PCEPI{c -(} 
+>    var Inf1y_`Inf', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock)   
-{txt}  3{com}.    set seed 123456
-{txt}  4{com}.    irf create irf1, set(irf,replace) step(10) bsp replace 
-{txt}  5{com}.    irf graph dm, impulse(pty_shock op_shock) ///
+>    set seed 123456
+>    irf create irf1, set(irf,replace) step(10) bsp replace 
+>    irf graph dm, impulse(pty_shock op_shock) ///
 >                  byopts(title("`mom'") yrescale xrescale note("")) ///
 >                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall)) ///
 >                                  xtitle("Quarters") 
-{txt}  6{com}.    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks_nmp", as(png) replace
-{txt}  7{com}. 
-. {c )-}
-{res}
-{txt}Vector autoregression
-
-{col 1}Sample:  {res}1985q1 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}      136
-{txt}Log likelihood = {res}-142.2758{txt}{col 40}{col 52}AIC{col 68}= {res} 2.224644
-{txt}FPE{col 16}= {res} .5417017{txt}{col 52}HQIC{col 68}= {res} 2.302972
-{txt}Det(Sigma_ml){col 16}= {res}  .474456{txt}{col 52}SBIC{col 68}= {res} 2.417393
-
-{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-{col 1}{text}Inf1y_CPIAU     {col 18}{result}     9{col 26}{space 2} .712797{col 37}{space 1} 0.7293{col 47} 366.4907{col 58} 0.0000
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}Inf1y_CPIAU  {txt}{c |}
-{space 1}Inf1y_CPIAU {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .7071918{col 26}{space 2} .0837475{col 37}{space 1}    8.44{col 46}{space 3}0.000{col 54}{space 4} .5430496{col 67}{space 3} .8713339
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0022103{col 26}{space 2} .0973607{col 37}{space 1}   -0.02{col 46}{space 3}0.982{col 54}{space 4}-.1930338{col 67}{space 3} .1886131
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .2231129{col 26}{space 2} .0979756{col 37}{space 1}    2.28{col 46}{space 3}0.023{col 54}{space 4} .0310843{col 67}{space 3} .4151416
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1612062{col 26}{space 2} .0756998{col 37}{space 1}   -2.13{col 46}{space 3}0.033{col 54}{space 4} -.309575{col 67}{space 3}-.0128373
-{txt}{space 12} {c |}
-{space 3}pty_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-.1704829{col 26}{space 2} .0767107{col 37}{space 1}   -2.22{col 46}{space 3}0.026{col 54}{space 4}-.3208331{col 67}{space 3}-.0201326
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0910309{col 26}{space 2} .0775703{col 37}{space 1}   -1.17{col 46}{space 3}0.241{col 54}{space 4}-.2430659{col 67}{space 3} .0610041
-{txt}{space 12} {c |}
-{space 4}op_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .3487544{col 26}{space 2} .0627062{col 37}{space 1}    5.56{col 46}{space 3}0.000{col 54}{space 4} .2258525{col 67}{space 3} .4716562
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .0186943{col 26}{space 2} .0698644{col 37}{space 1}    0.27{col 46}{space 3}0.789{col 54}{space 4}-.1182375{col 67}{space 3}  .155626
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .3468444{col 26}{space 2} .1594781{col 37}{space 1}    2.17{col 46}{space 3}0.030{col 54}{space 4} .0342731{col 67}{space 3} .6594156
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-(file irf.irf created)
-(file irf.irf now active)
-irfname irf1 not found in irf.irf
-........................................................................................................................................................................................................
-{res}{txt}(file irf.irf updated)
-{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/CPIAU_ashocks_nmp written in PNG format)
-{res}
-{txt}Vector autoregression
-
-{col 1}Sample:  {res}1985q1 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}      136
-{txt}Log likelihood = {res} 18.84739{txt}{col 40}{col 52}AIC{col 68}= {res}-.1448145
-{txt}FPE{col 16}= {res} .0506661{txt}{col 52}HQIC{col 68}= {res}-.0664861
-{txt}Det(Sigma_ml){col 16}= {res} .0443765{txt}{col 52}SBIC{col 68}= {res} .0479347
-
-{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-{col 1}{text}Inf1y_CPICore   {col 18}{result}     9{col 26}{space 2} .217994{col 37}{space 1} 0.9609{col 47} 3340.363{col 58} 0.0000
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-
-{res}{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}Inf1y_CPICore{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      z{col 47}   P>|z|{col 55}     [95% Con{col 68}f. Interval]
-{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}Inf1y_CPICore {txt}{c |}
-Inf1y_CPICore {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2} 1.053623{col 27}{space 2} .0842183{col 38}{space 1}   12.51{col 47}{space 3}0.000{col 55}{space 4} .8885579{col 68}{space 3} 1.218688
-{txt}{space 10}L2. {c |}{col 15}{res}{space 2} -.012955{col 27}{space 2} .1177855{col 38}{space 1}   -0.11{col 47}{space 3}0.912{col 55}{space 4}-.2438104{col 68}{space 3} .2179004
-{txt}{space 10}L3. {c |}{col 15}{res}{space 2} .0661953{col 27}{space 2} .1147942{col 38}{space 1}    0.58{col 47}{space 3}0.564{col 55}{space 4}-.1587972{col 68}{space 3} .2911879
-{txt}{space 10}L4. {c |}{col 15}{res}{space 2}-.1379926{col 27}{space 2} .0766214{col 38}{space 1}   -1.80{col 47}{space 3}0.072{col 55}{space 4}-.2881678{col 68}{space 3} .0121826
-{txt}{space 13} {c |}
-{space 4}pty_shock {c |}
-{space 10}--. {c |}{col 15}{res}{space 2}-.0547339{col 27}{space 2} .0233965{col 38}{space 1}   -2.34{col 47}{space 3}0.019{col 55}{space 4}-.1005903{col 68}{space 3}-.0088775
-{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0034025{col 27}{space 2} .0236968{col 38}{space 1}   -0.14{col 47}{space 3}0.886{col 55}{space 4}-.0498474{col 68}{space 3} .0430423
-{txt}{space 13} {c |}
-{space 5}op_shock {c |}
-{space 10}--. {c |}{col 15}{res}{space 2} .0897888{col 27}{space 2} .0191457{col 38}{space 1}    4.69{col 47}{space 3}0.000{col 55}{space 4} .0522639{col 68}{space 3} .1273137
-{txt}{space 10}L1. {c |}{col 15}{res}{space 2}-.0209597{col 27}{space 2} .0206036{col 38}{space 1}   -1.02{col 47}{space 3}0.309{col 55}{space 4} -.061342{col 68}{space 3} .0194226
-{txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2} .0219843{col 27}{space 2} .0538982{col 38}{space 1}    0.41{col 47}{space 3}0.683{col 55}{space 4}-.0836543{col 68}{space 3} .1276229
-{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-(file irf.irf created)
-(file irf.irf now active)
-irfname irf1 not found in irf.irf
-........................................................................................................................................................................................................
-{res}{txt}(file irf.irf updated)
-{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/CPICore_ashocks_nmp written in PNG format)
-{res}
-{txt}Vector autoregression
-
-{col 1}Sample:  {res}1985q1 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}      136
-{txt}Log likelihood = {res}-98.67385{txt}{col 40}{col 52}AIC{col 68}= {res} 1.583439
-{txt}FPE{col 16}= {res} .2852914{txt}{col 52}HQIC{col 68}= {res} 1.661767
-{txt}Det(Sigma_ml){col 16}= {res} .2498759{txt}{col 52}SBIC{col 68}= {res} 1.776188
-
-{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-{col 1}{text}Inf1y_PCEPI     {col 18}{result}     9{col 26}{space 2} .517285{col 37}{space 1} 0.7931{col 47} 521.4494{col 58} 0.0000
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}Inf1y_PCEPI  {txt}{c |}
-{space 1}Inf1y_PCEPI {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .8535481{col 26}{space 2} .0840406{col 37}{space 1}   10.16{col 46}{space 3}0.000{col 54}{space 4} .6888316{col 67}{space 3} 1.018265
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0978704{col 26}{space 2} .1040127{col 37}{space 1}   -0.94{col 46}{space 3}0.347{col 54}{space 4}-.3017316{col 67}{space 3} .1059908
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1791234{col 26}{space 2} .1045774{col 37}{space 1}    1.71{col 46}{space 3}0.087{col 54}{space 4}-.0258447{col 67}{space 3} .3840914
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1115568{col 26}{space 2} .0762611{col 37}{space 1}   -1.46{col 46}{space 3}0.144{col 54}{space 4}-.2610258{col 67}{space 3} .0379123
-{txt}{space 12} {c |}
-{space 3}pty_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-.0962034{col 26}{space 2} .0555198{col 37}{space 1}   -1.73{col 46}{space 3}0.083{col 54}{space 4}-.2050203{col 67}{space 3} .0126134
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} -.091643{col 26}{space 2}  .055564{col 37}{space 1}   -1.65{col 46}{space 3}0.099{col 54}{space 4}-.2005465{col 67}{space 3} .0172605
-{txt}{space 12} {c |}
-{space 4}op_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .2598722{col 26}{space 2} .0455906{col 37}{space 1}    5.70{col 46}{space 3}0.000{col 54}{space 4} .1705162{col 67}{space 3} .3492282
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0429493{col 26}{space 2}  .050444{col 37}{space 1}   -0.85{col 46}{space 3}0.395{col 54}{space 4}-.1418178{col 67}{space 3} .0559191
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .2275111{col 26}{space 2} .1116914{col 37}{space 1}    2.04{col 46}{space 3}0.042{col 54}{space 4}    .0086{col 67}{space 3} .4464223
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-(file irf.irf created)
-(file irf.irf now active)
-irfname irf1 not found in irf.irf
-........................................................................................................................................................................................................
-{res}{txt}(file irf.irf updated)
-{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/PCEPI_ashocks_nmp written in PNG format)
-
-{com}. 
-. 
-. /*
+>    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks_nmp", as(png) replace
+> 
+> {c )-}
+> 
+> 
 > ****************************************************
 > ** IRF of SPF moments (all shocks at one time)    **
 > ****************************************************
@@ -513,31 +401,53 @@ irfname irf1 not found in irf.irf
 >                                                  xtitle("Quarters") 
 >    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks", as(png) replace
 > {c )-}
-> */
-. 
-. 
-. 
-. ***********************************************************
-. ** IRF of SPF moments (all shocks exl MP at one time)    **
-. ***********************************************************
-. 
-. 
-. foreach mom in Mean Var Disg FE{c -(}
-{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
-{txt}  3{com}.        capture var `var'_`mom', lags(1/4) ///
+> 
+> 
+> 
+> ***********************************************************
+> ** IRF of SPF moments (all shocks exl MP at one time)    **
+> ***********************************************************
+> 
+> 
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>        capture var `var'_`mom', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock) 
-{txt}  4{com}.    set seed 123456
-{txt}  5{com}.    capture irf create `var', set(`mom') step(10) bsp  
-{txt}  6{com}. {c )-}
-{txt}  7{com}.    capture irf graph dm, impulse(pty_shock op_shock) ///
+>    set seed 123456
+>    capture irf create `var', set(`mom') step(10) bsp  
+> {c )-}
+>    capture irf graph dm, impulse(pty_shock op_shock) ///
 >                          byopts(title("`mom'") yrescale /// 
 >                                                  xrescale note("")) legend(col(2) /// 
 >                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
 >                                                  xtitle("Quarters") 
-{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
-{txt}  9{com}. {c )-}
-{txt}
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
+> {c )-}
+> */
+. 
+. ****************************************************
+. ** IRF of SPF moments by Shocks                   **
+. ****************************************************
+. 
+. foreach sk in op mp1ut{c -(}
+{txt}  2{com}.   foreach var in SPFCPI SPFPCE{c -(}
+{txt}  3{com}.       foreach mom in FE Disg Var{c -(}
+{txt}  4{com}.              capture var `var'_`mom', lags(1/4) ///
+>                                           exo(l(0/1) exo(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock)
+{txt}  5{com}.              set seed 123456
+{txt}  6{com}.                  capture irf create ddxxdd, set(`sk') step(10) bsp replace 
+{txt}  7{com}.         {c )-}
+{txt}  8{com}.      {c )-}
+{txt}  9{com}.    irf graph dm, impulse(`sk'_shock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+>                                                  xtitle("Quarters") 
+{txt} 10{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`sk'", as(png) replace
+{txt} 11{com}. {c )-}
+{res}{txt}
 {com}. 
+. 
 . /*
 > ****************************************************
 > ** IRF of SCE moments (all shocks at one time)    **
@@ -565,7 +475,7 @@ irfname irf1 not found in irf.irf
       {txt}name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}closed on:  {res}17 Jun 2019, 08:22:38
+ {txt}closed on:  {res}17 Jun 2019, 11:42:47
 {txt}{.-}
 {smcl}
 {txt}{sf}{ul off}

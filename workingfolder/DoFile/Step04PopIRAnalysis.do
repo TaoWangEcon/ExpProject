@@ -76,6 +76,13 @@ foreach var in mp1 ED4 ED8{
   label var `var'ut_shock "`lb' in std unit"
 }
 
+** Absolute values of the shocks
+
+foreach var in op pty mp1ut ED8ut{
+gen `var'_abshock = abs(`var'_shock)
+local lb: var label `var'_shock
+label var `var'_abshock "Absolute value of `lb'"
+} 
 
 ** Generated unidentified shocks. 
 
@@ -145,8 +152,6 @@ foreach Inf in CPIAU CPICore PCEPI{
    graph export "${sum_graph_folder}/irf/`Inf'_ashocks", as(png) replace
 
 }
-*/
-
 
 ***********************************************
 ** IRF of inflation (all shocks exl MP at one time) **
@@ -169,7 +174,6 @@ foreach Inf in CPIAU CPICore PCEPI{
 }
 
 
-/*
 ****************************************************
 ** IRF of SPF moments (all shocks at one time)    **
 ****************************************************
@@ -190,7 +194,6 @@ foreach mom in Mean Var Disg FE{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks", as(png) replace
 }
-*/
 
 
 
@@ -213,6 +216,31 @@ foreach mom in Mean Var Disg FE{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
 }
+*/
+
+/*  need to debug 
+****************************************************
+** IRF of SPF moments by Shocks                   **
+****************************************************
+
+foreach sk in op mp1ut{
+  foreach var in SPFCPI SPFPCE{
+      foreach mom in FE Disg Var{
+	     capture var `var'_`mom', lags(1/4) ///
+		                          exo(l(0/1) exo(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock)
+	     set seed 123456
+		 capture irf create ddxxdd, set(`sk') step(10) bsp replace 
+        }
+     }
+   irf graph dm, impulse(`sk'_shock) ///
+                         byopts(title("`mom'") yrescale /// 
+						 xrescale note("")) legend(col(2) /// 
+						 order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+						 xtitle("Quarters") 
+   capture graph export "${sum_graph_folder}/irf/moments/SPF`sk'", as(png) replace
+}
+
+*/
 
 /*
 ****************************************************
