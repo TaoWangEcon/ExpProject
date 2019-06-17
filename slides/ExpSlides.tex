@@ -2,7 +2,7 @@
 \usepackage{default}
 \usepackage{amsmath}
 \usepackage{graphicx}
-
+\usepackage{adjustbox}  % Allows for fitting tables into slide
 
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
@@ -473,6 +473,64 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \end{frame}
 
+\subsection{Test of Null Hypothesis of Rational Expectation}
+
+\begin{frame}{Test of Rational Expectation}
+\begin{table}[tbhp] \centering \adjustbox{max height=\dimexpr\textheight-5.5cm\relax, max width=\textwidth}{
+	\begin{tabular}{lllllll}
+		\hline 
+		& SPFCPI\_FElvl       & SPFPCE\_FElvl & SPFCPI\_Vardiff & SPFPCE\_Vardiff & SPFCPI\_Disgdiff & SPFPCE\_Disgdiff            \\
+		\hline 
+		L.InfExp\_FE        & 0.941***      & 1.195***        &                 &                  &                  &           \\
+		& (0.0840)      & (0.142)         &                 &                  &                  &           \\
+		L2.InfExp\_FE       & -0.313**      & -0.625**        &                 &                  &                  &           \\
+		& (0.116)       & (0.198)         &                 &                  &                  &           \\
+		L3.InfExp\_FE       & 0.114         & 0.0782          &                 &                  &                  &           \\
+		& (0.114)       & (0.196)         &                 &                  &                  &           \\
+		L4.InfExp\_FE       & -0.137        & -0.0162         &                 &                  &                  &           \\
+		& (0.0820)      & (0.131)         &                 &                  &                  &           \\
+		L.InfExp\_Var\_ch   &               &                 & -0.855***       & -0.565**         &                  &           \\
+		&               &                 & (0.189)         & (0.162)          &                  &           \\
+		L2.InfExp\_Var\_ch  &               &                 & -0.780**        & -0.452*          &                  &           \\
+		&               &                 & (0.220)         & (0.186)          &                  &           \\
+		L3.InfExp\_Var\_ch  &               &                 & -0.556*         & -0.429*          &                  &           \\
+		&               &                 & (0.219)         & (0.189)          &                  &           \\
+		L4.InfExp\_Var\_ch  &               &                 & -0.167          & 0.00385          &                  &           \\
+		&               &                 & (0.188)         & (0.172)          &                  &           \\
+		L.InfExp\_Disg\_ch  &               &                 &                 &                  & -0.571***        & -0.640*** \\
+		&               &                 &                 &                  & (0.0699)         & (0.127)   \\
+		L2.InfExp\_Disg\_ch &               &                 &                 &                  & -0.376***        & -0.0944   \\
+		&               &                 &                 &                  & (0.0764)         & (0.141)   \\
+		L3.InfExp\_Disg\_ch &               &                 &                 &                  & -0.0455          & 0.180     \\
+		&               &                 &                 &                  & (0.0661)         & (0.138)   \\
+		L4.InfExp\_Disg\_ch &               &                 &                 &                  & -0.110*          & -0.0364   \\
+		&               &                 &                 &                  & (0.0479)         & (0.123)   \\
+		\hline 
+		N                   & 143           & 41              & 44              & 44               & 146              & 44        \\
+		R-sq                & 0.593         & 0.750           & 0.384           & 0.322            & 0.356            & 0.496    \\
+		\hline 
+	\end{tabular}
+}
+\end{table}
+\end{frame}
+
+
+\begin{frame}{Identified Inflation shocks}
+
+\begin{figure}
+	\includegraphics[scale=0.3]{figures/inf_shocksQ.png} 
+\end{figure}
+
+\end{frame}
+
+\begin{frame}{Results from \cite{coibion2012can}}
+
+\begin{figure}
+	\includegraphics[scale=0.3]{figures/RigidityJPEFigure2.png} 
+\end{figure}
+
+\end{frame}
+
 \begin{frame}{Inflation IR to  shocks}
 
 \begin{figure}
@@ -481,14 +539,6 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \end{frame}
 
-
-\begin{frame}{Inflation IR to  shocks}
-
-\begin{figure}
-	\includegraphics[scale=0.3]{figures/CPICore_ashocks.png} 
-\end{figure}
-
-\end{frame}
 
 
 \begin{frame}{Inflation IR to  shocks}

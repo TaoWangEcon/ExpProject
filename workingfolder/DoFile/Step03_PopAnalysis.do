@@ -383,14 +383,15 @@ esttab using "${sum_table_folder}/autoregDiffQ.csv", mtitles se r2 replace
 
 eststo clear
 
-foreach mom in Mean Var Disg FE{
+foreach mom in FE Var Disg {
    foreach var in SPFCPI SPFPCE{
     replace InfExp_`mom' = `var'_`mom'
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-    eststo `var'_`mom': reg InfExp_`mom'_ch l(1/5).InfExp_`mom'_ch  
+	eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/4).InfExp_`mom' 
+    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch  
   }
 }
-esttab using "${sum_table_folder}/autoregSPFDiffQ.csv", mtitles se r2 replace
+esttab using "${sum_table_folder}/autoregSPFQ.csv", mtitles se r2 replace
 eststo clear
 
 

@@ -89,6 +89,7 @@ foreach Inf in CPIAU CPICore PCEPI{
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
  }
 
+
 /*
 ** Plot all shocks for checking 
 
@@ -112,7 +113,6 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
 }
 esttab using "${sum_table_folder}/IRFQ.csv", mtitles se r2 replace
 
-
 ** IRF of inflation (one shock each time) 
 
 eststo clear
@@ -135,29 +135,53 @@ eststo clear
 foreach Inf in CPIAU CPICore PCEPI{ 
    var Inf1y_`Inf', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
-					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
+					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)   
    set seed 123456
    irf create irf1, set(irf,replace) step(10) bsp replace 
-   irf graph dm, impulse(pty_shock op_shock mp1ut_shock ED8ut_shock)
+   irf graph dm, impulse(pty_shock op_shock mp1ut_shock ED8ut_shock) ///
+                 byopts(title("`mom'") yrescale xrescale note("")) ///
+                 legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall)) ///
+				 xtitle("Quarters") 
    graph export "${sum_graph_folder}/irf/`Inf'_ashocks", as(png) replace
 
 }
- 
 
-*/
+
+
+***********************************************
+** IRF of inflation (all shocks exl MP at one time) **
+***********************************************
+
+
+eststo clear
+
+foreach Inf in CPIAU CPICore PCEPI{ 
+   var Inf1y_`Inf', lags(1/4) ///
+                     exo(l(0/1).pty_shock l(0/1).op_shock)   
+   set seed 123456
+   irf create irf1, set(irf,replace) step(10) bsp replace 
+   irf graph dm, impulse(pty_shock op_shock) ///
+                 byopts(col(1) title("`mom'") yrescale xrescale note("")) ///
+                 legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall)) ///
+				 xtitle("Quarters") 
+   graph export "${sum_graph_folder}/irf/`Inf'_ashocks_nmp", as(png) replace
+
+}
+
+
 
 ****************************************************
 ** IRF of SPF moments (all shocks at one time)    **
 ****************************************************
 
-/*
+
 foreach mom in Mean Var Disg FE{
    foreach var in SPFCPI SPFPCE{
        capture var `var'_`mom', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 					 l(0/1).mp1ut_shock )
    set seed 123456
-   capture irf create `var', set(`mom') step(10) bsp replace 
+   capture irf create `var', set(`mom') step(10) bsp 
 }
    capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
                          byopts(title("`mom'") yrescale /// 
@@ -168,6 +192,29 @@ foreach mom in Mean Var Disg FE{
 }
 */
 
+
+
+***********************************************************
+** IRF of SPF moments (all shocks exl MP at one time)    **
+***********************************************************
+
+
+foreach mom in Mean Var Disg FE{
+   foreach var in SPFCPI SPFPCE{
+       capture var `var'_`mom', lags(1/4) ///
+                     exo(l(0/1).pty_shock l(0/1).op_shock) 
+   set seed 123456
+   capture irf create `var', set(`mom') step(10) bsp  
+}
+   capture irf graph dm, impulse(pty_shock op_shock) ///
+                         byopts(title("`mom'") yrescale /// 
+						 xrescale note("")) legend(col(2) /// 
+						 order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+						 xtitle("Quarters") 
+   capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
+}
+
+/*
 ****************************************************
 ** IRF of SCE moments (all shocks at one time)    **
 ****************************************************
@@ -188,5 +235,6 @@ foreach mom in Mean Var Disg FE{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SCE`mom'_ashocks", as(png) replace
 }
+*/
 
 log close 

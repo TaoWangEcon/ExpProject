@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  14 JUN 2019 10:37
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  16 JUN 2019 19:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -713,6 +713,54 @@ Package: beamerouterthemedefault 2012/12/19  (rcs-revision 1686da3db3c9)
     University of New England, Australia
     Email: zhuhan@neumann.une.edu.au
 )
+(/usr/local/texlive/2014/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2012/05/21 v1.0 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/05/09 v2.6d package option processing (HA)
+
+(/usr/local/texlive/2014/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+\XKV@toks=\toks55
+\XKV@tempa@toks=\toks56
+\XKV@depth=\count158
+File: xkeyval.tex 2014/05/09 v2.6d key=value parser (HA)
+))
+(/usr/local/texlive/2014/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2012/05/16 v1.0 Trim and clip general TeX material
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box56
+)
+\tc@llx=\dimen191
+\tc@lly=\dimen192
+\tc@urx=\dimen193
+\tc@ury=\dimen194
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2012/05/13 v1.0 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen195
+\adjbox@Height=\dimen196
+\adjbox@Depth=\dimen197
+\adjbox@Totalheight=\dimen198
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2011/09/13 v1.0 Conditionals for odd/even page detection
+\c@checkoddpage=\count159
+)
+(/usr/local/texlive/2014/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box57
+\sift@deathcycles=\count160
+\@vwid@loff=\dimen199
+\@vwid@roff=\dimen200
+))
 (/usr/local/texlive/2014/texmf-dist/tex/latex/beamer/themes/theme/beamerthemeCa
 mbridgeUS.sty
 Package: beamerthemeCambridgeUS 2010/06/17  (rcs-revision d02a7cf4d8ae)
@@ -787,17 +835,17 @@ LaTeX Font Info:    ... okay on input line 69.
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count158
-\scratchdimen=\dimen191
-\scratchbox=\box56
-\nofMPsegments=\count159
-\nofMParguments=\count160
-\everyMPshowfont=\toks55
-\MPscratchCnt=\count161
-\MPscratchDim=\dimen192
-\MPnumerator=\count162
-\makeMPintoPDFobject=\count163
-\everyMPtoPDFconversion=\toks56
+\scratchcounter=\count161
+\scratchdimen=\dimen201
+\scratchbox=\box58
+\nofMPsegments=\count162
+\nofMParguments=\count163
+\everyMPshowfont=\toks57
+\MPscratchCnt=\count164
+\MPscratchDim=\dimen202
+\MPnumerator=\count165
+\makeMPintoPDFobject=\count166
+\everyMPtoPDFconversion=\toks58
 ) (/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
 
@@ -814,7 +862,7 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 ABD: EveryShipout initializing macros
-\AtBeginShipoutBox=\box57
+\AtBeginShipoutBox=\box59
 Package hyperref Info: Link coloring OFF on input line 69.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/hyperref/nameref.sty
@@ -823,7 +871,7 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count164
+\c@section@level=\count167
 )
 LaTeX Info: Redefining \ref on input line 69.
 LaTeX Info: Redefining \pageref on input line 69.
@@ -1008,7 +1056,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [10
 
-] <figures/ir_indse.png, id=412, 1156.32pt x 722.7pt>
+] <figures/ir_indse.png, id=419, 1156.32pt x 722.7pt>
 File: figures/ir_indse.png Graphic file (type png)
 
 <use figures/ir_indse.png>
@@ -1026,7 +1074,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [11
 
  <./figures/ir_indse.png>]
-<figures/ir_popse.png, id=443, 1156.32pt x 722.7pt>
+<figures/ir_popse.png, id=450, 1156.32pt x 722.7pt>
 File: figures/ir_popse.png Graphic file (type png)
  <use figures/ir_popse.png>
 Package pdftex.def Info: figures/ir_popse.png used on input line 246.
@@ -1056,7 +1104,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [14
 
-] <figures/ir_indseni.png, id=539, 1156.32pt x 722.7pt>
+] <figures/ir_indseni.png, id=547, 1156.32pt x 722.7pt>
 File: figures/ir_indseni.png Graphic file (type png)
 
 <use figures/ir_indseni.png>
@@ -1074,7 +1122,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [15
 
  <./figures/ir_indseni.png>]
-<figures/ir_popseni.png, id=569, 1156.32pt x 722.7pt>
+<figures/ir_popseni.png, id=577, 1156.32pt x 722.7pt>
 File: figures/ir_popseni.png Graphic file (type png)
 
 <use figures/ir_popseni.png>
@@ -1092,7 +1140,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [16
 
  <./figures/ir_popseni.png>]
-<figures/ni_illustration.png, id=599, 867.24pt x 867.24pt>
+<figures/ni_illustration.png, id=608, 867.24pt x 867.24pt>
 File: figures/ni_illustration.png Graphic file (type png)
 
 <use figures/ni_illustration.png>
@@ -1110,7 +1158,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [17
 
  <./figures/ni_illustration.png>]
-<figures/rigidity.png, id=630, 433.62pt x 289.08pt>
+<figures/rigidity.png, id=638, 433.62pt x 289.08pt>
 File: figures/rigidity.png Graphic file (type png)
  <use figures/rigidity.png>
 Package pdftex.def Info: figures/rigidity.png used on input line 328.
@@ -1150,7 +1198,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [22
 
-] <figures/mean_med.png, id=772, 932.98563pt x 678.535pt>
+] <figures/mean_med.png, id=780, 932.98563pt x 678.535pt>
 File: figures/mean_med.png Graphic file (type png)
 
 <use figures/mean_med.png>
@@ -1164,7 +1212,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [23
 
  <./figures/mean_med.png>]
-<figures/fe_fe.png, id=802, 932.98563pt x 678.535pt>
+<figures/fe_fe.png, id=810, 932.98563pt x 678.535pt>
 File: figures/fe_fe.png Graphic file (type png)
  <use figures/fe_fe.png>
 Package pdftex.def Info: figures/fe_fe.png used on input line 407.
@@ -1177,7 +1225,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [24
 
  <./figures/fe_fe.png>]
-<figures/mean_var.png, id=832, 932.98563pt x 678.535pt>
+<figures/mean_var.png, id=840, 932.98563pt x 678.535pt>
 File: figures/mean_var.png Graphic file (type png)
 
 <use figures/mean_var.png>
@@ -1191,7 +1239,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [25
 
  <./figures/mean_var.png>]
-<figures/var_var.png, id=862, 932.98563pt x 678.535pt>
+<figures/var_var.png, id=870, 932.98563pt x 678.535pt>
 File: figures/var_var.png Graphic file (type png)
 
 <use figures/var_var.png>
@@ -1205,7 +1253,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [26
 
  <./figures/var_var.png>]
-<figures/mean_disg.png, id=891, 932.98563pt x 678.535pt>
+<figures/mean_disg.png, id=899, 932.98563pt x 678.535pt>
 File: figures/mean_disg.png Graphic file (type png)
 
 <use figures/mean_disg.png>
@@ -1230,7 +1278,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [28
 
-] <figures/disg_disg.png, id=948, 932.98563pt x 678.535pt>
+] <figures/disg_disg.png, id=956, 932.98563pt x 678.535pt>
 File: figures/disg_disg.png Graphic file (type png)
 
 <use figures/disg_disg.png>
@@ -1244,7 +1292,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [29
 
  <./figures/disg_disg.png>]
-<figures/var_disg.png, id=977, 932.98563pt x 678.535pt>
+<figures/var_disg.png, id=985, 932.98563pt x 678.535pt>
 File: figures/var_disg.png Graphic file (type png)
 
 <use figures/var_disg.png>
@@ -1258,7 +1306,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [30
 
  <./figures/var_disg.png>]
-<figures/var_disg2.png, id=1006, 932.98563pt x 678.535pt>
+<figures/var_disg2.png, id=1014, 932.98563pt x 678.535pt>
 File: figures/var_disg2.png Graphic file (type png)
 
 <use figures/var_disg2.png>
@@ -1272,7 +1320,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [31
 
  <./figures/var_disg2.png>]
-<figures/mean_true.png, id=1035, 932.98563pt x 678.535pt>
+<figures/mean_true.png, id=1044, 932.98563pt x 678.535pt>
 File: figures/mean_true.png Graphic file (type png)
 
 <use figures/mean_true.png>
@@ -1292,39 +1340,25 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [33
 
-] <figures/CPIAU_ashocks.png, id=1096, 932.98563pt x 678.535pt>
-File: figures/CPIAU_ashocks.png Graphic file (type png)
-
-<use figures/CPIAU_ashocks.png>
-Package pdftex.def Info: figures/CPIAU_ashocks.png used on input line 482.
-(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
-
+] (./ExpSlides.toc)
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [34
 
- <./figures/CPIAU_ashocks.png>]
-<figures/CPICore_ashocks.png, id=1125, 932.98563pt x 678.535pt>
-File: figures/CPICore_ashocks.png Graphic file (type png)
-
-<use figures/CPICore_ashocks.png>
-Package pdftex.def Info: figures/CPICore_ashocks.png used on input line 491.
-(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
-
+]
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [35
 
- <./figures/CPICore_ashocks.png>]
-<figures/PCEPI_ashocks.png, id=1154, 932.98563pt x 678.535pt>
-File: figures/PCEPI_ashocks.png Graphic file (type png)
+] <figures/inf_shocksQ.png, id=1170, 932.98563pt x 678.535pt>
+File: figures/inf_shocksQ.png Graphic file (type png)
 
-<use figures/PCEPI_ashocks.png>
-Package pdftex.def Info: figures/PCEPI_ashocks.png used on input line 500.
+<use figures/inf_shocksQ.png>
+Package pdftex.def Info: figures/inf_shocksQ.png used on input line 524.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1333,18 +1367,27 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [36
 
- <./figures/PCEPI_ashocks.png>] (./ExpSlides.toc)
+ <./figures/inf_shocksQ.png>]
+<figures/RigidityJPEFigure2.png, id=1200, 964.60374pt x 551.05875pt>
+File: figures/RigidityJPEFigure2.png Graphic file (type png)
+
+<use figures/RigidityJPEFigure2.png>
+Package pdftex.def Info: figures/RigidityJPEFigure2.png used on input line 532.
+
+(pdftex.def)             Requested size: 289.38336pt x 165.3189pt.
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [37
 
-] <figures/SPFFE_ashocks.png, id=1220, 932.98563pt x 678.535pt>
-File: figures/SPFFE_ashocks.png Graphic file (type png)
+ <./figures/RigidityJPEFigure2.png>]
+<figures/CPIAU_ashocks.png, id=1232, 932.98563pt x 678.535pt>
+File: figures/CPIAU_ashocks.png Graphic file (type png)
 
-<use figures/SPFFE_ashocks.png>
-Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 510.
+<use figures/CPIAU_ashocks.png>
+Package pdftex.def Info: figures/CPIAU_ashocks.png used on input line 540.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1353,12 +1396,12 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [38
 
- <./figures/SPFFE_ashocks.png>]
-<figures/SPFDisg_ashocks.png, id=1250, 932.98563pt x 678.535pt>
-File: figures/SPFDisg_ashocks.png Graphic file (type png)
+ <./figures/CPIAU_ashocks.png>]
+<figures/PCEPI_ashocks.png, id=1263, 932.98563pt x 678.535pt>
+File: figures/PCEPI_ashocks.png Graphic file (type png)
 
-<use figures/SPFDisg_ashocks.png>
-Package pdftex.def Info: figures/SPFDisg_ashocks.png used on input line 519.
+<use figures/PCEPI_ashocks.png>
+Package pdftex.def Info: figures/PCEPI_ashocks.png used on input line 550.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1367,19 +1410,53 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [39
 
- <./figures/SPFDisg_ashocks.png>]
-<figures/SPFVar_ashocks.png, id=1281, 932.98563pt x 678.535pt>
-File: figures/SPFVar_ashocks.png Graphic file (type png)
+ <./figures/PCEPI_ashocks.png>] (./ExpSlides.toc)
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
 
-<use figures/SPFVar_ashocks.png>
-Package pdftex.def Info: figures/SPFVar_ashocks.png used on input line 528.
+[40
+
+] <figures/SPFFE_ashocks.png, id=1330, 932.98563pt x 678.535pt>
+File: figures/SPFFE_ashocks.png Graphic file (type png)
+
+<use figures/SPFFE_ashocks.png>
+Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 560.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[40
+[41
+
+ <./figures/SPFFE_ashocks.png>]
+<figures/SPFDisg_ashocks.png, id=1360, 932.98563pt x 678.535pt>
+File: figures/SPFDisg_ashocks.png Graphic file (type png)
+
+<use figures/SPFDisg_ashocks.png>
+Package pdftex.def Info: figures/SPFDisg_ashocks.png used on input line 569.
+(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
+
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[42
+
+ <./figures/SPFDisg_ashocks.png>]
+<figures/SPFVar_ashocks.png, id=1391, 932.98563pt x 678.535pt>
+File: figures/SPFVar_ashocks.png Graphic file (type png)
+
+<use figures/SPFVar_ashocks.png>
+Package pdftex.def Info: figures/SPFVar_ashocks.png used on input line 578.
+(pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
+
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[43
 
  <./figures/SPFVar_ashocks.png>] (./ExpSlides.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1389,7 +1466,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[41
+[44
 
  </usr/local/texlive/2014/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf
 >]
@@ -1400,49 +1477,28 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[42]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[43])
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[44]
-Overfull \hbox (51.52pt too wide) has occurred while \output is active
- [][][][]  
- []
-
 [45]
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[46
+[46])
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-]
+
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[47
-
-]
+[47]
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[48
-
-]
+[48]
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
  [][][][]  
  []
@@ -1499,6 +1555,27 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [56
 
 ]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[57
+
+]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[58
+
+]
+Overfull \hbox (51.52pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[59
+
+]
 \tf@nav=\write6
 \openout6 = `ExpSlides.nav'.
 
@@ -1508,46 +1585,58 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 \tf@snm=\write8
 \openout8 = `ExpSlides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 763.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 763.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 813.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 813.
  (./ExpSlides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 763.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 763.
-Package rerunfilecheck Info: File `ExpSlides.out' has not changed.
-(rerunfilecheck)             Checksum: CAE770AD979B03E425FD5F159319C894;507.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 813.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 813.
 
+
+Package rerunfilecheck Warning: File `ExpSlides.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `ExpSlides.out':
+(rerunfilecheck)             Before: 0C596F0E3209DD0A320C43C4D27DAF15;605
+(rerunfilecheck)             After:  F4F7955D1487DADF6BFDB2122644B403;605.
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 763.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 813.
  ) 
 Here is how much of TeX's memory you used:
- 17290 strings out of 493117
- 334091 string characters out of 6135433
- 395175 words of memory out of 5000000
- 20178 multiletter control sequences out of 15000+600000
+ 18030 strings out of 493117
+ 346093 string characters out of 6135433
+ 431231 words of memory out of 5000000
+ 20874 multiletter control sequences out of 15000+600000
  15428 words of font info for 56 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  56i,21n,65p,409b,771s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
-usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/l
-ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/loc
-al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/loc
-al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
-exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on ExpSlides.pdf (56 pages, 2343412 bytes).
+pdfTeX warning (dest): name{Navigation60} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Outline0.5.2.41} has been referenced but does not e
+xist, replaced by a fixed one
+
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
+r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/loc
+al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/loca
+l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/
+texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/t
+exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/tex
+live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on ExpSlides.pdf (59 pages, 2891206 bytes).
 PDF statistics:
- 1838 PDF objects out of 2073 (max. 8388607)
- 1689 compressed objects within 17 object streams
- 139 named destinations out of 1000 (max. 500000)
- 268 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1951 PDF objects out of 2073 (max. 8388607)
+ 1796 compressed objects within 18 object streams
+ 148 named destinations out of 1000 (max. 500000)
+ 281 words of extra memory for PDF output out of 10000 (max. 10000000)
 
