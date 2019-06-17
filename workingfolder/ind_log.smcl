@@ -1,0 +1,726 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}17 Jun 2019, 09:41:56
+{txt}
+{com}. 
+. 
+. ***************************
+. **  Clean and Merge Data **
+. ***************************
+. 
+. use "${c -(}folder{c )-}/SPF/individual/InfExpSPFPointIndQ",clear 
+{txt}
+{com}. 
+. duplicates report year quarter ID 
+
+{p 0 4}{txt}Duplicates in terms of {res} year quarter ID{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}         {res}8195             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. 
+. merge 1:1 year quarter ID using "${c -(}folder{c )-}/SPF/individual/InfExpSPFDstIndQ.dta"
+{res}{txt}{p 0 7 2}
+(note: variable
+year was 
+int, now double to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(note: variable
+quarter was 
+byte, now double to accommodate using data's values)
+{p_end}
+{p 0 7 2}
+(note: variable
+ID was 
+int, now double to accommodate using data's values)
+{p_end}
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           6,102
+{txt}{col 9}from master{col 30}{res}           6,102{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}           2,093{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. 
+. rename _merge SPFDst_merge
+{res}{txt}
+{com}. 
+. table year if SPFDst_merge ==3
+
+{txt}{hline 10}{c TT}{hline 11}
+     YEAR {c |}      Freq.
+{hline 10}{c +}{hline 11}
+     2007 {c |}        {res}199
+     {txt}2008 {c |}        {res}198
+     {txt}2009 {c |}        {res}169
+     {txt}2010 {c |}        {res}165
+     {txt}2011 {c |}        {res}169
+     {txt}2012 {c |}        {res}171
+     {txt}2013 {c |}        {res}171
+     {txt}2014 {c |}        {res}172
+     {txt}2015 {c |}        {res}170
+     {txt}2016 {c |}        {res}164
+     {txt}2017 {c |}        {res}159
+     {txt}2018 {c |}        {res}147
+     {txt}2019 {c |}         {res}38
+{txt}{hline 10}{c BT}{hline 11}
+
+{com}. 
+. *******************************
+. **  Set Panel Data Structure **
+. *******************************
+. 
+. xtset ID dateQ
+{res}{txt}{col 8}panel variable:  {res}ID (unbalanced)
+{txt}{col 9}time variable:  {res}{col 25}dateQ, 1968q4 to 2019q1, but with gaps
+{txt}{col 17}delta:  {res}1 quarter
+{txt}
+{com}. sort ID year quarter 
+{txt}
+{com}. 
+. drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
+{txt}(23 observations deleted)
+
+{com}. 
+. 
+. *******************************
+. **  Summary Statistics of SPF **
+. *******************************
+. 
+. tabstat ID,s(count) by(dateQ) column(statistics)
+
+{txt}Summary for variables: ID
+{col 6}by categories of: dateQ 
+
+{ralign 9:dateQ} {...}
+{c |}         N
+{hline 10}{c +}{hline 10}
+{ralign 9:1968q4} {...}
+{c |}{...}
+ {res}       87
+{txt}{ralign 9:1969q1} {...}
+{c |}{...}
+ {res}       65
+{txt}{ralign 9:1969q2} {...}
+{c |}{...}
+ {res}       59
+{txt}{ralign 9:1969q3} {...}
+{c |}{...}
+ {res}      128
+{txt}{ralign 9:1969q4} {...}
+{c |}{...}
+ {res}       57
+{txt}{ralign 9:1970q1} {...}
+{c |}{...}
+ {res}       60
+{txt}{ralign 9:1970q2} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:1970q3} {...}
+{c |}{...}
+ {res}       57
+{txt}{ralign 9:1970q4} {...}
+{c |}{...}
+ {res}      131
+{txt}{ralign 9:1971q1} {...}
+{c |}{...}
+ {res}       56
+{txt}{ralign 9:1971q2} {...}
+{c |}{...}
+ {res}       59
+{txt}{ralign 9:1971q3} {...}
+{c |}{...}
+ {res}      106
+{txt}{ralign 9:1971q4} {...}
+{c |}{...}
+ {res}       76
+{txt}{ralign 9:1972q1} {...}
+{c |}{...}
+ {res}       66
+{txt}{ralign 9:1972q2} {...}
+{c |}{...}
+ {res}       71
+{txt}{ralign 9:1972q3} {...}
+{c |}{...}
+ {res}       69
+{txt}{ralign 9:1972q4} {...}
+{c |}{...}
+ {res}       63
+{txt}{ralign 9:1973q1} {...}
+{c |}{...}
+ {res}       68
+{txt}{ralign 9:1973q2} {...}
+{c |}{...}
+ {res}       64
+{txt}{ralign 9:1973q3} {...}
+{c |}{...}
+ {res}       46
+{txt}{ralign 9:1973q4} {...}
+{c |}{...}
+ {res}       59
+{txt}{ralign 9:1974q1} {...}
+{c |}{...}
+ {res}       63
+{txt}{ralign 9:1974q2} {...}
+{c |}{...}
+ {res}       49
+{txt}{ralign 9:1974q3} {...}
+{c |}{...}
+ {res}       54
+{txt}{ralign 9:1974q4} {...}
+{c |}{...}
+ {res}       54
+{txt}{ralign 9:1975q1} {...}
+{c |}{...}
+ {res}       46
+{txt}{ralign 9:1975q2} {...}
+{c |}{...}
+ {res}       47
+{txt}{ralign 9:1975q3} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:1975q4} {...}
+{c |}{...}
+ {res}       48
+{txt}{ralign 9:1976q1} {...}
+{c |}{...}
+ {res}       48
+{txt}{ralign 9:1976q2} {...}
+{c |}{...}
+ {res}       49
+{txt}{ralign 9:1976q3} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1976q4} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1977q1} {...}
+{c |}{...}
+ {res}       41
+{txt}{ralign 9:1977q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1977q3} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1977q4} {...}
+{c |}{...}
+ {res}       45
+{txt}{ralign 9:1978q1} {...}
+{c |}{...}
+ {res}       26
+{txt}{ralign 9:1978q2} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1978q3} {...}
+{c |}{...}
+ {res}       27
+{txt}{ralign 9:1978q4} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1979q1} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:1979q2} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1979q3} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:1979q4} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:1980q1} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:1980q2} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1980q3} {...}
+{c |}{...}
+ {res}       24
+{txt}{ralign 9:1980q4} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:1981q1} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1981q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1981q3} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1981q4} {...}
+{c |}{...}
+ {res}       46
+{txt}{ralign 9:1982q1} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1982q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1982q3} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:1982q4} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:1983q1} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:1983q2} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:1983q3} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:1983q4} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1984q1} {...}
+{c |}{...}
+ {res}       31
+{txt}{ralign 9:1984q2} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1984q3} {...}
+{c |}{...}
+ {res}       27
+{txt}{ralign 9:1984q4} {...}
+{c |}{...}
+ {res}       31
+{txt}{ralign 9:1985q1} {...}
+{c |}{...}
+ {res}       24
+{txt}{ralign 9:1985q2} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:1985q3} {...}
+{c |}{...}
+ {res}       31
+{txt}{ralign 9:1985q4} {...}
+{c |}{...}
+ {res}       25
+{txt}{ralign 9:1986q1} {...}
+{c |}{...}
+ {res}       26
+{txt}{ralign 9:1986q2} {...}
+{c |}{...}
+ {res}       28
+{txt}{ralign 9:1986q3} {...}
+{c |}{...}
+ {res}       24
+{txt}{ralign 9:1986q4} {...}
+{c |}{...}
+ {res}       24
+{txt}{ralign 9:1987q1} {...}
+{c |}{...}
+ {res}       22
+{txt}{ralign 9:1987q2} {...}
+{c |}{...}
+ {res}       28
+{txt}{ralign 9:1987q3} {...}
+{c |}{...}
+ {res}       22
+{txt}{ralign 9:1987q4} {...}
+{c |}{...}
+ {res}       20
+{txt}{ralign 9:1988q1} {...}
+{c |}{...}
+ {res}       18
+{txt}{ralign 9:1988q2} {...}
+{c |}{...}
+ {res}       19
+{txt}{ralign 9:1988q3} {...}
+{c |}{...}
+ {res}       18
+{txt}{ralign 9:1988q4} {...}
+{c |}{...}
+ {res}       15
+{txt}{ralign 9:1989q1} {...}
+{c |}{...}
+ {res}       17
+{txt}{ralign 9:1989q2} {...}
+{c |}{...}
+ {res}       17
+{txt}{ralign 9:1989q3} {...}
+{c |}{...}
+ {res}       15
+{txt}{ralign 9:1989q4} {...}
+{c |}{...}
+ {res}       17
+{txt}{ralign 9:1990q1} {...}
+{c |}{...}
+ {res}       14
+{txt}{ralign 9:1990q3} {...}
+{c |}{...}
+ {res}       11
+{txt}{ralign 9:1990q4} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1991q1} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1991q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1991q3} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:1991q4} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:1992q1} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:1992q2} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1992q3} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1992q4} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:1993q1} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:1993q2} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1993q3} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1993q4} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:1994q1} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1994q2} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:1994q3} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1994q4} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:1995q1} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:1995q2} {...}
+{c |}{...}
+ {res}       52
+{txt}{ralign 9:1995q3} {...}
+{c |}{...}
+ {res}       52
+{txt}{ralign 9:1995q4} {...}
+{c |}{...}
+ {res}       47
+{txt}{ralign 9:1996q1} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1996q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1996q3} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:1996q4} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1997q1} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:1997q2} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:1997q3} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1997q4} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:1998q1} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:1998q2} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:1998q3} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:1998q4} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:1999q1} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:1999q2} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:1999q3} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:1999q4} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:2000q1} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2000q2} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2000q3} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:2000q4} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2001q1} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:2001q2} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:2001q3} {...}
+{c |}{...}
+ {res}       33
+{txt}{ralign 9:2001q4} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:2002q1} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:2002q2} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:2002q3} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2002q4} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:2003q1} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:2003q2} {...}
+{c |}{...}
+ {res}       35
+{txt}{ralign 9:2003q3} {...}
+{c |}{...}
+ {res}       30
+{txt}{ralign 9:2003q4} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2004q1} {...}
+{c |}{...}
+ {res}       31
+{txt}{ralign 9:2004q2} {...}
+{c |}{...}
+ {res}       32
+{txt}{ralign 9:2004q3} {...}
+{c |}{...}
+ {res}       29
+{txt}{ralign 9:2004q4} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2005q1} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2005q2} {...}
+{c |}{...}
+ {res}       46
+{txt}{ralign 9:2005q3} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2005q4} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2006q1} {...}
+{c |}{...}
+ {res}       53
+{txt}{ralign 9:2006q2} {...}
+{c |}{...}
+ {res}       53
+{txt}{ralign 9:2006q3} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2006q4} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2007q1} {...}
+{c |}{...}
+ {res}       49
+{txt}{ralign 9:2007q2} {...}
+{c |}{...}
+ {res}       52
+{txt}{ralign 9:2007q3} {...}
+{c |}{...}
+ {res}       49
+{txt}{ralign 9:2007q4} {...}
+{c |}{...}
+ {res}       48
+{txt}{ralign 9:2008q1} {...}
+{c |}{...}
+ {res}       50
+{txt}{ralign 9:2008q2} {...}
+{c |}{...}
+ {res}       50
+{txt}{ralign 9:2008q3} {...}
+{c |}{...}
+ {res}       47
+{txt}{ralign 9:2008q4} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2009q1} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:2009q2} {...}
+{c |}{...}
+ {res}       51
+{txt}{ralign 9:2009q3} {...}
+{c |}{...}
+ {res}       34
+{txt}{ralign 9:2009q4} {...}
+{c |}{...}
+ {res}       41
+{txt}{ralign 9:2010q1} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2010q2} {...}
+{c |}{...}
+ {res}       44
+{txt}{ralign 9:2010q3} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2010q4} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:2011q1} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:2011q2} {...}
+{c |}{...}
+ {res}       44
+{txt}{ralign 9:2011q3} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:2011q4} {...}
+{c |}{...}
+ {res}       45
+{txt}{ralign 9:2012q1} {...}
+{c |}{...}
+ {res}       45
+{txt}{ralign 9:2012q2} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:2012q3} {...}
+{c |}{...}
+ {res}       48
+{txt}{ralign 9:2012q4} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:2013q1} {...}
+{c |}{...}
+ {res}       46
+{txt}{ralign 9:2013q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2013q3} {...}
+{c |}{...}
+ {res}       41
+{txt}{ralign 9:2013q4} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2014q1} {...}
+{c |}{...}
+ {res}       45
+{txt}{ralign 9:2014q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2014q3} {...}
+{c |}{...}
+ {res}       43
+{txt}{ralign 9:2014q4} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2015q1} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:2015q2} {...}
+{c |}{...}
+ {res}       44
+{txt}{ralign 9:2015q3} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2015q4} {...}
+{c |}{...}
+ {res}       45
+{txt}{ralign 9:2016q1} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:2016q2} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2016q3} {...}
+{c |}{...}
+ {res}       40
+{txt}{ralign 9:2016q4} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2017q1} {...}
+{c |}{...}
+ {res}       42
+{txt}{ralign 9:2017q2} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2017q3} {...}
+{c |}{...}
+ {res}       39
+{txt}{ralign 9:2017q4} {...}
+{c |}{...}
+ {res}       41
+{txt}{ralign 9:2018q1} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2018q2} {...}
+{c |}{...}
+ {res}       36
+{txt}{ralign 9:2018q3} {...}
+{c |}{...}
+ {res}       38
+{txt}{ralign 9:2018q4} {...}
+{c |}{...}
+ {res}       37
+{txt}{ralign 9:2019q1} {...}
+{c |}{...}
+ {res}       37
+{txt}{hline 10}{c +}{hline 10}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}     8171
+{txt}{hline 10}{c BT}{hline 10}
+
+{com}. 
+. 
+. log close 
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}17 Jun 2019, 09:41:57
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

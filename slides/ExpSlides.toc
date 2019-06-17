@@ -7,5 +7,5 @@
 \beamer@sectionintoc {4}{Stylized Facts}{23}{0}{4}
 \beamer@sectionintoc {5}{Empirical Results}{33}{0}{5}
 \beamer@subsectionintoc {5}{1}{Test of Null Hypothesis of Rational Expectation}{34}{0}{5}
-\beamer@subsectionintoc {5}{2}{Professional forecasters as a baseline }{40}{0}{5}
-\beamer@sectionintoc {6}{Appendix}{47}{0}{6}
+\beamer@subsectionintoc {5}{2}{Benchmark Results from Professional Forecasters }{42}{0}{5}
+\beamer@sectionintoc {6}{Appendix}{52}{0}{6}
