@@ -72,9 +72,9 @@ gen SCE_FE = Q9_mean - Inf1yf_CPICore
 label var SCE_FE "1-yr-ahead forecast error"
 
 gen SPFCPI_FE = CPI1y - Inf1yf_CPIAU
-label var SPFCPI_FE "1-yr-ahead forecast error(SCE CPI)"
-gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
+gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
+label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 gen SPFPCE_FE = PCE1y - Inf1yf_PCE
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
 
