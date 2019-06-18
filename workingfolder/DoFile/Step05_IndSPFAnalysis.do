@@ -110,17 +110,44 @@ esttab using "${sum_table_folder}/ind/autoregSPFIndQ.csv", mtitles se  r2 replac
 eststo clear
 
 
-************************************************
-** IRF Estimates using individual moments     **
-************************************************
+******************************************************
+** Response  Estimates using individual moments     **
+******************************************************
 
+keep if year>=2008
+
+
+eststo clear
+
+foreach mom in FE{
+   foreach var in SPFCPI SPFPCE{
+       * shocks 
+       capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
+	                  l(0/1).pty_shock l(0/1).op_shock ///
+					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock, vce(cluster dateQ)
+       }
+ }
+ 
+ 
+foreach mom in Var{
+   foreach var in SPFCPI SPFPCE{
+       * abs of shocks 
+       capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
+	                  l(0/1).pty_abshock l(0/1).op_abshock ///
+					 l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock, vce(cluster dateQ)
+   }
+}
+
+
+esttab using "${sum_table_folder}/SPF_ind_ashocks.csv", drop(_cons) mtitles se r2 replace
 
 
 ** !!!! Need to find a way to run var for panel data
+/*
+************************************************
+** IRF using individual SPF moments     **
+************************************************
 
-****************************************************
-** IRF of SPF moments (MP shocks at one time)    **
-****************************************************
 
 
 foreach mom in FE{
@@ -151,7 +178,7 @@ foreach mom in FE{
 }
 
 
-/*
+
 ****************************************************************
 ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
 ****************************************************************

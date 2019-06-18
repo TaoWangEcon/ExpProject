@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}18 Jun 2019, 17:24:12
+ {txt}opened on:  {res}18 Jun 2019, 17:47:06
 {txt}
 {com}. 
 . 
@@ -1018,48 +1018,117 @@ InfExp_Var_ch {c |}
 {txt}
 {com}. 
 . 
-. ************************************************
-. ** IRF Estimates using individual moments     **
-. ************************************************
+. ******************************************************
+. ** Response  Estimates using individual moments     **
+. ******************************************************
 . 
+. keep if year>=2008
+{txt}(6280 observations deleted)
+
+{com}. 
 . 
-. ****************************************************
-. ** IRF of SPF moments (MP shocks at one time)    **
-. ****************************************************
-. 
-. 
+. eststo clear
+{txt}
+{com}. 
 . foreach mom in FE{c -(}
 {txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
 {txt}  3{com}.        * shocks 
-.        var `var'_`mom', lags(1/4) ///
+.        capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
+>                           l(0/1).pty_shock l(0/1).op_shock ///
+>                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock, vce(cluster dateQ)
+{txt}  4{com}.        {c )-}
+{txt}  5{com}.  {c )-}
+{txt}
+{com}.  
+.  
+. foreach mom in Var{c -(}
+{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
+{txt}  3{com}.        * abs of shocks 
+.        capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
+>                           l(0/1).pty_abshock l(0/1).op_abshock ///
+>                                          l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock, vce(cluster dateQ)
+{txt}  4{com}.    {c )-}
+{txt}  5{com}. {c )-}
+{txt}
+{com}. 
+. 
+. esttab using "${c -(}sum_table_folder{c )-}/SPF_ind_ashocks.csv", drop(_cons) mtitles se r2 replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/SPF_ind_ashocks.csv"'})
+
+{com}. 
+. 
+. ** !!!! Need to find a way to run var for panel data
+. /*
+> ************************************************
+> ** IRF using individual SPF moments     **
+> ************************************************
+> 
+> 
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>        * shocks 
+>        var `var'_`mom', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 >                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
-{txt}  4{com}.    set seed 123456
-{txt}  5{com}.    capture irf create `var', set(`mom') step(10) bsp replace 
-{txt}  6{com}. {c )-}
-{txt}  7{com}.    * Non-MP shocks plots
-.    irf graph dm, set(`mom') impulse(pty_shock op_shock) ///
+>    set seed 123456
+>    capture irf create `var', set(`mom') step(10) bsp replace 
+> {c )-}
+>    * Non-MP shocks plots
+>    irf graph dm, set(`mom') impulse(pty_shock op_shock) ///
 >                          byopts(col(2) title("`mom'") yrescale /// 
 >                                                  xrescale note("")) legend(col(2) /// 
 >                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
 >                                                  xtitle("Quarters") 
-{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_shocks_nmp", as(png) replace
-{txt}  9{com}.    
-.    * MP shocks plots
-.    capture irf graph dm, set(`mom') impulse(mp1ut_shock ED8ut_shock) ///
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_shocks_nmp", as(png) replace
+>    
+>    * MP shocks plots
+>    capture irf graph dm, set(`mom') impulse(mp1ut_shock ED8ut_shock) ///
 >                          byopts(col(2) title("`mom'") yrescale /// 
 >                                                  xrescale note("")) legend(col(2) /// 
 >                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
 >                                                  xtitle("Quarters") 
-{txt} 10{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_mpshocks", as(png) replace
-{txt} 11{com}.    
-. {c )-}
-{res}{err}repeated time values in sample
-{txt}{search r(451):r(451);}
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_mpshocks", as(png) replace
+>    
+> {c )-}
+> 
+> 
+> 
+> ****************************************************************
+> ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
+> ****************************************************************
+> 
+> 
+> foreach mom in Var{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>        * shocks 
+>         capture var `var'_`mom', lags(1/4) ///
+>                      exo(l(0/1).pty_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
+>                                          l(0/1).pty_abshock l(0/1).op_abshock l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock)
+>    set seed 123456
+>    capture irf create `var', set(`mom') step(10) bsp replace 
+> {c )-}
+>    * Non-MP shocks 
+>    capture irf graph dm, set(`mom') impulse(pty_abshock op_abshock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+>                                                  xtitle("Quarters") 
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
+>    
+>    * Non-MP shocks 
+>    capture irf graph dm, set(`mom') impulse(mp1ut_abshock ED8ut_abshock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
+>                                                  xtitle("Quarters") 
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_mpshocks", as(png) replace
+> {c )-}
+> 
+> 
+> log close 
 
-end of do-file
-
-{search r(451):r(451);}
+{txt}end of do-file
 
 {com}. clear
 
