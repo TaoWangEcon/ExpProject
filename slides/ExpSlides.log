@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  17 JUN 2019 08:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  18 JUN 2019 12:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1473,12 +1473,12 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 [44
 
  <./figures/SPFFE_ashocks.png>]
-<figures/SPFDisg_ashocks_nmp.png, id=1451, 932.98563pt x 678.535pt>
-File: figures/SPFDisg_ashocks_nmp.png Graphic file (type png)
+<figures/SPFDisg_ab_ashocks_nmp.png, id=1451, 932.98563pt x 678.535pt>
+File: figures/SPFDisg_ab_ashocks_nmp.png Graphic file (type png)
 
-<use figures/SPFDisg_ashocks_nmp.png>
-Package pdftex.def Info: figures/SPFDisg_ashocks_nmp.png used on input line 596
-.
+<use figures/SPFDisg_ab_ashocks_nmp.png>
+Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp.png used on input line 
+596.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1487,12 +1487,13 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [45
 
- <./figures/SPFDisg_ashocks_nmp.png>]
-<figures/SPFDisg_ashocks.png, id=1482, 932.98563pt x 678.535pt>
-File: figures/SPFDisg_ashocks.png Graphic file (type png)
+ <./figures/SPFDisg_ab_ashocks_nmp.png>]
+<figures/SPFDisg_ab_ashocks.png, id=1482, 932.98563pt x 678.535pt>
+File: figures/SPFDisg_ab_ashocks.png Graphic file (type png)
 
-<use figures/SPFDisg_ashocks.png>
-Package pdftex.def Info: figures/SPFDisg_ashocks.png used on input line 605.
+<use figures/SPFDisg_ab_ashocks.png>
+Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 605.
+
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1501,13 +1502,13 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [46
 
- <./figures/SPFDisg_ashocks.png>]
-<figures/SPFVar_ashocks_nmp.png, id=1512, 932.98563pt x 678.535pt>
-File: figures/SPFVar_ashocks_nmp.png Graphic file (type png)
+ <./figures/SPFDisg_ab_ashocks.png>]
+<figures/SPFVar_ab_ashocks_nmp.png, id=1512, 932.98563pt x 678.535pt>
+File: figures/SPFVar_ab_ashocks_nmp.png Graphic file (type png)
 
-<use figures/SPFVar_ashocks_nmp.png>
-Package pdftex.def Info: figures/SPFVar_ashocks_nmp.png used on input line 614.
-
+<use figures/SPFVar_ab_ashocks_nmp.png>
+Package pdftex.def Info: figures/SPFVar_ab_ashocks_nmp.png used on input line 6
+14.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1516,12 +1517,12 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [47
 
- <./figures/SPFVar_ashocks_nmp.png>]
-<figures/SPFVar_ashocks.png, id=1542, 932.98563pt x 678.535pt>
-File: figures/SPFVar_ashocks.png Graphic file (type png)
+ <./figures/SPFVar_ab_ashocks_nmp.png>]
+<figures/SPFVar_ab_ashocks.png, id=1542, 932.98563pt x 678.535pt>
+File: figures/SPFVar_ab_ashocks.png Graphic file (type png)
 
-<use figures/SPFVar_ashocks.png>
-Package pdftex.def Info: figures/SPFVar_ashocks.png used on input line 623.
+<use figures/SPFVar_ab_ashocks.png>
+Package pdftex.def Info: figures/SPFVar_ab_ashocks.png used on input line 623.
 (pdftex.def)             Requested size: 279.89784pt x 203.56207pt.
 
 Overfull \hbox (51.52pt too wide) has occurred while \output is active
@@ -1530,7 +1531,7 @@ Overfull \hbox (51.52pt too wide) has occurred while \output is active
 
 [48
 
- <./figures/SPFVar_ashocks.png>] (./ExpSlides.bbl
+ <./figures/SPFVar_ab_ashocks.png>] (./ExpSlides.bbl
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
@@ -1673,7 +1674,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 858.
  ) 
 Here is how much of TeX's memory you used:
  18071 strings out of 493117
- 347028 string characters out of 6135433
+ 347088 string characters out of 6135433
  431619 words of memory out of 5000000
  20902 multiletter control sequences out of 15000+600000
  15428 words of font info for 56 fonts, out of 8000000 for 9000
@@ -1693,7 +1694,7 @@ al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/loca
 l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
 /texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
 exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on ExpSlides.pdf (64 pages, 3367273 bytes).
+Output written on ExpSlides.pdf (64 pages, 3307961 bytes).
 PDF statistics:
  2103 PDF objects out of 2487 (max. 8388607)
  1931 compressed objects within 20 object streams
