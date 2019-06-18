@@ -1,3 +1,12 @@
+*******************************************************************************
+***  This do file first works with the inflation shock data file, including  **
+***  cleaning, relabeling and normalizing shocks. It then saves a clean      **
+***  InfShocksClean to be used for individual IR analysis.                   **
+***   Then it merges with population survey data and plot all kinds of impulse *
+***   responses. Be careful with the period filter. 
+********************************************************************************
+
+
 clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "${mainfolder}/SurveyData/"
@@ -12,7 +21,7 @@ log using "${mainfolder}/irf_log",replace
 
 
 **********************************************
-*** Clean Inflation Shock data from Python ***
+*** Clean inflation shock data from Python ***
 **********************************************
 
 use "${mainfolder}/OtherData/InfShocks.dta",clear 
@@ -33,21 +42,11 @@ order date year quarter month
 
 tsset date 
 
-** Period filter   
-** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
 
-keep if year>=1976 & year <= 2007
-
-** Merge with survey and inflation  
-
-merge 1:1 year quarter using "${folder}/InfExpQ.dta",keep(match using master)
-rename _merge InfExp_merge
-
-drop if month==. 
-drop if quarter ==.
-
+* Merge with inflation 
 merge 1:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master)
 rename _merge InfM_merge 
+
 
 ** Label and rename
 
@@ -89,6 +88,8 @@ local lb: var label `var'_shock
 label var `var'_abshock "Absolute value of `lb'"
 } 
 
+
+
 ** Generated unidentified shocks. 
 
 tsset date
@@ -101,7 +102,31 @@ foreach Inf in CPIAU CPICore PCEPI{
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
  }
 
+ 
+*Save a dta file for individual IR analysis **
+ 
+save "${mainfolder}/OtherData/InfShocksClean.dta",replace 
 
+
+*****************************
+***      IR Analysis     ****
+*****************************
+
+merge 1:1 year quarter using "${folder}/InfExpQ.dta",keep(match using master)
+rename _merge InfExp_merge
+
+drop if month==. 
+drop if quarter ==.
+
+
+** Period filter   
+** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
+
+keep if year>=1976 & year <= 2007
+
+
+
+ 
 /*
 ** Plot all shocks for checking 
 
