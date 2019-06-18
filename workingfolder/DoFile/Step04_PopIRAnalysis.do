@@ -33,6 +33,11 @@ order date year quarter month
 
 tsset date 
 
+** Period filter   
+** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
+
+keep if year>=1976 & year <= 2007
+
 ** Merge with survey and inflation  
 
 merge 1:1 year quarter using "${folder}/InfExpQ.dta",keep(match using master)
@@ -132,9 +137,8 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
    graph export "${sum_graph_folder}/irf/`Inf'_`sk'", as(png) replace
  }
 }
-*/
 
-keep if year > =1976 & year <= 2007
+
 
 ***********************************************
 ** IRF of inflation (MP shocks at one time) **
@@ -157,7 +161,6 @@ foreach Inf in CPIAU CPICore PCEPI{
 }
 
 
-/*
 ***********************************************
 ** IRF of inflation (all shocks exl MP at one time) **
 ***********************************************
@@ -240,7 +243,7 @@ foreach mom in FE{
        capture var `var'_`mom', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock) 
    set seed 123456
-   capture irf create `var', set(`mom') step(10) bsp  
+   capture irf create `var'_nmp, set(`mom'_nmp) step(10) bsp  
 }
    capture irf graph dm, impulse(pty_shock op_shock) ///
                          byopts(title("`mom'") yrescale /// 
@@ -249,17 +252,18 @@ foreach mom in FE{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
 }
+*/
 
 ****************************************************************
 ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
 ****************************************************************
 
 
-foreach mom in Var Disg{
+foreach mom in Disg Var{
    foreach var in SPFCPI SPFPCE{
        * shocks 
        capture var `var'_`mom', lags(1/4) ///
-                     exo(l(0/1).pty_shock l(0/1).op_shock exo(l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
+                     exo(l(0/1).pty_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
 					 l(0/1).pty_abshock l(0/1).op_abshock)
    set seed 123456
    capture irf create `var'_nmp, set(`mom'_nmp) step(10) bsp replace 

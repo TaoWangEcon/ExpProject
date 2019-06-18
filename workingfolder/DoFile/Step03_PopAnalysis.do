@@ -64,7 +64,6 @@ sort year quarter month
 
 
 
-
 ******************************
 *** Computing some measures **
 ******************************
