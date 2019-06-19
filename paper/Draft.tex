@@ -3,7 +3,7 @@
 \usepackage{adjustbox}
 
 %opening
-\title{Testing Theories of Expectation Formation using Probabilistic Answers}
+\title{Testing Theories of Expectation Formation using Probabilistic Forecasts}
 \author{Tao Wang}
 
 \begin{document}
@@ -19,29 +19,52 @@ On the other hand, however, there are important and subtle differences in testab
 
 The potential contribution lies in the extra insights I may get from using probablistic questions.\footnote{For an insightful survey on the importance of measuring subjective expectations using probablistic surveys, see \cite{manski2004measuring}.} One obvious advantage of density expectations compared to point one is availability of higher moments, i.e. variance of the forecast indicates the dispersion of the forecasts. Along time dimension, the dynamics of conditional relative likelihood is a useful indicator of information gain or forecasting efficiency. Besides, as in a typical signal-extraction model, the prediction that new information reduce conditional variance can be tested only using probability distributions. Although the detailed implementation of these tests involves technical difficulties, the ideas are quite clear.  Lastly, with second moments in individual level expectations, we are allowed to potentialy explore the heterogeneity across agents within one theory. For instance, sticky information typically assume a posson update rate for all agents in the economy. This is partly due to the fact that available data only allows us to recover single parameter of regidity instead of inter-group heterogeneity.  
 
-\section{Theories}
+\section{Theories of Expectation Formation}
 
-\subsection{A Unified Framework}
+\subsection{Definition of moments}
 
-Agent i's $h$-period ahead density forecast of variable $y_i$ at time $t$ is the conditional density of $y_{i,t+h}$ given the information set $I_{i,t}$ available at time $t$. 
+An agent $i$ is forming expectations about a stochastic variable $y^i_{t+h}$. The supscript $i$ can be dropped if it is an aggregate (i.e. inflation) variable instead of individual specific  (i.e. household income or house value). This paper focuses on forecasting of aggregate variables, in particular, inflation. So we can simply denote the variable as $y_{t+h}$. To put it another way, all agents are foreasting the same object. \footnote{Only in the context of forecasting aggregate variable, it is meaningful to study the average expectations and disagreements across agents.}
 
-$$\widehat f_{i,t}(y^i_{t+h}|I_{i,t})$$
+Denote $ f_{i,t+h|t}$ as agent i's $h$-period-ahead density forecast. $ f_{i,t+h|t}$ is the conditional density of $y_{i,t+h}$ given the information set $I_{i,t}$ available at time $t$. 
 
-Notice here the $y_{t+h}$ has supscript $i$. This is to remind that in general the variables $y_{t+h}$ can be either aggregate variables or idiosyncratic ones, in the former case, we could drop subscript $i$.  
+$$f_{i,t+h|t} \equiv f_{i,t}(y_{t+h}|I_{i,t})$$
 
-$I_{i,t}$ is the information set available at time t for individual $i$. The information set can be also agent specific, therefore, it has subscript $i$.  The specific content contained in $I_t$ varies from different models. Seemingly a simple and justified assumption is that $x_t \in  I_t$. This, however, may not be ture for all models. For instance, sticky expectation and rational inattention literature all predict that agents are not able to update new information instataneously. Thus the information set may not winclude the recent realization of the variable itself.  
 
-Assumption also needs to be made about the underlying model that generates the conditional density of the variables by agent $i$. 
+$I_{i,t}$ is the information set available for individual $i$ at time t. The information set can be  agent specific, thus it has subscript $i$.  The specific content contained in $I_t$ varies from different models of expectation. For instance, sticky expectation and rational inattention literature all assume that agents are not able to update new information instataneously. So the information set may not contain the most recent realization of the variable of forecast $y_t$. \footnote{Given the same information set available to agents, different theories may also differ in the underlying models each agent use to form the conditional density of the variables by agent $i$. Examples of such include multi-prior or model uncertainty. \cite{xx}. }
 
-Given the forecast density, the expectation of forecast at time $t$ is. 
+Accordingly, h-period ahead mean forecast at $t$, denoted as $ y_{i,t+h|t}$, is the conditional expectation of $y_{t+h}$ by the agent $i$. 
 
-$$E_{i,t}(y_{t+h}|I_{i,t}) =\int \widehat f_{i,t}(y_{t+h}|I_{i,t})y_{t+h} d y_{t+h}\equiv \bar y_{i,t,t+h}$$
+$$y_{i,t+h|t} \equiv E_{i,t}(y_{t+h}) =\int f_{i, t+h|t} d y_{t+h}$$
 
-The forecasting variance is 
+Similarly, individual forecasting variance $\sigma_{i,t+h|t}$, hereafter termed as indiviual uncertainty in this paper, is the conditional variance.
 
-$$Var_{i,t}(y_{t+h}|I_{i,t})=\int \widehat f_{i,t}(y_{t+h}|I_{i,t}) (y_{t+h} - \bar y_{i,t,t+h})^2d y_{t+h}$$
+$$\sigma^2_{i,t+h|t} \equiv Var_{i,t}( y_{t+h} )$$
 
-The true process of $y_{t}$ depends on the variables. Here, we consider a simple case where true process of $y_t$ is AR(1). 
+Individual forecast error $FE_{i,t+h|t}$ is the difference of ex post realized value of $y_{t+h}$ and individual foreacast at time $t$. 
+
+$$FE_{i,t+h|t} = y_{i,t+h|t} - y_{t+h}$$
+
+The population analogues of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreements is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  \footnote{This is the same termiology used by \cite{xx}.}
+
+In summary, we have 3 individual moments and 4 population moments listed in below. 
+
+\begin{table}[]
+	\centering
+		\caption{Definition and Notation of Moments}
+	\begin{tabular}{ll}
+
+		\hline 
+		Individual Moments                                  & Population Moments                             \\
+		\hline 
+	Mean orecast: $y_{i,t+h|t}$                   & Average forecast: $\bar y_{t+h|t}$                   \\
+		Forecast error: $FE_{i,t+h|t}$ & Average forecast error: $\overline{FE}_{t+h|t}$ \\
+		Uncertainty: $\sigma^2_{i,t+h|t}$         & Average uncertainty:  $\bar \sigma^2_{i,t+h|t}$ \\
+		& Disagreements:  $\overline{Disg}_{t+h|t}$       \\
+		\hline 
+	\end{tabular}
+\end{table}
+
+Finally, we assume the underlying true process of $y_{t}$ is $AR(1)$ with persistency parameter $0<\rho <1$ and i.i.d. shock $\omega_t$. 
 
 $$y_{t+1} = \rho y_t + \omega_t$$
 
@@ -49,23 +72,44 @@ $$\omega_t \sim N(0,\sigma^2_{\omega})$$
 
 \subsection{Full-information rational expectation benchmark }
 
-\subsubsection{Individual moments}
+In the full information rational expectation (FIRE) benchmark,  we assume all agents perfectly observe $y_t$ at time $t$ and understand the true process of $y$. Therefore, individual forecast is $\rho^h y_t $. This is also shared by all agents. Therefore, it is also equal to average forecast. 
 
-Full information rational expectation implies $y_t \in I_t$
+Both individual and population forecast errors are simply the realized shocks between $t+1$ to $t+h$.  
 
-\textbf{Expectation}
-$$E_{i,t}(y_{t+h}|y_t) = E_{i,t}(y_{t+h}|y_t) = \rho^h y_t $$
+$$\overline{FE}_{i,t+h|t} = \sum^{h-1}_{s=1} \rho^s \omega_{t+h-s}$$ It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE. \cite{xx}
 
-\textbf{Variance} 
-$$Var_{i,t}(y_{t+h}|y_t) = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+The second testable null hypothesis of FIRE here is that forecast errors at two points of time $h$ or more periods apart are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors. 
 
-Ex post forecast error of individual i $$FE_{i,t} = y_{t+h} - E_{i,t}(y_{t+h}|y_t) = \sum^h_{s=1} \rho^s \omega_{t+h-s}$$ has is mean zero and orthogonal to information at time $t$. 
+$$Cov(\overline{FE}_{t+h|t}, \overline{FE}_{t+s+h|t+s}) = 0 \quad \forall s \geq h$$
 
-\subsubsection{Population moments} 
+The predictions holds at both individual and population levels. 
 
-A special case below.
+Another hypothesis test of FIRE relies upon disagreements. \footnote{For instance, \cite{mankiw2003disagreement} documents substantial time-varying disagreements of inflation uses consumers and professional forecasters' survey. } As agents perfect update the same information, there is no disagreements at any point of the time. 
+
+$$\overline{Disg}_{t+h|t}=0 \quad \forall t$$
+
+A corollary is that disagreements do not respond to realized shocks any any point of the time.  Empricial tests of this kind include \cite{xx}.\cite{xx} etc. 
+
+In addition to forecast error and disagreements, FIRE also predicts that all individual shares the same degree of uncertainty. The same degree of uncertainty simply comes from uncertainty about future unrealized shocks between $t$ and $t+h$. In \cite{}'s termology, not only all agents agree about the mean forecast, but also agree about the uncertainty according to FIRE. 
+
+$$\bar \sigma^2_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+
+The time series pattern of uncertainty according to FIRE is less obvious. Weather it is time variate depends on if the variance of the shocks $\omega_t$ is time varying. Although in our baseline case we make such an assumption, in general it may not be true. 
+
+It turns out, however, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
+
+$$\bar \sigma^2_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+
+As the forecasting horizon decreases relative to a given future point of time, there is a pure efficiency gain or reduction in uncertainty as more and more shocks have realized. So the uncertainty should drop unambigously. 
+
+Quanlitatively, $\bar \sigma^2_{t+h|t+k}$ should be smaller than $\bar \sigma^2_{t+h|t}$ $\forall 1<k\leq h$. 
+
+Compared to other null hypotheses discussed above, this is a weaker test. It is true that rational forecasting relies upon utilizing all the information available at any point of time in the most efficient way. 
+
 
 \subsection{Sticky Expectation}
+
+*****************************************************
 
 Agent does not update information instantaneously, instead at a Possion rate $\lambda$. Specificaly, at any point of time $t$, the agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
 
