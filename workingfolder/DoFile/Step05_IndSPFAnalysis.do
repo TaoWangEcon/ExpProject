@@ -102,13 +102,12 @@ foreach mom in FE Var{
     replace InfExp_`mom' = `var'_`mom'
 	xtset ID dateQ
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-	eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/4).InfExp_`mom', vce(cluster dateQ)
-    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(cluster dateQ)
+	eststo `var'_`mom'lvl: reg InfExp_`mom' l(3/5).InfExp_`mom', vce(cluster dateQ)
+    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(3/5).InfExp_`mom'_ch, vce(cluster dateQ)
   }
 }
 esttab using "${sum_table_folder}/ind/autoregSPFIndQ.csv", mtitles se  r2 replace
 eststo clear
-
 
 ******************************************************
 ** Response  Estimates using individual moments     **

@@ -355,12 +355,13 @@ eststo clear
 foreach mom in Mean Var Disg FE{
    foreach var in SCE SPFCPI SPFPCE{
     replace InfExp_`mom' = `var'_`mom'
-    eststo `var'_`mom': reg InfExp_`mom' l(1/5).InfExp_`mom'
+    eststo `var'_`mom': reg InfExp_`mom' l(3/5).InfExp_`mom', vce(robust)
   }
   
 }
 
 esttab using "${sum_table_folder}/autoregLvlQ.csv", mtitles se r2 replace
+
 
 **********************************************************************
 ******** Autoregression on the first difference of population moments
@@ -371,7 +372,7 @@ foreach mom in Mean Var Disg FE{
    foreach var in SCE SPFCPI SPFPCE{
     replace InfExp_`mom' = `var'_`mom'
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-    eststo `var'_`mom': reg InfExp_`mom'_ch l(1/5).InfExp_`mom'_ch  
+    eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
   }
 }
 esttab using "${sum_table_folder}/autoregDiffQ.csv", mtitles se r2 replace
