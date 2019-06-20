@@ -44,11 +44,11 @@ Individual forecast error $FE_{i,t+h|t}$ is the difference of ex post realized v
 
 $$FE_{i,t+h|t} = y_{i,t+h|t} - y_{t+h}$$
 
-The population analogues of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreements is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  \footnote{This is the same termiology used by \cite{xx}.}
+The population analogues of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreements is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  \footnote{This is the same terminology used by \cite{xx}.}
 
-In summary, we have 3 individual moments and 4 population moments listed in below. 
+In summary, we have 3 individual moments and 4 population moments listed in below in Table \ref{MomSum}.
 
-\begin{table}[]
+\begin{table}[]\label{MomSum}
 	\centering
 		\caption{Definition and Notation of Moments}
 	\begin{tabular}{ll}
@@ -56,7 +56,7 @@ In summary, we have 3 individual moments and 4 population moments listed in belo
 		\hline 
 		Individual Moments                                  & Population Moments                             \\
 		\hline 
-	Mean orecast: $y_{i,t+h|t}$                   & Average forecast: $\bar y_{t+h|t}$                   \\
+	Mean forecast: $y_{i,t+h|t}$                   & Average forecast: $\bar y_{t+h|t}$                   \\
 		Forecast error: $FE_{i,t+h|t}$ & Average forecast error: $\overline{FE}_{t+h|t}$ \\
 		Uncertainty: $\sigma^2_{i,t+h|t}$         & Average uncertainty:  $\bar \sigma^2_{i,t+h|t}$ \\
 		& Disagreements:  $\overline{Disg}_{t+h|t}$       \\
@@ -70,162 +70,142 @@ $$y_{t+1} = \rho y_t + \omega_t$$
 
 $$\omega_t \sim N(0,\sigma^2_{\omega})$$
 
-\subsection{Full-information rational expectation benchmark }
+\subsection{Benchmark of full-information rational expectation(FIRE)}
 
-In the full information rational expectation (FIRE) benchmark,  we assume all agents perfectly observe $y_t$ at time $t$ and understand the true process of $y$. Therefore, individual forecast is $\rho^h y_t $. This is also shared by all agents. Therefore, it is also equal to average forecast. 
+ In the FIRE benchmark,  it is assumed that all agents perfectly observe $y_t$ at time $t$ and understand the true process of $y$. Therefore, individual forecast is $\rho^h y_t $, which is shared by all agents. Therefore, it is also equal to average forecast. 
 
 Both individual and population forecast errors are simply the realized shocks between $t+1$ to $t+h$.  
 
-$$\overline{FE}_{i,t+h|t} = \sum^{h-1}_{s=1} \rho^s \omega_{t+h-s}$$ It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE. \cite{xx}
+$$\overline{FE}^{*}_{i,t+h|t} = \sum^{h-1}_{s=1} \rho^s \omega_{t+h-s}$$ 
 
-The second testable null hypothesis of FIRE here is that forecast errors at two points of time $h$ or more periods apart are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors. 
 
-$$Cov(\overline{FE}_{t+h|t}, \overline{FE}_{t+s+h|t+s}) = 0 \quad \forall s \geq h$$
+I use supscrit of $*$ to denote all the moments according to FIRE. It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE. \cite{xx}
 
-The predictions holds at both individual and population levels. 
+The second implication from FIRE here is that forecast errors of non-overlapping horizon forecasts are not correlated. For instance, forecast error at time $t$ and that at time $t+h$ or further are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors. 
 
-Another hypothesis test of FIRE relies upon disagreements. \footnote{For instance, \cite{mankiw2003disagreement} documents substantial time-varying disagreements about future inflation using consumers and professional forecasters' survey. } As agents perfect update the same information, there is no disagreements at any point of the time. 
+$$Cov(\overline{FE}^{*}_{t+h|t}, \overline{FE}^{*}_{t+s+h|t+s}) = 0 \quad \forall s \geq h$$
 
-$$\overline{Disg}_{t+h|t}=0 \quad \forall t$$
+FIRE also has predictions about  population disagreements. \footnote{For instance, \cite{mankiw2003disagreement} documents substantial time-varying disagreements about future inflation using consumers and professional forecasters' survey. } As agents perfect update the same information, there is no disagreements at any point of the time. 
 
-A corollary is that disagreements do not respond to realized shocks any any point of the time.  Empricial tests of this kind include \cite{xx}.\cite{xx} etc. 
+$$\overline{Disg}^{*}_{t+h|t}=0 \quad \forall t$$
 
-In addition to forecast error and disagreements, FIRE also predicts that all individual shares the same degree of uncertainty. The same degree of uncertainty simply comes from uncertainty about future unrealized shocks between $t$ and $t+h$. In \cite{}'s termology, not only all agents agree about the mean forecast, but also agree about the uncertainty according to FIRE. 
+A corollary is that disagreements do not respond to realized shocks any any point of the time.  \footnote{Empricial tests of this kind include \cite{xx}.\cite{xx} etc. }
 
-$$\bar \sigma^2_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+In addition to forecast error and disagreements, according to FIRE all individual shares the same degree of uncertainty. The uncertainty simply comes from uncertainty about future unrealized shocks between $t$ and $t+h$. To put it another way, according to FIRE, there is neither disagreements about mean, nor disagreements about the uncertainty \footnote{This is the same to \cite{}'s terminology.} 
 
-The time series pattern of uncertainty according to FIRE is less obvious. Weather it is time variate depends on if the variance of the shocks $\omega_t$ is time varying. Although in our baseline case we make such an assumption, in general it may not be true. 
+$$\bar \sigma^{*2}_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
 
-It turns out, however, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
+The time series behavior of uncertainty according to FIRE is less obvious. Weather it is time-variant depends on if the variance of the shocks $\omega_t$ is time varying. Although in our baseline case we make such an assumption, in general it may not be true. \footnote{\cite{xx} on time-varying volatility.}
 
-$$\bar \sigma^2_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+In the same time, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
 
-As the forecasting horizon decreases relative to a given future point of time, there is a pure efficiency gain or reduction in uncertainty as more and more shocks have realized. So the uncertainty should drop unambigously. Quanlitatively, this implies that $\bar \sigma^2_{t+h|t+k} < \bar \sigma^2_{t+h|t}$ $\forall 1<k\leq h$. 
+$$\bar \sigma^{*2}_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
 
-Compared to other null hypotheses discussed above, this is a weaker test. It is true that rational foreacsting implies reduction in uncertainty with shorter horizon. But there is no direct test if the drop in uncertainty is efficient enough so as to be consistent with FIRE. 
+As the forecasting horizon decreases relative to a given future point of time, there is a pure efficiency gain or reduction in uncertainty as more and more shocks have realized. So the uncertainty should drop unambigously. 
 
-\subsection{Sticky Expectation}
+An equivalent interpretation to this is through the perspective of revision. Defining the forecast revision as the difference of different vintages of foreacsts fixing the terminate date, the revision in uncertainty should be always negative and the drop should be exactly equal to discounted variance of the realized shocks. \footnote{Compared to other null hypotheses discussed above, this is a weaker test. It is true that rational foreacsting implies reduction in uncertainty with shorter horizon. But there is no direct test if the drop in uncertainty is efficient enough so as to be consistent with FIRE. }
 
-*****************************************************
+$$\bar \sigma^{*2}_{t+h|t+1} - \bar \sigma^{*2}_{t+h|t} = - \rho^{2h}\sigma^2_\omega$$
 
-Agent does not update information instantaneously, instead at a Possion rate $\lambda$. Specificaly, at any point of time $t$, the agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
+
+\subsection{Sticky Expectation (SE)}
+
+The theory of sticky expectation (\cite{xx}, \cite{xx} ), regardless of its different microfoundations by various authors, builds upon the assumption that agents do not update information instantaneously as they do in FIRE. One of the most tractable models assume there is a homogenous Possion rate $\lambda$ of updating among the population. Specificaly, at any point of time $t$, each agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
+
 
 \subsubsection{Individual moments} 
 
-For an individual whose most recent update occurs at $\tau$ period before, $I_{i,t|t-\tau} = I_{i,t-\tau} = y_{t-\tau}$. Thus
+Denote the mean forecast of a non-updater since $t-\tau$ as $y_{i,t+h|t-\tau}$ since her forecast conditions upon the information up till $t-\tau$.
 
-$$E_{i,t|t-\tau}(y_{t+h}|I_{i,t}) = E_{i,t}(i,y_{t+h}|y_{t-\tau}) = \rho^{h+\tau} y_{t-\tau}$$
+$$y_{i,t+h|t-\tau} = \rho^{h+\tau} y_{t-\tau}$$
 
-$$Var_{i,t|t-\tau}(y_{t+h}|I_{i,t}) = Var_{i,t}(y_{t+h}|y_{t-\tau}) = \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega}$$
+Now her information set is not up to date, the uncertainty to a non-updater is higher than an updater and it increases with the duration of non-updating $\tau$. 
 
-$Var_{i,t|t-\tau}(y_{t+h}|_{i,t})$ increases as $\tau$ increases. The model collapses to full-information rational expectation if $\tau=0$ for all individuals. 
+$$\sigma^2_{i,t|t-\tau}= \sum^{h+\tau}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+ 
+In FIRE, updating at each period $t$ resolves only the uncertainty about the shocks realizing in $t$. In constrast, in SE each updating resolves the uncertainty about all the realized shocks since last update. Fixing the terminate date, i.e. forecasting  $y_{t+1}$ at time $t$ relative to forecasting $y_{t+1}$ at $t-\tau$, the revision in uncertainty is 
 
-Now, we turn to the case when agent updates infrequently. 
+$$\sigma^2_{i,t+1|t} - \sigma^2_{i,t+1|t-\tau} = \rho^{2} \sigma^2_{\omega} - \sum^{\tau+1}_{s=1}\rho^{2s} \sigma^2_{\omega} = -\sum^{\tau+1}_{s=2} \rho^{2s}\sigma^2_{\omega}$$
 
-\begin{itemize}
-\item When the update happens, the variance responds substantially.  
+FIRE assumes  $\tau=1$ for all the agents and all the time, namely all agents' last update takes place in previous period. So setting $\tau =1$ in above equation gives the reduction in uncertainty in FIRE. One can easily see that the reduction in ucnertainty is greater in SE for any $\tau>1$ than FIRE.
 
-$$Var_{i,t}(y_{t+h}|y_t) - Var_{i,t|t-\tau}(y_{t+h}|y_{t-\tau}) = \sum^{h}_{s=0}\rho^{2s} \sigma^2_{\omega} - \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega} = \sum^{\tau}_{s=0} \rho^{2s}\sigma^2_{\omega}$$
+In summary, the key difference between FIRE and SE with respect to behavior of uncertainty is that the later does not reduce uncertainty  as efficiently as in the former primarily because of the rigidity incorporating new information.  One qualitative pattern from this difference is that any evidence of ambiguous pattern  or non-negative revision in uncertainty is inconsistent with FIRE. \footnote{Because of this, the difference in average responses in variance to new information may speak to potential heterogeneity in information rigidity. According to the theory above, higher information rigidity implies high volatility of variance responses.  }
+ 
 
-\item When the update does not happen, the variance responds little. 
-
-$$Var_{i,t|t-\tau-1}(y_{t+h}|y_{t-\tau-1}) - Var_{i,t|\tau}(y_{t+h}|y_{t-\tau}) = \sigma^2_{\omega}$$
-
-At individual level, it is hard to recover the information rigidity parameter $\lambda$ directly. One testable prediction of information rigidity is that the change in forecast variance varies substantially depending on if updated or not. The longer period for which the agent stays unupdated(greater $\tau$), the bigger the change is in the forecasting variance. 
-
-However, the difference in average responses in variance to new information may speak to potential heterogeneity in information rigidity. According to the theory above, higher information rigidity implies high volatility of variance responses.  
-\end{itemize}
 
 \subsubsection{Population moments} 
 	
-\begin{enumerate}	
-\item Average forecast
+It is important to note that the rigidity in updating according to SE cannot be systamatically observable in the individual level, both in terms of forecasts errors and uncertainty. This is because the behaviors of each individual foreacst specifically depends on if the she updates or not in that period. 
 
-The mean forecast across population is a weighted average of past rational expectations 
+Relying upon the Law of Large Numbers, we can derive testable predictions about population moments that allow us perform tests of sticky expectation and recover rigidity parameter $\lambda$. \footnote{\cite{carroll2003macroeconomic} is one notable example of this.} 
+	
+
+One well known prediction from SE literature is that the average foreacast is a weighted average of update-to-date rational expectation and lagged average expectation as reproduced below. \footnote{See \cite{coibion2012can} or appendix of this paper for detailed steps.} It can be also expressed as a weighted average to all the past realizations of $y$. Setting $\lambda=1$, then the SE collapses to FIRE and the average forecast is equal to $y$'s long-run mean of zero.
 
 \begin{eqnarray}
 \begin{aligned}
-\bar E_t(y_{t+h}) & = \lambda \underbrace{E_t(y_{t+h})}_{\textrm{rational expectation at t}} + (1-\lambda) \underbrace{\bar E_{t-1}{y_{t+h}}}_{\textrm{average expectation at} t-1} \\
-& = \lambda E_t(y_{t+h}) + (1-\lambda) (\lambda E_{t-1}(y_{t+h})+ (1-\lambda) \bar E_{t-2}(y_{t+h}))... \\
-& = \lambda \sum^{\infty}_{s=0} (1-\lambda)^s E_{t-s}(y_{t+h}) \\
+\bar y_{t+h|t} & = \lambda \underbrace{y^*_{t+h|t}}_{\textrm{rational expectation at t}} + (1-\lambda) \underbrace{\bar y_{t+h|t-1}}_{\textrm{average forecast at } t-1} \\
+& = \lambda \sum^{\infty}_{s=0} (1-\lambda)^s y^*_{t+h|t-s} \\
 & = \lambda \sum^{\infty}_{s=0} (1-\lambda)^s \rho^{s+h}y_{t-s}
 \end{aligned}
 \end{eqnarray}
 
-The change in average forecast is 
+It is also easy to show that the average forecast errors are serially correlated. Setting $\lambda=1$, then the SE collapses to FIRE, in which there is no serial correlation between forecast errors and it fully respond to newly realized shocks at time $t$.  \footnote{Need to check if is revision or change from}
 
 \begin{eqnarray}
 \begin{aligned}
-\Delta \bar E_t(y_{t+h})&  = (1-\lambda) \Delta \bar E_{t-1}(y_{t+h}) + \lambda (E_t(y_{t+h}) - E_{t-1}(y_{t+h})) \\ 
-& = (1-\lambda) \Delta \bar E_{t-1}(y_{t+h}) + \lambda \rho^h \omega_t 
+\overline{FE}_{t+h|t}  = (1-\lambda) \overline {FE}_{t+h-1|t-1} + \lambda \rho^h \omega_t 
 \end{aligned}
 \end{eqnarray}
 
-This implies the change in average forecast is serially correlated, depending on the information rigidity, i.e. lower $\lambda$ implies higher serial correlation. Also lower $\lambda$ implies the expectation underreact to the shocks at $t$. 
 
-\item Cross-sectional disagreements
-
-According to information rigity model, if everyone is instantaneously udpated, there should not be disagreements. In general, the dispersion in forecasting is non-zero because of different lags in updating. One can also derive variance of forecasts across agents at time $t$ 
+\cite{coibion2012can} also derives predictions about the disagreements in rigidity models. Unlike zero disagreements in FIRE, SE is characterized by non-zero dispersion in forecasting because of different lags in updating across populations. \footnote{need to check if correct also.}
 
 \begin{eqnarray}
 \begin{aligned}
-Var_t(E_{i,t}(y_{t+h}) ) & = \lambda \sum^{\infty}_{\tau=0} (1-\lambda)^{\tau} (E_{t|t-\tau}(y_{t+h}) - \bar E_t(y_{t+h}))^2  
+\overline{Disg}_{t+h|t} & = \lambda \sum^{\infty}_{\tau=0} (1-\lambda)^{\tau} (y_{t+h|t-\tau} - \bar y_{t+h|t }))^2  
 \end{aligned}
 \end{eqnarray}
 
 From time $t$ to $t+1$, the change in dispersion comes from two sources. One is newly realized shock at time $t+1$. The other component is from people who did not update at time $t$ and update at time $t+1$.  
 
-\begin{eqnarray}
-\begin{aligned}
-\Delta Var_{t+1}(E_{i,t+1}(y_{t+h})) = \textrm{change due to new updaters} + \textrm{shock at time } t+1 
-\end{aligned}
-\end{eqnarray}
-
-
-Notice the change is positive, meaning the dispersion rises in response to a shock. Importantly, the increase is the same regardless of the realization of the shock. 
-
-More generally, we can derive the impulse response of dispersion at time $t+j$ to a shock that realized at $t$. 
+In SE, disagreements rise after realization of the shock and gradually returns to its steady state level. In the same time, it does not depend upon the particular realization of the shock. \cite{coibion2012can} derive the impulse response of dispersion at time $t+j$ to a shock that realized at $t$. 
 
 \begin{eqnarray}
 \rho^{2(h+j)} (1-\lambda^{j+1})\lambda^{j+1} \omega^2_t
 \end{eqnarray}
 
-
-A shock increases the disagreements across agents and then it gradually returns to its steady state level. 
-
-\item Average variance
-
-Since we have individual level variance, we can also derive average variance of the population. Taking the average of variance across individual agents at time $t$. Here I use the $\bar{}$ to represent population mean of variance. 
+Finally, SE predicts a sluggish behavior of revision in uncertainty with a similar spirit of forecast errors. 
 
 \begin{eqnarray}
 \begin{aligned}
-\bar Var_{t}(y_{t+h}) & = \sum^{+\infty}_{\tau =0} \underbrace{\lambda (1-\lambda)^\tau}_{\text{fraction who does not update until }t-\tau} \underbrace{Var_{t|t-\tau}(y_{t+h})}_{\text{ Variance of most recent update at }t-\tau} \\
+\bar \sigma^2_{t+h|t} & = \sum^{+\infty}_{\tau =0} \underbrace{\lambda (1-\lambda)^\tau}_{\text{fraction who non-updater until }t-\tau} \underbrace{\sigma^2_{t+h|t-\tau}}_{\text{ uncertainty of most recent update at }t-\tau} \\
 & = \sum^{+\infty}_{\tau =0} \lambda (1-\lambda)^\tau \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega}
 \end{aligned}
 \end{eqnarray}
 
-Correspondingly, the change in average uncertainty will be 
+Correspondingly, the revision in average uncertainty will be below. \footnote{Make sure you have clarify the difference between revision and change.}
 
 
 \begin{eqnarray}
 \begin{aligned}
-\Delta \bar Var_{t}(y_{t+h}) & = \sum^{+\infty}_{\tau =0} \lambda (1-\lambda)^\tau \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega} - \sum^{+\infty}_{\tau =0} \lambda (1-\lambda)^\tau \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega} = 0  
+\bar \sigma^2_{t+h|t+1} - \bar \sigma^2_{t+h|t} = (1-\lambda)(
+\bar \sigma^2_{t+h|t} - \bar \sigma^2_{t+h|t-1}) -\lambda \rho^{2h} \sigma^2 
 \end{aligned}
 \end{eqnarray}
 
-An information rigidity model based on fixed Poisson update rate predicts that the average variance does not change over time. This can be tested.
-
-\end{enumerate}
-
+Revision in uncertainty is now a weighted average of most recent resolutions of shocks and its lagged counterpart. In particular, the second component is the information gain from most recent realization of the shock underweighted ($\lambda<1$). The first component is the inefficient sourced from stickiness of updating The higher rigidity (lower $\lambda$), the efficieny gain or uncertainty reduction from one vintage of forecast to the next is less compared to its FIRE correspondents. 
 
 \subsubsection{Summary of predictions of information rigidity}
 
 \begin{itemize}
 \item Individual expectation may or may not change depend upon if updating. 
 \item Individual variances changes non-monotonically depending on if updating. Always increase with arrival of new information. 
-\item Population mean of forecast responds with lags. Change is serially correlated. 
-\item Population dispersion of forecasts rise in response to new shocks and return to steady state level gradually. 
-\item Population average variance does not change over time. 
+\item Population mean forecast responds shocks with lags. 
+\item Forecast errors are serially correlated. 
+\item Population disagreements rise in response to new shocks and return to steady state level gradually. 
+\item Population average uncertaity revision is serially correlated and underreacts to volatility of the shocks.
+ 
 \end{itemize}
 
 \subsection{Noisy information}

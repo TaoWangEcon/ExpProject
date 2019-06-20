@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  19 JUN 2019 17:36
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  20 JUN 2019 12:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -250,74 +250,71 @@ LaTeX Warning: No positions in optional float specifier.
                Default added (so using `tbp') on input line 51.
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 79.
+Overfull \hbox (24.75005pt too wide) in paragraph at lines 73--73
+[]\OT1/cmr/bx/n/12 Benchmark of full-information ra-tio-nal ex-pec-ta-tion(FIRE
+) 
+ []
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 91.
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 82.
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 91.
+Overfull \hbox (14.16615pt too wide) in paragraph at lines 84--85
+[]\OT1/cmr/m/n/10 The sec-ond im-pli-ca-tion from FIRE here is that fore-cast e
+r-rors of non-overlapping
+ []
 
-[3] [4]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 126.
 
- (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 92.
+
+
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 92.
+
+[3]
+
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 98.
+
+
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 113.
+
+
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 113.
+
+[4] [5] [6]
+Overfull \hbox (6.10431pt too wide) in alignment at lines 180--185
+ [][][] []
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 202.
+
+(/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 126.
-
-Overfull \hbox (2.72256pt too wide) detected at line 128
-\OML/cmm/m/it/10 Var[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\O
-ML/cmm/m/it/10 y[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^@ \OML/cmm/m/it/10 Var[]
-\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 y[]\OMS/cmsy/m/n/10 j\OML/cmm/m/it/10 y[]\OT1
-/cmr/m/n/10 ) = [] \OML/cmm/m/it/10 ^^Z[]^^[[] \OMS/cmsy/m/n/10 ^^@ [] \OML/cmm
-/m/it/10 ^^Z[]^^[[] \OT1/cmr/m/n/10 = [] \OML/cmm/m/it/10 ^^Z[]^^[[]
- []
-
-
-Overfull \hbox (1.0606pt too wide) in alignment at lines 146--153
- [][][] []
- []
-
-[5]
-Overfull \hbox (34.33658pt too wide) in alignment at lines 178--182
- [][][] []
- []
-
-[6]
-Overfull \hbox (58.05722pt too wide) in alignment at lines 200--205
- [][][] []
- []
-
-
-Overfull \hbox (15.35785pt too wide) in alignment at lines 210--214
- [][][] []
- []
-
-[7]
-Overfull \hbox (21.3368pt too wide) in alignment at lines 281--292
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 202.
+ [7]
+Overfull \hbox (21.3368pt too wide) in alignment at lines 261--272
  [][][] []
  []
 
 [8]
-Overfull \hbox (3.30121pt too wide) in alignment at lines 315--319
+Overfull \hbox (3.30121pt too wide) in alignment at lines 295--299
  [][][] []
  []
 
 [9] [10] [11]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 479.
+               Default added (so using `tbp') on input line 459.
 
 
-Overfull \hbox (55.02853pt too wide) in paragraph at lines 481--495
+Overfull \hbox (55.02853pt too wide) in paragraph at lines 461--475
 [][] 
  []
 
 
 LaTeX Warning: Citation `fuhrer2018intrinsic' on page 12 undefined on input lin
-e 503.
+e 483.
 
 (./Draft.bbl [12] [13]) [14] (./Draft.aux)
 
@@ -325,10 +322,10 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2850 strings out of 493117
- 40624 string characters out of 6135433
- 109510 words of memory out of 5000000
- 6266 multiletter control sequences out of 15000+600000
+ 2851 strings out of 493117
+ 40632 string characters out of 6135433
+ 109520 words of memory out of 5000000
+ 6267 multiletter control sequences out of 15000+600000
  9678 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,20n,35p,1272b,254s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -350,7 +347,7 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (14 pages, 244300 bytes).
+Output written on Draft.pdf (14 pages, 250810 bytes).
 PDF statistics:
  122 PDF objects out of 1000 (max. 8388607)
  87 compressed objects within 1 object stream
