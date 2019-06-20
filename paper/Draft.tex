@@ -1,6 +1,7 @@
 \documentclass[]{article}
 \usepackage{amsmath}
 \usepackage{adjustbox}
+\usepackage{graphicx}
 
 %opening
 \title{Testing Theories of Expectation Formation using Probabilistic Forecasts}
@@ -159,7 +160,7 @@ It is also easy to show that the average forecast errors are serially correlated
 \end{eqnarray}
 
 
-\cite{coibion2012can} also derives predictions about the disagreements in rigidity models. Unlike zero disagreements in FIRE, SE is characterized by non-zero dispersion in forecasting because of different lags in updating across populations. \footnote{need to check if correct also.}
+\cite{coibion2012can} also derives predictions about the disagreements in rigidity models. Unlike zero disagreements in FIRE, SE is characterized by non-zero dispersion in forecasting because of different lags in updating across populations. \footnote{need to check if correct also. Need to derive change in disagreements.} 
 
 \begin{eqnarray}
 \begin{aligned}
@@ -167,7 +168,7 @@ It is also easy to show that the average forecast errors are serially correlated
 \end{aligned}
 \end{eqnarray}
 
-From time $t$ to $t+1$, the change in dispersion comes from two sources. One is newly realized shock at time $t+1$. The other component is from people who did not update at time $t$ and update at time $t+1$.  
+From time $t$ to $t+1$, the change in disagreements comes from two sources. One is newly realized shock at time $t+1$. The other component is from people who did not update at time $t$ and update at time $t+1$.  
 
 In SE, disagreements rise after realization of the shock and gradually returns to its steady state level. In the same time, it does not depend upon the particular realization of the shock. \cite{coibion2012can} derive the impulse response of dispersion at time $t+j$ to a shock that realized at $t$. 
 
@@ -175,7 +176,7 @@ In SE, disagreements rise after realization of the shock and gradually returns t
 \rho^{2(h+j)} (1-\lambda^{j+1})\lambda^{j+1} \omega^2_t
 \end{eqnarray}
 
-Finally, SE predicts a sluggish behavior of revision in uncertainty with a similar spirit of forecast errors. 
+Finally, SE predicts an sluggish inefficiency in revision in uncertainty. Average uncertainty at any point of time is now a weighted average of uncertainty to agents whose last updates have taken place in different periods of past.  
 
 \begin{eqnarray}
 \begin{aligned}
@@ -184,7 +185,7 @@ Finally, SE predicts a sluggish behavior of revision in uncertainty with a simil
 \end{aligned}
 \end{eqnarray}
 
-Correspondingly, the revision in average uncertainty will be below. \footnote{Make sure you have clarify the difference between revision and change.}
+Since not all agents incorporate the recent realized shocks, the revision in average uncertainty exhibites serial correlation described as below in a similar spirt of forecast errors. It is equal to a weighted average of the resolution of uncertainty from the most recent shocks and its lagged counterpart. \footnote{Make sure you have clarify the difference between revision and change.}
 
 
 \begin{eqnarray}
@@ -194,25 +195,24 @@ Correspondingly, the revision in average uncertainty will be below. \footnote{Ma
 \end{aligned}
 \end{eqnarray}
 
-Revision in uncertainty is now a weighted average of most recent resolutions of shocks and its lagged counterpart. In particular, the second component is the information gain from most recent realization of the shock underweighted ($\lambda<1$). The first component is the inefficient sourced from stickiness of updating The higher rigidity (lower $\lambda$), the efficieny gain or uncertainty reduction from one vintage of forecast to the next is less compared to its FIRE correspondents. 
+ In particular, the second component is the information gain from most recent realization of the shock underweighted by $\lambda<1$. The first component is the inefficiency sourced from stickiness of updating. The higher rigidity (lower $\lambda$), the smaller the efficieny gain or uncertainty reduction from one vintage of forecast to the next compared to its FIRE correspondents. 
 
-\subsubsection{Summary of predictions of information rigidity}
+\subsubsection{Summary of predictions of SE}
 
 \begin{itemize}
-\item Individual expectation may or may not change depend upon if updating. 
-\item Individual variances changes non-monotonically depending on if updating. Always increase with arrival of new information. 
-\item Population mean forecast responds shocks with lags. 
+\item Individual uncertainty need not unambiguously drop with shorter horizon. 
+\item Population mean forecast paritially responds to shocks and with lags. 
 \item Forecast errors are serially correlated. 
 \item Population disagreements rise in response to new shocks and return to steady state level gradually. 
 \item Population average uncertaity revision is serially correlated and underreacts to volatility of the shocks.
  
 \end{itemize}
 
-\subsection{Noisy information}
+\subsection{Noisy information(NI)}
 
-A class of so-called noisy information model describes the expectation formation as a process extracting or filtering true fundamental state variable $y_t$ from a sequence of realized signals. The starting assumption is that agent cannot observe the true variable perfectly. Unlike information rigidity model, it is assumed that agents keep track of the realizations of the signals instantaneously all the time. 
+A class of noisy information models (\cite{},\cite{}) describes the expectation formation as a process of extracting or filtering true variable $y_t$ from a sequence of realized signals. The starting assumption is that agent cannot observe the true variable perfectly. Unlike information rigidity model, it is assumed that agents keep track of the realizations of the signals instantaneously all the time. 
 
-We assume agent $i$ observe two signals $s^{pb}$ and $s^{pr}_i$, with $s^{pb}$ being public signal common to all agents, and $s^{pr}_i$ private signals being individual specific. The generating process of two signals are 
+We assume agent $i$ observe two signals $s^{pb}$ and $s^{pr}_i$, with $s^{pb}$ being public signal common to all agents, and $s^{pr}_i$ private signals being individual specific with subscript $i$. The generating process of two signals are assumed to be the following.
 
 \begin{eqnarray}
 \begin{aligned}
@@ -221,8 +221,7 @@ s^{pr}_{i,t} = y_t + \xi_{i,t} \quad \xi_{i,t} \sim N(0,\sigma^2_\epsilon)
 \end{aligned}
 \end{eqnarray}
 
-We can stack the two signals into one vector $s_{i,t} = [s^{pb}_t,s^{pr}_{i,t}]'$ and $v_{i,t}= [\epsilon_t,\xi_{i,t}]'$. So in a compact form, it can be written as
-
+Stacking the two signals into one vector $s_{i,t} = [s^{pb}_t,s^{pr}_{i,t}]'$ and $v_{i,t}= [\epsilon_t,\xi_{i,t}]'$, the equations above can be rewritten as 
 
 \begin{eqnarray}
 \begin{aligned}
@@ -232,77 +231,61 @@ s_{i,t} = H y_{t} + v_{i,t} \\
 \end{eqnarray}
 
 
-In our general framework, the noisy information implies that the information set $I_{i,t}$ available to individual $i$ at time $t$ only includes past and recent realizations of the signals. The individual density forecast of $y_{t+h}$ is
-
-$$\widehat f_{i,t}(y_{t+h}|I_{i,t}) = \widehat  f_{i,t}(y_{t+h}|s_{i,t},s_{i,t-1}...) \equiv \widehat  f_{i,t|t}(y_{t+h})$$
-
-
-We use $t|k$ to denote the moments at time t based on information(signals) till time $k$. 
-
-
-Then we are ready to apply Kalman Filter in this context. The posterior distribution of $y_{t}$ after seeing all signals till $t$ is 
-
-\begin{eqnarray}
-\widehat  f_{i,t|t}(y_{t+h})  \sim  N(E_{i,t|t}(y_{t+h}), Var_{i,t|t}(y_{t+h}))
-\end{eqnarray}
-
-where the expectation and variances are functions of noisiness of signals and fundamentals. The expectation also depends on the realized values. But this is not the case for variance. 
-
 \subsubsection{Individual moments }
 
-\begin{enumerate}
-	
-\item Expectation
+Now any agent trying to forecast future $y$ has to form her expectation of the contemporaneous $y$. Denote it as  $y_{i,t|t}$, which needs to be inferred from the signals to agent $i$. The agent's best h-period ahead forecast is simply iterated $h$ periods forward based on the AR(1) process and it is equal to $\rho^h y_{i,t|t}$. This is the same as FIRE.
 
-Now any agent trying to forecast future variables will have to form her expectation of the contemporaneous state variable, $E_{i,t|t}(y_t)$. Then the best h-period ahead forecast is simply iterated h periods forward based on the AR(1) process.  
+What is different from FIRE is that the agent makes her best guess of $y_t$ using Kalman filtering at time $t$. Specificaly, mean forecast of individual $i$ is the posterior mean of based on her prior and realized signals $s_i$. 
 
-Thus, we first work out $E_{i,t|t}(y_t)$.  
 
 \begin{eqnarray}
 \begin{aligned}
-E_{i,t|t}(y_{t}) 
-& =  \underbrace{E_{i,t|t-1}(y_{t})}_{\text{prior}} + P \underbrace {(s_{i,t|t}-s_{i,t|t-1})}_{\text{innovations to signals}} \\
-& = (1-PH) E_{i,t|t-1}(y_{t}) + Ps_{i,t} \\
-& = (1-PH) E_{i,t|t-1}(y_{t}) + PH y_{i,t} + P v_{i,t} \\
-\text{where the Kalman gain }  & P = [P_\epsilon,P_\xi]= \Sigma^y_{i,t|t-1} H(H'\Sigma^y_{i,t|t-1} H + \Sigma^v)^{-1} \\
-\text {where } & \Sigma^y_{i,t|t-1} \text{ is the variance of } y_t \text{ based on prior belief}\\
-\text {and } & \Sigma^v =  \left[ \begin{matrix} 
-  \sigma^2_{\epsilon} &  0 \\ 0 & \sigma^2_\xi \end{matrix}\right] 
+y_{i,t|t}  
+& =  \underbrace{y_{i,t|t-1}}_{\text{prior}} + P \underbrace {(s_{i,t|t}-s_{i,t|t-1})}_{\text{innovations to signals}} \\
+& = (1-PH) y_{t|t-1} + Ps_{i,t} \\
+& = (1-PH) y_{t|t-1} + PH y_{i,t} + P v_{i,t} 
 \end{aligned}
 \end{eqnarray}
 
-The h-period ahead forecast is 
+where the Kalman gain  
+
 
 \begin{eqnarray}
 \begin{aligned}
-E_{i,t|t}(y_{t+h}) & = \rho^{h}E_{i,t|t}(y_{t+h}) 
-\end{aligned}
-\end{eqnarray}
-
-
-Individual forecast partially responds to new signals, i.e. $P<1$. $P=1$ is a special case when both signals are perfect thus $\Sigma^v = 0$, then the formula collapses to full rational expectation. 
-
-Now, the rigidity parameter is governed by $1-PH$ with multiple signals. It is a function of variance of $y$ from the prior of previous period and noisiness of the signals. Therefore, it is time variant as the variance is updated by the agent each period.  
-
-
-There are a few important distinctions between noisy information and sticky expectation. 
-
-$\bullet$  First, the persistence of expectation exists at individual level. There is serially correlation between $E_{i|t|t}(y_t)$ and $E_{i,t|t-1}(y_{t})$, or more generally, between $E_{i,t|t}(y_{t+h})$ and $E_{i,t|t-1}(y_{t+h})$. This pattern can be only observed from population moments according to sticky expectation models. 
-
-
-To see this, the change in individual forecast from $t-1$ to $t$ is 
+ P = [P_\epsilon,P_\xi]= \Sigma^y_{i,t|t-1} H(H'\Sigma^y_{i,t|t-1} H + \Sigma^v)^{-1} 
+ \end{aligned}
+ \end{eqnarray}
+ 
+and $\Sigma^y_{i,t|t-1}$  is the variance of  $y_t$ based on prior belief.
 
 \begin{eqnarray}
 \begin{aligned}
-\Delta E_{i,t|t}(y_{t+h}) & = \underbrace{\rho^h (1-PH)\Delta E_{i,t-1|t-1}(y_{t})}_{\text{Lagged response}} + \underbrace{\rho^hPH \Delta y_{i,t} + \rho^h P\Delta v_{i,t}}_{\text{Shocks to signals}}\\
+ \Sigma^v =  \left[ \begin{matrix} 
+  \sigma^2_{\epsilon} &  0 \\ 
+  0 & \sigma^2_\xi \end{matrix}\right] 
 \end{aligned}
 \end{eqnarray}
 
-The serial correlation is $\rho^h(1-PH)$, it does not only depend on $PH$, but also the forecast horizon $h$. Therefore, one testable assumption is to see auto regression of change in forecast to see if the coefficient depends on horizon. 
+Individual forecast partially responds to new signals, i.e. $P<1$. $P=1$ is a special case when both signals are perfect thus $\Sigma^v = 0$, then the formula collapses to FIRE. 
 
-$\bullet$  Second, the expectation adjusts in each period as long as there is new information. In sticky expectation, however, the expectation adjusts only when the agent updates. 
+Now, the parameter that governs rigidity is $1-PH$. It is a function of priror uncertainty about $y$ and noisiness of the signals. It is time variant as the variance is updated by the agent each period.  
 
-\item Variance
+There are a few important distinctions between NI and SE. 
+
+First, the serial correlation of forecast error exists at both individual and population level, while it is only observable in population moments according to SE. 
+
+To see this, the change in individual forecast from $t-1$ to $t$ is \footnote{need to check.}
+
+\begin{eqnarray}
+\begin{aligned}
+\Delta y_{i,t+h|t} & = \underbrace{\rho^h (1-PH)\Delta y_{i,t+h|t-1}}_{\text{Lagged response}} + \underbrace{\rho^hPH \Delta y_{i,t|t} + \rho^h P\Delta v_{i,t}}_{\text{Shocks to signals}}\\
+\end{aligned}
+\end{eqnarray}
+
+The serial correlation is $\rho^h(1-PH)$, it does not only depend on $PH$, but also the forecast horizon $h$. As $\rho<1$, the rigidity declines with longer horizon. In this regard, the rigidity implied by NI and SE are different because the form is fixed and the later is horizon dependent.  
+
+Second, the expectation adjusts in each period as long as there is new information. In sticky expectation, however, the expectation adjusts only when the agent updates. 
+
 
 The posterior variance at time $t$ is a linear function of prior variance and variance of signals. 
 
@@ -312,37 +295,30 @@ The posterior variance at time $t$ is a linear function of prior variance and va
 \end{aligned}
 \end{eqnarray}
 
-There are a few important properties in the variance. 
 
-- First, it does not depend on the realizations of the signal. 
-
-- Second, it decreases unambigously from $t-1$ to $t$. To see this 
+As in FIRE and SE, uncertainty itself does not depend upon the realization of the shocks or signals. The revision in uncertainy from time $t-1$ to $t$ fixing the terminate of the forecast date is negative  unambigously. To see this 
 
 \begin{eqnarray}
 \Sigma^y_{i,t|t} - \Sigma^y_{i,t|t-1} = - \Sigma^y_{i,t|t-1} H'(H \Sigma^y_{i,t-1} H' +\Sigma^v) H \Sigma^y_{i,t|t-1} <0
 \end{eqnarray}
 
+But the efficiency gain in reduction of uncertainty depends upon the noisiness of the signals. As long as the signal is not perfect, forecast in NI is neither as efficient as FIRE. 
+
 These two properties carry through to the h-period ahead forecast as well. As the forecast variance is the following 
 
 \begin{eqnarray}
-Var_{i,t|t} (y_{t+h}) = \rho^{2h} \underbrace{Var_{i,t}(y_{t})}_{\Sigma_{i,t|t}} + \sum^{h}_{s=0}\rho^{2s} \sigma^2_{\omega}
+\Sigma_{i,t+h|t} = \rho^{2h} \underbrace{\Sigma_{i,t}}_{\Sigma_{i,t|t}} + \sum^{h}_{s=0}\rho^{2s} \sigma^2_{\omega}
 \end{eqnarray}
 
 
 \begin{eqnarray}
-\Delta Var_{i,t|t} (y_{t+h}) = \rho^{2h}\Delta \Sigma_{i,t|t} - \rho^{2h} \sigma^2_{\omega}
+\Delta \Sigma_{i,t+h|t} = \rho^{2h}\Delta  \Sigma_{i,t|t}  - \rho^{2h} \sigma^2_{\omega}
 \end{eqnarray}
 
 From $t$ to $t+1$, when $h\geq 1$, the decline in variance come from two sources. The first source is the pure gain from the new signals, i.e. $\Delta \Sigma^y_{i,t|t}$. It is scalled by the factor $\rho^{2h}$. The second source is present in full information rational expectation model: as time goes from $t-1$ to $t$, there is a reduction of uncertainty about $\omega_t$.
 
-\end{enumerate}
 
 \subsubsection{Population moments}
-
-\begin{enumerate}
-	
-\item Average forecast
-
 
 \begin{eqnarray}
 \begin{aligned}
@@ -352,50 +328,11 @@ From $t$ to $t+1$, when $h\geq 1$, the decline in variance come from two sources
 \end{aligned}
 \end{eqnarray}
 
-\item Change in average forecast
+One of the major implications from NI models is that both individual forecast and ucnertainty behaves the same pattern as population forecasts. 
 
-\begin{eqnarray}
-\begin{aligned}
-\Delta \bar E_t|t (y_{t+h}) & = \rho^h (1-PH) \Delta \bar E_{t-1}(y_{t+h}) + \rho^h P \Delta \epsilon_t
-\end{aligned}
-\end{eqnarray}
+In parituclar, the same as indivdiual forecast erro, average forecast errors have serial correlation with the same auto regression parameter $\rho^h(1-PH)$. 
 
-
-Same to the individual forecast, the change in average forecasts has serial correlation with the same auto regression parameter $\rho^h(1-PH)$.  
-
-\item Cross-sectional disagreements
-
-In this model, the only disagreements across agents come from the difference in realized private signals. Therefore, in short-cut, the disagreements are 
-
-\begin{eqnarray}
-\begin{aligned}
-Var_t(y_{t+h}) & = E((E_{i,t|t}(y_{t+h}) - \bar E_t(y_{t+h}))^2) \\
-& = \rho^{2h} P^2_\xi \sigma^2_\xi  
-\end{aligned}
-\end{eqnarray}
-
-
-Several properties. 
-
-$\bullet$ First, the disagreements increase with the forecast horizon. 
-$\bullet$  Second, the disagreements depends on noisiness private signals, but not on that of public signals and the variance of the true variable $y$. 
-$\bullet$  Third, similar to sticky expectation model, the disagreements also increase with the rigidity parameter $P$ in this model.
-
-
-\item Change in disagreements
-
-
-\begin{eqnarray}
-\begin{aligned}
-\Delta Var_t(y_{t+h}) & = \rho^{2h}(1-\rho^2) P^2_\xi \sigma^2_\xi >0
-\end{aligned}
-\end{eqnarray}
-
-The disagreements increase as time goes from $t-1$ to $t$. Also, as the time approaches $t+h$, the disagreements increase. This seems counterintuitive. But the reason is that here the disagreenments always exist simply because agents receive private signals, this disagreements is actually amplified as time goes forward. 
-
-\item Average variance
-
-Since the variance does not depend on signals and the precision is the same aross the agents, average variance is equal to the variance of each individual. 
+As to the uncertainty, as it does not depend on realized signals and the precision is the same aross all agents, average variance is equal to the variance of each individual. 
 
 \begin{eqnarray}
 \begin{aligned}
@@ -403,11 +340,24 @@ Since the variance does not depend on signals and the precision is the same aros
 \end{aligned}
 \end{eqnarray}
 
-Also, same as the individual variance, the variance unambiguiously drop as time goes by. 
+Also, same as the individual variance, the variance unambiguiously drop in each vintage of revision. But since the signal is noisy, agents partially react to the news and uncertainty does not drop as efficiently as FIRE. 
 
 \begin{eqnarray}
 \Delta Var_t(y_{t+h}) < 0 
 \end{eqnarray}
+
+NI also predicts non-zero disagreements in the presence of private signals. The behavior of disagreements across agents come from the difference in realized private signals. Specifically, it is equal to the following. 
+
+\begin{eqnarray}
+\begin{aligned}
+\overline {Disg}_{t+h|t} = \rho^{2h} P^2_\xi \sigma^2_\xi  
+\end{aligned}
+\end{eqnarray}
+
+First, the disagreements increase with the forecast horizon.  Second, the disagreements depends on noisiness private signals, but not on that of public signals and the variance of the true variable $y$. Third, similar to SE, the disagreements also increase with the rigidity parameter $P$ in this model.
+
+The disagreements increase as time goes from $t-1$ to $t$. Also, as the time approaches $t+h$, the disagreements increase. This seems counterintuitive. But the reason is that here the disagreenments always exist simply because agents receive private signals, this disagreements is actually amplified as time goes forward. 
+
 
 \subsubsection{Summary of predictions from noisy information}
 
@@ -417,8 +367,19 @@ $\bullet$  Individual variance unambiguously drops each period as one approaches
 $\bullet$  Population average forecast partially adjusts to news and has serial correlation as the individual level. \\
 $\bullet$  Population disagreements rise in each period as time approaches the period of realization. Disagreetments will never be zero. \\
 $\bullet$  Average variance declines unambiguously each period. 
-\end{enumerate}
 
+\subsection{Comparing FIRE, SE and NI}
+
+Figure \ref{ir_popind} plots the impulse responses of individual and population moments of forecasts accroding to different theories. As we focus on the dynamics of revision as one approaches the terminate date, i.e. forecast of $y_{t+h}$ at $t$, $t+1$, $t+2$ till $t+h$ instead of forecasts with fixed horizon, i.e. $y_{t+h}$,$y_{t+h+1}$. 
+
+This is the most intuitively seen in the dynamics of uncertainty. In particular, as one appraoch the realization $t+h$, uncertainty necessarily drop for FIRE and attains zero at the last period.  
+
+\begin{figure}[h]\ref{ir_popind}
+	\centering
+	\includegraphics[width=13cm]{figures/ir_indseni.png}
+	\includegraphics[width=13cm]{figures/ir_popseni.png} \\
+	\caption{Impulse responses of moments to a shock to inflation}
+\end{figure}
 
 
 \subsection{Other Theories}

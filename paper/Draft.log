@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  20 JUN 2019 12:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  20 JUN 2019 16:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -161,18 +161,18 @@ Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
 (./Draft.aux)
 \openout1 = `Draft.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 10.
+LaTeX Font Info:    ... okay on input line 10.
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
@@ -239,96 +239,121 @@ e
 
 {/usr/local/texlive/2014/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
 
-LaTeX Warning: Citation `xx' on page 2 undefined on input line 33.
+LaTeX Warning: Citation `xx' on page 2 undefined on input line 34.
 
 
-LaTeX Warning: Citation `xx' on page 2 undefined on input line 47.
+LaTeX Warning: Citation `xx' on page 2 undefined on input line 48.
 
 [2]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 51.
+               Default added (so using `tbp') on input line 52.
 
 
-Overfull \hbox (24.75005pt too wide) in paragraph at lines 73--73
+Overfull \hbox (24.75005pt too wide) in paragraph at lines 74--74
 []\OT1/cmr/bx/n/12 Benchmark of full-information ra-tio-nal ex-pec-ta-tion(FIRE
 ) 
  []
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 82.
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 83.
 
 
-Overfull \hbox (14.16615pt too wide) in paragraph at lines 84--85
+Overfull \hbox (14.16615pt too wide) in paragraph at lines 85--86
 []\OT1/cmr/m/n/10 The sec-ond im-pli-ca-tion from FIRE here is that fore-cast e
 r-rors of non-overlapping
  []
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 92.
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 93.
 
 
-LaTeX Warning: Citation `xx' on page 3 undefined on input line 92.
+LaTeX Warning: Citation `xx' on page 3 undefined on input line 93.
 
 [3]
 
-LaTeX Warning: Citation `xx' on page 4 undefined on input line 98.
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 99.
 
 
-LaTeX Warning: Citation `xx' on page 4 undefined on input line 113.
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 114.
 
 
-LaTeX Warning: Citation `xx' on page 4 undefined on input line 113.
+LaTeX Warning: Citation `xx' on page 4 undefined on input line 114.
 
 [4] [5] [6]
-Overfull \hbox (6.10431pt too wide) in alignment at lines 180--185
+Overfull \hbox (6.10431pt too wide) in alignment at lines 181--186
  [][][] []
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 202.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 203.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 202.
- [7]
-Overfull \hbox (21.3368pt too wide) in alignment at lines 261--272
- [][][] []
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 203.
+ [7] [8] [9]
+[10]
+
+LaTeX Warning: Reference `ir_popind' on page 11 undefined on input line 373.
+
+
+LaTeX Warning: Reference `ir_popind' on page 11 undefined on input line 377.
+
+<figures/ir_indseni.png, id=51, 1156.32pt x 722.7pt>
+File: figures/ir_indseni.png Graphic file (type png)
+
+<use figures/ir_indseni.png>
+Package pdftex.def Info: figures/ir_indseni.png used on input line 379.
+(pdftex.def)             Requested size: 369.88582pt x 231.16946pt.
+
+<figures/ir_popseni.png, id=53, 1156.32pt x 722.7pt>
+File: figures/ir_popseni.png Graphic file (type png)
+
+<use figures/ir_popseni.png>
+Package pdftex.def Info: figures/ir_popseni.png used on input line 380.
+(pdftex.def)             Requested size: 369.88582pt x 231.16946pt.
+
+Overfull \hbox (24.88582pt too wide) in paragraph at lines 377--380
+ [] 
  []
 
-[8]
-Overfull \hbox (3.30121pt too wide) in alignment at lines 295--299
- [][][] []
+
+Overfull \hbox (24.88582pt too wide) in paragraph at lines 377--380
+ [] 
  []
 
-[9] [10] [11]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[11]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 459.
+               Default added (so using `tbp') on input line 420.
 
 
-Overfull \hbox (55.02853pt too wide) in paragraph at lines 461--475
+Overfull \hbox (55.02853pt too wide) in paragraph at lines 422--436
 [][] 
  []
 
 
 LaTeX Warning: Citation `fuhrer2018intrinsic' on page 12 undefined on input lin
-e 483.
+e 444.
 
-(./Draft.bbl [12] [13]) [14] (./Draft.aux)
+(./Draft.bbl [12]) [13] [14 <./figures/ir_indseni.png> <./figures/ir_popseni.pn
+g>] (./Draft.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2851 strings out of 493117
- 40632 string characters out of 6135433
- 109520 words of memory out of 5000000
- 6267 multiletter control sequences out of 15000+600000
+ 2861 strings out of 493117
+ 40819 string characters out of 6135433
+ 108414 words of memory out of 5000000
+ 6273 multiletter control sequences out of 15000+600000
  9678 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,20n,35p,1272b,254s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,20n,35p,1272b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
@@ -347,10 +372,10 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (14 pages, 250810 bytes).
+Output written on Draft.pdf (14 pages, 348000 bytes).
 PDF statistics:
- 122 PDF objects out of 1000 (max. 8388607)
- 87 compressed objects within 1 object stream
+ 127 PDF objects out of 1000 (max. 8388607)
+ 88 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 1 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 11 words of extra memory for PDF output out of 10000 (max. 10000000)
 

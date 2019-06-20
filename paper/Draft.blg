@@ -3,44 +3,47 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: Draft.aux
 The style file: apalike.bst
 Database file #1: TestingExpectationTheories.bib
-You've used 12 entries,
+Warning--I didn't find a database entry for "xx"
+Warning--I didn't find a database entry for "fuhrer2018intrinsic"
+You've used 8 entries,
             1935 wiz_defined-function locations,
-            555 strings with 5349 characters,
-and the built_in function-call counts, 4634 in all, are:
-= -- 475
-> -- 136
-< -- 10
-+ -- 44
-- -- 42
-* -- 404
-:= -- 796
-add.period$ -- 36
-call.type$ -- 12
-change.case$ -- 80
-chr.to.int$ -- 12
-cite$ -- 12
-duplicate$ -- 168
-empty$ -- 354
-format.name$ -- 64
-if$ -- 900
+            532 strings with 4836 characters,
+and the built_in function-call counts, 3117 in all, are:
+= -- 323
+> -- 79
+< -- 7
++ -- 26
+- -- 24
+* -- 270
+:= -- 533
+add.period$ -- 24
+call.type$ -- 8
+change.case$ -- 52
+chr.to.int$ -- 8
+cite$ -- 8
+duplicate$ -- 112
+empty$ -- 245
+format.name$ -- 36
+if$ -- 606
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 13
-newline$ -- 63
-num.names$ -- 36
-pop$ -- 52
+missing$ -- 8
+newline$ -- 43
+num.names$ -- 24
+pop$ -- 29
 preamble$ -- 1
-purify$ -- 81
+purify$ -- 52
 quote$ -- 0
-skip$ -- 130
+skip$ -- 88
 stack$ -- 0
-substring$ -- 427
-swap$ -- 12
+substring$ -- 316
+swap$ -- 8
 text.length$ -- 0
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 70
+type$ -- 48
 warning$ -- 0
-while$ -- 46
+while$ -- 32
 width$ -- 0
-write$ -- 157
+write$ -- 106
+(There were 2 warnings)
