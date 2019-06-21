@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  21 JUN 2019 00:29
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  21 JUN 2019 00:59
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -329,66 +329,70 @@ Overfull \hbox (55.02853pt too wide) in paragraph at lines 422--436
 [][] 
  []
 
+
+LaTeX Warning: Reference `RevisionHist' on page 12 undefined on input line 447.
+
+
 <figures/fe_var2Q.png, id=57, 932.98563pt x 678.535pt>
 File: figures/fe_var2Q.png Graphic file (type png)
 
 <use figures/fe_var2Q.png>
-Package pdftex.def Info: figures/fe_var2Q.png used on input line 447.
+Package pdftex.def Info: figures/fe_var2Q.png used on input line 452.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/var_disg2Q.png, id=58, 932.98563pt x 678.535pt>
 File: figures/var_disg2Q.png Graphic file (type png)
 
 <use figures/var_disg2Q.png>
-Package pdftex.def Info: figures/var_disg2Q.png used on input line 448.
+Package pdftex.def Info: figures/var_disg2Q.png used on input line 453.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/fe_var3Q.png, id=59, 932.98563pt x 678.535pt>
 File: figures/fe_var3Q.png Graphic file (type png)
 
 <use figures/fe_var3Q.png>
-Package pdftex.def Info: figures/fe_var3Q.png used on input line 450.
+Package pdftex.def Info: figures/fe_var3Q.png used on input line 455.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/var_disg3Q.png, id=60, 932.98563pt x 678.535pt>
 File: figures/var_disg3Q.png Graphic file (type png)
 
 <use figures/var_disg3Q.png>
-Package pdftex.def Info: figures/var_disg3Q.png used on input line 451.
+Package pdftex.def Info: figures/var_disg3Q.png used on input line 456.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/fe_var.png, id=61, 932.98563pt x 678.535pt>
 File: figures/fe_var.png Graphic file (type png)
  <use figures/fe_var.png>
-Package pdftex.def Info: figures/fe_var.png used on input line 453.
+Package pdftex.def Info: figures/fe_var.png used on input line 458.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/var_disg.png, id=62, 932.98563pt x 678.535pt>
 File: figures/var_disg.png Graphic file (type png)
 
 <use figures/var_disg.png>
-Package pdftex.def Info: figures/var_disg.png used on input line 454.
+Package pdftex.def Info: figures/var_disg.png used on input line 459.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
-
+ [12]
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/IQRvarCPIQ.png, id=63, 932.98563pt x 678.535pt>
+<figures/IQRvarCPIQ.png, id=66, 932.98563pt x 678.535pt>
 File: figures/IQRvarCPIQ.png Graphic file (type png)
 
 <use figures/IQRvarCPIQ.png>
-Package pdftex.def Info: figures/IQRvarCPIQ.png used on input line 461.
+Package pdftex.def Info: figures/IQRvarCPIQ.png used on input line 466.
 (pdftex.def)             Requested size: 227.62204pt x 165.54366pt.
 
-<figures/IQRvarPCEQ.png, id=64, 932.98563pt x 678.535pt>
+<figures/IQRvarPCEQ.png, id=67, 932.98563pt x 678.535pt>
 File: figures/IQRvarPCEQ.png Graphic file (type png)
 
 <use figures/IQRvarPCEQ.png>
-Package pdftex.def Info: figures/IQRvarPCEQ.png used on input line 463.
+Package pdftex.def Info: figures/IQRvarPCEQ.png used on input line 468.
 (pdftex.def)             Requested size: 227.62204pt x 165.54366pt.
 
 
-LaTeX Warning: File `figures/IQRvarSCEQ.png' not found on input line 465.
+LaTeX Warning: File `figures/IQRvarSCEQ.png' not found on input line 470.
 
 
 ! Package pdftex.def Error: File `figures/IQRvarSCEQ.png' not found.
@@ -397,48 +401,48 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.465 ...aphics[width=8cm]{figures/IQRvarSCEQ.png}
+l.470 ...aphics[width=8cm]{figures/IQRvarSCEQ.png}
                                                   \\
 Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: Float too large for page by 40.66743pt on input line 467.
+LaTeX Warning: Float too large for page by 40.66743pt on input line 472.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-<figures/PRCCPIMean1_hist.png, id=65, 932.98563pt x 678.535pt>
+<figures/PRCCPIMean1_hist.png, id=68, 932.98563pt x 678.535pt>
 File: figures/PRCCPIMean1_hist.png Graphic file (type png)
 
 <use figures/PRCCPIMean1_hist.png>
-Package pdftex.def Info: figures/PRCCPIMean1_hist.png used on input line 472.
+Package pdftex.def Info: figures/PRCCPIMean1_hist.png used on input line 477.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
-<figures/PRCCPIVar1_hist.png, id=66, 932.98563pt x 678.535pt>
+<figures/PRCCPIVar1_hist.png, id=69, 932.98563pt x 678.535pt>
 File: figures/PRCCPIVar1_hist.png Graphic file (type png)
 
 <use figures/PRCCPIVar1_hist.png>
-Package pdftex.def Info: figures/PRCCPIVar1_hist.png used on input line 473.
+Package pdftex.def Info: figures/PRCCPIVar1_hist.png used on input line 478.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
-<figures/PRCPCEMean1_hist.png, id=67, 932.98563pt x 678.535pt>
+<figures/PRCPCEMean1_hist.png, id=70, 932.98563pt x 678.535pt>
 File: figures/PRCPCEMean1_hist.png Graphic file (type png)
 
 <use figures/PRCPCEMean1_hist.png>
-Package pdftex.def Info: figures/PRCPCEMean1_hist.png used on input line 475.
+Package pdftex.def Info: figures/PRCPCEMean1_hist.png used on input line 480.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
-<figures/PRCPCEVar1_hist.png, id=68, 932.98563pt x 678.535pt>
+<figures/PRCPCEVar1_hist.png, id=71, 932.98563pt x 678.535pt>
 File: figures/PRCPCEVar1_hist.png Graphic file (type png)
 
 <use figures/PRCPCEVar1_hist.png>
-Package pdftex.def Info: figures/PRCPCEVar1_hist.png used on input line 476.
+Package pdftex.def Info: figures/PRCPCEVar1_hist.png used on input line 481.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 
-LaTeX Warning: File `figures/SCEMean1_hist.png' not found on input line 478.
+LaTeX Warning: File `figures/SCEMean1_hist.png' not found on input line 483.
 
 
 ! Package pdftex.def Error: File `figures/SCEMean1_hist.png' not found.
@@ -447,14 +451,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.478 ...ics[width=6cm]{figures/SCEMean1_hist.png}
+l.483 ...ics[width=6cm]{figures/SCEMean1_hist.png}
                                                   
 Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figures/SCEVar1_hist.png' not found on input line 479.
+LaTeX Warning: File `figures/SCEVar1_hist.png' not found on input line 484.
 
 
 ! Package pdftex.def Error: File `figures/SCEVar1_hist.png' not found.
@@ -463,7 +467,7 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.479 ...hics[width=6cm]{figures/SCEVar1_hist.png}
+l.484 ...hics[width=6cm]{figures/SCEVar1_hist.png}
                                                     \\
 Using draft setting for this image.
 Try typing  <return>  to proceed.
@@ -473,27 +477,133 @@ If that doesn't work, type  X <return>  to quit.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-LaTeX Warning: Citation `fuhrer2018intrinsic' on page 12 undefined on input lin
-e 485.
+LaTeX Warning: File `figures/PRCCPIMeanRev_hist.png' not found on input line 49
+1.
 
-(./Draft.bbl [12]) [13] [14 <./figures/ir_indseni.png> <./figures/ir_popseni.pn
-g>] [15 <./figures/fe_var2Q.png> <./figures/var_disg2Q.png> <./figures/fe_var3Q
-.png> <./figures/var_disg3Q.png> <./figures/fe_var.png> <./figures/var_disg.png
->] [16 <./figures/IQRvarCPIQ.png> <./figures/IQRvarPCEQ.png>] [17 <./figures/PR
-CCPIMean1_hist.png> <./figures/PRCCPIVar1_hist.png> <./figures/PRCPCEMean1_hist
-.png> <./figures/PRCPCEVar1_hist.png>] (./Draft.aux)
+
+! Package pdftex.def Error: File `figures/PRCCPIMeanRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.491 ...idth=6cm]{figures/PRCCPIMeanRev_hist.png}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/PRCCPIVarRev_hist.png' not found on input line 492
+.
+
+
+! Package pdftex.def Error: File `figures/PRCCPIVarRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.492 ...width=6cm]{figures/PRCCPIVarRev_hist.png}
+                                                    \\
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/PRCPCEMeanRev_hist.png' not found on input line 49
+4.
+
+
+! Package pdftex.def Error: File `figures/PRCPCEMeanRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.494 ...idth=6cm]{figures/PRCPCEMeanRev_hist.png}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/PRCPCEVarRev_hist.png' not found on input line 495
+.
+
+
+! Package pdftex.def Error: File `figures/PRCPCEVarRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.495 ...width=6cm]{figures/PRCPCEVarRev_hist.png}
+                                                    \\
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/SCEMeanRev_hist.png' not found on input line 497.
+
+
+! Package pdftex.def Error: File `figures/SCEMeanRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.497 ...s[width=6cm]{figures/SCEMeanRev_hist.png}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/SCEVarRev_hist.png' not found on input line 498.
+
+
+! Package pdftex.def Error: File `figures/SCEVarRev_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.498 ...cs[width=6cm]{figures/SCEVarRev_hist.png}
+                                                    \\
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: Citation `fuhrer2018intrinsic' on page 13 undefined on input lin
+e 504.
+
+(./Draft.bbl) [13] [14 <./figures/ir_indseni.png> <./figures/ir_popseni.png>]
+[15 <./figures/fe_var2Q.png> <./figures/var_disg2Q.png> <./figures/fe_var3Q.png
+> <./figures/var_disg3Q.png> <./figures/fe_var.png> <./figures/var_disg.png>]
+[16 <./figures/IQRvarCPIQ.png> <./figures/IQRvarPCEQ.png>] [17 <./figures/PRCCP
+IMean1_hist.png> <./figures/PRCCPIVar1_hist.png> <./figures/PRCPCEMean1_hist.pn
+g> <./figures/PRCPCEVar1_hist.png>] [18] (./Draft.aux)
 
 LaTeX Warning: There were undefined references.
 
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 2929 strings out of 493117
- 42452 string characters out of 6135433
+ 2936 strings out of 493117
+ 42565 string characters out of 6135433
  108464 words of memory out of 5000000
- 6325 multiletter control sequences out of 15000+600000
+ 6326 multiletter control sequences out of 15000+600000
  9846 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,20n,35p,1272b,280s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,20n,35p,1272b,278s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
@@ -513,10 +623,10 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Draft.pdf (17 pages, 1925860 bytes).
+Output written on Draft.pdf (18 pages, 1927219 bytes).
 PDF statistics:
- 164 PDF objects out of 1000 (max. 8388607)
- 97 compressed objects within 1 object stream
+ 167 PDF objects out of 1000 (max. 8388607)
+ 99 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  71 words of extra memory for PDF output out of 10000 (max. 10000000)
 
