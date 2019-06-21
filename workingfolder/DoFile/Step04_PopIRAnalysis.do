@@ -122,9 +122,9 @@ drop if quarter ==.
 ** Period filter   
 ** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
 
-keep if year>=1976 & year <= 2007
-
-
+keep if year > 2007
+*keep if year>=1976 & year <= 2007
+tsset date
 
  
 /*
@@ -162,16 +162,16 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
    graph export "${sum_graph_folder}/irf/`Inf'_`sk'", as(png) replace
  }
 }
+*/
 
-
-
+/*
 ***********************************************
 ** IRF of inflation (MP shocks at one time) **
 ***********************************************
 
 eststo clear
 
-foreach Inf in CPIAU CPICore PCEPI{ 
+foreach Inf in CPIAU PCEPI{ 
    var Inf1y_`Inf', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)   
@@ -184,6 +184,7 @@ foreach Inf in CPIAU CPICore PCEPI{
    graph export "${sum_graph_folder}/irf/`Inf'_ashocks", as(png) replace
 
 }
+
 
 
 ***********************************************
@@ -205,7 +206,6 @@ foreach Inf in CPIAU CPICore PCEPI{
    graph export "${sum_graph_folder}/irf/`Inf'_ashocks_nmp", as(png) replace
 
 }
-
 
 ****************************************************
 ** IRF of SPF moments (MP shocks at one time)    **
@@ -231,14 +231,12 @@ foreach mom in FE{
 }
 
 
-
-
 *********************************************************
 ** IRF of SPF moments (MP shocks(abs) at one time)    **
 *********************************************************
 
 
-foreach mom in Var Disg{
+foreach mom in Disg Var{
    foreach var in SPFCPI SPFPCE{
        * shocks 
        capture var `var'_`mom', lags(1/4) ///
@@ -256,8 +254,6 @@ foreach mom in Var Disg{
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ab_ashocks", as(png) replace
 }
 
-
-
 ***********************************************************
 ** IRF of SPF moments (all shocks exl MP at one time)    **
 ***********************************************************
@@ -265,10 +261,10 @@ foreach mom in Var Disg{
 
 foreach mom in FE{
    foreach var in SPFCPI SPFPCE{
-       capture var `var'_`mom', lags(1/4) ///
+	   capture var `var'_`mom', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock) 
    set seed 123456
-   capture irf create `var'_nmp, set(`mom'_nmp) step(10) bsp  
+   capture irf create `var'_nmp, set(`mom'_nmp) step(20) bsp replace  
 }
    capture irf graph dm, impulse(pty_shock op_shock) ///
                          byopts(title("`mom'") yrescale /// 
@@ -277,7 +273,7 @@ foreach mom in FE{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
 }
-*/
+
 
 ****************************************************************
 ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
@@ -288,7 +284,7 @@ foreach mom in Disg Var{
    foreach var in SPFCPI SPFPCE{
        * shocks 
        capture var `var'_`mom', lags(1/4) ///
-                     exo(l(0/1).pty_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
+                     exo(l(0/1).pty_shock ///
 					 l(0/1).pty_abshock l(0/1).op_abshock)
    set seed 123456
    capture irf create `var'_nmp, set(`mom'_nmp) step(10) bsp replace 
@@ -302,8 +298,6 @@ foreach mom in Disg Var{
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
 }
 
-
-*/
 
 /*  need to debug 
 ****************************************************
