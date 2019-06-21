@@ -119,9 +119,10 @@ graph export "${sum_graph_folder}/mean_med", as(png) replace
 twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
 	   if Q9_mean!=., ///
-	   title("1-yr-ahead Expected Inflation") xtitle("Time") ///
+	   title("1-yr-ahead Expected Inflation (SCE)") xtitle("Time") ///
 	   legend(label(1 "Average Expectation") label(2 "Average Uncertainty(RHS)"))
 graph export "${sum_graph_folder}/mean_var", as(png) replace 
+
 
 
 twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
@@ -216,6 +217,14 @@ twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
 	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
 	          label(3 "50 percentile of uncertainty")) 
 graph export "${sum_graph_folder}/IQRvarPCE", as(png) replace 
+
+
+twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
+       (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if Q9_var!=., ///
+	   title("1-yr-ahead Expected Inflation") xtitle("Time") ///
+	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/fe_var", as(png) replace 
 */
 
 ***************************
@@ -326,8 +335,6 @@ twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
 						                label(3 "SPF PCE(RHS)"))
 graph export "${sum_graph_folder}/fe_feQ", as(png) replace
 
-*/
-
 
 twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
        (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
@@ -348,6 +355,40 @@ twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
 	          label(3 "50 percentile of uncertainty")) 
 graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace 
 
+
+
+twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
+       (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if PRCCPIVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+graph export "${sum_graph_folder}/fe_var2Q", as(png) replace 
+
+
+twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
+       (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if PRCPCEVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+graph export "${sum_graph_folder}/fe_var3Q", as(png) replace 
+
+
+
+twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
+       (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if PRCCPIVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/var_disg2Q", as(png) replace 
+
+
+twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
+       (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if PRCPCEVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/var_disg3Q", as(png) replace 
+*/
 
 ********************************
 ***  Autoregression Quarterly **

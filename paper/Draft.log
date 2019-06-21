@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  20 JUN 2019 16:31
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  21 JUN 2019 00:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -293,14 +293,7 @@ File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 203.
  [7] [8] [9]
-[10]
-
-LaTeX Warning: Reference `ir_popind' on page 11 undefined on input line 373.
-
-
-LaTeX Warning: Reference `ir_popind' on page 11 undefined on input line 377.
-
-<figures/ir_indseni.png, id=51, 1156.32pt x 722.7pt>
+[10] <figures/ir_indseni.png, id=51, 1156.32pt x 722.7pt>
 File: figures/ir_indseni.png Graphic file (type png)
 
 <use figures/ir_indseni.png>
@@ -314,12 +307,12 @@ File: figures/ir_popseni.png Graphic file (type png)
 Package pdftex.def Info: figures/ir_popseni.png used on input line 380.
 (pdftex.def)             Requested size: 369.88582pt x 231.16946pt.
 
-Overfull \hbox (24.88582pt too wide) in paragraph at lines 377--380
- [] 
+Overfull \hbox (24.88582pt too wide) in paragraph at lines 379--380
+ [][] 
  []
 
 
-Overfull \hbox (24.88582pt too wide) in paragraph at lines 377--380
+Overfull \hbox (24.88582pt too wide) in paragraph at lines 379--380
  [] 
  []
 
@@ -336,24 +329,171 @@ Overfull \hbox (55.02853pt too wide) in paragraph at lines 422--436
 [][] 
  []
 
+<figures/fe_var2Q.png, id=57, 932.98563pt x 678.535pt>
+File: figures/fe_var2Q.png Graphic file (type png)
+
+<use figures/fe_var2Q.png>
+Package pdftex.def Info: figures/fe_var2Q.png used on input line 447.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/var_disg2Q.png, id=58, 932.98563pt x 678.535pt>
+File: figures/var_disg2Q.png Graphic file (type png)
+
+<use figures/var_disg2Q.png>
+Package pdftex.def Info: figures/var_disg2Q.png used on input line 448.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/fe_var3Q.png, id=59, 932.98563pt x 678.535pt>
+File: figures/fe_var3Q.png Graphic file (type png)
+
+<use figures/fe_var3Q.png>
+Package pdftex.def Info: figures/fe_var3Q.png used on input line 450.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/var_disg3Q.png, id=60, 932.98563pt x 678.535pt>
+File: figures/var_disg3Q.png Graphic file (type png)
+
+<use figures/var_disg3Q.png>
+Package pdftex.def Info: figures/var_disg3Q.png used on input line 451.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/fe_var.png, id=61, 932.98563pt x 678.535pt>
+File: figures/fe_var.png Graphic file (type png)
+ <use figures/fe_var.png>
+Package pdftex.def Info: figures/fe_var.png used on input line 453.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/var_disg.png, id=62, 932.98563pt x 678.535pt>
+File: figures/var_disg.png Graphic file (type png)
+
+<use figures/var_disg.png>
+Package pdftex.def Info: figures/var_disg.png used on input line 454.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figures/IQRvarCPIQ.png, id=63, 932.98563pt x 678.535pt>
+File: figures/IQRvarCPIQ.png Graphic file (type png)
+
+<use figures/IQRvarCPIQ.png>
+Package pdftex.def Info: figures/IQRvarCPIQ.png used on input line 461.
+(pdftex.def)             Requested size: 227.62204pt x 165.54366pt.
+
+<figures/IQRvarPCEQ.png, id=64, 932.98563pt x 678.535pt>
+File: figures/IQRvarPCEQ.png Graphic file (type png)
+
+<use figures/IQRvarPCEQ.png>
+Package pdftex.def Info: figures/IQRvarPCEQ.png used on input line 463.
+(pdftex.def)             Requested size: 227.62204pt x 165.54366pt.
+
+
+LaTeX Warning: File `figures/IQRvarSCEQ.png' not found on input line 465.
+
+
+! Package pdftex.def Error: File `figures/IQRvarSCEQ.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.465 ...aphics[width=8cm]{figures/IQRvarSCEQ.png}
+                                                  \\
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: Float too large for page by 40.66743pt on input line 467.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<figures/PRCCPIMean1_hist.png, id=65, 932.98563pt x 678.535pt>
+File: figures/PRCCPIMean1_hist.png Graphic file (type png)
+
+<use figures/PRCCPIMean1_hist.png>
+Package pdftex.def Info: figures/PRCCPIMean1_hist.png used on input line 472.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/PRCCPIVar1_hist.png, id=66, 932.98563pt x 678.535pt>
+File: figures/PRCCPIVar1_hist.png Graphic file (type png)
+
+<use figures/PRCCPIVar1_hist.png>
+Package pdftex.def Info: figures/PRCCPIVar1_hist.png used on input line 473.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/PRCPCEMean1_hist.png, id=67, 932.98563pt x 678.535pt>
+File: figures/PRCPCEMean1_hist.png Graphic file (type png)
+
+<use figures/PRCPCEMean1_hist.png>
+Package pdftex.def Info: figures/PRCPCEMean1_hist.png used on input line 475.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+<figures/PRCPCEVar1_hist.png, id=68, 932.98563pt x 678.535pt>
+File: figures/PRCPCEVar1_hist.png Graphic file (type png)
+
+<use figures/PRCPCEVar1_hist.png>
+Package pdftex.def Info: figures/PRCPCEVar1_hist.png used on input line 476.
+(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+
+
+LaTeX Warning: File `figures/SCEMean1_hist.png' not found on input line 478.
+
+
+! Package pdftex.def Error: File `figures/SCEMean1_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.478 ...ics[width=6cm]{figures/SCEMean1_hist.png}
+                                                  
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figures/SCEVar1_hist.png' not found on input line 479.
+
+
+! Package pdftex.def Error: File `figures/SCEVar1_hist.png' not found.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.479 ...hics[width=6cm]{figures/SCEVar1_hist.png}
+                                                    \\
+Using draft setting for this image.
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
 
 LaTeX Warning: Citation `fuhrer2018intrinsic' on page 12 undefined on input lin
-e 444.
+e 485.
 
 (./Draft.bbl [12]) [13] [14 <./figures/ir_indseni.png> <./figures/ir_popseni.pn
-g>] (./Draft.aux)
+g>] [15 <./figures/fe_var2Q.png> <./figures/var_disg2Q.png> <./figures/fe_var3Q
+.png> <./figures/var_disg3Q.png> <./figures/fe_var.png> <./figures/var_disg.png
+>] [16 <./figures/IQRvarCPIQ.png> <./figures/IQRvarPCEQ.png>] [17 <./figures/PR
+CCPIMean1_hist.png> <./figures/PRCCPIVar1_hist.png> <./figures/PRCPCEMean1_hist
+.png> <./figures/PRCPCEVar1_hist.png>] (./Draft.aux)
 
 LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 2861 strings out of 493117
- 40819 string characters out of 6135433
- 108414 words of memory out of 5000000
- 6273 multiletter control sequences out of 15000+600000
- 9678 words of font info for 35 fonts, out of 8000000 for 9000
+ 2929 strings out of 493117
+ 42452 string characters out of 6135433
+ 108464 words of memory out of 5000000
+ 6325 multiletter control sequences out of 15000+600000
+ 9846 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 40i,20n,35p,1272b,268s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 40i,20n,35p,1272b,280s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></
@@ -371,11 +511,12 @@ ive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/local/texlive
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2014/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf
--dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (14 pages, 348000 bytes).
+-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on Draft.pdf (17 pages, 1925860 bytes).
 PDF statistics:
- 127 PDF objects out of 1000 (max. 8388607)
- 88 compressed objects within 1 object stream
+ 164 PDF objects out of 1000 (max. 8388607)
+ 97 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 71 words of extra memory for PDF output out of 10000 (max. 10000000)
 
