@@ -17,7 +17,6 @@ cd ${datafolder}
 
 use InfExpSPFDstIndQ,clear
 
-
 local Moments PRCCPIMean0 PRCCPIMean1 PRCPCEMean0 PRCPCEMean1 /// 
               PRCCPIVar0 PRCCPIVar1 PRCPCEVar0 PRCPCEVar1
 
@@ -52,6 +51,23 @@ putexcel set "${sum_table_folder}/InfExpSPFDstSum.xlsx", modify
 putexcel B2 = matrix(T), sheet("data_winsored") 
 
 
+
+*******************************
+**  Set Panel Data Structure **
+*******************************
+
+gen date2=string(year)+"Q"+string(quarter)
+gen date3= quarterly(date2,"YQ")
+format date3 %tq 
+drop date2 
+rename date3 dateQ
+
+xtset ID dateQ
+sort ID dateQ 
+
+drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
+
+
 ******************************
 **   Moments of Moments   ****
 ******************************
@@ -71,6 +87,44 @@ foreach mom in Mean Var{
 }
 
 
+******************************
+**  Vintages Moments      ****
+******************************
+
+** Forward looking 
+foreach mom in Mean Var{
+   foreach var in PRCCPI PRCPCE{
+     gen `var'`mom'f0 =f1.`var'`mom'0
+	 local lb: variable label `var'`mom'0
+	 label var `var'`mom'f0 "`lb' in q+1"
+ }
+}
+
+
+** Backward looking 
+
+foreach mom in Mean Var{
+   foreach var in PRCCPI PRCPCE{
+     gen `var'`mom'l1 =l1.`var'`mom'1
+	 local lb: variable label `var'`mom'1
+	 label var `var'`mom'l1 "`lb' in q-1"
+ }
+}
+
+
+******************************
+**  Generate Revision  ****
+******************************
+
+
+foreach mom in Mean Var{
+   foreach var in PRCCPI PRCPCE{
+      gen `var'`mom'_rv = `var'`mom'0 - `var'`mom'l1
+	  label var `var'`mom'_rv "Revision of `var'`mom'"
+   }
+}
+
+ 
 ******************************
 **   Labeling for plots   ****
 ******************************
@@ -96,7 +150,7 @@ foreach mom in Var {
 ***************************************
 
 * Kernal density plot only 
-
+/*
 foreach mom in Mean{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'1
@@ -115,13 +169,65 @@ foreach mom in Var{
  }
 }
 
+
+
+foreach mom in Mean{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'1 
+    twoway (kdensity `var'`mom'1, n(20) ) ///
+	       (kdensity `var'`mom'f0, n(50) lpattern(dash) fcolor(ltblue)), ///
+		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
+	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_hist", as(png) replace 
+ }
+}
+
+foreach mom in Var{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'1 
+    twoway (kdensity `var'`mom'1, n(50) ) ///
+	       (kdensity `var'`mom'f0, n(50) fcolor(ltblue)), ///
+		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
+	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population") ///
+		   xtitle("Revision in uncertainty")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_hist", as(png) replace 
+ }
+}
+
+
+
+foreach mom in Mean{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'1 
+    twoway (kdensity `var'`mom'_rv, n(20) lcolor(blue)), ///
+	       xline(0) ///
+	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population") ///
+		   xtitle("Revision in mean forecast")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
+ }
+}
+
+
+foreach mom in Var{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'_rv 
+    twoway (kdensity `var'`mom'_rv, n(50) lcolor(blue) ), ///
+	       xline(0) ///
+	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population") ///
+		   xtitle("Revision in uncertainty")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
+ }
+}
+
+
 * histograms only 
 foreach mom in Mean{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'0
     twoway (histogram `var'`mom'0,bin(10) color(ltblue)) ///
 	       (histogram `var'`mom'1,bin(10) fcolor(none) lcolor(red)), by(year,title("Distribution of `lb'")) ///
-		   legend(order(1 "Nowcasting" 2 "Forecasting" ))
+		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
+		   xtitle("Mean forecast")
 	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
  }
 }
@@ -132,11 +238,12 @@ foreach mom in Var{
 	local lb: variable label `var'`mom'0
     twoway (histogram `var'`mom'0,bin(20) color(ltblue)) ///
 	       (histogram `var'`mom'1,bin(20) fcolor(none) lcolor(red)), by(year,title("Distribution of `lb'")) ///
-		   legend(order(1 "Nowcasting" 2 "Forecasting" ))
+		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
+		   xtitle("Uncertainty") 
 	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
  }
 }
-
+*/
 /*
 * nowcasting and forecasting 
 
@@ -150,6 +257,9 @@ foreach mom in Var{
  }
 }
 */
+
+
+
 ** These are moments of moments 
 local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 /// 
               PRCCPIVar0p25 PRCCPIVar1p25 PRCPCEVar0p25 PRCPCEVar1p25 ///
@@ -158,10 +268,12 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
 			  PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75 ///
 
+local Momentsrv PRCCPIMeanl1 PRCPCEMeanf0 PRCCPIVarl1  PRCPCEVarf0  ///
+                PRCCPIMean_rv PRCPCEMean_rv PRCCPIVar_rv  PRCPCEVar_rv
 
 ** quarterly population data 
 preserve 
-collapse (mean) `Moments' `MomentsMom', by(date year quarter) 
+collapse (mean) `Moments' `MomentsMom' `Momentsrv', by(date year quarter) 
 
 foreach var in `Moments'{
 rename `var' `var'mean
