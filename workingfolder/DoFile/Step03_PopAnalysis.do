@@ -63,7 +63,6 @@ tsset date
 sort year quarter month 
 
 
-
 ******************************
 *** Computing some measures **
 ******************************
@@ -77,6 +76,8 @@ gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 gen SPFPCE_FE = PCE1y - Inf1yf_PCE
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
+
+
 
 
 *****************************
@@ -197,6 +198,25 @@ twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash"
 graph export "${sum_graph_folder}/fe_fe", as(png) replace
 
 
+twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+	   if PRCCPIVar1p25!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty")) 
+graph export "${sum_graph_folder}/IQRvarCPI", as(png) replace 
+
+
+twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+	   if PRCPCEVar1p25!=. , ///
+	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty")) 
+graph export "${sum_graph_folder}/IQRvarPCE", as(png) replace 
+*/
 
 ***************************
 ***  Population Moments *** 
@@ -230,9 +250,19 @@ eststo clear
 ***  Collapse monthly data to quarterly  **
 *******************************************
 
-collapse (mean) Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
+local SCESPFMom Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
-				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean, ///
+				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean
+				
+local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 /// 
+              PRCCPIVar0p25 PRCCPIVar1p25 PRCPCEVar0p25 PRCPCEVar1p25 ///
+			  PRCCPIMean0p50 PRCCPIMean1p50 PRCPCEMean0p50 PRCPCEMean1p50 /// 
+              PRCCPIVar0p50 PRCCPIVar1p50 PRCPCEVar0p50 PRCPCEVar1p50 ///
+			  PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
+              PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75
+
+
+collapse (mean) `SCESPFMom' `MomentsMom', ///
 				by(year quarter) 
 
 gen date2=string(year)+"Q"+string(quarter)
@@ -245,6 +275,8 @@ tsset date
 sort year quarter  
 
 order date year quarter 
+
+
 
 /*
 ******************************************
@@ -295,6 +327,28 @@ twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
 graph export "${sum_graph_folder}/fe_feQ", as(png) replace
 
 */
+
+
+twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+	   if PRCCPIVar1p25!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty")) 
+graph export "${sum_graph_folder}/IQRvarCPIQ", as(png) replace 
+
+
+twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+	   if PRCPCEVar1p25!=. , ///
+	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty")) 
+graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace 
+
+
 ********************************
 ***  Autoregression Quarterly **
 *******************************
@@ -345,6 +399,18 @@ gen InfExp_Mean_ch = .
 gen InfExp_Var_ch = .
 gen InfExp_FE_ch = .
 gen InfExp_Disg_ch = . 
+
+
+foreach mom in Mean Var{
+  foreach var in PRCCPI PRCPCE{
+    forval i =0/1{
+	local lb=substr("`var'",4,3)
+	rename `var'`mom'`i'p25 SPF`lb'`mom'`i'p25
+    rename `var'`mom'`i'p50 SPF`lb'`mom'`i'p50
+	rename `var'`mom'`i'p75 SPF`lb'`mom'`i'p75
+	}
+   }
+}
 
 *******************************************************
 **** Autoregression on the levels of population moments

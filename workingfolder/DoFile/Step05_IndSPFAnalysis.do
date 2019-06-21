@@ -24,9 +24,6 @@ merge 1:1 year quarter ID using "${folder}/SPF/individual/InfExpSPFDstIndQ.dta"
 rename _merge SPFDst_merge
 table year if SPFDst_merge ==3
 
-*merge m:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match using master)
-*rename _merge inflation_merge 
-
 merge m:1 year quarter using "${mainfolder}/OtherData/InfShocksClean.dta",keep(match using master)
 rename _merge infshocks_merge
 
@@ -76,6 +73,7 @@ rename PRCCPIVar1 SPFCPI_Var
 rename SPFCPI_FE SPFCPI_FE
 rename SPFPCE_FE SPFPCE_FE
 
+
 *******************************
 **  Generate Variables       **
 *******************************
@@ -91,6 +89,7 @@ gen InfExp_Var_ch = .
 gen InfExp_FE_ch = .
 *gen InfExp_Disg_ch = . 
 
+/*
 ************************************************
 ** Auto Regression of the Individual Moments  **
 ************************************************
@@ -139,6 +138,10 @@ foreach mom in Var{
 
 
 esttab using "${sum_table_folder}/SPF_ind_ashocks.csv", drop(_cons) mtitles se r2 replace
+
+*/
+
+
 
 
 ** !!!! Need to find a way to run var for panel data
@@ -208,6 +211,7 @@ foreach mom in Var{
 						 xtitle("Quarters") 
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ab_mpshocks", as(png) replace
 }
+*/
 
 
 log close 
