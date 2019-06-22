@@ -14198,4 +14198,27 @@ file /Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData/SPF/InfExpSPFDst
 
 {com}. clear
 
-. 
+. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD19275.000000"
+{txt}
+{com}. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/pop"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
+{com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

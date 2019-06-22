@@ -302,13 +302,14 @@ for t in range(1,T):
     PopVarSE[t] = (1-λ)*PopVarSE[t-1] + λ*PopVarRE[t]
     #PopVarSE[t] = sum( [λ*(1-λ)**t*IndVarRE[s] for s in range(t)])
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Noisy information parameters 
 
 H = np.asmatrix ([[1,1]]).T 
-sigma_eps = 0.1
-pb_pr_ratio = 1
-sigma_xi = sigma_eps/pb_pr_ratio
+sigma_eps = 0.00000000000001 # public signal
+sigma_xi =0.1
+#pb_pr_ratio = 1
+#sigma_xi = sigma_eps/pb_pr_ratio  # private signal
 
 s_pb = y+sigma_eps*np.random.randn(T)
 s_pr = y+sigma_xi*np.random.randn(T)
@@ -317,7 +318,7 @@ sigma_v =np.asmatrix([[sigma_eps**2,0],[0,sigma_xi**2]])
 
 nb_s=len(s) ## # of signals 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # Noisy Information(NI)
 
 ## individual and population forecast 
@@ -370,65 +371,71 @@ PopVarNI = IndVarNI
 
 
 # +
+plt.style.use('ggplot')
 plt.figure(figsize=(12,12))
 plt.title("Real-time Forecast with Noisy Information",fontsize=13)
 
 plt.subplot(2,2,1)
 plt.title('Nowcast')
-plt.plot(y,'-',label=r'$y_t$')
-plt.plot(IndRTExpNI,'r*',label=r'$E_{i,t|t}(y_t)$')
+plt.plot(y,'-',label=r'$y_{t+k}$')
+plt.plot(IndRTExpNI,'r*',label=r'$y_{i,t|t}$')
 plt.plot(s_pb,'-.',label=r'$s^{pb}_t$')
 plt.plot(s_pr,'-.',label=r'$s^{pr}_{i,t}$')
-plt.legend(loc=0,fontsize=15)
+plt.legend(loc='best',fontsize=15)
 
 plt.subplot(2,2,2)
 plt.title('Forecast')
-plt.axhline(y[T-1],label=r'$y_{10}$',color='blue',linestyle='--')
-plt.plot(IndExpNI,'r*',label=r'$E_{i,t|t}(y_{10})$')
+plt.axhline(y[T-1],label=r'$y_{i,t+10|t}$',color='blue',linestyle='--')
+plt.plot(IndExpNI,'r*',label=r'$y_{i,t+10|t+k}$')
 #plt.plot(s_pb,'-.',label=r'$s^{pb}_t$')
 #plt.plot(s_pr,'-.',label=r'$s^{pr}_{i,t}$')
-plt.legend(loc=0,fontsize=15)
+plt.legend(loc='best',fontsize=15)
 
 
 plt.subplot(2,2,3)
 plt.title('Nowcast Uncertainty')
-plt.plot(IndRTVarNI,'r*',label=r'$Var_{i,t}(y_{t})$ in SE')
-plt.axhline(0,label=r'$Var_{i,t}(y_{t})$ in RE')
-plt.xlabel(r'$t$')
-plt.legend(loc=0,fontsize=15)
+plt.plot(IndRTVarNI,'r*',label=r'$\sigma^2_{i,t|t}$ in NI')
+plt.axhline(0,label=r'$\sigma^2_{i,t|t}$ in RE')
+plt.xlabel(r'$k$')
+plt.legend(loc='best',fontsize=15)
 
 plt.subplot(2,2,4)
 plt.title('Forecast Uncertainty')
-plt.plot(IndVarNI,'r*',label=r'$Var_{i,t}(y_{t+h})$ in SE')
-plt.plot(IndVarRE,'b*',label=r'$Var_{i,t}(y_{t+h})$ in RE')
-plt.xlabel(r'$t$')
-plt.legend(loc=0,fontsize=15)
+plt.plot(IndVarNI,'r*',label=r'$\sigma^2_{i,t+10|t+k}$ in NI')
+plt.plot(IndVarRE,'b*',label=r'$\sigma^2_{i,t+10|t+k}$ in RE')
+plt.xlabel(r'$k$')
+plt.legend(loc='best',fontsize=15)
 
 plt.savefig('figures/ni_illustration.png')
 # -
 
-plt.title('Rigidity Parameter')  # the rigidity parameter is defined as autoregression 
+plt.style.use('ggplot')
+fig=plt.figure(figsize=(6,6))
+plt.title('Implied Rigidity from Different Models')  # the rigidity parameter is defined as autoregression 
                                   ##  coefficient of change in average forecast 
 plt.plot(RigidityNI,'r--',label='NI Rigidity')
 plt.axhline(1-λ,label='SE Rigidity')
-plt.legend(loc=0)
-plt.xlabel(r'$t$')
+plt.legend(loc='best')
+plt.xlabel(r'$k$')
 plt.ylabel("Rigidity Parameter")
 plt.savefig('figures/rigidity.png')
 
 # +
-plt.figure(figsize=(16,10))
-plt.title("IR to Shock at t: Individual Moments")
+plt.style.use('ggplot')
+fig=plt.figure(figsize=(16,10))
+fig.suptitle("IR to Shock at t: Individual Moments",fontsize=20)
 
 plt.subplot(2,3,1)
-plt.plot(shock,'-')
+plt.plot(shock,'b-')
 #plt.xlabel(r'$t$')
-plt.title(r'$\omega_t$',fontsize=15)
+plt.ylim([-0.01,0.11])
+plt.title(r'$\omega_{t+k}$',fontsize=15)
 
 plt.subplot(2,3,2)
 plt.plot(y,'-')
 #plt.xlabel(r'$t$')
-plt.title(r'$y_t$',fontsize=15)
+plt.ylim([-0.01,0.11])
+plt.title(r'$y_{t+k}$',fontsize=15)
 
 plt.subplot(2,3,3)
 plt.plot(IndExpRE,'*',label='FIRE')
@@ -436,73 +443,79 @@ plt.plot(IndExpSEOld,'-',label='SE: non-updater')
 #plt.plot(IndExpSENew,'.',label='SE: updater')
 plt.plot(IndExpNI,'r-.',label='NI')
 #plt.xlabel(r'$t$')
-plt.title(r'$E_{i,t}(y_{10})$',fontsize=15)
-plt.legend(loc=0)
+plt.title(r'$y_{i,t+10|t+k}$',fontsize=15)
+plt.ylim([-0.01,0.11])
+plt.legend(loc='best')
 
 plt.subplot(2,3,4)
 plt.plot(IndFERE,'*',label='FIRE')
 plt.plot(IndFESEOld,'-',label='SE: non-updater')
 #plt.plot(IndFESENew,'.',label='SE: updater')
 plt.plot(IndFENI,'r-.',label='NI')
-plt.xlabel(r'$t$')
-plt.title(r'$FE_{i,t}(y_{10})$',fontsize=15)
-plt.legend(loc=0)
+plt.xlabel(r'$k$',fontsize=15)
+plt.title(r'$FE_{i,t+10|t+k}$',fontsize=15)
+plt.legend(loc='best')
 
 plt.subplot(2,3,5)
 plt.plot(IndVarRE,'*',label='FIRE')
 plt.plot(IndVarSEOld,'-',label='SE: non-updater')
 #plt.plot(IndVarSENew,'.',label='SE: updater')
 plt.plot(IndVarNI,'r-.',label='NI')
-plt.xlabel(r'$t$')
-plt.title(r'$Var_{i,t}(y_{10})$',fontsize=15)
-plt.legend(loc=3)
+plt.xlabel(r'$k$',fontsize=15)
+plt.title(r'$\sigma^2_{i,t+10|t+k}$',fontsize=15)
+plt.legend(loc='best')
+
 
 plt.savefig('figures/ir_indseni.png')
 
 # +
-plt.figure(figsize=(16,10))
-plt.title("Impulse Response to Shock at t: Individual Moments")
+plt.style.use('ggplot')
+fig=plt.figure(figsize=(16,10))
+fig.suptitle("Impulse Response to Shock at t: Individual Moments",fontsize=20)
 
 plt.subplot(2,3,1)
 plt.title(r'$\omega_t$',fontsize=15)
-plt.plot(shock,'*')
-#plt.xlabel(r'$t$')
+plt.plot(shock,'b-')
+plt.ylim([-0.01,0.11])
+#plt.xlabel(r'$k$')
 
 plt.subplot(2,3,2)
-plt.title(r'$y_t$',fontsize=15)
-plt.plot(y,'*')
-#plt.xlabel(r'$t$')
+plt.title(r'$y_{t+k}$',fontsize=15)
+plt.plot(y,'-')
+plt.ylim([-0.01,0.11])
+#plt.xlabel(r'$k$')
 
 plt.subplot(2,3,3)
 plt.plot(PopExpRE,'*',label='FIRE')
 plt.plot(PopExpSE,'-',label='SE')
 plt.plot(PopExpNI,'r-.',label='NI')
-#plt.xlabel(r'$t$')
-plt.title(r'$\bar E_t(y_{10})$',fontsize=15)
-plt.legend(loc=1)
+#plt.xlabel(r'$k$')
+plt.title(r'$\bar y_{t+10|t+k}$',fontsize=15)
+plt.ylim([-0.01,0.11])
+plt.legend(loc=4)
 
 plt.subplot(2,3,4)
 plt.plot(PopFERE,'*',label='FIRE')
 plt.plot(PopFESE,'-',label='SE')
-plt.xlabel(r'$t$')
+plt.xlabel(r'$k$',fontsize=15)
 plt.plot(PopFENI,'r-.',label='NI')
-plt.title(r'$FE_t(y_{10})$',fontsize=15)
-plt.legend(loc=1)
+plt.title(r'$\widebar {FE}_{t+10|t+k}$',fontsize=15)
+plt.legend(loc=3)
 
 plt.subplot(2,3,5)
 plt.plot(PopDisgRE,'*',label='FIRE')
 plt.plot(PopDisgSE,'-',label='SE')
 plt.plot(PopDisgNI,'r-.',label='NI')
-plt.xlabel(r'$t$')
-plt.title(r'$Var_t(y_{10})$',fontsize=15)
+plt.xlabel(r'$k$',fontsize=15)
+plt.title(r'$\widebar {\sigma}^2_{t+10|t+k}$',fontsize=15)
 plt.legend(loc=1)
 
 plt.subplot(2,3,6)
 plt.plot(PopVarRE,'*',label='FIRE')
 plt.plot(PopVarSE,'-',label='SE')
 plt.plot(PopVarNI,'r-.',label='NI')
-plt.xlabel(r'$t$')
-plt.title(r'$\widebar Var_t(y_{10})$',fontsize=15)
+plt.xlabel(r'$k$',fontsize=15)
+plt.title(r'$\widebar {Disg}_{t+10|t+k}$',fontsize=15)
 plt.legend(loc=1)
 plt.savefig('figures/ir_popseni.png')
 # -

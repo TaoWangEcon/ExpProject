@@ -259,9 +259,14 @@ eststo clear
 ***  Collapse monthly data to quarterly  **
 *******************************************
 
-local SCESPFMom Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
+local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
-				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean
+				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
+				
+local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
+                PRCCPIMeanl1  PRCCPIVarl1 PRCCPIMeanf0  PRCCPIVarf0 ///	
+				PRCPCEMeanl1  PRCPCEVarl1 PRCPCEMeanf0  PRCPCEVarf0
+				
 				
 local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 /// 
               PRCCPIVar0p25 PRCCPIVar1p25 PRCPCEVar0p25 PRCPCEVar1p25 ///
@@ -271,7 +276,7 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75
 
 
-collapse (mean) `SCESPFMom' `MomentsMom', ///
+collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
 				by(year quarter) 
 
 gen date2=string(year)+"Q"+string(quarter)
@@ -284,8 +289,6 @@ tsset date
 sort year quarter  
 
 order date year quarter 
-
-
 
 /*
 ******************************************
@@ -403,6 +406,7 @@ gen InfExpFE1y = .
 gen InfExpVar1y=.
 gen InfExpDisg1y = .
 
+
 *****************************************
 ****  Renaming so that more consistent **
 *****************************************
@@ -430,6 +434,26 @@ rename PRCCPIVar1mean SPFCPI_Var
 rename SPFCPI_FE SPFCPI_FE
 rename SPFPCE_FE SPFPCE_FE
 
+rename PRCPCEMean_rv SPFPCE_Mean_rv
+rename PRCCPIMean_rv SPFCPI_Mean_rv
+
+rename PRCPCEVar_rv SPFPCE_Var_rv
+rename PRCCPIVar_rv SPFCPI_Var_rv
+
+**********************************
+rename PRCCPIMeanl1 SPFCPI_Meanl1
+rename PRCCPIVarl1 SPFCPI_Varl1
+
+rename PRCCPIMeanf0 SPFCPI_Meanf0
+rename PRCCPIVarf0 SPFCPI_Varf0
+
+rename PRCPCEMeanl1 SPFPCE_Meanl1
+rename PRCPCEVarl1 SPFPCE_Varl1
+
+rename PRCPCEMeanf0 SPFPCE_Meanf0
+rename PRCPCEVarf0 SPFPCE_Varf0
+
+********************************
 gen InfExp_Mean = .
 gen InfExp_Var = .
 gen InfExp_FE = .
@@ -439,8 +463,17 @@ gen InfExp_Disg = .
 gen InfExp_Mean_ch = .
 gen InfExp_Var_ch = .
 gen InfExp_FE_ch = .
-gen InfExp_Disg_ch = . 
+gen InfExp_Disg_ch = .
 
+gen InfExp_Mean_rv =.
+gen InfExp_Var_rv =.
+
+gen InfExp_Meanl1 =. 
+gen InfExp_Varl1 =. 
+
+gen InfExp_Meanf0 =. 
+gen InfExp_Varf0 =. 
+ 
 
 foreach mom in Mean Var{
   foreach var in PRCCPI PRCPCE{
@@ -484,23 +517,43 @@ foreach mom in Mean Var Disg FE{
 }
 esttab using "${sum_table_folder}/autoregDiffQ.csv", mtitles se r2 replace
 
+
 ***************
 *** SPF Only **
 ***************
 
 eststo clear
 
-foreach mom in FE Var Disg {
+foreach mom in Mean Var{
    foreach var in SPFCPI SPFPCE{
     replace InfExp_`mom' = `var'_`mom'
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-	eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/4).InfExp_`mom' 
-    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch  
+	capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
+
+	eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/2).InfExp_`mom' 
+    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/2).InfExp_`mom'_ch  
+	capture eststo `var'_`mom'rv: reg InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv 
+
   }
 }
 esttab using "${sum_table_folder}/autoregSPFQ.csv", mtitles se r2 replace
 eststo clear
 
+
+*******************************
+*** Revision Efficiency Test **
+*******************************
+eststo clear
+
+foreach mom in Mean Var{
+   foreach var in SPFCPI SPFPCE{
+   replace InfExp_`mom' = `var'_`mom'
+   replace InfExp_`mom'f0 = `var'_`mom'f0
+   replace InfExp_`mom'l1 = `var'_`mom'l1
+   eststo `var'`mom'rvlv: reg InfExp_`mom' InfExp_`mom'l1
+ }
+}
+esttab using "${sum_table_folder}/EfficiencySPFQ.csv", mtitles se r2 replace
 
 save "${folder}/InfExpQ.dta",replace 
 

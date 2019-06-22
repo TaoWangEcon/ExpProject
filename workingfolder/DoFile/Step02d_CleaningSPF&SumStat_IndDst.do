@@ -268,7 +268,8 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
 			  PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75 ///
 
-local Momentsrv PRCCPIMeanl1 PRCPCEMeanf0 PRCCPIVarl1  PRCPCEVarf0  ///
+local Momentsrv PRCCPIMeanl1 PRCCPIMeanf0 PRCCPIVarl1  PRCCPIVarf0  ///
+                PRCPCEMeanl1 PRCPCEMeanf0 PRCPCEVarl1  PRCPCEVarf0 ///
                 PRCCPIMean_rv PRCPCEMean_rv PRCCPIVar_rv  PRCPCEVar_rv
 
 ** quarterly population data 
