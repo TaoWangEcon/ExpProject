@@ -114,6 +114,8 @@ $$\bar \sigma^{*2}_{t+h|t+1} - \bar \sigma^{*2}_{t+h|t} = - \rho^{2h}\sigma^2_\o
 The theory of sticky expectation (\cite{xx}, \cite{xx} ), regardless of its different microfoundations by various authors, builds upon the assumption that agents do not update information instantaneously as they do in FIRE. One of the most tractable models assume there is a homogenous Possion rate $\lambda$ of updating among the population. Specificaly, at any point of time $t$, each agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
 
 
+
+
 \subsubsection{Individual moments} 
 
 Denote the mean forecast of a non-updater since $t-\tau$ as $y_{i,t+h|t-\tau}$ since her forecast conditions upon the information up till $t-\tau$.
@@ -317,6 +319,15 @@ These two properties carry through to the h-period ahead forecast as well. As th
 
 From $t$ to $t+1$, when $h\geq 1$, the decline in variance come from two sources. The first source is the pure gain from the new signals, i.e. $\Delta \Sigma^y_{i,t|t}$. It is scalled by the factor $\rho^{2h}$. The second source is present in full information rational expectation model: as time goes from $t-1$ to $t$, there is a reduction of uncertainty about $\omega_t$.
 
+Figure \ref{IllustrateNI} illustrates both the signal extraction problem at each period of $t+k$ and how it is used to predict the prediction of $y_{t+h}$. 
+
+
+\begin{figure}[h]\label{IllustrateNI}
+	\centering
+	\includegraphics[width=13cm]{figures/ni_illustration.png}  
+	\caption{Illustration Noisy Information}
+\end{figure}
+
 
 \subsubsection{Population moments}
 
@@ -370,15 +381,22 @@ $\bullet$  Average variance declines unambiguously each period.
 
 \subsection{Comparing FIRE, SE and NI}
 
-Figure \ref{ir_popind} plots the impulse responses of individual and population moments of forecasts accroding to different theories. As we focus on the dynamics of revision as one approaches the terminate date, i.e. forecast of $y_{t+h}$ at $t$, $t+1$, $t+2$ till $t+h$ instead of forecasts with fixed horizon, i.e. $y_{t+h}$,$y_{t+h+1}$. 
+Figure \ref{ir_pop} plots the impulse responses of population moments of forecasts accroding to different theories. As we focus on the dynamics of revision as one approaches the terminate date, i.e. forecast of $y_{t+h}$ at $t$, $t+1$, $t+2$ till $t+h$ instead of forecasts with fixed horizon, i.e. $y_{t+h}$,$y_{t+h+1}$. 
 
 This is the most intuitively seen in the dynamics of uncertainty. In particular, as one appraoch the realization $t+h$, uncertainty necessarily drop for FIRE and attains zero at the last period.  
 
-\begin{figure}[h]\label{ir_popind}
+\begin{figure}[h]\label{ir_pop}
 	\centering
-	\includegraphics[width=13cm]{figures/ir_indseni.png}
-	\includegraphics[width=13cm]{figures/ir_popseni.png} \\
+	\includegraphics[width=14cm]{figures/ir_popseni.png} 
 	\caption{Impulse responses of moments to a shock to inflation}
+\end{figure}
+
+One of the common predictions of SE and NI is there is information rigidity or stickiness of expecatations.  But both theory have suble difference in implied rigidity. I illustrate this in Figure \ref{rigidity}. One notable difference is that SE's rigidty is exogeously fixed. NI's rigidity is endogeously determined by the noisiness of the signals and it is time varying. 
+ 
+\begin{figure}[h]\label{rigidity}
+	\centering
+	\includegraphics[width=13cm]{figures/rigidity.png} 
+	\caption{Rigidity from Two Models}
 \end{figure}
 
 
@@ -516,6 +534,7 @@ The second batch of tests focus on  forecasting efficiency utilizing revision ac
 
 \begin{table}[]\label{NullTestTable}
 	\caption{Test of Rationality and Efficicency}
+	\centering 
 	\begin{tabular}{lll}
 		
 		\hline 

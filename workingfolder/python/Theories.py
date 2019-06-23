@@ -197,19 +197,19 @@ import matplotlib.pyplot as plt
 import scipy as sp
 # %matplotlib inline
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## parameters 
 ρ = 0.9
-λ = 0.4
+λ = 0.25
 T = 11
 t_shock = 1
 h = T-1 
-σ = 0.01**0.5
-
+σ = 1
+sigma_y = np.sqrt(σ**2/(1-ρ**2))  # unconditional standard error 
 
 ## shocks
 shock = np.zeros(T)
-shock[t_shock] = 0.1
+shock[t_shock] = 1
 
 ## y_t
 y = np.zeros(T) 
@@ -227,11 +227,17 @@ for t in range(T):
 ## forecasting error    
 IndFERE = y[T-1] - IndExpRE
 
-## individual variance 
-
+## individual variance
 IndVarRE = np.zeros(T)
 for t in range(T):
-    IndVarRE[t] = σ**2*(ρ**2*(1-ρ**(2*(T-t-1))))/(1-ρ**2)
+    for i in range(T-t):
+        IndVarRE[t] += σ**2*ρ**(2*i)
+IndVarRE = IndVarRE-σ**2
+
+#IndVarRE2 = np.zeros(T)
+#for t in range(T):
+#    IndVarRE2[t] = σ**2*(ρ**2*(1-ρ**(2*(T-t-1))))/(1-ρ**2)
+#IndVarRE2 = np.zeros(T)
     
 ## population average 
 
@@ -302,169 +308,203 @@ for t in range(1,T):
     PopVarSE[t] = (1-λ)*PopVarSE[t-1] + λ*PopVarRE[t]
     #PopVarSE[t] = sum( [λ*(1-λ)**t*IndVarRE[s] for s in range(t)])
 
-# + {"code_folding": []}
-## Noisy information parameters 
 
-H = np.asmatrix ([[1,1]]).T 
-sigma_eps = 0.00000000000001 # public signal
-sigma_xi =0.1
-#pb_pr_ratio = 1
-#sigma_xi = sigma_eps/pb_pr_ratio  # private signal
+# + {"code_folding": [0]}
+## Noisy information(NI) 
 
-s_pb = y+sigma_eps*np.random.randn(T)
-s_pr = y+sigma_xi*np.random.randn(T)
-s = np.asmatrix(np.array([s_pb,s_pr]))  # signals 
-sigma_v =np.asmatrix([[sigma_eps**2,0],[0,sigma_xi**2]])
-
-nb_s=len(s) ## # of signals 
-
-# + {"code_folding": []}
-# Noisy Information(NI)
-
-## individual and population forecast 
-IndExpNI = np.zeros(T)  ## forecast 
-IndRTExpNI= np.zeros(T)   ## real time expectation
-IndRTVarNI = np.zeros(T)  ## real time variance 
-IndVarNI = np.zeros(T)    ## forecast variance
-Pkalman = np.zeros([T,nb_s])
-
-PopExpNI = np.zeros(T)
-PopDisgNI = np.zeros(T)
-PopVarNI = np.zeros(T)
-
-RigidityNI=np.zeros(T)
-
-IndExpNI[0]= 0               ## starting from a prior equal to unconditional mean
-IndRTVarNI[0]= σ**2/(1-ρ**2)  ## starting from a prior equal to unconditional variance
-IndVarNI[0]= ρ**(2*h)*IndRTVarNI[0]
-Pkalman[0] = [0,0]
-IndRTExpNI[0]=0
-PopExpNI[0]= 0 
-PopDisgNI[0]=0
-
-for t in range(T-1):
-    Pkalman[t+1]=IndRTVarNI[t]*H.T*np.linalg.inv(H*IndRTVarNI[t]*H.T+sigma_v)
-    ## individual
-    IndRTExpNI[t+1] = (1-Pkalman[t+1]*H)*IndExpNI[t]+ Pkalman[t+1]*s[:,t+1]
-    IndExpNI[t+1]= ρ**(h-t)*IndRTExpNI[t+1]
-    IndRTVarNI[t+1] =IndRTVarNI[t]-IndRTVarNI[t]*H.T*np.linalg.inv(H*IndRTVarNI[t]*H.T+sigma_v)*H*IndRTVarNI[t]
-    IndVarNI[t+1] = ρ**(2*(h-t))*IndRTVarNI[t+1] + IndVarRE[t+1]
-    ## population 
-    PopExpNI[t+1]=ρ**(h-t)*((1-Pkalman[t+1]*H)*PopExpNI[t]+Pkalman[t+1,0]*s[0,t+1])
-    print('Kalman gain from public signal is '+ str(Pkalman[t+1,1]))
-    print('Kalman gain from private signal is '+str(Pkalman[t+1,0]))
-    PopDisgNI[t+1]=ρ**(2*(h-t))*(Pkalman[t+1,1]**2)*sigma_xi**2
-    RigidityNI[t+1] = ρ**(h-t)*(1-Pkalman[t+1]*H)
+def NI(T,y,sigma_pb=1,sigma_pr=1):
+    # parameters
+    H = np.asmatrix ([[1,1]]).T   # ones 
+    sigma_eps = sigma_pb # public signal noisiness
+    sigma_xi =sigma_pr   # private signal noisiness
+    s_pb = y+sigma_eps*np.random.randn(T)
+    s_pr = y+sigma_xi*np.random.randn(T)
+    s = np.asmatrix(np.array([s_pb,s_pr]))  # signals 
+    sigma_v =np.asmatrix([[sigma_eps**2,0],[0,sigma_xi**2]])
+    nb_s=len(s) ## # of signals 
     
-## individual forecast error
+    ## individual and population forecast 
+    IndExpNI = np.zeros(T)  ## forecast 
+    IndRTExpNI= np.zeros(T)   ## real time expectation
+    IndRTVarNI = np.zeros(T)  ## real time variance 
+    IndVarNI = np.zeros(T)    ## forecast variance
+    Pkalman = np.zeros([T,nb_s])
 
-IndFENI = y[T-1]-IndExpNI
+    PopExpNI = np.zeros(T)
+    PopDisgNI = np.zeros(T)
+    PopVarNI = np.zeros(T)
 
-## individual forecast variance(computed above)
+    RigidityNI=np.zeros(T)
 
-## population forecast errror 
-PopFENI = y[T-1]-PopExpNI
+    IndExpNI[0]= 0               ## starting from a prior equal to unconditional mean
+    IndRTVarNI[0]= σ**2/(1-ρ**2)  ## starting from a prior equal to unconditional variance
+    IndVarNI[0]= IndVarRE[0]
+    Pkalman[0] = [0,0]
+    IndRTExpNI[0]=0
+    PopExpNI[0]= 0 
+    PopDisgNI[0]=0
 
-## population variance 
+    for t in range(T-1):
+        Pkalman[t+1]=IndRTVarNI[t]*H.T*np.linalg.inv(H*IndRTVarNI[t]*H.T+sigma_v)
+        ## individual
+        IndRTExpNI[t+1] = (1-Pkalman[t+1]*H)*IndExpNI[t]+ Pkalman[t+1]*s[:,t+1]
+        IndExpNI[t+1]= ρ**(h-t)*IndRTExpNI[t+1]
+        IndRTVarNI[t+1] =IndRTVarNI[t]-IndRTVarNI[t]*H.T*np.linalg.inv(H*IndRTVarNI[t]*H.T+sigma_v)*H*IndRTVarNI[t]
+        IndVarNI[t+1] = ρ**(2*(h-t))*IndRTVarNI[t+1] + IndVarRE[t+1]
+        ## population 
+        PopExpNI[t+1]=ρ**(h-t)*((1-Pkalman[t+1]*H)*PopExpNI[t]+Pkalman[t+1,0]*s[0,t+1])
+        #print('Kalman gain from public signal is '+ str(Pkalman[t+1,1]))
+        #print('Kalman gain from private signal is '+str(Pkalman[t+1,0]))
+        PopDisgNI[t+1]=ρ**(2*(h-t))*(Pkalman[t+1,1]**2)*sigma_xi**2
+        RigidityNI[t+1] = ρ**(h-t)*(1-Pkalman[t+1]*H)
 
-PopVarNI = IndVarNI
+    ## individual forecast error
 
+    IndFENI = y[T-1]-IndExpNI
+
+    ## individual forecast variance(computed above)
+
+    ## population forecast errror 
+    PopFENI = y[T-1]-PopExpNI
+
+    ## population variance 
+
+    PopVarNI = IndVarNI
+    
+    return{'IndExp':IndExpNI,'IndFE':IndFENI,'IndVar':IndVarNI,
+           'IndRTExp': IndRTExpNI, 'IndRTVar':IndRTVarNI,
+           'PopExp':PopExpNI,'PopFE':PopFENI,'PopVar':PopVarNI,'PopDisg':PopDisgNI,
+           'Rigidity':RigidityNI,'sig_pb':s_pb,'sig_pr':s_pr}
+    
+
+
+# + {"code_folding": [0]}
+#Invoke NI 
+
+MomNI =NI(T,y,sigma_pb=sigma_y,sigma_pr=sigma_y)  # both signal's ste is equal to y's long-run ste. 
+
+# + {"code_folding": [0]}
+## Parameters for plots
+linesize = 4
+linesize2 =2
 
 # +
 plt.style.use('ggplot')
-plt.figure(figsize=(12,12))
-plt.title("Real-time Forecast with Noisy Information",fontsize=13)
+fig=plt.figure(figsize=(12,12))
+plt.suptitle('Illustration of Noisy Information \n'+r'$\sigma_\xi=\sigma_\epsilon=\sigma_y$',fontsize=20)
+#plt.subtitle(r'$\sigma_\xi=\sigma_\epsilon=\sigma_y$',fontsize=20)
+
 
 plt.subplot(2,2,1)
 plt.title('Nowcast')
-plt.plot(y,'-',label=r'$y_{t+k}$')
-plt.plot(IndRTExpNI,'r*',label=r'$y_{i,t|t}$')
-plt.plot(s_pb,'-.',label=r'$s^{pb}_t$')
-plt.plot(s_pr,'-.',label=r'$s^{pr}_{i,t}$')
-plt.legend(loc='best',fontsize=15)
+plt.ylim([-6,6])
+plt.plot(y,'r-',linewidth=linesize,label=r'$y_{t+k}$')
+plt.plot(MomNI['IndRTExp'],'-.',color='dodgerblue',linewidth=linesize,label=r'$y_{i,t+k|t+k}$')
+plt.plot(MomNI['sig_pb'],'-.',linewidth=linesize2,label=r'$s^{pb}_t$')
+plt.plot(MomNI['sig_pr'],'g--',linewidth=linesize2,label=r'$s^{pr}_{i,t}$')
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylabel('',fontsize=15)
+plt.legend(loc=0,fontsize=13)
 
 plt.subplot(2,2,2)
 plt.title('Forecast')
-plt.axhline(y[T-1],label=r'$y_{i,t+10|t}$',color='blue',linestyle='--')
-plt.plot(IndExpNI,'r*',label=r'$y_{i,t+10|t+k}$')
+plt.ylim([-6,6])
+plt.axhline(y[T-1],label=r'$y_{t+10}$',linewidth=linesize)
+plt.plot(MomNI['IndExp'],'-.',color='dodgerblue',linewidth=linesize,label=r'$y_{i,t+10|t+k}$')
 #plt.plot(s_pb,'-.',label=r'$s^{pb}_t$')
 #plt.plot(s_pr,'-.',label=r'$s^{pr}_{i,t}$')
-plt.legend(loc='best',fontsize=15)
-
+plt.ylabel('',fontsize=15)
+plt.legend(loc='best',fontsize=13)
+plt.xlabel(r'$k$',fontsize=15)
 
 plt.subplot(2,2,3)
 plt.title('Nowcast Uncertainty')
-plt.plot(IndRTVarNI,'r*',label=r'$\sigma^2_{i,t|t}$ in NI')
-plt.axhline(0,label=r'$\sigma^2_{i,t|t}$ in RE')
-plt.xlabel(r'$k$')
-plt.legend(loc='best',fontsize=15)
+plt.ylim([-0.5,6])
+plt.axhline(0,linewidth=linesize,label=r'$\sigma^2_{i,t+k|t+k}$ in RE')
+plt.plot(MomNI['IndRTVar'],'-.',color='dodgerblue',linewidth=linesize,label=r'$\sigma^2_{i,t+k|t+k}$ in NI')
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylabel('',fontsize=15)
+plt.legend(loc='best',fontsize=13)
 
 plt.subplot(2,2,4)
 plt.title('Forecast Uncertainty')
-plt.plot(IndVarNI,'r*',label=r'$\sigma^2_{i,t+10|t+k}$ in NI')
-plt.plot(IndVarRE,'b*',label=r'$\sigma^2_{i,t+10|t+k}$ in RE')
-plt.xlabel(r'$k$')
-plt.legend(loc='best',fontsize=15)
+plt.plot(IndVarRE,'r-',linewidth=linesize,label=r'$\sigma^2_{i,t+10|t+k}$ in RE')
+plt.plot(MomNI['IndVar'],'-.',color='dodgerblue',linewidth=linesize,label=r'$\sigma^2_{i,t+10|t+k}$ in NI')
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylabel('',fontsize=15)
+plt.ylim([-0.5,6])
+plt.legend(loc=1,fontsize=13)
 
 plt.savefig('figures/ni_illustration.png')
-# -
+
+# +
+## Plot rigidity for a different values of noises 
+
+noise_ls  = np.array([0.1,1,10])
 
 plt.style.use('ggplot')
 fig=plt.figure(figsize=(6,6))
 plt.title('Implied Rigidity from Different Models')  # the rigidity parameter is defined as autoregression 
                                   ##  coefficient of change in average forecast 
-plt.plot(RigidityNI,'r--',label='NI Rigidity')
-plt.axhline(1-λ,label='SE Rigidity')
+plt.axhline(1-λ,linewidth=4,label=r'SE Rigidity: $1-\lambda$')
+
+markers = [':','--','-.']
+
+for i in range(len(noise_ls)):
+    NewMomNI =NI(T,y,sigma_pb=noise_ls[i]*sigma_y,sigma_pr=noise_ls[i]*sigma_y)
+    plt.plot(NewMomNI['Rigidity'],markers[i],linewidth=linesize,label=r'NI Rigidity: $\sigma_\epsilon=\sigma_\xi={} \sigma_y$'.format(noise_ls[i]))
 plt.legend(loc='best')
-plt.xlabel(r'$k$')
-plt.ylabel("Rigidity Parameter")
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylabel('',fontsize=15)
+plt.ylabel('Rigidity Parameter',fontsize=1)
 plt.savefig('figures/rigidity.png')
 
 # +
 plt.style.use('ggplot')
 fig=plt.figure(figsize=(16,10))
-fig.suptitle("IR to Shock at t: Individual Moments",fontsize=20)
+fig.suptitle("Impulse Response to Shock at t: Individual Moments",fontsize=20)
 
 plt.subplot(2,3,1)
-plt.plot(shock,'b-')
-#plt.xlabel(r'$t$')
-plt.ylim([-0.01,0.11])
+plt.plot(shock,'-',linewidth=linesize2)
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylim([-0.1,1.1])
 plt.title(r'$\omega_{t+k}$',fontsize=15)
 
 plt.subplot(2,3,2)
-plt.plot(y,'-')
-#plt.xlabel(r'$t$')
-plt.ylim([-0.01,0.11])
+plt.plot(y,'-',linewidth=linesize2)
+plt.xlabel(r'$k$',fontsize=15)
+plt.ylim([-0.1,1.1])
 plt.title(r'$y_{t+k}$',fontsize=15)
 
 plt.subplot(2,3,3)
-plt.plot(IndExpRE,'*',label='FIRE')
-plt.plot(IndExpSEOld,'-',label='SE: non-updater')
+plt.plot(IndExpRE,'*',linewidth=linesize+2,label='FIRE')
+plt.plot(IndExpSEOld,'-',linewidth=linesize,label='SE: non-updater')
 #plt.plot(IndExpSENew,'.',label='SE: updater')
-plt.plot(IndExpNI,'r-.',label='NI')
-#plt.xlabel(r'$t$')
+plt.plot(MomNI['IndExp'],'r-.',linewidth=linesize,label='NI')
+plt.xlabel(r'$k$',fontsize=15)
 plt.title(r'$y_{i,t+10|t+k}$',fontsize=15)
-plt.ylim([-0.01,0.11])
+plt.ylim([-0.1,1.1])
 plt.legend(loc='best')
 
 plt.subplot(2,3,4)
-plt.plot(IndFERE,'*',label='FIRE')
-plt.plot(IndFESEOld,'-',label='SE: non-updater')
+plt.plot(IndFERE,'*',linewidth=linesize+2,label='FIRE')
+plt.plot(IndFESEOld,'-',linewidth=linesize,label='SE: non-updater')
 #plt.plot(IndFESENew,'.',label='SE: updater')
-plt.plot(IndFENI,'r-.',label='NI')
+plt.plot(MomNI['IndFE'],'r-.',linewidth=linesize,label='NI')
 plt.xlabel(r'$k$',fontsize=15)
 plt.title(r'$FE_{i,t+10|t+k}$',fontsize=15)
+plt.ylim([-0.1,1.1])
 plt.legend(loc='best')
 
 plt.subplot(2,3,5)
-plt.plot(IndVarRE,'*',label='FIRE')
-plt.plot(IndVarSEOld,'-',label='SE: non-updater')
+plt.plot(IndVarRE,'*',linewidth=linesize+2,label='FIRE')
+plt.plot(IndVarSEOld,'-',linewidth=linesize,label='SE: non-updater')
 #plt.plot(IndVarSENew,'.',label='SE: updater')
-plt.plot(IndVarNI,'r-.',label='NI')
+plt.plot(MomNI['IndVar'],'r-.',linewidth=linesize,label='NI')
 plt.xlabel(r'$k$',fontsize=15)
 plt.title(r'$\sigma^2_{i,t+10|t+k}$',fontsize=15)
+plt.ylim([-0.1,5])
 plt.legend(loc='best')
-
 
 plt.savefig('figures/ir_indseni.png')
 
@@ -475,47 +515,48 @@ fig.suptitle("Impulse Response to Shock at t: Individual Moments",fontsize=20)
 
 plt.subplot(2,3,1)
 plt.title(r'$\omega_t$',fontsize=15)
-plt.plot(shock,'b-')
-plt.ylim([-0.01,0.11])
-#plt.xlabel(r'$k$')
+plt.plot(shock,'-',linewidth=linesize2)
+plt.xlabel(r'$k$',fontsize=15)
+
 
 plt.subplot(2,3,2)
 plt.title(r'$y_{t+k}$',fontsize=15)
-plt.plot(y,'-')
-plt.ylim([-0.01,0.11])
-#plt.xlabel(r'$k$')
+plt.plot(y,'-',linewidth=linesize2)
+plt.xlabel(r'$k$',fontsize=15)
+
 
 plt.subplot(2,3,3)
-plt.plot(PopExpRE,'*',label='FIRE')
-plt.plot(PopExpSE,'-',label='SE')
-plt.plot(PopExpNI,'r-.',label='NI')
-#plt.xlabel(r'$k$')
+plt.plot(PopExpRE,'*',linewidth=linesize,label='FIRE')
+plt.plot(PopExpSE,'-',linewidth=linesize,label='SE')
+plt.plot(MomNI['PopExp'],'r-.',linewidth=linesize,label='NI')
+plt.xlabel(r'$k$',fontsize=15)
 plt.title(r'$\bar y_{t+10|t+k}$',fontsize=15)
-plt.ylim([-0.01,0.11])
+plt.ylim([-0.1,1.1])
 plt.legend(loc=4)
 
 plt.subplot(2,3,4)
-plt.plot(PopFERE,'*',label='FIRE')
-plt.plot(PopFESE,'-',label='SE')
+plt.plot(PopFERE,'*',linewidth=linesize+5,label='FIRE')
+plt.plot(PopFESE,'-.',linewidth=linesize,label='SE')
+plt.plot(MomNI['PopFE'],'r-.',linewidth=linesize,label='NI')
 plt.xlabel(r'$k$',fontsize=15)
-plt.plot(PopFENI,'r-.',label='NI')
+plt.ylim([-0.1,1.1])
 plt.title(r'$\widebar {FE}_{t+10|t+k}$',fontsize=15)
-plt.legend(loc=3)
+plt.legend(loc=0)
 
 plt.subplot(2,3,5)
-plt.plot(PopDisgRE,'*',label='FIRE')
-plt.plot(PopDisgSE,'-',label='SE')
-plt.plot(PopDisgNI,'r-.',label='NI')
+plt.plot(PopDisgRE,'*',linewidth=linesize,label='FIRE')
+plt.plot(PopDisgSE,'-',linewidth=linesize,label='SE')
+plt.plot(MomNI['PopDisg'],'r-.',linewidth=linesize,label='NI')
 plt.xlabel(r'$k$',fontsize=15)
-plt.title(r'$\widebar {\sigma}^2_{t+10|t+k}$',fontsize=15)
+plt.title(r'$\widebar {Disg}_{t+10|t+k}$',fontsize=15)
 plt.legend(loc=1)
 
 plt.subplot(2,3,6)
-plt.plot(PopVarRE,'*',label='FIRE')
-plt.plot(PopVarSE,'-',label='SE')
-plt.plot(PopVarNI,'r-.',label='NI')
+plt.plot(PopVarRE,'*',linewidth=linesize,label='FIRE')
+plt.plot(PopVarSE,'-',linewidth=linesize,label='SE')
+plt.plot(MomNI['PopVar'],'r-.',linewidth=linesize,label='NI')
 plt.xlabel(r'$k$',fontsize=15)
-plt.title(r'$\widebar {Disg}_{t+10|t+k}$',fontsize=15)
+plt.title(r'$\widebar {\sigma}^2_{t+10|t+k}$',fontsize=15)
 plt.legend(loc=1)
 plt.savefig('figures/ir_popseni.png')
 # -
