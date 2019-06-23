@@ -1,6 +1,6 @@
 
 ="",="(1)",="(2)",="(3)",="(4)",="(5)",="(6)",="(7)",="(8)",="(9)",="(10)",="(11)",="(12)"
-="",="SPFCPI_Meanlvl",="SPFCPI_Meandiff",="SPFCPI_Meanrv",="SPFPCE_Meanlvl",="SPFPCE_Meandiff",="SPFPCE_Meanrv",="SPFCPI_Varlvl",="SPFCPI_Vardiff",="SPFCPI_Varrv",="SPFPCE_Varlvl",="SPFPCE_Vardiff",="SPFPCE_Varrv"
+="",="SPFCPI_Meanlvl",="SPFCPI_Meandiff",="SPFCPI_Mean_rv",="SPFPCE_Meanlvl",="SPFPCE_Meandiff",="SPFPCE_Mean_rv",="SPFCPI_Varlvl",="SPFCPI_Vardiff",="SPFCPI_Var_rv",="SPFPCE_Varlvl",="SPFPCE_Vardiff",="SPFPCE_Var_rv"
 
 ="L.InfExp_Mean",="0.818***",="",="",="1.067***",="",="",="",="",="",="",="",=""
 ="",="(0.0818)",="",="",="(0.141)",="",="",="",="",="",="",="",=""
