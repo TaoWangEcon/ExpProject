@@ -101,6 +101,8 @@ gen InfExp_Var_ch = .
 gen InfExp_FE_ch = .
 *gen InfExp_Disg_ch = . 
 
+gen InfExp_Mean0 = .
+gen InfExp_Var0 = .
 
 ************************************************
 ** Auto Regression of the Individual Moments  **
@@ -121,6 +123,103 @@ foreach mom in Mean FE Var{
 esttab using "${sum_table_folder}/ind/autoregSPFIndQ.csv", mtitles se  r2 replace
 eststo clear
 
+
+
+*******************************
+*** Unbiasedness Test        **
+*******************************
+eststo clear
+
+foreach mom in FE{
+   foreach var in SPFCPI SPFPCE{
+      ttest `var'_`mom'=0
+}
+}
+
+gen const=1
+
+foreach mom in FE{
+   foreach var in SPFCPI SPFPCE{
+      eststo `var'_`mom'_bias: reg `var'_`mom' const
+}
+}
+
+esttab using "${sum_table_folder}/ind/SPF_ind_bias.csv", drop(_cons) mtitles se r2 replace
+
+
+**********************************************
+*** Revision Efficiency Test Using FE       **
+**********************************************
+
+
+foreach mom in FE{
+   foreach var in SPFCPI SPFPCE{
+   replace InfExp_Mean = `var'_Mean
+   replace InfExp_`mom' = `var'_`mom'
+   eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
+   eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom',robust
+   eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
+
+ }
+}
+esttab using "${sum_table_folder}/ind/FEEfficiencySPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
+
+
+***************************************************
+*** Revision Efficiency Test Using Mean Revision **
+***************************************************
+
+/*
+foreach mom in Var{
+   foreach var in SPFCPI SPFPCE{
+    ttest `var'_`mom'_rv =0
+ }
+}
+*/
+
+
+eststo clear
+
+foreach var in SPFCPI SPFPCE{
+  foreach mom in Mean{
+     replace InfExp_`mom' = `var'_`mom'
+	 replace InfExp_`mom'0 = `var'_`mom'0
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
+	 test _b[l1.InfExp_`mom']=1
+	  scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
+	 test _b[l1.InfExp_`mom']=1
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
+     test _b[l1.InfExp_`mom']=1
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+ }
+}
+
+
+foreach var in SPFCPI SPFPCE{
+  foreach mom in Var{
+     replace InfExp_`mom' = `var'_`mom'
+	 replace InfExp_`mom'0 = `var'_`mom'0
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+ }
+}
+
+esttab using "${sum_table_folder}/ind/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
 
 /*
 ******************************************************

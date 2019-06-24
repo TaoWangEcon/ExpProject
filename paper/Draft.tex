@@ -333,9 +333,9 @@ Figure \ref{IllustrateNI} illustrates both the signal extraction problem at each
 
 \begin{eqnarray}
 \begin{aligned}
-\bar E_{t|t} (y_{t+h}) & = \rho^h [(1-PH) \underbrace{\bar E_{t-1}(y_{t+h})}_{\text{Average prior}} + P \underbrace{\bar s_{t}}_{\text{Average Signals}}] \\
-& = (1-PH) \bar E_{t-1}(y_{t+h}) + P [\epsilon_t, 0]' \\
-& = (1-PH) \bar E_{t-1}(y_{t+h}) + P \epsilon_t
+\bar y_{t+h|t} & = \rho^h [(1-PH) \underbrace{\bar  y_{t+h|t-1}}_{\text{Average prior}} + P \underbrace{\bar s_{t}}_{\text{Average Signals}}] \\
+& = (1-PH) \bar y_{t+h|t-1}+ P [\epsilon_t, 0]' \\
+& = (1-PH) \bar y_{t+h|t-1} + P \epsilon_t
 \end{aligned}
 \end{eqnarray}
 
@@ -343,18 +343,12 @@ One of the major implications from NI models is that both individual forecast an
 
 In parituclar, the same as indivdiual forecast erro, average forecast errors have serial correlation with the same auto regression parameter $\rho^h(1-PH)$. 
 
-As to the uncertainty, as it does not depend on realized signals and the precision is the same aross all agents, average variance is equal to the variance of each individual. 
-
-\begin{eqnarray}
-\begin{aligned}
-\bar Var_t (y_{t+h}) = \bar \Sigma^y_t
-\end{aligned}
-\end{eqnarray}
+As to the uncertainty, as it does not depend on realized signals and the precision is the same aross all agents, average variance $\bar \Sigma_{t+h|t}$ is equal to the variance of each individual. 
 
 Also, same as the individual variance, the variance unambiguiously drop in each vintage of revision. But since the signal is noisy, agents partially react to the news and uncertainty does not drop as efficiently as FIRE. 
 
 \begin{eqnarray}
-\Delta Var_t(y_{t+h}) < 0 
+\bar \Sigma^2_{t+h|t} -  \bar \Sigma^2_{t+h|t-1}< 0 
 \end{eqnarray}
 
 NI also predicts non-zero disagreements in the presence of private signals. The behavior of disagreements across agents come from the difference in realized private signals. Specifically, it is equal to the following. 

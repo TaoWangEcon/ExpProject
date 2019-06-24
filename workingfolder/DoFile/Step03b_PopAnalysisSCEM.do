@@ -252,7 +252,7 @@ eststo clear
 */
 
 ****************************************
-**** Quarterly Level Analysis  ******
+**** Stay in Monthly    Analysis  ******
 ****************************************
 
 *******************************************
@@ -277,127 +277,15 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
 
 
 collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
-				by(year quarter) 
-
-gen date2=string(year)+"Q"+string(quarter)
-gen date3= quarterly(date2,"YQ")
-format date3 %tq 
-drop date2 
-rename date3 date
+				by(date year month) 
 
 tsset date
-sort year quarter  
-
-order date year quarter 
-
-/*
-******************************************
-*** Multiple series charts Quarterly  ****
-*******************************************
-drop if CPI1y ==. | PCE1y==.
-
-
-
-twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
-       (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
-						 title("1-yr-ahead Expected Inflation") ///
-						 xtitle("Time") ytitle("") ///
-						 legend(label(1 "Mean Expectation(SCE)") ///
-						        label(2 "Median Expectation(Michigan)") ///
-								label(3 "Mean Expectation CPI (SPF)") ///
-								label(4 "Mean Expectation PCE (SPF)") col(1))
-graph export "${sum_graph_folder}/mean_medQ", as(png) replace
-
-
-twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
-       (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if CORECPI_disg!=., ///
-	   title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
-	   legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
-graph export "${sum_graph_folder}/disg_disgQ", as(png) replace 
-
-
-twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
-       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
-	   (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
-	   if Q9_var!=., ///
-	   title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
-	   legend(label(1 "Uncertainty (SCE)")  /// 
-	          label(2 "Uncertainty (SPF CPI)(RHS)") ///
-			  label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
-			  
-graph export "${sum_graph_folder}/var_varQ", as(png) replace 
-
-
-twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
-        (tsline SPFPCE_FE, yaxis(2) lp("dash_dot")) ///
-                         if SPFCPI_FE!=., ///
-						 title("1-yr-ahead Forecast Errors") ///
-						 xtitle("Time") ytitle("") ///
-						 legend(col(1) label(1 "SCE") label(2 "SPF CPI (RHS)") ///
-						                label(3 "SPF PCE(RHS)"))
-graph export "${sum_graph_folder}/fe_feQ", as(png) replace
-
-
-twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCCPIVar1p25!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarCPIQ", as(png) replace 
-
-
-twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCPCEVar1p25!=. , ///
-	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace 
-
-
-
-twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
-       (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if PRCCPIVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
-	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-graph export "${sum_graph_folder}/fe_var2Q", as(png) replace 
-
-
-twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
-       (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if PRCPCEVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
-	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-graph export "${sum_graph_folder}/fe_var3Q", as(png) replace 
-
-
-
-twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
-       (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if PRCCPIVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
-	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/var_disg2Q", as(png) replace 
-
-
-twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
-       (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if PRCPCEVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
-	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/var_disg3Q", as(png) replace 
-*/
+sort year month 
+order date year month 
 
 ********************************
-***  Autoregression Quarterly **
+***  Autoregression Monthly  **
 *******************************
-
-tsset date 
 
 eststo clear
 
@@ -485,21 +373,23 @@ foreach mom in Mean Var{
    }
 }
 
-/*
+
 *******************************************************
 **** Autoregression on the levels of population moments
 ********************************************************
 
 
+tsset date
+
 eststo clear 
 foreach mom in Mean Var Disg FE{
-   foreach var in SCE SPFCPI SPFPCE{
-    replace InfExp_`mom' = `var'_`mom'
-    eststo `var'_`mom': reg InfExp_`mom' l(3/5).InfExp_`mom', vce(robust)
+   foreach var in SCE{
+	 replace InfExp_`mom' = `var'_`mom'
+    eststo `var'_`mom': reg InfExp_`mom' l(1/12).InfExp_`mom', vce(robust)
   } 
 }
 
-esttab using "${sum_table_folder}/autoregLvlQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+esttab using "${sum_table_folder}/autoregLvlM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
 
 
 **********************************************************************
@@ -508,23 +398,22 @@ esttab using "${sum_table_folder}/autoregLvlQ.csv", mtitles drop(_cons) se(%8.3f
 
 eststo clear
 foreach mom in Mean Var Disg FE{
-   foreach var in SCE SPFCPI SPFPCE{
+   foreach var in SCE{
     replace InfExp_`mom' = `var'_`mom'
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
     eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
   }
 }
-esttab using "${sum_table_folder}/autoregDiffQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-
+esttab using "${sum_table_folder}/autoregDiffM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
 
 ***************
-*** SPF Only **
+*** SCE Only **
 ***************
 
 eststo clear
 
 foreach mom in Mean Var{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
     replace InfExp_`mom' = `var'_`mom'
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
 	capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
@@ -535,7 +424,7 @@ foreach mom in Mean Var{
 
   }
 }
-esttab using "${sum_table_folder}/autoregSPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+esttab using "${sum_table_folder}/autoregSCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
 eststo clear
 
 
@@ -545,7 +434,7 @@ eststo clear
 eststo clear
 
 foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
       ttest `var'_`mom'=0
 }
 }
@@ -553,59 +442,82 @@ foreach mom in FE{
 gen const=1
 
 foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
       reg `var'_`mom' const
 }
 }
-
 
 **********************************************
 *** Revision Efficiency Test Using FE       **
 **********************************************
 
-
 foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
    replace InfExp_Mean = `var'_Mean
    replace InfExp_`mom' = `var'_`mom'
-   eststo `var'_`mom'_lag4: newey  InfExp_`mom' l(4).InfExp_Mean, lag(1)
-   eststo `var'_`mom'_arlag4: newey  InfExp_`mom' l(4).InfExp_`mom', lag(1)
-   eststo `var'_`mom'_arlag13: newey  InfExp_`mom' l(1/3).InfExp_`mom', lag(1)
-
+   eststo `var'_`mom'_lag4: newey  InfExp_`mom' l(6/8).InfExp_Mean, lag(1)
+   eststo `var'_`mom'_arlag4: newey  InfExp_`mom' l(6/12).InfExp_`mom', lag(1)
  }
 }
-esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
-*/
- 
+esttab using "${sum_table_folder}/FEEfficiencySCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
+
+/*
 **********************************************
 *** Revision Efficiency Test Using Mean Revision **
 **********************************************
 
-
 foreach mom in Var{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
     ttest `var'_`mom'_rv =0
  }
 }
 
 eststo clear
 
-foreach var in SPFCPI SPFPCE{
+foreach var in SCE{
   foreach mom in Mean{
      replace InfExp_`mom' = `var'_`mom'
      replace InfExp_`mom'l1 = `var'_`mom'l1
 	 replace InfExp_`mom'f0 = `var'_`mom'f0
-     eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 l(1).InfExp_`mom'
-	 eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(1/2).InfExp_`mom'
-	 eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(1/3).InfExp_`mom'
-     test _b[l1.InfExp_`mom']=1
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+	 test _b[InfExp_`mom']=1
+	  scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+	 test _b[InfExp_`mom']=1
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+     test _b[InfExp_`mom']=1
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
  }
 }
-esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) drop(_cons) scalars(pvtest N r2) replace
 
-save "${folder}/InfExpQ.dta",replace 
 
+foreach var in SCE{
+  foreach mom in Var{
+     replace InfExp_`mom' = `var'_`mom'
+     replace InfExp_`mom'l1 = `var'_`mom'l1
+	 replace InfExp_`mom'f0 = `var'_`mom'f0
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+	 test _b[_cons]=0
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+ }
+}
+
+esttab using "${sum_table_folder}/RVEfficiencySCEM.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+
+save "${folder}/InfExpM.dta",replace 
+*/
 
 log close 
