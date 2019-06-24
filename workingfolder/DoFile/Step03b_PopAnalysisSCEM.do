@@ -18,7 +18,7 @@ log using "${mainfolder}/pop_log",replace
 **   Merge other data**
 ***********************
 
-use "${folder}/NYFEDSurvey/InfExpSCEProbPopM",clear 
+use "${folder}/SCE/InfExpSCEProbPopM",clear 
 
 merge 1:1 year month using "${mainfolder}/OtherData/RecessionDateM.dta", keep(match)
 rename _merge  recession_merge
@@ -76,7 +76,6 @@ gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 gen SPFPCE_FE = PCE1y - Inf1yf_PCE
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
-
 
 
 
@@ -225,7 +224,18 @@ twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
 	   title("1-yr-ahead Expected Inflation") xtitle("Time") ///
 	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
 graph export "${sum_graph_folder}/fe_var", as(png) replace 
+
+
+twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("dash")) ///
+       (tsline Q9_varp75, ytitle(" ",axis(1)) lp("dash")) ///
+	   (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") ) ///
+	   if Q9_varp50!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty")) 
+graph export "${sum_graph_folder}/IQRvarSCEM", as(png) replace 
 */
+
 
 ***************************
 ***  Population Moments *** 
@@ -252,7 +262,7 @@ eststo clear
 */
 
 ****************************************
-**** Stay in Monthly    Analysis  ******
+**** Stay in Monthly   Analysis  ******
 ****************************************
 
 *******************************************

@@ -3,15 +3,15 @@ clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "${mainfolder}/SurveyData/"
 global surveyfolder "NYFEDSurvey"
-global sum_graph_folder "${folder}/${surveyfolder}/graphs"
+global sum_graph_folder "${folder}/${surveyfolder}/graphs/pop"
 global sum_table_folder "${folder}/${surveyfolder}/tables"
 
 cd ${folder}
 pwd
 set more off 
 
-append using "${folder}/NYFEDSurvey/NYFED_SCE_2014_2016.dta",force
-append using  "${folder}/NYFEDSurvey/NYFED_SCE_post2016.dta",force
+append using "${folder}/SCE/NYFED_SCE_2014_2016.dta",force
+append using  "${folder}/SCE/NYFED_SCE_post2016.dta",force
 
 
 sort date
@@ -240,10 +240,31 @@ egen Q9_sd = sd(Q9_mean), by(date)
 gen Q9_disg = Q9_sd^2
 label var Q9_disg "Disagreements of 1-yr-ahead expted inflation"
 
-save "${folder}/NYFEDSurvey/InfExpSCEProbIndM",replace 
+
+foreach mom in mean var{
+     egen Q9_`mom'p75 =pctile(Q9_`mom'),p(75) by(year month)
+	 egen Q9_`mom'p25 =pctile(Q9_`mom'),p(25) by(year month)
+	 egen Q9_`mom'p50 =pctile(Q9_`mom'),p(50) by(year month)
+	 local lb: variable label Q9_`mom'
+	 label var Q9_`mom'p75 "`lb': 75 pctile"
+	 label var Q9_`mom'p25 "`lb': 25 pctile"
+	 label var Q9_`mom'p50 "`lb': 50 pctile"
+}
 
 
-collapse (mean) Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg, by(date year month)
+save "${folder}/SCE/InfExpSCEProbIndM",replace 
+
+*************************
+*** Population SCE ******
+*************************
+
+
+
+local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg
+local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75
+
+
+collapse (mean) `Moments' `MomentsMom', by(date year month)
 
 label var Q9_mean "Average 1-yr-ahead Expected Inflation(%)"
 label var Q9_var "Average Uncertainty of 1-yr-ahead Expected Inflation"
@@ -251,7 +272,41 @@ label var Q9_iqr "Average 25/75 IQR of 1-yr-ahead Expected Inflation(%)"
 label var Q9_cent50 "Average Median of 1-yr-ahead Expected Inflation(%)"
 label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
 
-save "${folder}/NYFEDSurvey/InfExpSCEProbPopM",replace 
+
+***************************************
+**   Histograms of Moments  ***********
+** Maybe replaced by kernel desntiy **
+***************************************
+
+gen SCE_mean = .
+gen SCE_var = .
+
+/*
+* Kernal density plot only 
+foreach mom in mean{
+foreach var in SCE{
+    replace `var'_`mom' = Q9_`mom'
+	local lb: variable label Q9_`mom'
+    twoway (kdensity `var'_`mom',fcolor(none) lcolor(red) n(50) k(gaussian)), ///
+	       by(year,title("Distribution of `lb'")) 
+	graph export "${sum_graph_folder}/hist/`var'_hist", as(png) replace 
+}
+}
+
+* Kernal density plot only 
+foreach mom in var{
+foreach var in SCE{
+    replace `var'_`mom' = Q9_`mom'
+	local lb: variable label Q9_`mom'
+    twoway (kdensity `var'_`mom',fcolor(none) lcolor(red) k(gaussian)), ///
+	       by(year,title("Distribution of `lb'")) 
+	graph export "${sum_graph_folder}/hist/`var'_hist", as(png) replace 
+}
+}
+
+*/
+
+save "${folder}/SCE/InfExpSCEProbPopM",replace 
 
 
 
