@@ -417,15 +417,17 @@ One of the common predictions of SE and NI is there is information rigidity or s
 
 \subsection{Data}
 
-\begin{itemize}
-	
-		\item \textbf{New York Fed Survey of Consumer Expectation}
-	\begin{itemize}
-			\item Include not only perceived probabilities of binary event as in Michigan Survey does, but also elicit densitity forecasts. 
-	\end{itemize}
-	\item \textbf{Professional Forecasters}
 
-\end{itemize}
+Professional Forecasters(SPF) and New York Fed Survey of Consumer Expectation(SCE). 
+
+The structure of SPF allows us to directly test efficiency in revision as for the surveyees are asked to provide both currenct year forecast and 1-year-ahead inflation foreacst each quarter. 
+
+SCE data, although each individual is surveyed for 12 months in a row, is only asked to forecast 1-year-ahead inflation. This is especially so in the density forecast. So we can only perform a weak test. 
+
+We follow \cite{Manski} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
+
+We drop the outliers of uncertainty estimates at both top and bottom one percentiles as these are typically abnormals that are due to measurement errors or other reasons.   
+
 
 A summary of the data information is as below. 
 

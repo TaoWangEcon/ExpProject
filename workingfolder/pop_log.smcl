@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 10:49:48
+ {txt}opened on:  {res}24 Jun 2019, 12:19:22
 {txt}
 {com}. 
 . ****************************************
@@ -180,155 +180,6 @@ float, now double to accommodate using data's values)
 {com}. label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
 {txt}
 {com}. 
-. 
-. 
-. 
-. *****************************
-. ****    Summary Charts ******
-. *****************************
-. 
-. 
-. /*
-> **************************
-> ** Single series charts **
-> **************************
-> 
-> foreach var in Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg ///
->                CPI1y PCE1y CORECPI1y COREPCE1y ///
->                            CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
->                            CPI_ct50 PCE_ct50 CORECPI_ct50 COREPCE_ct50{c -(}
-> local var_lb: var label `var'
-> tsline `var' if `var'!=.,title("`var_lb'") xtitle("Time") ytitle("")
-> graph export "${c -(}sum_graph_folder{c )-}/`var'", as(png) replace 
-> {c )-}
-> 
-> 
-> 
-> ***************************
-> ** Multiple series charts**
-> ***************************
-> 
-> drop if CPI1y ==. | PCE1y==.
-> 
-> twoway (tsline Q9_mean)  (tsline Q9_cent50,lp("dash")) ///
->                          (tsline InfExpMichMed, lp("dot-dash")) ///
->                                                  (tsline CPI1y, lp("shortdash")), ///
->                                                  title("1-yr-ahead Expected Inflation") ///
->                                                  xtitle("Time") ytitle("") ///
->                                                  legend(label(1 "Mean Expectation(SCE)") label(2 "Median Expectation(SCE)") ///
->                                                         label(3 "Median Expectation(Michigan)") label(4 "Mean Expectation(SPF)"))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_med", as(png) replace
-> 
-> twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
->        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_mean!=., ///
->            title("1-yr-ahead Expected Inflation (SCE)") xtitle("Time") ///
->            legend(label(1 "Average Expectation") label(2 "Average Uncertainty(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_var", as(png) replace 
-> 
-> 
-> 
-> twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
->        (tsline Q9_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_mean!=., ///
->            title("1-yr-ahead Expected Inflation") xtitle("Time") ///
->            legend(label(1 "Average Expectation") label(2 "Disagreements(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_disg", as(png) replace 
-> 
-> 
-> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
->        (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if CORECPI_disg!=., ///
->            title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
->            legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/disg_disg", as(png) replace 
-> 
-> 
-> twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
->        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_var!=., ///
->            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
->            legend(label(1 "Uncertainty (SCE)")  /// 
->                   label(2 "Uncertainty (SPF CPI)(RHS)")) 
->                           
-> graph export "${c -(}sum_graph_folder{c )-}/var_var", as(png) replace 
-> 
-> 
-> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
->        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_disg!=., ///
->            title("1-yr-ahead Expected Inflation") xtitle("Time") ///
->            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-> graph export "${c -(}sum_graph_folder{c )-}/var_disg", as(png) replace 
-> 
-> 
-> 
-> twoway (tsline CORECPI_disg, ytitle(" ",axis(1))) ///
->        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_disg!=., ///
->            title("1-yr-ahead Expected Inflation(SPF)") xtitle("Time") ///
->            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-> graph export "${c -(}sum_graph_folder{c )-}/var_disg2", as(png) replace 
-> 
-> 
-> twoway (tsline Q9_mean) (tsline CORECPI1y,lp("longdash")) ///
->        (tsline Inf1yf_PCEPI,lp("dash")) ///
->        (tsline Inf1yf_CPIAU,lp("shortdash")) ///
->            (tsline Inf1yf_CPICore,lp("dash_dot")) ///
->            if Q9_mean!=., ///
->            title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
->            legend(label(1 "Mean Forecast(SCE)") label(2 "Mean Forecast(SPF)") label(3 "Realized Inflation(PCE)") ///
->                   label(4 "Realized Inflation(Headline CPI)") label(5 "Realized Inflation(Core CPI)"))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_true", as(png) replace
-> 
-> 
-> twoway (tsline Q9_mean)  (tsline Inf1y_PCEPI,lp("dash")) ///
->        (tsline Inf1y_CPIAU,lp("shortdash")) ///
->            (tsline Inf1y_CPICore,lp("dash_dot")) ///
->            if Q9_mean!=., ///
->            title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
->            legend(label(1 "Mean Expectation") label(2 "Past Inflation(PCE)") ///
->                   label(3 "Past Inflation(Headline CPI)") label(4 "Past Inflation(Core CPI)"))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_past", as(png) replace
-> 
-> 
-> twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
->        (tsline SPFPCE_FE, yaxis(2) lp("dash_dot"))  ///  
->                          if SPFPCE_FE!=., ///
->                                                  title("1-yr-ahead Forecast Errors") ///
->                                                  xtitle("Time") ytitle("") ///
->                                                  legend(label(1 "SCE") label(2 "SPF CPI(RHS)") ///
->                                                  label(3 "SPF PCE(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/fe_fe", as(png) replace
-> 
-> 
-> twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
->        (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
->            (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
->            if PRCCPIVar1p25!=. , /// 
->            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
->            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
->                   label(3 "50 percentile of uncertainty")) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRvarCPI", as(png) replace 
-> 
-> 
-> twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
->        (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
->            (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
->            if PRCPCEVar1p25!=. , ///
->            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
->            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
->                   label(3 "50 percentile of uncertainty")) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRvarPCE", as(png) replace 
-> 
-> 
-> twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
->        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if Q9_var!=., ///
->            title("1-yr-ahead Expected Inflation") xtitle("Time") ///
->            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
-> graph export "${c -(}sum_graph_folder{c )-}/fe_var", as(png) replace 
-> */
 . 
 . ***************************
 . ***  Population Moments *** 
@@ -749,8 +600,9 @@ COREPCE1y_ch {c |}
 {txt}
 {com}. */
 . 
+. 
 . ****************************************
-. **** Stay in Monthly    Analysis  ******
+. **** Quarterly Level Analysis  ******
 . ****************************************
 . 
 . *******************************************
@@ -778,36 +630,157 @@ COREPCE1y_ch {c |}
 {com}. 
 . 
 . collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
->                                 by(date year month) 
+>                                 by(year quarter) 
 {txt}
+{com}. 
+. gen date2=string(year)+"Q"+string(quarter)
+{txt}
+{com}. gen date3= quarterly(date2,"YQ")
+{txt}(1 missing value generated)
+
+{com}. format date3 %tq 
+{txt}
+{com}. drop date2 
+{txt}
+{com}. rename date3 date
+{res}{txt}
 {com}. 
 . tsset date
-{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948m1 to 2019m3
-{txt}{col 17}delta:  {res}1 month
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948q1 to 2019q1
+{txt}{col 17}delta:  {res}1 quarter
 {txt}
-{com}. sort year month 
-{txt}
-{com}. order date year month 
+{com}. sort year quarter  
 {txt}
 {com}. 
+. order date year quarter 
+{txt}
+{com}. 
+. /*
+> ******************************************
+> *** Multiple series charts Quarterly  ****
+> *******************************************
+> drop if CPI1y ==. | PCE1y==.
+> 
+> 
+> 
+> twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
+>        (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
+>                                                  title("1-yr-ahead Expected Inflation") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(label(1 "Mean Expectation(SCE)") ///
+>                                                         label(2 "Median Expectation(Michigan)") ///
+>                                                                 label(3 "Mean Expectation CPI (SPF)") ///
+>                                                                 label(4 "Mean Expectation PCE (SPF)") col(1))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_medQ", as(png) replace
+> 
+> 
+> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+>        (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if CORECPI_disg!=., ///
+>            title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/disg_disgQ", as(png) replace 
+> 
+> 
+> twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
+>            (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
+>            if Q9_var!=., ///
+>            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Uncertainty (SCE)")  /// 
+>                   label(2 "Uncertainty (SPF CPI)(RHS)") ///
+>                           label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
+>                           
+> graph export "${c -(}sum_graph_folder{c )-}/var_varQ", as(png) replace 
+> 
+> 
+> twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
+>         (tsline SPFPCE_FE, yaxis(2) lp("dash_dot")) ///
+>                          if SPFCPI_FE!=., ///
+>                                                  title("1-yr-ahead Forecast Errors") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(col(1) label(1 "SCE") label(2 "SPF CPI (RHS)") ///
+>                                                                 label(3 "SPF PCE(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_feQ", as(png) replace
+> 
+> 
+> twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+>        (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+>            (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+>            if PRCCPIVar1p25!=. , /// 
+>            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+>                   label(3 "50 percentile of uncertainty")) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRvarCPIQ", as(png) replace 
+> 
+> 
+> twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+>        (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+>            (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+>            if PRCPCEVar1p25!=. , ///
+>            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+>                   label(3 "50 percentile of uncertainty")) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRvarPCEQ", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCCPIVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_var2Q", as(png) replace 
+> 
+> 
+> twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
+>        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCPCEVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_var3Q", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCCPIVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disg2Q", as(png) replace 
+> 
+> 
+> twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
+>        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCPCEVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disg3Q", as(png) replace 
+> */
+. 
 . ********************************
-. ***  Autoregression Monthly  **
+. ***  Autoregression Quarterly **
 . *******************************
 . 
+. tsset date 
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948q1 to 2019q1
+{txt}{col 17}delta:  {res}1 quarter
+{txt}
+{com}. 
 . eststo clear
 {txt}
 {com}. 
 . gen InfExp1y = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExpFE1y = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExpVar1y=.
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExpDisg1y = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. 
 . *****************************************
@@ -889,51 +862,50 @@ COREPCE1y_ch {c |}
 {com}. 
 . ********************************
 . gen InfExp_Mean = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Var = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_FE = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Disg = . 
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. 
-. 
 . gen InfExp_Mean_ch = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Var_ch = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_FE_ch = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Disg_ch = .
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. 
 . gen InfExp_Mean_rv =.
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Var_rv =.
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. 
 . gen InfExp_Meanl1 =. 
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Varl1 =. 
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. 
 . gen InfExp_Meanf0 =. 
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}. gen InfExp_Varf0 =. 
-{txt}(856 missing values generated)
+{txt}(286 missing values generated)
 
 {com}.  
 . 
@@ -949,535 +921,278 @@ COREPCE1y_ch {c |}
 {txt} 10{com}. {c )-}
 {res}{txt}
 {com}. 
+. *****************************
 . 
-. *******************************************************
-. **** Autoregression on the levels of population moments
-. ********************************************************
-. 
-. 
-. tsset date
-{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948m1 to 2019m3
-{txt}{col 17}delta:  {res}1 month
-{txt}
-{com}. 
-. eststo clear 
-{txt}
-{com}. foreach mom in Mean Var Disg FE{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.          replace InfExp_`mom' = `var'_`mom'
-{txt}  4{com}.     eststo `var'_`mom': reg InfExp_`mom' l(1/12).InfExp_`mom', vce(robust)
-{txt}  5{com}.   {c )-} 
-{txt}  6{com}. {c )-}
-{txt}(53 real changes made)
+. gen InfExp_Mean0 =.
+{txt}(286 missing values generated)
 
-Linear regression                                      Number of obs ={res}      41
-                                                       {txt}F( 12,    28) ={res}    4.67
-                                                       {txt}Prob > F      = {res} 0.0004
-                                                       {txt}R-squared     = {res} 0.5659
-                                                       {txt}Root MSE      = {res}  .1224
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}    Robust
-{col 1} InfExp_Mean{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .5820899{col 26}{space 2} .1537267{col 37}{space 1}    3.79{col 46}{space 3}0.001{col 54}{space 4} .2671951{col 67}{space 3} .8969846
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1742667{col 26}{space 2} .1867833{col 37}{space 1}    0.93{col 46}{space 3}0.359{col 54}{space 4}-.2083416{col 67}{space 3} .5568749
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1442649{col 26}{space 2} .1935156{col 37}{space 1}   -0.75{col 46}{space 3}0.462{col 54}{space 4}-.5406637{col 67}{space 3}  .252134
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} -.034433{col 26}{space 2} .1593631{col 37}{space 1}   -0.22{col 46}{space 3}0.831{col 54}{space 4}-.3608735{col 67}{space 3} .2920076
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0318052{col 26}{space 2} .2026644{col 37}{space 1}   -0.16{col 46}{space 3}0.876{col 54}{space 4}-.4469445{col 67}{space 3}  .383334
-{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.1072665{col 26}{space 2} .2152742{col 37}{space 1}   -0.50{col 46}{space 3}0.622{col 54}{space 4}-.5482356{col 67}{space 3} .3337026
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .0417859{col 26}{space 2} .1607879{col 37}{space 1}    0.26{col 46}{space 3}0.797{col 54}{space 4}-.2875731{col 67}{space 3}  .371145
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2} .1248623{col 26}{space 2} .1345573{col 37}{space 1}    0.93{col 46}{space 3}0.361{col 54}{space 4}-.1507658{col 67}{space 3} .4004905
-{txt}{space 9}L9. {c |}{col 14}{res}{space 2} .0149313{col 26}{space 2} .1722629{col 37}{space 1}    0.09{col 46}{space 3}0.932{col 54}{space 4}-.3379333{col 67}{space 3} .3677959
-{txt}{space 8}L10. {c |}{col 14}{res}{space 2}-.2411603{col 26}{space 2} .1711829{col 37}{space 1}   -1.41{col 46}{space 3}0.170{col 54}{space 4}-.5918126{col 67}{space 3} .1094921
-{txt}{space 8}L11. {c |}{col 14}{res}{space 2}  .060002{col 26}{space 2} .1520247{col 37}{space 1}    0.39{col 46}{space 3}0.696{col 54}{space 4}-.2514064{col 67}{space 3} .3714104
-{txt}{space 8}L12. {c |}{col 14}{res}{space 2} .1601268{col 26}{space 2} .1332638{col 37}{space 1}    1.20{col 46}{space 3}0.240{col 54}{space 4}-.1128518{col 67}{space 3} .4331053
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.366353{col 26}{space 2}  .507241{col 37}{space 1}    2.69{col 46}{space 3}0.012{col 54}{space 4} .3273171{col 67}{space 3} 2.405389
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(53 real changes made)
-
-Linear regression                                      Number of obs ={res}      41
-                                                       {txt}F( 12,    28) ={res}    2.86
-                                                       {txt}Prob > F      = {res} 0.0108
-                                                       {txt}R-squared     = {res} 0.4579
-                                                       {txt}Root MSE      = {res} 1.0748
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}    Robust
-{col 1}  InfExp_Var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .3828709{col 26}{space 2} .1313029{col 37}{space 1}    2.92{col 46}{space 3}0.007{col 54}{space 4} .1139091{col 67}{space 3} .6518326
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2945991{col 26}{space 2} .2114463{col 37}{space 1}    1.39{col 46}{space 3}0.175{col 54}{space 4} -.138529{col 67}{space 3} .7277273
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0974972{col 26}{space 2} .1884399{col 37}{space 1}   -0.52{col 46}{space 3}0.609{col 54}{space 4}-.4834989{col 67}{space 3} .2885044
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1089353{col 26}{space 2} .2036472{col 37}{space 1}   -0.53{col 46}{space 3}0.597{col 54}{space 4}-.5260876{col 67}{space 3}  .308217
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}  -.03234{col 26}{space 2}  .216025{col 37}{space 1}   -0.15{col 46}{space 3}0.882{col 54}{space 4}-.4748472{col 67}{space 3} .4101672
-{txt}{space 9}L6. {c |}{col 14}{res}{space 2} .0544602{col 26}{space 2} .1534415{col 37}{space 1}    0.35{col 46}{space 3}0.725{col 54}{space 4}-.2598503{col 67}{space 3} .3687708
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0693078{col 26}{space 2} .1987522{col 37}{space 1}   -0.35{col 46}{space 3}0.730{col 54}{space 4}-.4764333{col 67}{space 3} .3378176
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2}-.0217125{col 26}{space 2} .1531386{col 37}{space 1}   -0.14{col 46}{space 3}0.888{col 54}{space 4}-.3354026{col 67}{space 3} .2919776
-{txt}{space 9}L9. {c |}{col 14}{res}{space 2} .0501773{col 26}{space 2}  .224035{col 37}{space 1}    0.22{col 46}{space 3}0.824{col 54}{space 4}-.4087376{col 67}{space 3} .5090921
-{txt}{space 8}L10. {c |}{col 14}{res}{space 2}   .00326{col 26}{space 2} .1953872{col 37}{space 1}    0.02{col 46}{space 3}0.987{col 54}{space 4}-.3969726{col 67}{space 3} .4034926
-{txt}{space 8}L11. {c |}{col 14}{res}{space 2}-.3432919{col 26}{space 2} .2090769{col 37}{space 1}   -1.64{col 46}{space 3}0.112{col 54}{space 4}-.7715665{col 67}{space 3} .0849828
-{txt}{space 8}L12. {c |}{col 14}{res}{space 2}-.1060747{col 26}{space 2} .1990014{col 37}{space 1}   -0.53{col 46}{space 3}0.598{col 54}{space 4}-.5137106{col 67}{space 3} .3015612
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 15.81388{col 26}{space 2} 5.789205{col 37}{space 1}    2.73{col 46}{space 3}0.011{col 54}{space 4} 3.955235{col 67}{space 3} 27.67253
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(53 real changes made)
-
-Linear regression                                      Number of obs ={res}      41
-                                                       {txt}F( 12,    28) ={res}    7.88
-                                                       {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.5990
-                                                       {txt}Root MSE      = {res} 1.9306
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}    Robust
-{col 1} InfExp_Disg{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Disg {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6244629{col 26}{space 2} .2197681{col 37}{space 1}    2.84{col 46}{space 3}0.008{col 54}{space 4} .1742883{col 67}{space 3} 1.074638
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2949951{col 26}{space 2} .1874245{col 37}{space 1}    1.57{col 46}{space 3}0.127{col 54}{space 4}-.0889266{col 67}{space 3} .6789167
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2505765{col 26}{space 2} .1583054{col 37}{space 1}   -1.58{col 46}{space 3}0.125{col 54}{space 4}-.5748504{col 67}{space 3} .0736974
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1548927{col 26}{space 2}  .143985{col 37}{space 1}   -1.08{col 46}{space 3}0.291{col 54}{space 4}-.4498326{col 67}{space 3} .1400471
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1035229{col 26}{space 2} .1618942{col 37}{space 1}    0.64{col 46}{space 3}0.528{col 54}{space 4}-.2281024{col 67}{space 3} .4351481
-{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0860466{col 26}{space 2}  .174322{col 37}{space 1}   -0.49{col 46}{space 3}0.625{col 54}{space 4}-.4431291{col 67}{space 3} .2710359
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .2163828{col 26}{space 2} .2143028{col 37}{space 1}    1.01{col 46}{space 3}0.321{col 54}{space 4}-.2225967{col 67}{space 3} .6553622
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2}-.1307045{col 26}{space 2} .2067824{col 37}{space 1}   -0.63{col 46}{space 3}0.532{col 54}{space 4} -.554279{col 67}{space 3}   .29287
-{txt}{space 9}L9. {c |}{col 14}{res}{space 2}-.2939089{col 26}{space 2} .1541791{col 37}{space 1}   -1.91{col 46}{space 3}0.067{col 54}{space 4}-.6097304{col 67}{space 3} .0219127
-{txt}{space 8}L10. {c |}{col 14}{res}{space 2} .1376947{col 26}{space 2} .1655384{col 37}{space 1}    0.83{col 46}{space 3}0.413{col 54}{space 4}-.2013954{col 67}{space 3} .4767848
-{txt}{space 8}L11. {c |}{col 14}{res}{space 2}  .353538{col 26}{space 2} .1850973{col 37}{space 1}    1.91{col 46}{space 3}0.066{col 54}{space 4}-.0256166{col 67}{space 3} .7326926
-{txt}{space 8}L12. {c |}{col 14}{res}{space 2}-.3768537{col 26}{space 2} .1518122{col 37}{space 1}   -2.48{col 46}{space 3}0.019{col 54}{space 4}-.6878269{col 67}{space 3}-.0658806
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 12.70937{col 26}{space 2} 5.491543{col 37}{space 1}    2.31{col 46}{space 3}0.028{col 54}{space 4} 1.460448{col 67}{space 3} 23.95828
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(51 real changes made)
-
-Linear regression                                      Number of obs ={res}      39
-                                                       {txt}F( 12,    26) ={res}   12.14
-                                                       {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.7215
-                                                       {txt}Root MSE      = {res} .18496
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}    Robust
-{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 3}InfExp_FE {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .8438313{col 26}{space 2} .1769153{col 37}{space 1}    4.77{col 46}{space 3}0.000{col 54}{space 4} .4801766{col 67}{space 3} 1.207486
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1311528{col 26}{space 2} .1886112{col 37}{space 1}    0.70{col 46}{space 3}0.493{col 54}{space 4} -.256543{col 67}{space 3} .5188486
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1865797{col 26}{space 2} .2086798{col 37}{space 1}   -0.89{col 46}{space 3}0.379{col 54}{space 4}-.6155273{col 67}{space 3} .2423679
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0625036{col 26}{space 2} .2408888{col 37}{space 1}   -0.26{col 46}{space 3}0.797{col 54}{space 4}-.5576575{col 67}{space 3} .4326504
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0027786{col 26}{space 2} .3013332{col 37}{space 1}    0.01{col 46}{space 3}0.993{col 54}{space 4}-.6166208{col 67}{space 3} .6221779
-{txt}{space 9}L6. {c |}{col 14}{res}{space 2}-.0392909{col 26}{space 2} .2817587{col 37}{space 1}   -0.14{col 46}{space 3}0.890{col 54}{space 4}-.6184543{col 67}{space 3} .5398724
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.0479335{col 26}{space 2} .1642828{col 37}{space 1}   -0.29{col 46}{space 3}0.773{col 54}{space 4}-.3856216{col 67}{space 3} .2897546
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2} .2214267{col 26}{space 2} .1925995{col 37}{space 1}    1.15{col 46}{space 3}0.261{col 54}{space 4}-.1744673{col 67}{space 3} .6173207
-{txt}{space 9}L9. {c |}{col 14}{res}{space 2} .0414511{col 26}{space 2}  .186539{col 37}{space 1}    0.22{col 46}{space 3}0.826{col 54}{space 4}-.3419853{col 67}{space 3} .4248875
-{txt}{space 8}L10. {c |}{col 14}{res}{space 2}-.3706956{col 26}{space 2} .2080767{col 37}{space 1}   -1.78{col 46}{space 3}0.087{col 54}{space 4}-.7984035{col 67}{space 3} .0570122
-{txt}{space 8}L11. {c |}{col 14}{res}{space 2} .0109036{col 26}{space 2} .2462773{col 37}{space 1}    0.04{col 46}{space 3}0.965{col 54}{space 4}-.4953266{col 67}{space 3} .5171338
-{txt}{space 8}L12. {c |}{col 14}{res}{space 2} .1644046{col 26}{space 2} .1676671{col 37}{space 1}    0.98{col 46}{space 3}0.336{col 54}{space 4}-.1802401{col 67}{space 3} .5090494
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .4137971{col 26}{space 2} .2588979{col 37}{space 1}    1.60{col 46}{space 3}0.122{col 54}{space 4} -.118375{col 67}{space 3} .9459693
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. 
-. esttab using "${c -(}sum_table_folder{c )-}/autoregLvlM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregLvlM.csv"'})
+{com}. gen InfExp_Var0 =.
+{txt}(286 missing values generated)
 
 {com}. 
+. ******************************
 . 
-. **********************************************************************
-. ******** Autoregression on the first difference of population moments
-.  **********************************************************************
-. 
-. eststo clear
-{txt}
-{com}. foreach mom in Mean Var Disg FE{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.     replace InfExp_`mom' = `var'_`mom'
-{txt}  4{com}.     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-{txt}  5{com}.     eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
-{txt}  6{com}.   {c )-}
-{txt}  7{com}. {c )-}
-{txt}(0 real changes made)
-(52 real changes made)
-
-Linear regression                                      Number of obs ={res}      48
-                                                       {txt}F(  4,    43) ={res}    0.59
-                                                       {txt}Prob > F      = {res} 0.6731
-                                                       {txt}R-squared     = {res} 0.0351
-                                                       {txt}Root MSE      = {res} .15991
-
-{txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 16}{c |}{col 28}    Robust
-{col 1}InfExp_Mean_ch{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
-{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_Mean_ch {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2}-.1151017{col 28}{space 2} .1273102{col 39}{space 1}   -0.90{col 48}{space 3}0.371{col 56}{space 4}-.3718472{col 69}{space 3} .1416438
-{txt}{space 11}L2. {c |}{col 16}{res}{space 2}  .015453{col 28}{space 2} .1469918{col 39}{space 1}    0.11{col 48}{space 3}0.917{col 56}{space 4}-.2809843{col 69}{space 3} .3118902
-{txt}{space 11}L3. {c |}{col 16}{res}{space 2} .1028571{col 28}{space 2} .1331277{col 39}{space 1}    0.77{col 48}{space 3}0.444{col 56}{space 4}-.1656205{col 69}{space 3} .3713347
-{txt}{space 11}L4. {c |}{col 16}{res}{space 2} .1051625{col 28}{space 2} .1709351{col 39}{space 1}    0.62{col 48}{space 3}0.542{col 56}{space 4}-.2395609{col 69}{space 3}  .449886
-{txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2} -.014649{col 28}{space 2} .0244606{col 39}{space 1}   -0.60{col 48}{space 3}0.552{col 56}{space 4}-.0639785{col 69}{space 3} .0346806
-{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(0 real changes made)
-(52 real changes made)
-
-Linear regression                                      Number of obs ={res}      48
-                                                       {txt}F(  4,    43) ={res}    2.26
-                                                       {txt}Prob > F      = {res} 0.0784
-                                                       {txt}R-squared     = {res} 0.1580
-                                                       {txt}Root MSE      = {res} 1.1159
-
-{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 15}{c |}{col 27}    Robust
-{col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
-{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_Var_ch {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2}-.3841447{col 27}{space 2} .1347879{col 38}{space 1}   -2.85{col 47}{space 3}0.007{col 55}{space 4}-.6559704{col 68}{space 3}-.1123191
-{txt}{space 10}L2. {c |}{col 15}{res}{space 2}-.0886865{col 27}{space 2} .1358775{col 38}{space 1}   -0.65{col 47}{space 3}0.517{col 55}{space 4}-.3627095{col 68}{space 3} .1853365
-{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.0778914{col 27}{space 2} .1707732{col 38}{space 1}   -0.46{col 47}{space 3}0.651{col 55}{space 4}-.4222883{col 68}{space 3} .2665055
-{txt}{space 10}L4. {c |}{col 15}{res}{space 2}-.1732372{col 27}{space 2} .1446919{col 38}{space 1}   -1.20{col 47}{space 3}0.238{col 55}{space 4}-.4650363{col 68}{space 3} .1185619
-{txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.0344661{col 27}{space 2} .1642671{col 38}{space 1}   -0.21{col 47}{space 3}0.835{col 55}{space 4}-.3657422{col 68}{space 3}   .29681
-{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(0 real changes made)
-(52 real changes made)
-
-Linear regression                                      Number of obs ={res}      48
-                                                       {txt}F(  4,    43) ={res}    1.16
-                                                       {txt}Prob > F      = {res} 0.3413
-                                                       {txt}R-squared     = {res} 0.0546
-                                                       {txt}Root MSE      = {res} 2.0967
-
-{txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 16}{c |}{col 28}    Robust
-{col 1}InfExp_Disg_ch{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
-{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_Disg_ch {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2}-.1896374{col 28}{space 2} .1450302{col 39}{space 1}   -1.31{col 48}{space 3}0.198{col 56}{space 4}-.4821187{col 69}{space 3}  .102844
-{txt}{space 11}L2. {c |}{col 16}{res}{space 2}-.0043167{col 28}{space 2} .1105532{col 39}{space 1}   -0.04{col 48}{space 3}0.969{col 56}{space 4}-.2272686{col 69}{space 3} .2186352
-{txt}{space 11}L3. {c |}{col 16}{res}{space 2}-.0938124{col 28}{space 2} .0935858{col 39}{space 1}   -1.00{col 48}{space 3}0.322{col 56}{space 4}-.2825462{col 69}{space 3} .0949214
-{txt}{space 11}L4. {c |}{col 16}{res}{space 2}-.1152525{col 28}{space 2} .1115697{col 39}{space 1}   -1.03{col 48}{space 3}0.307{col 56}{space 4}-.3402544{col 69}{space 3} .1097493
-{txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2}-.2248956{col 28}{space 2} .3088676{col 39}{space 1}   -0.73{col 48}{space 3}0.470{col 56}{space 4}-.8477864{col 69}{space 3} .3979953
-{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(0 real changes made)
-(50 real changes made)
-
-Linear regression                                      Number of obs ={res}      46
-                                                       {txt}F(  4,    41) ={res}    0.30
-                                                       {txt}Prob > F      = {res} 0.8749
-                                                       {txt}R-squared     = {res} 0.0205
-                                                       {txt}Root MSE      = {res}  .2107
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 14}{c |}{col 26}    Robust
-{col 1}InfExp_FE_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_FE_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .0793345{col 26}{space 2} .1038908{col 37}{space 1}    0.76{col 46}{space 3}0.449{col 54}{space 4}-.1304772{col 67}{space 3} .2891462
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0736376{col 26}{space 2} .1311729{col 37}{space 1}    0.56{col 46}{space 3}0.578{col 54}{space 4}-.1912715{col 67}{space 3} .3385467
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}  .058504{col 26}{space 2} .1354327{col 37}{space 1}    0.43{col 46}{space 3}0.668{col 54}{space 4}-.2150078{col 67}{space 3} .3320158
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0464885{col 26}{space 2} .1570863{col 37}{space 1}    0.30{col 46}{space 3}0.769{col 54}{space 4}-.2707537{col 67}{space 3} .3637308
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0157138{col 26}{space 2} .0318665{col 37}{space 1}   -0.49{col 46}{space 3}0.625{col 54}{space 4}-.0800695{col 67}{space 3} .0486419
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. esttab using "${c -(}sum_table_folder{c )-}/autoregDiffM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregDiffM.csv"'})
-
-{com}. 
-. ***************
-. *** SCE Only **
-. ***************
-. 
-. eststo clear
-{txt}
-{com}. 
-. foreach mom in Mean Var{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.     replace InfExp_`mom' = `var'_`mom'
-{txt}  4{com}.     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
-{txt}  5{com}.         capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
+. /*
+> *******************************************************
+> **** Autoregression on the levels of population moments
+> ********************************************************
 > 
-{txt}  6{com}.         eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/2).InfExp_`mom' 
-{txt}  7{com}.     eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/2).InfExp_`mom'_ch  
-{txt}  8{com}.         capture eststo `var'_`mom'_rv: reg InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv 
-{txt}  9{com}. 
-.   {c )-}
-{txt} 10{com}. {c )-}
-{txt}(0 real changes made)
-(0 real changes made)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}      51
-{txt}{hline 13}{char +}{hline 30}           F(  2,    48) ={res}  119.16
-    {txt}   Model {char |} {res} 5.64741912     2  2.82370956           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 1.13745811    48  .023697044           {txt}R-squared     = {res} 0.8324
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8254
-    {txt}   Total {char |} {res} 6.78487723    50  .135697545           {txt}Root MSE      = {res} .15394
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Mean{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}  .793206{col 26}{space 2} .1323399{col 37}{space 1}    5.99{col 46}{space 3}0.000{col 54}{space 4} .5271188{col 67}{space 3} 1.059293
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0885569{col 26}{space 2} .1311963{col 37}{space 1}    0.67{col 46}{space 3}0.503{col 54}{space 4} -.175231{col 67}{space 3} .3523447
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .4112577{col 26}{space 2} .2103057{col 37}{space 1}    1.96{col 46}{space 3}0.056{col 54}{space 4}-.0115903{col 67}{space 3} .8341056
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}      50
-{txt}{hline 13}{char +}{hline 30}           F(  2,    47) ={res}    0.79
-    {txt}   Model {char |} {res} .041376225     2  .020688112           {txt}Prob > F      = {res} 0.4579
-    {txt}Residual {char |} {res} 1.22413376    47  .026045399           {txt}R-squared     = {res} 0.0327
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0085
-    {txt}   Total {char |} {res} 1.26550999    49  .025826734           {txt}Root MSE      = {res} .16139
-
-{txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean_ch{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
-{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_Mean_ch {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2}-.1462547{col 28}{space 2} .1451621{col 39}{space 1}   -1.01{col 48}{space 3}0.319{col 56}{space 4}-.4382831{col 69}{space 3} .1457737
-{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .0812031{col 28}{space 2} .1363362{col 39}{space 1}    0.60{col 48}{space 3}0.554{col 56}{space 4}  -.19307{col 69}{space 3} .3554761
-{txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2}-.0168431{col 28}{space 2} .0229776{col 39}{space 1}   -0.73{col 48}{space 3}0.467{col 56}{space 4} -.063068{col 69}{space 3} .0293818
-{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(0 real changes made)
-(0 real changes made)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}      51
-{txt}{hline 13}{char +}{hline 30}           F(  2,    48) ={res}    9.60
-    {txt}   Model {char |} {res} 21.4208605     2  10.7104303           {txt}Prob > F      = {res} 0.0003
-    {txt}Residual {char |} {res} 53.5309662    48  1.11522846           {txt}R-squared     = {res} 0.2858
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2560
-    {txt}   Total {char |} {res} 74.9518268    50  1.49903654           {txt}Root MSE      = {res}  1.056
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}  InfExp_Var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .4288914{col 26}{space 2} .1437671{col 37}{space 1}    2.98{col 46}{space 3}0.004{col 54}{space 4} .1398282{col 67}{space 3} .7179545
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1692466{col 26}{space 2} .1438935{col 37}{space 1}    1.18{col 46}{space 3}0.245{col 54}{space 4}-.1200708{col 67}{space 3} .4585639
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 6.373277{col 26}{space 2} 2.222855{col 37}{space 1}    2.87{col 46}{space 3}0.006{col 54}{space 4} 1.903927{col 67}{space 3} 10.84263
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}      50
-{txt}{hline 13}{char +}{hline 30}           F(  2,    47) ={res}    3.21
-    {txt}   Model {char |} {res}  7.9848048     2   3.9924024           {txt}Prob > F      = {res} 0.0495
-    {txt}Residual {char |} {res} 58.5259711    47  1.24523343           {txt}R-squared     = {res} 0.1201
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0826
-    {txt}   Total {char |} {res} 66.5107758    49  1.35736277           {txt}Root MSE      = {res} 1.1159
-
-{txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
-{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-InfExp_Var_ch {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2} -.378086{col 27}{space 2} .1494304{col 38}{space 1}   -2.53{col 47}{space 3}0.015{col 55}{space 4}-.6787012{col 68}{space 3}-.0774708
-{txt}{space 10}L2. {c |}{col 15}{res}{space 2}-.1370487{col 27}{space 2} .1458697{col 38}{space 1}   -0.94{col 47}{space 3}0.352{col 55}{space 4}-.4305006{col 68}{space 3} .1564032
-{txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.0125747{col 27}{space 2} .1580322{col 38}{space 1}   -0.08{col 47}{space 3}0.937{col 55}{space 4}-.3304945{col 68}{space 3} .3053452
-{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. esttab using "${c -(}sum_table_folder{c )-}/autoregSCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/autoregSCEM.csv"'})
-
-{com}. eststo clear
-{txt}
-{com}. 
+> 
+> eststo clear 
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SCE SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     eststo `var'_`mom': reg InfExp_`mom' l(3/5).InfExp_`mom', vce(robust)
+>   {c )-} 
+> {c )-}
+> 
+> esttab using "${c -(}sum_table_folder{c )-}/autoregLvlQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> 
+> 
+> **********************************************************************
+> ******** Autoregression on the first difference of population moments
+>  **********************************************************************
+> 
+> eststo clear
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SCE SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+>     eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
+>   {c )-}
+> {c )-}
+> esttab using "${c -(}sum_table_folder{c )-}/autoregDiffQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> 
+> 
+> ***************
+> *** SPF Only **
+> ***************
+> 
+> eststo clear
+> 
+> foreach mom in Mean Var{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+>         capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
+> 
+>         eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/2).InfExp_`mom' 
+>     eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/2).InfExp_`mom'_ch  
+>         capture eststo `var'_`mom'_rv: reg InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv 
+> 
+>   {c )-}
+> {c )-}
+> esttab using "${c -(}sum_table_folder{c )-}/autoregSPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> eststo clear
+> 
+> 
+> *******************************
+> *** Unbiasedness Test        **
+> *******************************
+> eststo clear
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>       ttest `var'_`mom'=0
+> {c )-}
+> {c )-}
+> 
+> 
+> gen const=1
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>       
+> {c )-}
+> {c )-}
+> 
+> */
 . 
-. *******************************
-. *** Unbiasedness Test        **
-. *******************************
-. eststo clear
-{txt}
-{com}. 
-. foreach mom in FE{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.       ttest `var'_`mom'=0
-{txt}  4{com}. {c )-}
-{txt}  5{com}. {c )-}
-
-{txt}One-sample t test
-{hline 9}{c TT}{hline 68}
-Variable{col 10}{c |}{col 16}Obs{col 27}Mean{col 35}Std. Err.{col 47}Std. Dev.{col 59}[95% Conf. Interval]
-{hline 9}{c +}{hline 68}
-  SCE_FE {c |}{res}{col 12}     51{col 22}   1.6102{col 34} .0754366{col 46} .5387253{col 58} 1.458681{col 70} 1.761719
-{txt}{hline 9}{c BT}{hline 68}
-    mean = mean({res}SCE_FE{txt})                                           t = {res} 21.3451
-{txt}Ho: mean = {res}0                                     {txt}degrees of freedom = {res}      50
-
-    {txt}Ha: mean < {res}0                 {txt}Ha: mean != {res}0                 {txt}Ha: mean > {res}0
- {txt}Pr(T < t) = {res}1.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}0.0000
-{txt}
-{com}. 
-. gen const=1
-{txt}
-{com}. 
-. foreach mom in FE{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.       reg `var'_`mom' const
-{txt}  4{com}. {c )-}
-{txt}  5{com}. {c )-}
-{txt}note: const omitted because of collinearity
-
-      Source {c |}       SS       df       MS              Number of obs ={res}      51
-{txt}{hline 13}{char +}{hline 30}           F(  0,    50) ={res}    0.00
-    {txt}   Model {char |} {res}          0     0           .           {txt}Prob > F      = {res}      .
-    {txt}Residual {char |} {res} 14.5112454    50  .290224908           {txt}R-squared     = {res} 0.0000
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0000
-    {txt}   Total {char |} {res} 14.5112454    50  .290224908           {txt}Root MSE      = {res} .53873
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}      SCE_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 7}const {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
-{space 7}_cons {c |}{col 14}{res}{space 2}   1.6102{col 26}{space 2} .0754366{col 37}{space 1}   21.35{col 46}{space 3}0.000{col 54}{space 4} 1.458681{col 67}{space 3} 1.761719
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. 
 . **********************************************
 . *** Revision Efficiency Test Using FE       **
 . **********************************************
 . 
+. gen const=1
+{txt}
+{com}. 
 . foreach mom in FE{c -(}
-{txt}  2{com}.    foreach var in SCE{c -(}
-{txt}  3{com}.    replace InfExp_Mean = `var'_Mean
+{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
+{txt}  3{com}.    
+.    replace InfExp_Mean = `var'_Mean
 {txt}  4{com}.    replace InfExp_`mom' = `var'_`mom'
-{txt}  5{com}.    eststo `var'_`mom'_lag6: reg  InfExp_`mom' l(6/8).InfExp_Mean, robust
-{txt}  6{com}.    eststo `var'_`mom'_arlag712: reg  InfExp_`mom' l(6/12).InfExp_`mom', robust
-{txt}  7{com}.    eststo `var'_`mom'_arlag12: reg  InfExp_`mom' l(12).InfExp_`mom', robust
-{txt}  8{com}.  {c )-}
-{txt}  9{com}. {c )-}
-{txt}(0 real changes made)
-(0 real changes made)
+{txt}  5{com}.    eststo `var'_`mom'_const: reg InfExp_`mom'
+{txt}  6{com}.    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
+{txt}  7{com}.    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom', robust
+{txt}  8{com}.    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
+{txt}  9{com}. 
+.  {c )-}
+{txt} 10{com}. {c )-}
+{txt}(151 real changes made)
+(147 real changes made)
 
-Linear regression                                      Number of obs ={res}      43
-                                                       {txt}F(  3,    39) ={res}    0.36
-                                                       {txt}Prob > F      = {res} 0.7841
-                                                       {txt}R-squared     = {res} 0.0348
-                                                       {txt}Root MSE      = {res} .33429
+      Source {c |}       SS       df       MS              Number of obs ={res}     147
+{txt}{hline 13}{char +}{hline 30}           F(  0,   146) ={res}    0.00
+    {txt}   Model {char |} {res}          0     0           .           {txt}Prob > F      = {res}      .
+    {txt}Residual {char |} {res} 203.442304   146  1.39344044           {txt}R-squared     = {res} 0.0000
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0000
+    {txt}   Total {char |} {res} 203.442304   146  1.39344044           {txt}Root MSE      = {res} 1.1804
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2} .3080672{col 26}{space 2} .0973611{col 37}{space 1}    3.16{col 46}{space 3}0.002{col 54}{space 4}  .115648{col 67}{space 3} .5004864
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     143
+                                                       {txt}F(  1,   141) ={res}    7.52
+                                                       {txt}Prob > F      = {res} 0.0069
+                                                       {txt}R-squared     = {res} 0.0683
+                                                       {txt}Root MSE      = {res} 1.0902
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 1}InfExp_Mean {c |}
-{space 9}L6. {c |}{col 14}{res}{space 2}  .280882{col 26}{space 2} .3365939{col 37}{space 1}    0.83{col 46}{space 3}0.409{col 54}{space 4}-.3999433{col 67}{space 3} .9617074
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2} .0098759{col 26}{space 2} .4065615{col 37}{space 1}    0.02{col 46}{space 3}0.981{col 54}{space 4}-.8124723{col 67}{space 3} .8322242
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2}  -.23953{col 26}{space 2} .3124555{col 37}{space 1}   -0.77{col 46}{space 3}0.448{col 54}{space 4} -.871531{col 67}{space 3}  .392471
+{space 9}L4. {c |}{col 14}{res}{space 2} .2428635{col 26}{space 2} .0885549{col 37}{space 1}    2.74{col 46}{space 3}0.007{col 54}{space 4} .0677966{col 67}{space 3} .4179304
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}  1.24537{col 26}{space 2} .4945624{col 37}{space 1}    2.52{col 46}{space 3}0.016{col 54}{space 4}  .245023{col 67}{space 3} 2.245717
+{space 7}_cons {c |}{col 14}{res}{space 2}-.4999055{col 26}{space 2} .2821579{col 37}{space 1}   -1.77{col 46}{space 3}0.079{col 54}{space 4}-1.057712{col 67}{space 3} .0579014
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      39
-                                                       {txt}F(  7,    31) ={res}    1.26
-                                                       {txt}Prob > F      = {res} 0.2997
-                                                       {txt}R-squared     = {res} 0.1449
-                                                       {txt}Root MSE      = {res} .29682
+{txt}Linear regression                                      Number of obs ={res}     143
+                                                       {txt}F(  1,   141) ={res}    0.00
+                                                       {txt}Prob > F      = {res} 0.9627
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} 1.1294
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 3}InfExp_FE {c |}
-{space 9}L6. {c |}{col 14}{res}{space 2} .0859311{col 26}{space 2} .2253076{col 37}{space 1}    0.38{col 46}{space 3}0.706{col 54}{space 4}-.3735868{col 67}{space 3} .5454491
-{txt}{space 9}L7. {c |}{col 14}{res}{space 2}-.1444892{col 26}{space 2} .2947864{col 37}{space 1}   -0.49{col 46}{space 3}0.627{col 54}{space 4}-.7457101{col 67}{space 3} .4567316
-{txt}{space 9}L8. {c |}{col 14}{res}{space 2} .0164616{col 26}{space 2} .2981073{col 37}{space 1}    0.06{col 46}{space 3}0.956{col 54}{space 4}-.5915322{col 67}{space 3} .6244555
-{txt}{space 9}L9. {c |}{col 14}{res}{space 2} .1113458{col 26}{space 2} .2806993{col 37}{space 1}    0.40{col 46}{space 3}0.694{col 54}{space 4}-.4611442{col 67}{space 3} .6838359
-{txt}{space 8}L10. {c |}{col 14}{res}{space 2}-.2318758{col 26}{space 2} .3475985{col 37}{space 1}   -0.67{col 46}{space 3}0.510{col 54}{space 4}-.9408076{col 67}{space 3} .4770561
-{txt}{space 8}L11. {c |}{col 14}{res}{space 2}-.1134034{col 26}{space 2} .3576037{col 37}{space 1}   -0.32{col 46}{space 3}0.753{col 54}{space 4} -.842741{col 67}{space 3} .6159342
-{txt}{space 8}L12. {c |}{col 14}{res}{space 2} .0884837{col 26}{space 2} .2389837{col 37}{space 1}    0.37{col 46}{space 3}0.714{col 54}{space 4}-.3989268{col 67}{space 3} .5758941
+{space 9}L4. {c |}{col 14}{res}{space 2}-.0046865{col 26}{space 2} .1000903{col 37}{space 1}   -0.05{col 46}{space 3}0.963{col 54}{space 4}-.2025581{col 67}{space 3} .1931851
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.688509{col 26}{space 2} .1647309{col 37}{space 1}   10.25{col 46}{space 3}0.000{col 54}{space 4} 1.352538{col 67}{space 3}  2.02448
+{space 7}_cons {c |}{col 14}{res}{space 2} .2439061{col 26}{space 2} .1058729{col 37}{space 1}    2.30{col 46}{space 3}0.023{col 54}{space 4} .0346025{col 67}{space 3} .4532096
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      39
-                                                       {txt}F(  1,    37) ={res}    3.53
-                                                       {txt}Prob > F      = {res} 0.0683
-                                                       {txt}R-squared     = {res} 0.0837
-                                                       {txt}Root MSE      = {res} .28125
+{txt}Linear regression                                      Number of obs ={res}     144
+                                                       {txt}F(  3,   140) ={res}   25.17
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.5939
+                                                       {txt}Root MSE      = {res} .73357
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 3}InfExp_FE {c |}
-{space 8}L12. {c |}{col 14}{res}{space 2}-.1546989{col 26}{space 2} .0823766{col 37}{space 1}   -1.88{col 46}{space 3}0.068{col 54}{space 4}-.3216098{col 67}{space 3}  .012212
+{space 9}L1. {c |}{col 14}{res}{space 2} .9454901{col 26}{space 2} .1171756{col 37}{space 1}    8.07{col 46}{space 3}0.000{col 54}{space 4} .7138277{col 67}{space 3} 1.177152
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} -.258391{col 26}{space 2}  .119369{col 37}{space 1}   -2.16{col 46}{space 3}0.032{col 54}{space 4}  -.49439{col 67}{space 3}-.0223921
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0256027{col 26}{space 2} .0970555{col 37}{space 1}   -0.26{col 46}{space 3}0.792{col 54}{space 4}-.2174867{col 67}{space 3} .1662813
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.643607{col 26}{space 2} .1630064{col 37}{space 1}   10.08{col 46}{space 3}0.000{col 54}{space 4} 1.313325{col 67}{space 3} 1.973889
+{space 7}_cons {c |}{col 14}{res}{space 2} .0845324{col 26}{space 2} .0666376{col 37}{space 1}    1.27{col 46}{space 3}0.207{col 54}{space 4}-.0472138{col 67}{space 3} .2162785
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}(151 real changes made, 102 to missing)
+(147 real changes made, 102 to missing)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      45
+{txt}{hline 13}{char +}{hline 30}           F(  0,    44) ={res}    0.00
+    {txt}   Model {char |} {res}          0     0           .           {txt}Prob > F      = {res}      .
+    {txt}Residual {char |} {res} 48.7250879    44  1.10738836           {txt}R-squared     = {res} 0.0000
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0000
+    {txt}   Total {char |} {res} 48.7250879    44  1.10738836           {txt}Root MSE      = {res} 1.0523
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2787054{col 26}{space 2} .1568714{col 37}{space 1}    1.78{col 46}{space 3}0.083{col 54}{space 4}-.0374481{col 67}{space 3} .5948589
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      41
+                                                       {txt}F(  1,    39) ={res}    2.81
+                                                       {txt}Prob > F      = {res} 0.1020
+                                                       {txt}R-squared     = {res} 0.1218
+                                                       {txt}Root MSE      = {res} .93717
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 1}InfExp_Mean {c |}
+{space 9}L4. {c |}{col 14}{res}{space 2}  1.44956{col 26}{space 2} .8654547{col 37}{space 1}    1.67{col 46}{space 3}0.102{col 54}{space 4}-.3009877{col 67}{space 3} 3.200107
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-2.240374{col 26}{space 2} 1.499082{col 37}{space 1}   -1.49{col 46}{space 3}0.143{col 54}{space 4}-5.272553{col 67}{space 3} .7918055
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      41
+                                                       {txt}F(  1,    39) ={res}    3.38
+                                                       {txt}Prob > F      = {res} 0.0736
+                                                       {txt}R-squared     = {res} 0.1033
+                                                       {txt}Root MSE      = {res}   .947
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}InfExp_FE {c |}
+{space 9}L4. {c |}{col 14}{res}{space 2}-.2896293{col 26}{space 2} .1575554{col 37}{space 1}   -1.84{col 46}{space 3}0.074{col 54}{space 4}-.6083152{col 67}{space 3} .0290566
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} .4795078{col 26}{space 2} .1788343{col 37}{space 1}    2.68{col 46}{space 3}0.011{col 54}{space 4} .1177813{col 67}{space 3} .8412342
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}      42
+                                                       {txt}F(  3,    38) ={res}   19.74
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.6538
+                                                       {txt}Root MSE      = {res} .59712
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}InfExp_FE {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} 1.025514{col 26}{space 2} .2092996{col 37}{space 1}    4.90{col 46}{space 3}0.000{col 54}{space 4} .6018093{col 67}{space 3} 1.449219
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.4913605{col 26}{space 2} .1858814{col 37}{space 1}   -2.64{col 46}{space 3}0.012{col 54}{space 4}-.8676577{col 67}{space 3}-.1150634
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0493955{col 26}{space 2} .1786496{col 37}{space 1}   -0.28{col 46}{space 3}0.784{col 54}{space 4}-.4110528{col 67}{space 3} .3122617
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .216151{col 26}{space 2} .1170253{col 37}{space 1}    1.85{col 46}{space 3}0.073{col 54}{space 4}-.0207543{col 67}{space 3} .4530563
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. esttab using "${c -(}sum_table_folder{c )-}/FEEfficiencySCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/FEEfficiencySCEM.csv"'})
+{com}. esttab using "${c -(}sum_table_folder{c )-}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/FEEfficiencySPFQ.csv"'})
 
 {com}. 
-. /*
-> **********************************************
-> *** Revision Efficiency Test Using Mean Revision **
-> **********************************************
-> 
-> foreach mom in Var{c -(}
->    foreach var in SCE{c -(}
->     ttest `var'_`mom'_rv =0
->  {c )-}
-> {c )-}
-> 
-> eststo clear
-> 
-> foreach var in SCE{c -(}
->   foreach mom in Mean{c -(}
->      replace InfExp_`mom' = `var'_`mom'
->      replace InfExp_`mom'l1 = `var'_`mom'l1
->          replace InfExp_`mom'f0 = `var'_`mom'f0
->      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
->          test _b[InfExp_`mom']=1
->           scalar pvtest= r(p)
->          estadd scalar pvtest
->          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
->          test _b[InfExp_`mom']=1
->          scalar pvtest= r(p)
->          estadd scalar pvtest
->          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
->      test _b[InfExp_`mom']=1
->          scalar pvtest= r(p)
->          estadd scalar pvtest
->  {c )-}
-> {c )-}
-> 
-> 
-> foreach var in SCE{c -(}
->   foreach mom in Var{c -(}
->      replace InfExp_`mom' = `var'_`mom'
->      replace InfExp_`mom'l1 = `var'_`mom'l1
->          replace InfExp_`mom'f0 = `var'_`mom'f0
->      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
->          test _b[_cons]=0
->          scalar pvtest= r(p)
->          estadd scalar pvtest
->          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
->          test _b[_cons]=0
->          scalar pvtest= r(p)
->          estadd scalar pvtest
->          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
->          test _b[_cons]=0
->          scalar pvtest= r(p)
->          estadd scalar pvtest
->  {c )-}
-> {c )-}
-> 
-> esttab using "${c -(}sum_table_folder{c )-}/RVEfficiencySCEM.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
-> 
-> save "${c -(}folder{c )-}/InfExpM.dta",replace 
-> */
-. 
-. log close 
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res}24 Jun 2019, 10:49:51
-{txt}{.-}
+. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. clear
+
+. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step05_IndSPFAnalysis.do"
+{txt}
+{com}. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
+{com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
 {smcl}
-{txt}{sf}{ul off}
+{com}{sf}{ul off}

@@ -136,34 +136,24 @@ foreach mom in FE{
 }
 }
 
-gen const=1
-
-foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
-      eststo `var'_`mom'_bias: reg `var'_`mom' const
-}
-}
-
-esttab using "${sum_table_folder}/ind/SPF_ind_bias.csv", drop(_cons) mtitles se r2 replace
-
-
 **********************************************
 *** Revision Efficiency Test Using FE       **
 **********************************************
 
+eststo clear
 
 foreach mom in FE{
    foreach var in SPFCPI SPFPCE{
    replace InfExp_Mean = `var'_Mean
    replace InfExp_`mom' = `var'_`mom'
+   eststo `var'_`mom'_bias: reg InfExp_`mom',robust 
    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom',robust
    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
 
  }
 }
-esttab using "${sum_table_folder}/ind/FEEfficiencySPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
-
+esttab using "${sum_table_folder}/ind/FEEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(N r2) replace
 
 ***************************************************
 *** Revision Efficiency Test Using Mean Revision **
@@ -219,7 +209,7 @@ foreach var in SPFCPI SPFPCE{
  }
 }
 
-esttab using "${sum_table_folder}/ind/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
 
 /*
 ******************************************************

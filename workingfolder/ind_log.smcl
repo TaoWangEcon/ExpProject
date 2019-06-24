@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 10:01:42
+ {txt}opened on:  {res}24 Jun 2019, 12:28:19
 {txt}
 {com}. 
 . 
@@ -1204,8 +1204,8 @@ SPFPCE~E {c |}{res}{col 12}   1679{col 22} .2107691{col 34} .0260663{col 46} 1.0
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. 
-. esttab using "${c -(}sum_table_folder{c )-}/ind/SPF_ind_bias.csv", drop(_cons) mtitles se r2 replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/SPF_ind_bias.csv"'})
+. esttab using "${c -(}sum_table_folder{c )-}/ind/SPFIndBias.csv", drop(_cons) mtitles se r2 replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/SPFIndBias.csv"'})
 
 {com}. 
 . 
@@ -1213,21 +1213,37 @@ SPFPCE~E {c |}{res}{col 12}   1679{col 22} .2107691{col 34} .0260663{col 46} 1.0
 . *** Revision Efficiency Test Using FE       **
 . **********************************************
 . 
-. 
+. eststo clear
+{txt}
+{com}. 
 . foreach mom in FE{c -(}
 {txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
 {txt}  3{com}.    replace InfExp_Mean = `var'_Mean
 {txt}  4{com}.    replace InfExp_`mom' = `var'_`mom'
-{txt}  5{com}.    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
-{txt}  6{com}.    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom',robust
-{txt}  7{com}.    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
-{txt}  8{com}. 
+{txt}  5{com}.    eststo `var'_`mom'_bias: reg InfExp_`mom',robust 
+{txt}  6{com}.    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
+{txt}  7{com}.    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom',robust
+{txt}  8{com}.    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
+{txt}  9{com}. 
 .  {c )-}
-{txt}  9{com}. {c )-}
+{txt} 10{com}. {c )-}
 {txt}(5049 real changes made, 9 to missing)
 (4706 real changes made, 9 to missing)
 
-Linear regression                                      Number of obs ={res}    3429
+Linear regression                                      Number of obs ={res}    4697
+                                                       {txt}F(  0,  4696) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res}  1.172
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2} .1216707{col 26}{space 2} .0171015{col 37}{space 1}    7.11{col 46}{space 3}0.000{col 54}{space 4} .0881438{col 67}{space 3} .1551976
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}    3429
                                                        {txt}F(  1,  3427) ={res}  229.77
                                                        {txt}Prob > F      = {res} 0.0000
                                                        {txt}R-squared     = {res} 0.0721
@@ -1279,7 +1295,20 @@ Linear regression                                      Number of obs ={res}    3
 {res}{txt}(5049 real changes made, 3352 to missing)
 (4706 real changes made, 3027 to missing)
 
-Linear regression                                      Number of obs ={res}    1208
+Linear regression                                      Number of obs ={res}    1679
+                                                       {txt}F(  0,  1678) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} 1.0681
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}   InfExp_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2} .2107691{col 26}{space 2} .0260663{col 37}{space 1}    8.09{col 46}{space 3}0.000{col 54}{space 4} .1596431{col 67}{space 3}  .261895
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}    1208
                                                        {txt}F(  1,  1206) ={res}   90.85
                                                        {txt}Prob > F      = {res} 0.0000
                                                        {txt}R-squared     = {res} 0.1185
@@ -1329,492 +1358,18 @@ Linear regression                                      Number of obs ={res}    1
 {space 7}_cons {c |}{col 14}{res}{space 2} .1134369{col 26}{space 2} .0262168{col 37}{space 1}    4.33{col 46}{space 3}0.000{col 54}{space 4} .0619907{col 67}{space 3} .1648832
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
-{com}. esttab using "${c -(}sum_table_folder{c )-}/ind/FEEfficiencySPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/FEEfficiencySPFQ.csv"'})
+{com}. esttab using "${c -(}sum_table_folder{c )-}/ind/FEEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(N r2) replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/FEEfficiencySPFIndQ.csv"'})
 
 {com}. 
+. dd
+{err}unrecognized command:  dd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. clear
+
 . 
-. ***************************************************
-. *** Revision Efficiency Test Using Mean Revision **
-. ***************************************************
-. 
-. /*
-> foreach mom in Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->     ttest `var'_`mom'_rv =0
->  {c )-}
-> {c )-}
-> */
-. 
-. 
-. eststo clear
-{txt}
-{com}. 
-. foreach var in SPFCPI SPFPCE{c -(}
-{txt}  2{com}.   foreach mom in Mean{c -(}
-{txt}  3{com}.      replace InfExp_`mom' = `var'_`mom'
-{txt}  4{com}.          replace InfExp_`mom'0 = `var'_`mom'0
-{txt}  5{com}.      eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
-{txt}  6{com}.          test _b[l1.InfExp_`mom']=1
-{txt}  7{com}.           scalar pvtest= r(p)
-{txt}  8{com}.          estadd scalar pvtest
-{txt}  9{com}.          eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
-{txt} 10{com}.          test _b[l1.InfExp_`mom']=1
-{txt} 11{com}.          scalar pvtest= r(p)
-{txt} 12{com}.          estadd scalar pvtest
-{txt} 13{com}.          eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
-{txt} 14{com}.      test _b[l1.InfExp_`mom']=1
-{txt} 15{com}.          scalar pvtest= r(p)
-{txt} 16{com}.          estadd scalar pvtest
-{txt} 17{com}.  {c )-}
-{txt} 18{com}. {c )-}
-{txt}(5049 real changes made, 9 to missing)
-(1626 real changes made)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    1360
-{txt}{hline 13}{char +}{hline 30}           F(  1,  1358) ={res}    4.10
-    {txt}   Model {char |} {res} 26.4669664     1  26.4669664           {txt}Prob > F      = {res} 0.0431
-    {txt}Residual {char |} {res} 8764.98232  1358  6.45433161           {txt}R-squared     = {res} 0.0030
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0023
-    {txt}   Total {char |} {res} 8791.44929  1359  6.46905761           {txt}Root MSE      = {res} 2.5405
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.2168493{col 26}{space 2} .1070857{col 37}{space 1}   -2.03{col 46}{space 3}0.043{col 54}{space 4}-.4269207{col 67}{space 3}-.0067779
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.153056{col 26}{space 2}  .231726{col 37}{space 1}    4.98{col 46}{space 3}0.000{col 54}{space 4} .6984759{col 67}{space 3} 1.607635
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,  1358) ={res}  129.13
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}1.196e-28
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}    1216
-{txt}{hline 13}{char +}{hline 30}           F(  2,  1213) ={res}    2.81
-    {txt}   Model {char |} {res} 40.2124817     2  20.1062408           {txt}Prob > F      = {res} 0.0606
-    {txt}Residual {char |} {res} 8677.99067  1213  7.15415554           {txt}R-squared     = {res} 0.0046
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0030
-    {txt}   Total {char |} {res} 8718.20315  1215  7.17547584           {txt}Root MSE      = {res} 2.6747
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.1796715{col 26}{space 2} .1772436{col 37}{space 1}   -1.01{col 46}{space 3}0.311{col 54}{space 4}-.5274096{col 67}{space 3} .1680665
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.1218161{col 26}{space 2} .1746547{col 37}{space 1}   -0.70{col 46}{space 3}0.486{col 54}{space 4} -.464475{col 67}{space 3} .2208428
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.311497{col 26}{space 2} .2753508{col 37}{space 1}    4.76{col 46}{space 3}0.000{col 54}{space 4}   .77128{col 67}{space 3} 1.851714
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,  1213) ={res}   44.30
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}4.261e-11
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}    1086
-{txt}{hline 13}{char +}{hline 30}           F(  3,  1082) ={res}    2.20
-    {txt}   Model {char |} {res} 52.5790818     3  17.5263606           {txt}Prob > F      = {res} 0.0861
-    {txt}Residual {char |} {res} 8607.30205  1082  7.95499266           {txt}R-squared     = {res} 0.0061
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0033
-    {txt}   Total {char |} {res} 8659.88114  1085  7.98145727           {txt}Root MSE      = {res} 2.8205
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.2051223{col 26}{space 2} .2054379{col 37}{space 1}   -1.00{col 46}{space 3}0.318{col 54}{space 4}-.6082241{col 67}{space 3} .1979794
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.1103742{col 26}{space 2} .2277621{col 37}{space 1}   -0.48{col 46}{space 3}0.628{col 54}{space 4}-.5572796{col 67}{space 3} .3365312
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0636563{col 26}{space 2} .2046257{col 37}{space 1}   -0.31{col 46}{space 3}0.756{col 54}{space 4}-.4651644{col 67}{space 3} .3378519
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}  1.46284{col 26}{space 2} .3244981{col 37}{space 1}    4.51{col 46}{space 3}0.000{col 54}{space 4}  .826123{col 67}{space 3} 2.099557
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,  1082) ={res}   34.41
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}5.923e-09
-{txt}(5049 real changes made, 3352 to missing)
-(1419 real changes made, 237 to missing)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    1132
-{txt}{hline 13}{char +}{hline 30}           F(  1,  1130) ={res}    0.41
-    {txt}   Model {char |} {res} 78378.2213     1  78378.2213           {txt}Prob > F      = {res} 0.5244
-    {txt}Residual {char |} {res}  218425493  1130  193296.896           {txt}R-squared     = {res} 0.0004
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0005
-    {txt}   Total {char |} {res}  218503871  1131  193195.288           {txt}Root MSE      = {res} 439.66
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} 13.72001{col 26}{space 2} 21.54613{col 37}{space 1}    0.64{col 46}{space 3}0.524{col 54}{space 4} -28.5549{col 67}{space 3} 55.99493
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-37.76112{col 26}{space 2} 42.05655{col 37}{space 1}   -0.90{col 46}{space 3}0.369{col 54}{space 4}-120.2788{col 67}{space 3} 44.75658
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,  1130) ={res}    0.35
-{txt}{col 13}Prob > F ={res}    0.5551
-
-{txt}added scalar:
-             e(pvtest) =  {res}.55506612
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     977
-{txt}{hline 13}{char +}{hline 30}           F(  2,   974) ={res}    1.29
-    {txt}   Model {char |} {res} .766001235     2  .383000617           {txt}Prob > F      = {res} 0.2759
-    {txt}Residual {char |} {res} 289.290592   974  .297012928           {txt}R-squared     = {res} 0.0026
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0006
-    {txt}   Total {char |} {res} 290.056593   976  .297189132           {txt}Root MSE      = {res} .54499
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .0471709{col 26}{space 2} .0452258{col 37}{space 1}    1.04{col 46}{space 3}0.297{col 54}{space 4}-.0415803{col 67}{space 3} .1359222
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0006184{col 26}{space 2} .0448717{col 37}{space 1}   -0.01{col 46}{space 3}0.989{col 54}{space 4}-.0886747{col 67}{space 3} .0874379
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .6559512{col 26}{space 2} .0598029{col 37}{space 1}   10.97{col 46}{space 3}0.000{col 54}{space 4} .5385938{col 67}{space 3} .7733086
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,   974) ={res}  443.87
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}1.737e-81
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     849
-{txt}{hline 13}{char +}{hline 30}           F(  3,   845) ={res}    1.26
-    {txt}   Model {char |} {res} 1.10649575     3  .368831917           {txt}Prob > F      = {res} 0.2852
-    {txt}Residual {char |} {res} 246.399265   845  .291596764           {txt}R-squared     = {res} 0.0045
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0009
-    {txt}   Total {char |} {res} 247.505761   848  .291870001           {txt}Root MSE      = {res}    .54
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}InfExp_Mean0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 1}InfExp_Mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .0931939{col 26}{space 2} .0488217{col 37}{space 1}    1.91{col 46}{space 3}0.057{col 54}{space 4}-.0026321{col 67}{space 3}   .18902
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0368488{col 26}{space 2} .0550034{col 37}{space 1}   -0.67{col 46}{space 3}0.503{col 54}{space 4}-.1448082{col 67}{space 3} .0711105
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0305573{col 26}{space 2} .0488863{col 37}{space 1}   -0.63{col 46}{space 3}0.532{col 54}{space 4}-.1265102{col 67}{space 3} .0653956
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .6883667{col 26}{space 2} .0670856{col 37}{space 1}   10.26{col 46}{space 3}0.000{col 54}{space 4} .5566927{col 67}{space 3} .8200406
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} L.InfExp_Mean = 1{p_end}
-
-{txt}       F(  1,   845) ={res}  344.99
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}7.699e-65
-{txt}
-{com}. 
-. 
-. foreach var in SPFCPI SPFPCE{c -(}
-{txt}  2{com}.   foreach mom in Var{c -(}
-{txt}  3{com}.      replace InfExp_`mom' = `var'_`mom'
-{txt}  4{com}.          replace InfExp_`mom'0 = `var'_`mom'0
-{txt}  5{com}.      eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
-{txt}  6{com}.          test _b[_cons]=0
-{txt}  7{com}.          scalar pvtest= r(p)
-{txt}  8{com}.          estadd scalar pvtest
-{txt}  9{com}.          eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
-{txt} 10{com}.          test _b[_cons]=0
-{txt} 11{com}.          scalar pvtest= r(p)
-{txt} 12{com}.          estadd scalar pvtest
-{txt} 13{com}.          eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
-{txt} 14{com}.          test _b[_cons]=0
-{txt} 15{com}.          scalar pvtest= r(p)
-{txt} 16{com}.          estadd scalar pvtest
-{txt} 17{com}.  {c )-}
-{txt} 18{com}. {c )-}
-{txt}(1356 real changes made, 110 to missing)
-(1626 real changes made)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    1219
-{txt}{hline 13}{char +}{hline 30}           F(  1,  1217) ={res} 1181.79
-    {txt}   Model {char |} {res} 164721.533     1  164721.533           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 169629.544  1217  139.383356           {txt}R-squared     = {res} 0.4927
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4922
-    {txt}   Total {char |} {res} 334351.077  1218  274.508273           {txt}Root MSE      = {res} 11.806
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .4997553{col 26}{space 2} .0145374{col 37}{space 1}   34.38{col 46}{space 3}0.000{col 54}{space 4}  .471234{col 67}{space 3} .5282765
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0443664{col 26}{space 2}  .338377{col 37}{space 1}   -0.13{col 46}{space 3}0.896{col 54}{space 4}-.7082334{col 67}{space 3} .6195005
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,  1217) ={res}    0.02
-{txt}{col 13}Prob > F ={res}    0.8957
-
-{txt}added scalar:
-             e(pvtest) =  {res}.89570567
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     977
-{txt}{hline 13}{char +}{hline 30}           F(  2,   974) ={res}15638.30
-    {txt}   Model {char |} {res} 324168.264     2  162084.132           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 10095.0819   974  10.3645604           {txt}R-squared     = {res} 0.9698
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.9697
-    {txt}   Total {char |} {res} 334263.346   976  342.482936           {txt}Root MSE      = {res} 3.2194
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}  .982935{col 26}{space 2}  .005558{col 37}{space 1}  176.85{col 46}{space 3}0.000{col 54}{space 4}  .972028{col 67}{space 3} .9938419
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.9669177{col 26}{space 2} .0077938{col 37}{space 1} -124.06{col 46}{space 3}0.000{col 54}{space 4}-.9822122{col 67}{space 3}-.9516232
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0837689{col 26}{space 2} .1030908{col 37}{space 1}   -0.81{col 46}{space 3}0.417{col 54}{space 4}-.2860745{col 67}{space 3} .1185367
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,   974) ={res}    0.66
-{txt}{col 13}Prob > F ={res}    0.4167
-
-{txt}added scalar:
-             e(pvtest) =  {res}.41666066
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     792
-{txt}{hline 13}{char +}{hline 30}           F(  3,   788) ={res} 8444.23
-    {txt}   Model {char |} {res} 324081.669     3  108027.223           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 10080.8988   788  12.7930188           {txt}R-squared     = {res} 0.9698
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.9697
-    {txt}   Total {char |} {res} 334162.568   791  422.455839           {txt}Root MSE      = {res} 3.5767
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .9829103{col 26}{space 2} .0061755{col 37}{space 1}  159.16{col 46}{space 3}0.000{col 54}{space 4} .9707879{col 67}{space 3} .9950327
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.9669819{col 26}{space 2} .0086591{col 37}{space 1} -111.67{col 46}{space 3}0.000{col 54}{space 4}-.9839796{col 67}{space 3}-.9499843
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0004696{col 26}{space 2} .0061785{col 37}{space 1}   -0.08{col 46}{space 3}0.939{col 54}{space 4}-.0125979{col 67}{space 3} .0116587
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.1170108{col 26}{space 2} .1273239{col 37}{space 1}   -0.92{col 46}{space 3}0.358{col 54}{space 4}-.3669449{col 67}{space 3} .1329233
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,   788) ={res}    0.84
-{txt}{col 13}Prob > F ={res}    0.3584
-
-{txt}added scalar:
-             e(pvtest) =  {res}.35837621
-{txt}(1356 real changes made, 263 to missing)
-(1389 real changes made, 237 to missing)
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    1110
-{txt}{hline 13}{char +}{hline 30}           F(  1,  1108) ={res}    0.00
-    {txt}   Model {char |} {res}  105221528     1   105221528           {txt}Prob > F      = {res} 0.9761
-    {txt}Residual {char |} {res} 1.2961e+14  1108  1.1698e+11           {txt}R-squared     = {res} 0.0000
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0009
-    {txt}   Total {char |} {res} 1.2961e+14  1109  1.1687e+11           {txt}Root MSE      = {res} 3.4e+05
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.0921292{col 26}{space 2} 3.071805{col 37}{space 1}   -0.03{col 46}{space 3}0.976{col 54}{space 4}-6.119341{col 67}{space 3} 5.935083
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 10270.35{col 26}{space 2}  10270.3{col 37}{space 1}    1.00{col 46}{space 3}0.318{col 54}{space 4}-9881.086{col 67}{space 3} 30421.78
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,  1108) ={res}    1.00
-{txt}{col 13}Prob > F ={res}    0.3175
-
-{txt}added scalar:
-             e(pvtest) =  {res}.3175267
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     874
-{txt}{hline 13}{char +}{hline 30}           F(  2,   871) ={res}   15.99
-    {txt}   Model {char |} {res} .743345509     2  .371672754           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 20.2495814   871  .023248658           {txt}R-squared     = {res} 0.0354
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0332
-    {txt}   Total {char |} {res} 20.9929269   873  .024046881           {txt}Root MSE      = {res} .15248
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} 7.73e-06{col 26}{space 2} 1.37e-06{col 37}{space 1}    5.64{col 46}{space 3}0.000{col 54}{space 4} 5.04e-06{col 67}{space 3} .0000104
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-4.46e-07{col 26}{space 2} 1.37e-06{col 37}{space 1}   -0.33{col 46}{space 3}0.745{col 54}{space 4}-3.13e-06{col 67}{space 3} 2.24e-06
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .0528831{col 26}{space 2} .0051635{col 37}{space 1}   10.24{col 46}{space 3}0.000{col 54}{space 4} .0427488{col 67}{space 3} .0630174
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,   871) ={res}  104.89
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}2.542e-23
-
-      {txt}Source {c |}       SS       df       MS              Number of obs ={res}     691
-{txt}{hline 13}{char +}{hline 30}           F(  3,   687) ={res}   14.93
-    {txt}   Model {char |} {res} .745710468     3  .248570156           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 11.4399051   687  .016651972           {txt}R-squared     = {res} 0.0612
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0571
-    {txt}   Total {char |} {res} 12.1856156   690  .017660312           {txt}Root MSE      = {res} .12904
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} InfExp_Var0{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 2}InfExp_Var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} 7.73e-06{col 26}{space 2} 1.16e-06{col 37}{space 1}    6.67{col 46}{space 3}0.000{col 54}{space 4} 5.46e-06{col 67}{space 3}   .00001
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-4.45e-07{col 26}{space 2} 1.16e-06{col 37}{space 1}   -0.38{col 46}{space 3}0.701{col 54}{space 4}-2.72e-06{col 67}{space 3} 1.83e-06
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-4.37e-07{col 26}{space 2} 1.16e-06{col 37}{space 1}   -0.38{col 46}{space 3}0.706{col 54}{space 4}-2.71e-06{col 67}{space 3} 1.84e-06
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .0527788{col 26}{space 2} .0049197{col 37}{space 1}   10.73{col 46}{space 3}0.000{col 54}{space 4} .0431193{col 67}{space 3} .0624383
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}
-{p 0 7}{space 1}{text:( 1)}{space 1} _cons = 0{p_end}
-
-{txt}       F(  1,   687) ={res}  115.09
-{txt}{col 13}Prob > F ={res}    0.0000
-
-{txt}added scalar:
-             e(pvtest) =  {res}6.239e-25
-{txt}
-{com}. 
-. esttab using "${c -(}sum_table_folder{c )-}/ind/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/RVEfficiencySPFQ.csv"'})
-
-{com}. 
-. /*
-> ******************************************************
-> ** Response  Estimates using individual moments     **
-> ******************************************************
-> 
-> keep if year>=2008
-> 
-> 
-> eststo clear
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * shocks 
->        capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
->                           l(0/1).pty_shock l(0/1).op_shock ///
->                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock, vce(cluster dateQ)
->        {c )-}
->  {c )-}
->  
->  
-> foreach mom in Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * abs of shocks 
->        capture eststo `var'_`mom': reg `var'_`mom' l(1/2).`var'_`mom' ///
->                           l(0/1).pty_abshock l(0/1).op_abshock ///
->                                          l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock, vce(cluster dateQ)
->    {c )-}
-> {c )-}
-> 
-> 
-> esttab using "${c -(}sum_table_folder{c )-}/SPF_ind_ashocks.csv", drop(_cons) mtitles se r2 replace
-> 
-> */
-. 
-. 
-. 
-. 
-. ** !!!! Need to find a way to run var for panel data
-. /*
-> ************************************************
-> ** IRF using individual SPF moments     **
-> ************************************************
-> 
-> 
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * shocks 
->        var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock l(0/1).op_shock ///
->                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
->    set seed 123456
->    capture irf create `var', set(`mom') step(10) bsp replace 
-> {c )-}
->    * Non-MP shocks plots
->    irf graph dm, set(`mom') impulse(pty_shock op_shock) ///
->                          byopts(col(2) title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_shocks_nmp", as(png) replace
->    
->    * MP shocks plots
->    capture irf graph dm, set(`mom') impulse(mp1ut_shock ED8ut_shock) ///
->                          byopts(col(2) title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_mpshocks", as(png) replace
->    
-> {c )-}
-> 
-> 
-> 
-> ****************************************************************
-> ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
-> ****************************************************************
-> 
-> 
-> foreach mom in Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * shocks 
->         capture var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
->                                          l(0/1).pty_abshock l(0/1).op_abshock l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock)
->    set seed 123456
->    capture irf create `var', set(`mom') step(10) bsp replace 
-> {c )-}
->    * Non-MP shocks 
->    capture irf graph dm, set(`mom') impulse(pty_abshock op_abshock) ///
->                          byopts(title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
->    
->    * Non-MP shocks 
->    capture irf graph dm, set(`mom') impulse(mp1ut_abshock ED8ut_abshock) ///
->                          byopts(title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_mpshocks", as(png) replace
-> {c )-}
-> */
-. 
-. 
-. log close 
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res}24 Jun 2019, 10:01:45
-{txt}{.-}
-{smcl}
-{txt}{sf}{ul off}

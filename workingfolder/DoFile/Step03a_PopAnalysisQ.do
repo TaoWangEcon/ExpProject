@@ -408,32 +408,36 @@ foreach mom in FE{
 }
 }
 
+
 gen const=1
 
 foreach mom in FE{
    foreach var in SPFCPI SPFPCE{
-      reg `var'_`mom' const
+      
 }
 }
+
 */
 
 **********************************************
 *** Revision Efficiency Test Using FE       **
 **********************************************
 
+gen const=1
 
 foreach mom in FE{
    foreach var in SPFCPI SPFPCE{
+   
    replace InfExp_Mean = `var'_Mean
    replace InfExp_`mom' = `var'_`mom'
+   eststo `var'_`mom'_const: reg InfExp_`mom'
    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom', robust
    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
 
  }
 }
-esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
-
+esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
 
 /*
 **********************************************
