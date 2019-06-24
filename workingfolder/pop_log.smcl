@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 12:19:22
+ {txt}opened on:  {res}24 Jun 2019, 14:09:11
 {txt}
 {com}. 
 . ****************************************
@@ -14,7 +14,7 @@
 . **   Merge other data**
 . ***********************
 . 
-. use "${c -(}folder{c )-}/NYFEDSurvey/InfExpSCEProbPopM",clear 
+. use "${c -(}folder{c )-}/SCE/InfExpSCEProbPopM",clear 
 {txt}
 {com}. 
 . merge 1:1 year month using "${c -(}mainfolder{c )-}/OtherData/RecessionDateM.dta", keep(match)
@@ -1162,25 +1162,87 @@ COREPCE1y_ch {c |}
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/FEEfficiencySPFQ.csv"'})
 
 {com}. 
-. ddd
-{err}unrecognized command:  ddd
-{txt}{search r(199):r(199);}
+. /*
+> **********************************************
+> *** Revision Efficiency Test Using Mean Revision **
+> **********************************************
+> 
+> 
+> foreach mom in Var{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>     ttest `var'_`mom'_rv =0
+>  {c )-}
+> {c )-}
+> 
+> eststo clear
+> 
+> foreach var in SPFCPI SPFPCE{c -(}
+>   foreach mom in Mean{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>          replace InfExp_`mom'l1 = `var'_`mom'l1
+>      replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>           scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>      test _b[InfExp_`mom']=1
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>  {c )-}
+> {c )-}
+> 
+> foreach var in SPFCPI SPFPCE{c -(}
+>   foreach mom in Var{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>      replace InfExp_`mom'l1 = `var'_`mom'l1
+>          replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>  {c )-}
+> {c )-}
+> 
+> esttab using "${c -(}sum_table_folder{c )-}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+> 
+> save "${c -(}folder{c )-}/InfExpQ.dta",replace 
+> 
+> 
+> log close 
 
-end of do-file
+{txt}end of do-file
 
-{search r(199):r(199);}
-
-{com}. clear
-
-. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step05_IndSPFAnalysis.do"
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step02f_CleaningInfShocksQ&M.do"
 {txt}
-{com}. clear
+{com}. *******************************************************************************
+. ***  This do file first works with the inflation shock data file, including  **
+. ***  cleaning, relabeling and normalizing shocks. It then saves a clean      **
+. ***  InfShocksClean to be used for individual IR analysis.                   **
+. ***   Then it will be merged with population survey data and plot all kinds of impulse *
+. ***   responses. Be careful with the period filter. 
+. ********************************************************************************
+. 
+. 
+. clear
 {txt}
 {com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 {txt}
 {com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
 {txt}
-{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/pop"
 {txt}
 {com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
 {txt}

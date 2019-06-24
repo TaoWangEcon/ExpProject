@@ -772,7 +772,7 @@ str_shocks_est.tail()
 # ### Monetary policy shocks 
 
 # + {"code_folding": []}
-## loading mp shocks data
+## loading mp shocks data 
 mps_data = pd.read_excel('../OtherData/2MPShocksJW.xls',sheet_name='data')
 mps_data['Date'] = pd.to_datetime(mps_data['Date'],format='%m/%d/%Y')
 mps_datesQ = mps_data['Date'].dt.year.astype(int).astype(str) + \
@@ -787,11 +787,13 @@ mps_var = mps_data[['quarter','MP1','ED4','ED8']]
 ## dates 
 mps_datesM = mps_data['Date'].dt.year.astype(int).astype(str) + \
          "M" + mps_data['Date'].dt.month.astype(int).astype(str)
-
 mps_datesM = dates_from_str(mps_datesM)
 
 ## monthly index 
 mps_var.index = pd.DatetimeIndex(mps_datesM)
+
+# multiple times of monetary policy within some quarters. Thus cumulative sum is taken as the shock of that quarter
+
 mps_shockQ  = mps_var.groupby(['quarter'], sort=False)[['MP1','ED4','ED8']].sum(axis=1)
 
 ## convert to numeric 
@@ -811,26 +813,7 @@ str_shocks_est['month']=str_shocks_est.index.month
 
 str_shocks_est.head()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### save shocks (quarterly)
 
-str_shocks_est.to_stata('../OtherData/InfShocks.dta')   # this is the quarterly version as tech shocks is in quarterly
-
-# + {"code_folding": [0]}
-### save shocks (monthly)
-
-## only merge op and monetary policy shocks 
-
-str_shocks_estM = pd.concat((os_M,mps_var),sort=True)
-str_shocks_estM = str_shocks_estM.drop(['quarter'],axis=1)
-
-## convert to numeric 
-str_shocks_estM['MP1']=pd.to_numeric(str_shocks_estM['MP1'],errors='coerce')   
-
-str_shocks_estM['ED4']=pd.to_numeric(str_shocks_estM['ED4'],errors='coerce')   
-
-str_shocks_estM['ED8']=pd.to_numeric(str_shocks_estM['ED8'],errors='coerce')   
-
-## save a monthly version shocks exl tech shocks.
-
-str_shocks_estM.to_stata('../OtherData/InfShocksM.dta')   # this is the quarterly version as tech shocks is in quarterly
+str_shocks_est.to_stata('../OtherData/InfShocksQ.dta')   # this is the quarterly version as tech shocks is in quarterly

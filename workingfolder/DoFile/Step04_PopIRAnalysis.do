@@ -1,6 +1,5 @@
 *******************************************************************************
-***  This do file first works with the inflation shock data file, including  **
-***  cleaning, relabeling and normalizing shocks. It then saves a clean      **
+***  This do file starts with  a clean quarterly version of                  **
 ***  InfShocksClean to be used for individual IR analysis.                   **
 ***   Then it merges with population survey data and plot all kinds of impulse *
 ***   responses. Be careful with the period filter. 
@@ -20,97 +19,13 @@ capture log close
 log using "${mainfolder}/irf_log",replace
 
 
-**********************************************
-*** Clean inflation shock data from Python ***
-**********************************************
-
-use "${mainfolder}/OtherData/InfShocks.dta",clear 
-
-drop index 
-
-*** Date 
-gen date_str=string(year)+"Q"+string(quarter) 
-
-gen date = quarterly(date_str,"YQ")
-format date %tq 
-
-drop date_str
-
-order date year quarter month
-
-** Time series 
-
-tsset date 
-
-
-* Merge with inflation 
-merge 1:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master)
-rename _merge InfM_merge 
-
-
-** Label and rename
-
-label var pty_shock "Technology shock(Gali 1999)"
-label var hours_shock "Non-technology shock(Gali 1999)"
-label var inf_shock "Shock to inflation(Gali 1999)"
-label var pty_max_shock "Technology shock (Francis etal 2014)"
-label var news_shock "News shock(Sims etal.2011)"
-rename OPShock_nm op_shock 
-label var op_shock "Oil price shock (Hamilton 1996)"
-rename MP1 mp1_shock
-label var mp1_shock "Unexpected change in federal funds rate"
-label var ED4 "1-year ahead future-implied change in federal funds rate"
-label var ED8 "2-year ahead future-implied change in federal funds rate"
-
-
-** MP-path shock 
-
-foreach ed in ED4 ED8{
-  reg `ed' mp1_shock
-  predict `ed'_shock, residual
-label var `ed'_shock "Unexpected shock to future federal funds rate"
-}
-
-** Normorlize MP shcoks
-
-foreach var in mp1 ED4 ED8{
-  egen `var'_shock_sd =sd(`var'_shock)
-  gen `var'ut_shock = `var'_shock/`var'_shock_sd 
-  local lb : var label `var'_shock
-  label var `var'ut_shock "`lb' in std unit"
-}
-
-** Absolute values of the shocks
-
-foreach var in op pty mp1ut ED8ut{
-gen `var'_abshock = abs(`var'_shock)
-local lb: var label `var'_shock
-label var `var'_abshock "Absolute value of `lb'"
-} 
-
-
-
-** Generated unidentified shocks. 
-
-tsset date
-
-eststo clear
-
-foreach Inf in CPIAU CPICore PCEPI{ 
-   reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock
-   predict `Inf'_uid_shock, residual
-   label var `Inf'_uid_shock "Unidentified shocks to inflation"
- }
-
- 
-*Save a dta file for individual IR analysis **
- 
-save "${mainfolder}/OtherData/InfShocksClean.dta",replace 
-
 
 *****************************
 ***      IR Analysis     ****
 *****************************
+
+use "${mainfolder}/OtherData/InfShocksQClean.dta",clear  
+
 
 merge 1:1 year quarter using "${folder}/InfExpQ.dta",keep(match using master)
 rename _merge InfExp_merge

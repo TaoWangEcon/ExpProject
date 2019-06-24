@@ -18,7 +18,7 @@ log using "${mainfolder}/pop_log",replace
 **   Merge other data**
 ***********************
 
-use "${folder}/NYFEDSurvey/InfExpSCEProbPopM",clear 
+use "${folder}/SCE/InfExpSCEProbPopM",clear 
 
 merge 1:1 year month using "${mainfolder}/OtherData/RecessionDateM.dta", keep(match)
 rename _merge  recession_merge
