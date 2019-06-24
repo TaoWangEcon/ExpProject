@@ -455,8 +455,9 @@ foreach mom in FE{
    foreach var in SCE{
    replace InfExp_Mean = `var'_Mean
    replace InfExp_`mom' = `var'_`mom'
-   eststo `var'_`mom'_lag4: newey  InfExp_`mom' l(6/8).InfExp_Mean, lag(1)
-   eststo `var'_`mom'_arlag4: newey  InfExp_`mom' l(6/12).InfExp_`mom', lag(1)
+   eststo `var'_`mom'_lag6: reg  InfExp_`mom' l(6/8).InfExp_Mean, robust
+   eststo `var'_`mom'_arlag712: reg  InfExp_`mom' l(6/12).InfExp_`mom', robust
+   eststo `var'_`mom'_arlag12: reg  InfExp_`mom' l(12).InfExp_`mom', robust
  }
 }
 esttab using "${sum_table_folder}/FEEfficiencySCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
