@@ -1,0 +1,236 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/indSCE_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}24 Jun 2019, 12:57:55
+{txt}
+{com}. 
+. 
+. ***************************
+. **  Clean and Merge Data **
+. ***************************
+. 
+. use "${c -(}folder{c )-}/SCE/InfExpSCEProbIndM",clear 
+{txt}
+{com}. 
+. duplicates report year month userid
+
+{p 0 4}{txt}Duplicates in terms of {res} year month userid{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}68887             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. 
+. rename userid ID 
+{res}{txt}
+{com}. 
+. /* !!!! Need to generate a Monlty version of InfShocksClean.dta" 
+> merge m:1 year month using "${c -(}mainfolder{c )-}/OtherData/InfShocksCleanM.dta",keep(match using master)
+> rename _merge infshocks_merge
+> */
+. 
+. 
+. 
+. *******************************
+. **  Set Panel Data Structure **
+. *******************************
+. 
+. xtset ID date
+{res}{txt}{col 8}panel variable:  {res}ID (unbalanced)
+{txt}{col 9}time variable:  {res}{col 25}date, 2014m1 to 2018m5, but with gaps
+{txt}{col 17}delta:  {res}1 month
+{txt}
+{com}. sort ID year month 
+{txt}
+{com}. 
+. 
+. *******************************
+. **  Summary Statistics of SCE **
+. *******************************
+. 
+. tabstat ID,s(count) by(date) column(statistics)
+
+{txt}Summary for variables: ID
+{col 6}by categories of: date 
+
+{ralign 9:date} {...}
+{c |}         N
+{hline 10}{c +}{hline 10}
+{ralign 9: 2014m1} {...}
+{c |}{...}
+ {res}     1328
+{txt}{ralign 9: 2014m2} {...}
+{c |}{...}
+ {res}     1295
+{txt}{ralign 9: 2014m3} {...}
+{c |}{...}
+ {res}     1309
+{txt}{ralign 9: 2014m4} {...}
+{c |}{...}
+ {res}     1311
+{txt}{ralign 9: 2014m5} {...}
+{c |}{...}
+ {res}     1280
+{txt}{ralign 9: 2014m6} {...}
+{c |}{...}
+ {res}     1302
+{txt}{ralign 9: 2014m7} {...}
+{c |}{...}
+ {res}     1373
+{txt}{ralign 9: 2014m8} {...}
+{c |}{...}
+ {res}     1352
+{txt}{ralign 9: 2014m9} {...}
+{c |}{...}
+ {res}     1320
+{txt}{ralign 9:2014m10} {...}
+{c |}{...}
+ {res}     1328
+{txt}{ralign 9:2014m11} {...}
+{c |}{...}
+ {res}     1312
+{txt}{ralign 9:2014m12} {...}
+{c |}{...}
+ {res}     1302
+{txt}{ralign 9: 2015m1} {...}
+{c |}{...}
+ {res}     1308
+{txt}{ralign 9: 2015m2} {...}
+{c |}{...}
+ {res}     1314
+{txt}{ralign 9: 2015m3} {...}
+{c |}{...}
+ {res}     1288
+{txt}{ralign 9: 2015m4} {...}
+{c |}{...}
+ {res}     1283
+{txt}{ralign 9: 2015m5} {...}
+{c |}{...}
+ {res}     1276
+{txt}{ralign 9: 2015m6} {...}
+{c |}{...}
+ {res}     1271
+{txt}{ralign 9: 2015m7} {...}
+{c |}{...}
+ {res}     1256
+{txt}{ralign 9: 2015m8} {...}
+{c |}{...}
+ {res}     1226
+{txt}{ralign 9: 2015m9} {...}
+{c |}{...}
+ {res}     1262
+{txt}{ralign 9:2015m10} {...}
+{c |}{...}
+ {res}     1248
+{txt}{ralign 9:2015m11} {...}
+{c |}{...}
+ {res}     1242
+{txt}{ralign 9:2015m12} {...}
+{c |}{...}
+ {res}     1201
+{txt}{ralign 9: 2016m1} {...}
+{c |}{...}
+ {res}     1232
+{txt}{ralign 9: 2016m2} {...}
+{c |}{...}
+ {res}     1178
+{txt}{ralign 9: 2016m3} {...}
+{c |}{...}
+ {res}     1242
+{txt}{ralign 9: 2016m4} {...}
+{c |}{...}
+ {res}     1214
+{txt}{ralign 9: 2016m5} {...}
+{c |}{...}
+ {res}     1259
+{txt}{ralign 9: 2016m6} {...}
+{c |}{...}
+ {res}     1261
+{txt}{ralign 9: 2016m7} {...}
+{c |}{...}
+ {res}     1305
+{txt}{ralign 9: 2016m8} {...}
+{c |}{...}
+ {res}     1271
+{txt}{ralign 9: 2016m9} {...}
+{c |}{...}
+ {res}     1319
+{txt}{ralign 9:2016m10} {...}
+{c |}{...}
+ {res}     1319
+{txt}{ralign 9:2016m11} {...}
+{c |}{...}
+ {res}     1321
+{txt}{ralign 9:2016m12} {...}
+{c |}{...}
+ {res}     1359
+{txt}{ralign 9: 2017m1} {...}
+{c |}{...}
+ {res}     1358
+{txt}{ralign 9: 2017m2} {...}
+{c |}{...}
+ {res}     1341
+{txt}{ralign 9: 2017m3} {...}
+{c |}{...}
+ {res}     1365
+{txt}{ralign 9: 2017m4} {...}
+{c |}{...}
+ {res}     1276
+{txt}{ralign 9: 2017m5} {...}
+{c |}{...}
+ {res}     1349
+{txt}{ralign 9: 2017m6} {...}
+{c |}{...}
+ {res}     1349
+{txt}{ralign 9: 2017m7} {...}
+{c |}{...}
+ {res}     1354
+{txt}{ralign 9: 2017m8} {...}
+{c |}{...}
+ {res}     1344
+{txt}{ralign 9: 2017m9} {...}
+{c |}{...}
+ {res}     1325
+{txt}{ralign 9:2017m10} {...}
+{c |}{...}
+ {res}     1377
+{txt}{ralign 9:2017m11} {...}
+{c |}{...}
+ {res}     1337
+{txt}{ralign 9:2017m12} {...}
+{c |}{...}
+ {res}     1273
+{txt}{ralign 9: 2018m1} {...}
+{c |}{...}
+ {res}     1323
+{txt}{ralign 9: 2018m2} {...}
+{c |}{...}
+ {res}     1322
+{txt}{ralign 9: 2018m3} {...}
+{c |}{...}
+ {res}     1315
+{txt}{ralign 9: 2018m4} {...}
+{c |}{...}
+ {res}     1300
+{txt}{ralign 9: 2018m5} {...}
+{c |}{...}
+ {res}     1312
+{txt}{hline 10}{c +}{hline 10}
+{ralign 9:Total} {...}
+{c |}{...}
+ {res}    68887
+{txt}{hline 10}{c BT}{hline 10}
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. 

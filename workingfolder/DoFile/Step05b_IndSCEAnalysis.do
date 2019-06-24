@@ -8,53 +8,46 @@ cd ${folder}
 pwd
 set more off 
 capture log close
-log using "${mainfolder}/ind_log",replace
+log using "${mainfolder}/indSCE_log",replace
 
 
 ***************************
 **  Clean and Merge Data **
 ***************************
 
-use "${folder}/SPF/individual/InfExpSPFPointIndQ",clear 
+use "${folder}/SCE/InfExpSCEProbIndM",clear 
 
-duplicates report year quarter ID 
+duplicates report year month userid
 
-merge 1:1 year quarter ID using "${folder}/SPF/individual/InfExpSPFDstIndQ.dta"
+rename userid ID 
 
-rename _merge SPFDst_merge
-table year if SPFDst_merge ==3
-
-merge m:1 year quarter using "${mainfolder}/OtherData/InfShocksClean.dta",keep(match using master)
+/* !!!! Need to generate a Monlty version of InfShocksClean.dta" 
+merge m:1 year month using "${mainfolder}/OtherData/InfShocksCleanM.dta",keep(match using master)
 rename _merge infshocks_merge
+*/
+
 
 
 *******************************
 **  Set Panel Data Structure **
 *******************************
 
-xtset ID dateQ
-sort ID year quarter 
-
-drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
+xtset ID date
+sort ID year month 
 
 
 *******************************
-**  Summary Statistics of SPF **
+**  Summary Statistics of SCE **
 *******************************
 
-tabstat ID,s(count) by(dateQ) column(statistics)
-
+tabstat ID,s(count) by(date) column(statistics)
 
 ******************************
 *** Computing some measures **
 ******************************
 
-gen SPFCPI_FE = CPI1y - Inf1y_CPIAU
-label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
-gen SPFCCPI_FE = CORECPI1y - Inf1y_CPICore
-label var SPFCPI_FE "1-yr-ahead forecast error(SPF core CPI)"
-gen SPFPCE_FE = PCE1y - Inf1y_PCE
-label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
+gen SCE_FE = Q9_mean - Inf1y_CPIAU
+label var SCE_FE "1-yr-ahead forecast error(SCE)"
 
 
 gen SPFCPI_FE0 = CPI1y - Inf1y_CPIAU

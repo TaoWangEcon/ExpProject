@@ -748,12 +748,20 @@ os_dataM['OPShock_nm'] =  os_dataM['OPShock']/os_dataM['OPShock'].std()
 ## compute quarterly shock
 os_shockQ  = os_dataM.groupby(['quarter'], sort=False)['OPShock_nm'].max()
 
-## creating quarterly date index
+## creating quarterly date 
+os_datesM =  os_dataM['observation_date'].dt.year.astype(int).astype(str) + \
+         "M" + os_dataM['observation_date'].dt.month.astype(int).astype(str)
+os_datesM = dates_from_str(os_datesM)
 os_datesQ = os_dataM['quarter'].drop_duplicates()
 os_datesQ = dates_from_str(os_datesQ)
 
 ## prepare quarterly series 
 os_shockQ.index = pd.DatetimeIndex(os_datesQ,freq='Q')
+
+## save a monthly version 
+os_M = pd.DataFrame(os_dataM['OPShock_nm'].copy())
+os_M.columns=(['OPShock_nm'])
+os_M.index = pd.DatetimeIndex(os_datesM)
 
 ## merge with other shocks
 str_shocks_est = pd.concat([str_shocks_est,os_shockQ], join='inner', axis=1)
@@ -803,7 +811,26 @@ str_shocks_est['month']=str_shocks_est.index.month
 
 str_shocks_est.head()
 
-# + {"code_folding": []}
-### save shocks
+# + {"code_folding": [0]}
+### save shocks (quarterly)
 
-str_shocks_est.to_stata('../OtherData/InfShocks.dta')
+str_shocks_est.to_stata('../OtherData/InfShocks.dta')   # this is the quarterly version as tech shocks is in quarterly
+
+# + {"code_folding": [0]}
+### save shocks (monthly)
+
+## only merge op and monetary policy shocks 
+
+str_shocks_estM = pd.concat((os_M,mps_var),sort=True)
+str_shocks_estM = str_shocks_estM.drop(['quarter'],axis=1)
+
+## convert to numeric 
+str_shocks_estM['MP1']=pd.to_numeric(str_shocks_estM['MP1'],errors='coerce')   
+
+str_shocks_estM['ED4']=pd.to_numeric(str_shocks_estM['ED4'],errors='coerce')   
+
+str_shocks_estM['ED8']=pd.to_numeric(str_shocks_estM['ED8'],errors='coerce')   
+
+## save a monthly version shocks exl tech shocks.
+
+str_shocks_estM.to_stata('../OtherData/InfShocksM.dta')   # this is the quarterly version as tech shocks is in quarterly
