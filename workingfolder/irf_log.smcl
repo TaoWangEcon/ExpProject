@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/irf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 15:31:53
+ {txt}opened on:  {res}24 Jun 2019, 15:35:13
 {txt}
 {com}. 
 . 
@@ -64,9 +64,8 @@
 {txt}(39 observations deleted)
 
 {com}. 
-. save "${c -(}mainfolder{c )-}/OtherData/MPShockM.dta",replace 
-{txt}(note: file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MPShockM.dta not found)
-file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MPShockM.dta saved
+. save "${c -(}mainfolder{c )-}/OtherData/MPShocksM.dta",replace 
+{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MPShocksM.dta saved
 
 {com}. 
 . 
@@ -121,16 +120,15 @@ file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MPShockM.dta save
 {com}. label var OPShock_nm "Normalized oil price shock"
 {txt}
 {com}. 
-. save "${c -(}mainfolder{c )-}/OtherData/OPShockM.dta",replace 
-{txt}(note: file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/OPShockM.dta not found)
-file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/OPShockM.dta saved
+. save "${c -(}mainfolder{c )-}/OtherData/OPShocksM.dta",replace 
+{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/OPShocksM.dta saved
 
 {com}. 
 . **************************************
 . ***  Merge Shocks and Inflation *****
 . **************************************
 . 
-. merge 1:1 year month using "${c -(}mainfolder{c )-}/OtherData/MPShockM.dta",keep(master match)
+. merge 1:1 year month using "${c -(}mainfolder{c )-}/OtherData/MPShocksM.dta",keep(master match)
 {res}
 {txt}{col 5}Result{col 38}# of obs.
 {col 5}{hline 41}
@@ -369,21 +367,21 @@ Inf1y_CPIC~e {c |}
 {com}. format date %tm
 {txt}
 {com}. 
-. foreach var in mp1 ED4 ED8 op{c -(}
-{txt}  2{com}. tsline(`var'_shock) if `var'_shock!=., title("Shocks to Inflation(Monthly)")
-{txt}  3{com}. {c )-}
-{res}{txt}
-{com}. graph export "${c -(}mainfolder{c )-}/graphs/shocks/`var'_shock",as(png) replace 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/shocks/_shock written in PNG format)
-
-{com}. 
+. /*
+> foreach var in mp1 ED4 ED8 op{c -(}
+> tsline(`var'_shock) if `var'_shock!=., title("Shocks to Inflation(Monthly)")
+> {c )-}
+> graph export "${c -(}mainfolder{c )-}/graphs/shocks/`var'_shock",as(png) replace 
+> */
 . 
-. save "${c -(}mainfolder{c )-}/OtherData/InfShockMClean.dta",replace  
-{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/InfShockMClean.dta saved
+. save "${c -(}mainfolder{c )-}/OtherData/InfShocksMClean.dta",replace
+{txt}(note: file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/InfShocksMClean.dta not found)
+file /Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/InfShocksMClean.dta saved
 
-{com}. rm "${c -(}mainfolder{c )-}/OtherData/MPShockM.dta"
+{com}.   
+. rm "${c -(}mainfolder{c )-}/OtherData/MPShocksM.dta"
 {txt}
-{com}. rm "${c -(}mainfolder{c )-}/OtherData/OPShockM.dta"
+{com}. rm "${c -(}mainfolder{c )-}/OtherData/OPShocksM.dta"
 {txt}
 {com}. 
 . 
@@ -668,4 +666,29 @@ Inf1y_CPIC~e {c |}
 {com}. 
 {txt}end of do-file
 
+{com}. clear
+
+. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD25495.000000"
+{txt}
+{com}. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
 {com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

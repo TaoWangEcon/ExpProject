@@ -21,11 +21,9 @@ duplicates report year month userid
 
 rename userid ID 
 
-/* !!!! Need to generate a Monlty version of InfShocksClean.dta" 
-merge m:1 year month using "${mainfolder}/OtherData/InfShocksCleanM.dta",keep(match using master)
-rename _merge infshocks_merge
-*/
 
+merge m:1 year month using "${mainfolder}/OtherData/InfShocksMClean.dta",keep(match using master)
+rename _merge infshocks_merge
 
 
 *******************************
@@ -40,7 +38,7 @@ sort ID year month
 **  Summary Statistics of SCE **
 *******************************
 
-tabstat ID,s(count) by(date) column(statistics)
+*tabstat ID,s(count) by(date) column(statistics)
 
 ******************************
 *** Computing some measures **
@@ -49,35 +47,13 @@ tabstat ID,s(count) by(date) column(statistics)
 gen SCE_FE = Q9_mean - Inf1y_CPIAU
 label var SCE_FE "1-yr-ahead forecast error(SCE)"
 
-
-gen SPFCPI_FE0 = CPI1y - Inf1y_CPIAU
-label var SPFCPI_FE0 "1-yr nowcasting error(SPF CPI)"
-gen SPFCCPI_FE0 = CORECPI1y - Inf1y_CPICore
-label var SPFCPI_FE0 "1-yr nowcasting error(SPF core CPI)"
-gen SPFPCE_FE0 = PCE1y - Inf1y_PCE
-label var SPFPCE_FE "1-yr nowcasting error (SPF PCE)"
-
-
 *****************************************
 ****  Renaming so that more consistent **
 *****************************************
 
+rename Q9_mean SCE_Mean
+rename Q9_var SCE_Var
 
-rename CPI1y SPFCPI_Mean
-rename PCE1y SPFPCE_Mean
-rename COREPCE1y SPFCPCE_Mean
-rename CORECPI1y SPFCCPI_Mean
-
-rename PRCCPIMean0 SPFCPI_Mean0
-rename PRCPCEMean0 SPFPCE_Mean0
-
-rename PRCPCEVar1 SPFPCE_Var
-rename PRCCPIVar1 SPFCPI_Var
-rename PRCPCEVar0 SPFPCE_Var0
-rename PRCCPIVar0 SPFCPI_Var0
-
-rename SPFCPI_FE SPFCPI_FE
-rename SPFPCE_FE SPFPCE_FE
 
 *******************************
 **  Generate Variables       **
@@ -97,6 +73,7 @@ gen InfExp_FE_ch = .
 gen InfExp_Mean0 = .
 gen InfExp_Var0 = .
 
+
 ************************************************
 ** Auto Regression of the Individual Moments  **
 ************************************************
@@ -104,19 +81,17 @@ gen InfExp_Var0 = .
 eststo clear
 
 foreach mom in Mean FE Var{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
     replace InfExp_`mom' = `var'_`mom'
-	xtset ID dateQ
+	xtset ID date
     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
 
-	eststo `var'_`mom'lvl: reg InfExp_`mom' l(3/5).InfExp_`mom', vce(cluster dateQ)
-    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(3/5).InfExp_`mom'_ch, vce(cluster dateQ)
+	eststo `var'_`mom'lvl: reg InfExp_`mom' l(3/5).InfExp_`mom', vce(cluster date)
+    eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(3/5).InfExp_`mom'_ch, vce(cluster date)
   }
 }
-esttab using "${sum_table_folder}/ind/autoregSPFIndQ.csv", mtitles se  r2 replace
+esttab using "${sum_table_folder}/ind/autoregSCEIndM.csv", mtitles se  r2 replace
 eststo clear
-
-
 
 *******************************
 *** Unbiasedness Test        **
@@ -124,7 +99,7 @@ eststo clear
 eststo clear
 
 foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
       ttest `var'_`mom'=0
 }
 }
@@ -136,18 +111,23 @@ foreach mom in FE{
 eststo clear
 
 foreach mom in FE{
-   foreach var in SPFCPI SPFPCE{
+   foreach var in SCE{
    replace InfExp_Mean = `var'_Mean
    replace InfExp_`mom' = `var'_`mom'
    eststo `var'_`mom'_bias: reg InfExp_`mom',robust 
-   eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
-   eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom',robust
-   eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
+   eststo `var'_`mom'_lag1: reg  InfExp_`mom' l(1/3).InfExp_Mean, robust
+   eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4/7).InfExp_Mean, robust
+   eststo `var'_`mom'_lag8: reg  InfExp_`mom' l(8/11).InfExp_Mean, robust
+   eststo `var'_`mom'_arlag1: reg InfExp_`mom' l(1/3).InfExp_`mom',robust
+   eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4/7).InfExp_`mom',robust
+   eststo `var'_`mom'_arlag8: reg  InfExp_`mom' l(8/11).InfExp_`mom', robust
 
  }
 }
-esttab using "${sum_table_folder}/ind/FEEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(N r2) replace
+esttab using "${sum_table_folder}/ind/FEEfficiencySCEIndM.csv", mtitles se(%8.3f) scalars(N r2) replace
 
+
+** Does not work for SCE 
 ***************************************************
 *** Revision Efficiency Test Using Mean Revision **
 ***************************************************
@@ -163,7 +143,7 @@ foreach mom in Var{
 
 eststo clear
 
-foreach var in SPFCPI SPFPCE{
+foreach var in SCE{
   foreach mom in Mean{
      replace InfExp_`mom' = `var'_`mom'
 	 replace InfExp_`mom'0 = `var'_`mom'0
@@ -183,7 +163,7 @@ foreach var in SPFCPI SPFPCE{
 }
 
 
-foreach var in SPFCPI SPFPCE{
+foreach var in SCE{
   foreach mom in Var{
      replace InfExp_`mom' = `var'_`mom'
 	 replace InfExp_`mom'0 = `var'_`mom'0
@@ -275,7 +255,6 @@ foreach mom in FE{
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_mpshocks", as(png) replace
    
 }
-
 
 
 ****************************************************************

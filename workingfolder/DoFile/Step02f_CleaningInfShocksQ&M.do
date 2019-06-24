@@ -55,7 +55,7 @@ rename `var'M `var'
 
 duplicates drop year month,force 
 
-save "${mainfolder}/OtherData/MPShockM.dta",replace 
+save "${mainfolder}/OtherData/MPShocksM.dta",replace 
 
 
 *************************
@@ -88,13 +88,13 @@ egen OPShock_sd =sd(OPShock)
 gen OPShock_nm = OPShock/OPShock_sd
 label var OPShock_nm "Normalized oil price shock"
 
-save "${mainfolder}/OtherData/OPShockM.dta",replace 
+save "${mainfolder}/OtherData/OPShocksM.dta",replace 
 
 **************************************
 ***  Merge Shocks and Inflation *****
 **************************************
 
-merge 1:1 year month using "${mainfolder}/OtherData/MPShockM.dta",keep(master match)
+merge 1:1 year month using "${mainfolder}/OtherData/MPShocksM.dta",keep(master match)
 rename _merge MPshock_merge
 
 
@@ -167,10 +167,10 @@ tsline(`var'_shock) if `var'_shock!=., title("Shocks to Inflation(Monthly)")
 graph export "${mainfolder}/graphs/shocks/`var'_shock",as(png) replace 
 */
 
-save "${mainfolder}/OtherData/InfShockMClean.dta",replace
+save "${mainfolder}/OtherData/InfShocksMClean.dta",replace
   
-rm "${mainfolder}/OtherData/MPShockM.dta"
-rm "${mainfolder}/OtherData/OPShockM.dta"
+rm "${mainfolder}/OtherData/MPShocksM.dta"
+rm "${mainfolder}/OtherData/OPShocksM.dta"
 
 
 ***********************************************
