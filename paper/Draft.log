@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  25 JUN 2019 00:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  25 JUN 2019 00:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -312,9 +312,9 @@ File: figures/ir_popseni.png Graphic file (type png)
 
 <use figures/ir_popseni.png>
 Package pdftex.def Info: figures/ir_popseni.png used on input line 384.
-(pdftex.def)             Requested size: 398.33858pt x 248.95683pt.
+(pdftex.def)             Requested size: 426.79134pt x 266.74419pt.
 
-Overfull \hbox (53.33858pt too wide) in paragraph at lines 384--385
+Overfull \hbox (81.79134pt too wide) in paragraph at lines 384--385
  [][] 
  []
 

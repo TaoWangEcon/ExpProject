@@ -1,6 +1,6 @@
 *******************************************************************************
 ** This do file cleans the density/moment estimats of individual SPF 
-** InfExpSPFDstIndQ.dta. 
+** InfExpSPFDstIndQ.dta and saves a clean version of it for Individual SPF analysis.
 ** And then it generates the population moments from SPF. InfExpSPFDstPopQ.dta.
 ** This data is quarterly. So one may need to convert SCE to quarterly for a 
 ** comparison of the two. 
@@ -51,6 +51,21 @@ putexcel set "${sum_table_folder}/InfExpSPFDstSum.xlsx", modify
 putexcel B2 = matrix(T), sheet("data_winsored") 
 
 
+** table 3
+
+foreach var in `Moments'{
+    tabstat `var' if `var'!=., st(mean median p1 p99) by(year) save
+	return list
+	mat All = r(Stat1)'
+	matlist All
+	foreach i of numlist 2/13{
+	  matrix All = All\r(Stat`i')'
+	}
+	matlist All
+	putexcel set "${sum_table_folder}/InfExpSPFDstSum.xlsx", modify 
+	putexcel B2 = matrix(All), sheet("`var'") 
+}
+
 
 *******************************
 **  Set Panel Data Structure **
@@ -68,6 +83,10 @@ sort ID dateQ
 drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
 
 
+*** Save individual data afterwinsorization 
+
+save InfExpSPFDstIndQClean,replace 
+ddd
 ******************************
 **   Moments of Moments   ****
 ******************************
@@ -258,6 +277,9 @@ foreach mom in Var{
 }
 */
 
+** make quarterly individual data 
+
+
 ** These are moments of moments 
 local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 /// 
               PRCCPIVar0p25 PRCCPIVar1p25 PRCPCEVar0p25 PRCPCEVar1p25 ///
@@ -269,8 +291,10 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
 local Momentsrv PRCPCEMeanl1 PRCPCEMeanf0 PRCPCEVarl1  PRCPCEVarf0 ///
                 PRCCPIMeanl1 PRCCPIMeanf0 PRCCPIVarl1  PRCCPIVarf0 ///
                 PRCCPIMean_rv PRCPCEMean_rv PRCCPIVar_rv  PRCPCEVar_rv
-
-** quarterly population data 
+				
+				
+				
+** make quarterly population data 
 preserve 
 collapse (mean) `Moments' `MomentsMom' `Momentsrv', by(date year quarter) 
 

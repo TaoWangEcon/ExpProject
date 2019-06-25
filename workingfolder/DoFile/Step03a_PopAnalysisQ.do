@@ -417,7 +417,7 @@ foreach mom in FE{
 }
 }
 
-*/
+
 
 **********************************************
 *** Revision Efficiency Test Using FE       **
@@ -438,11 +438,11 @@ foreach mom in FE{
  }
 }
 esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
+*/
 
-/*
-**********************************************
+***************************************************
 *** Revision Efficiency Test Using Mean Revision **
-**********************************************
+***************************************************
 
 
 foreach mom in Var{
@@ -460,16 +460,16 @@ foreach var in SPFCPI SPFPCE{
      replace InfExp_`mom'f0 = `var'_`mom'f0
      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
 	 test _b[InfExp_`mom']=1
-	  scalar pvtest= r(p)
-	 estadd scalar pvtest
+	  scalar btestpv= r(p)
+	 estadd scalar btestpv
 	 eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
 	 test _b[InfExp_`mom']=1
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+	 scalar btestpv= r(p)
+	 estadd scalar btestpv
 	 eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
      test _b[InfExp_`mom']=1
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+	 scalar btestpv= r(p)
+	 estadd scalar btestpv
  }
 }
 
@@ -480,20 +480,20 @@ foreach var in SPFCPI SPFPCE{
 	 replace InfExp_`mom'f0 = `var'_`mom'f0
      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
 	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+	 scalar btestpv= r(p)
+	 estadd scalar btestpv
 	 eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
 	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+	 scalar btestpv= r(p)
+	 estadd scalar btestpv
 	 eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
 	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+	 scalar btestpv= r(p)
+	 estadd scalar btestpv
  }
 }
 
-esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(btestpv N r2) sfmt(%8.3f %8.3f %8.3f) replace
 */
 
 

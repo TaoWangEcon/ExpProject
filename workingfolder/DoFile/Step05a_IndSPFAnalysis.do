@@ -19,12 +19,12 @@ use "${folder}/SPF/individual/InfExpSPFPointIndQ",clear
 
 duplicates report year quarter ID 
 
-merge 1:1 year quarter ID using "${folder}/SPF/individual/InfExpSPFDstIndQ.dta"
+merge 1:1 year quarter ID using "${folder}/SPF/individual/InfExpSPFDstIndQClean.dta"
 
 rename _merge SPFDst_merge
 table year if SPFDst_merge ==3
 
-merge m:1 year quarter using "${mainfolder}/OtherData/InfShocksClean.dta",keep(match using master)
+merge m:1 year quarter using "${mainfolder}/OtherData/InfShocksQClean.dta",keep(match using master)
 rename _merge infshocks_merge
 
 
@@ -43,7 +43,6 @@ drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
 *******************************
 
 tabstat ID,s(count) by(dateQ) column(statistics)
-
 
 ******************************
 *** Computing some measures **
@@ -86,6 +85,10 @@ rename PRCCPIVar0 SPFCPI_Var0
 rename SPFCPI_FE SPFCPI_FE
 rename SPFPCE_FE SPFPCE_FE
 
+
+rename CPI_ct50 SPFCPI_ct50
+rename PCE_ct50 SPFPCE_ct50
+
 *******************************
 **  Generate Variables       **
 *******************************
@@ -95,7 +98,6 @@ gen InfExp_Var = .
 gen InfExp_FE = .
 *gen InfExp_Disg = . 
 
-
 gen InfExp_Mean_ch = .
 gen InfExp_Var_ch = .
 gen InfExp_FE_ch = .
@@ -103,6 +105,11 @@ gen InfExp_FE_ch = .
 
 gen InfExp_Mean0 = .
 gen InfExp_Var0 = .
+
+
+gen InfExp_Mean_rv = .
+gen InfExp_Var_rv = .
+
 
 ************************************************
 ** Auto Regression of the Individual Moments  **
@@ -122,7 +129,6 @@ foreach mom in Mean FE Var{
 }
 esttab using "${sum_table_folder}/ind/autoregSPFIndQ.csv", mtitles se  r2 replace
 eststo clear
-
 
 
 *******************************
@@ -159,57 +165,96 @@ esttab using "${sum_table_folder}/ind/FEEfficiencySPFIndQ.csv", mtitles se(%8.3f
 *** Revision Efficiency Test Using Mean Revision **
 ***************************************************
 
-/*
-foreach mom in Var{
-   foreach var in SPFCPI SPFPCE{
-    ttest `var'_`mom'_rv =0
- }
-}
-*/
 
+***********************************************************
+** Create some deviation measures from population median **
+***********************************************************
+eststo clear
+
+foreach mom in Mean{
+  foreach var in SPFCPI SPFPCE{
+  gen `var'_dv = `var'_Mean-`var'_ct50
+  label var `var'_dv "Deviation from median forecast"
+  }
+}
 
 eststo clear
 
 foreach var in SPFCPI SPFPCE{
   foreach mom in Mean{
+     replace InfExp_`mom'_rv =  `var'_`mom'0 - l1.`var'_`mom'
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date)
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+	 eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+	 eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+ }
+}
+
+foreach var in SPFCPI SPFPCE{
+  foreach mom in Var{
+     replace InfExp_`mom'_rv =  `var'_`mom'0 - l1.`var'_`mom'
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date) 
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv, vce(cluster date) 
+	 eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv, vce(cluster date) 
+	 eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv, vce(cluster date)
+ }
+}
+
+esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+
+
+/*
+*****************************************
+***  Revesion Efficiency test on level **
+*****************************************
+
+eststo clear
+
+
+foreach var in SPFCPI SPFPCE{
+  foreach mom in Mean{
      replace InfExp_`mom' = `var'_`mom'
 	 replace InfExp_`mom'0 = `var'_`mom'0
-     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
-	 test _b[l1.InfExp_`mom']=1
-	  scalar pvtest= r(p)
-	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom' l1.`var'_ct50, vce(cluster date)
 	 test _b[l1.InfExp_`mom']=1
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
-     test _b[l1.InfExp_`mom']=1
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom' l(1/2).`var'_ct50, vce(cluster date)
+	 test _b[l1.InfExp_`mom']+_b[l2.InfExp_`mom']=1
+	 scalar pvtest= r(p)
+	 estadd scalar pvtest
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom' l(1/3).`var'_ct50, vce(cluster date)
+     test _b[l1.InfExp_`mom']+_b[l2.InfExp_`mom']+_b[l3.InfExp_`mom']=1
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
  }
 }
+*/
 
 
+/*
 foreach var in SPFCPI SPFPCE{
   foreach mom in Var{
      replace InfExp_`mom' = `var'_`mom'
 	 replace InfExp_`mom'0 = `var'_`mom'0
-     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom', vce(cluster date)
 	 test _b[_cons]=0
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
+	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom', vce(cluster date)
 	 test _b[_cons]=0
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
+	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom', vce(cluster date)
 	 test _b[_cons]=0
 	 scalar pvtest= r(p)
 	 estadd scalar pvtest
  }
 }
+*/
+esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ_lvl.csv", mtitles se(%8.3f) scalars(pvtest N r2) sfmt(%8.3f %8.3f %8.3f) replace
 
-esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+
 
 /*
 ******************************************************

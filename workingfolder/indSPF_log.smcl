@@ -1,9 +1,9 @@
 {smcl}
 {com}{sf}{ul off}{txt}{.-}
       name:  {res}<unnamed>
-       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/ind_log.smcl
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/indSPF_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 12:28:19
+ {txt}opened on:  {res}25 Jun 2019, 12:43:27
 {txt}
 {com}. 
 . 
@@ -25,7 +25,7 @@
 {txt}{hline 10}{c BT}{hline 27}
 
 {com}. 
-. merge 1:1 year quarter ID using "${c -(}folder{c )-}/SPF/individual/InfExpSPFDstIndQ.dta"
+. merge 1:1 year quarter ID using "${c -(}folder{c )-}/SPF/individual/InfExpSPFDstIndQClean.dta"
 {res}{txt}{p 0 7 2}
 (note: variable
 year was 
@@ -75,7 +75,7 @@ int, now double to accommodate using data's values)
 {txt}{hline 10}{c BT}{hline 11}
 
 {com}. 
-. merge m:1 year quarter using "${c -(}mainfolder{c )-}/OtherData/InfShocksClean.dta",keep(match using master)
+. merge m:1 year quarter using "${c -(}mainfolder{c )-}/OtherData/InfShocksQClean.dta",keep(match using master)
 {res}{txt}{p 0 7 2}
 (note: variable
 month was 
@@ -735,7 +735,6 @@ float, now double to accommodate using data's values)
 {txt}{hline 10}{c BT}{hline 10}
 
 {com}. 
-. 
 . ******************************
 . *** Computing some measures **
 . ******************************
@@ -809,6 +808,12 @@ float, now double to accommodate using data's values)
 {res}{txt}  (all {it:newnames}=={it:oldnames})
 
 {com}. 
+. 
+. rename CPI_ct50 SPFCPI_ct50
+{res}{txt}
+{com}. rename PCE_ct50 SPFPCE_ct50
+{res}{txt}
+{com}. 
 . *******************************
 . **  Generate Variables       **
 . *******************************
@@ -823,7 +828,6 @@ float, now double to accommodate using data's values)
 {txt}(8172 missing values generated)
 
 {com}. *gen InfExp_Disg = . 
-. 
 . 
 . gen InfExp_Mean_ch = .
 {txt}(8172 missing values generated)
@@ -843,6 +847,15 @@ float, now double to accommodate using data's values)
 {txt}(8172 missing values generated)
 
 {com}. 
+. 
+. gen InfExp_Mean_rv = .
+{txt}(8172 missing values generated)
+
+{com}. gen InfExp_Var_rv = .
+{txt}(8172 missing values generated)
+
+{com}. 
+. 
 . ************************************************
 . ** Auto Regression of the Individual Moments  **
 . ************************************************
@@ -1032,17 +1045,17 @@ InfExp_FE_ch {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .0459795{col 26}{space 2}  .083941{col 37}{space 1}    0.55{col 46}{space 3}0.587{col 54}{space 4}-.1235428{col 67}{space 3} .2155018
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(1604 real changes made)
+{res}{txt}(1573 real changes made)
 {res}{txt}{col 8}panel variable:  {res}ID (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dateQ, 1968q4 to 2019q1, but with gaps
 {txt}{col 17}delta:  {res}1 quarter
-{txt}(1236 real changes made)
+{txt}(1202 real changes made)
 
-Linear regression                                      Number of obs ={res}     724
-                                                       {txt}F(  3,    43) ={res}    0.26
-                                                       {txt}Prob > F      = {res} 0.8549
-                                                       {txt}R-squared     = {res} 0.0008
-                                                       {txt}Root MSE      = {res}  15780
+Linear regression                                      Number of obs ={res}     691
+                                                       {txt}F(  3,    43) ={res}   26.51
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.3499
+                                                       {txt}Root MSE      = {res} .14044
 
 {txt}{ralign 78:(Std. Err. adjusted for {res:44} clusters in dateQ)}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -1050,18 +1063,18 @@ Linear regression                                      Number of obs ={res}     
 {col 1}  InfExp_Var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 2}InfExp_Var {c |}
-{space 9}L3. {c |}{col 14}{res}{space 2}-10.75728{col 26}{space 2} 13.84827{col 37}{space 1}   -0.78{col 46}{space 3}0.442{col 54}{space 4}-38.68497{col 67}{space 3} 17.17041
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} 19.60226{col 26}{space 2} 22.35555{col 37}{space 1}    0.88{col 46}{space 3}0.385{col 54}{space 4}  -25.482{col 67}{space 3} 64.68653
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-15.28533{col 26}{space 2} 19.14477{col 37}{space 1}   -0.80{col 46}{space 3}0.429{col 54}{space 4}-53.89444{col 67}{space 3} 23.32377
+{space 9}L3. {c |}{col 14}{res}{space 2} .1781005{col 26}{space 2}  .148698{col 37}{space 1}    1.20{col 46}{space 3}0.238{col 54}{space 4}-.1217777{col 67}{space 3} .4779787
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}   .20126{col 26}{space 2} .1228116{col 37}{space 1}    1.64{col 46}{space 3}0.109{col 54}{space 4}-.0464132{col 67}{space 3} .4489332
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .3060968{col 26}{space 2} .1067157{col 37}{space 1}    2.87{col 46}{space 3}0.006{col 54}{space 4}  .090884{col 67}{space 3} .5213096
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-597.3013{col 26}{space 2} 598.1321{col 37}{space 1}   -1.00{col 46}{space 3}0.324{col 54}{space 4} -1803.55{col 67}{space 3}  608.947
+{space 7}_cons {c |}{col 14}{res}{space 2} .0233525{col 26}{space 2} .0044409{col 37}{space 1}    5.26{col 46}{space 3}0.000{col 54}{space 4} .0143966{col 67}{space 3} .0323084
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}     520
-                                                       {txt}F(  3,    42) ={res}    1.47
-                                                       {txt}Prob > F      = {res} 0.2363
-                                                       {txt}R-squared     = {res} 0.0000
-                                                       {txt}Root MSE      = {res}  .1847
+{txt}Linear regression                                      Number of obs ={res}     494
+                                                       {txt}F(  3,    42) ={res}    0.49
+                                                       {txt}Prob > F      = {res} 0.6904
+                                                       {txt}R-squared     = {res} 0.0311
+                                                       {txt}Root MSE      = {res} .13133
 
 {txt}{ralign 79:(Std. Err. adjusted for {res:43} clusters in dateQ)}
 {hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -1069,23 +1082,23 @@ Linear regression                                      Number of obs ={res}     
 {col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
 {hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Var_ch {c |}
-{space 10}L3. {c |}{col 15}{res}{space 2} .0000155{col 27}{space 2} .0000184{col 38}{space 1}    0.85{col 47}{space 3}0.402{col 55}{space 4}-.0000215{col 68}{space 3} .0000526
-{txt}{space 10}L4. {c |}{col 15}{res}{space 2} 5.17e-06{col 27}{space 2} 6.47e-06{col 38}{space 1}    0.80{col 47}{space 3}0.429{col 55}{space 4}-7.89e-06{col 68}{space 3} .0000182
-{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.0000217{col 27}{space 2} .0000208{col 38}{space 1}   -1.04{col 47}{space 3}0.303{col 55}{space 4}-.0000637{col 68}{space 3} .0000203
+{space 10}L3. {c |}{col 15}{res}{space 2}-.1648488{col 27}{space 2} .1530778{col 38}{space 1}   -1.08{col 47}{space 3}0.288{col 55}{space 4}-.4737723{col 68}{space 3} .1440747
+{txt}{space 10}L4. {c |}{col 15}{res}{space 2}-.1978427{col 27}{space 2}  .248283{col 38}{space 1}   -0.80{col 47}{space 3}0.430{col 55}{space 4} -.698898{col 68}{space 3} .3032127
+{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.1407546{col 27}{space 2} .1327957{col 38}{space 1}   -1.06{col 47}{space 3}0.295{col 55}{space 4}-.4087471{col 68}{space 3} .1272379
 {txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.0032544{col 27}{space 2}  .008313{col 38}{space 1}   -0.39{col 47}{space 3}0.697{col 55}{space 4}-.0200307{col 68}{space 3}  .013522
+{space 8}_cons {c |}{col 15}{res}{space 2} .0009278{col 27}{space 2} .0046504{col 38}{space 1}    0.20{col 47}{space 3}0.843{col 55}{space 4}-.0084571{col 68}{space 3} .0103128
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}(1356 real changes made, 263 to missing)
+{res}{txt}(1341 real changes made, 268 to missing)
 {res}{txt}{col 8}panel variable:  {res}ID (unbalanced)
 {txt}{col 9}time variable:  {res}{col 25}dateQ, 1968q4 to 2019q1, but with gaps
 {txt}{col 17}delta:  {res}1 quarter
-{txt}(1102 real changes made, 258 to missing)
+{txt}(1082 real changes made, 256 to missing)
 
-Linear regression                                      Number of obs ={res}     604
-                                                       {txt}F(  3,    43) ={res}    4.17
-                                                       {txt}Prob > F      = {res} 0.0111
-                                                       {txt}R-squared     = {res} 0.0002
-                                                       {txt}Root MSE      = {res} 55.121
+Linear regression                                      Number of obs ={res}     576
+                                                       {txt}F(  3,    43) ={res}  123.40
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.6856
+                                                       {txt}Root MSE      = {res} .10232
 
 {txt}{ralign 78:(Std. Err. adjusted for {res:44} clusters in dateQ)}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -1093,18 +1106,18 @@ Linear regression                                      Number of obs ={res}     
 {col 1}  InfExp_Var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 2}InfExp_Var {c |}
-{space 9}L3. {c |}{col 14}{res}{space 2}-.0000192{col 26}{space 2} .0000124{col 37}{space 1}   -1.54{col 46}{space 3}0.130{col 54}{space 4}-.0000442{col 67}{space 3} 5.88e-06
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} 2.853177{col 26}{space 2}  2.20432{col 37}{space 1}    1.29{col 46}{space 3}0.202{col 54}{space 4}-1.592258{col 67}{space 3} 7.298611
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}   1.4856{col 26}{space 2} 1.469839{col 37}{space 1}    1.01{col 46}{space 3}0.318{col 54}{space 4}-1.478613{col 67}{space 3} 4.449814
+{space 9}L3. {c |}{col 14}{res}{space 2} .2558945{col 26}{space 2} .1371695{col 37}{space 1}    1.87{col 46}{space 3}0.069{col 54}{space 4}-.0207341{col 67}{space 3} .5325231
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .6065756{col 26}{space 2} .1337586{col 37}{space 1}    4.53{col 46}{space 3}0.000{col 54}{space 4} .3368258{col 67}{space 3} .8763255
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0270402{col 26}{space 2} .1017917{col 37}{space 1}    0.27{col 46}{space 3}0.792{col 54}{space 4}-.1782424{col 67}{space 3} .2323227
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-2.552768{col 26}{space 2} 2.589636{col 37}{space 1}   -0.99{col 46}{space 3}0.330{col 54}{space 4}-7.775267{col 67}{space 3}  2.66973
+{space 7}_cons {c |}{col 14}{res}{space 2} .0116681{col 26}{space 2} .0033662{col 37}{space 1}    3.47{col 46}{space 3}0.001{col 54}{space 4} .0048794{col 67}{space 3} .0184567
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}     406
-                                                       {txt}F(  3,    42) ={res}    1.78
-                                                       {txt}Prob > F      = {res} 0.1666
-                                                       {txt}R-squared     = {res} 0.0921
-                                                       {txt}Root MSE      = {res} .15326
+{txt}Linear regression                                      Number of obs ={res}     384
+                                                       {txt}F(  3,    42) ={res}    3.67
+                                                       {txt}Prob > F      = {res} 0.0196
+                                                       {txt}R-squared     = {res} 0.3731
+                                                       {txt}Root MSE      = {res} .08853
 
 {txt}{ralign 79:(Std. Err. adjusted for {res:43} clusters in dateQ)}
 {hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
@@ -1112,11 +1125,11 @@ Linear regression                                      Number of obs ={res}     
 {col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
 {hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Var_ch {c |}
-{space 10}L3. {c |}{col 15}{res}{space 2}  .000014{col 27}{space 2} 7.33e-06{col 38}{space 1}    1.91{col 47}{space 3}0.063{col 55}{space 4}-7.84e-07{col 68}{space 3} .0000288
-{txt}{space 10}L4. {c |}{col 15}{res}{space 2} .1664586{col 27}{space 2} .3221009{col 38}{space 1}    0.52{col 47}{space 3}0.608{col 55}{space 4}-.4835673{col 68}{space 3} .8164845
-{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.2622411{col 27}{space 2} .1679965{col 38}{space 1}   -1.56{col 47}{space 3}0.126{col 55}{space 4}-.6012719{col 68}{space 3} .0767896
+{space 10}L3. {c |}{col 15}{res}{space 2}-.0000339{col 27}{space 2} .1700219{col 38}{space 1}   -0.00{col 47}{space 3}1.000{col 55}{space 4}-.3431519{col 68}{space 3} .3430841
+{txt}{space 10}L4. {c |}{col 15}{res}{space 2} .4562002{col 27}{space 2} .2046255{col 38}{space 1}    2.23{col 47}{space 3}0.031{col 55}{space 4} .0432493{col 68}{space 3} .8691512
+{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.1782493{col 27}{space 2} .1760354{col 38}{space 1}   -1.01{col 47}{space 3}0.317{col 55}{space 4}-.5335032{col 68}{space 3} .1770046
 {txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2} .0068932{col 27}{space 2} .0062073{col 38}{space 1}    1.11{col 47}{space 3}0.273{col 55}{space 4}-.0056335{col 68}{space 3}   .01942
+{space 8}_cons {c |}{col 15}{res}{space 2} .0057971{col 27}{space 2} .0044396{col 38}{space 1}    1.31{col 47}{space 3}0.199{col 55}{space 4}-.0031625{col 68}{space 3} .0147566
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. esttab using "${c -(}sum_table_folder{c )-}/ind/autoregSPFIndQ.csv", mtitles se  r2 replace
@@ -1125,7 +1138,6 @@ InfExp_Var_ch {c |}
 {com}. eststo clear
 {txt}
 {com}. 
-. 
 . 
 . *******************************
 . *** Unbiasedness Test        **
@@ -1164,51 +1176,6 @@ SPFPCE~E {c |}{res}{col 12}   1679{col 22} .2107691{col 34} .0260663{col 46} 1.0
  {txt}Pr(T < t) = {res}1.0000         {txt}Pr(|T| > |t|) = {res}0.0000          {txt}Pr(T > t) = {res}0.0000
 {txt}
 {com}. 
-. gen const=1
-{txt}
-{com}. 
-. foreach mom in FE{c -(}
-{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
-{txt}  3{com}.       eststo `var'_`mom'_bias: reg `var'_`mom' const
-{txt}  4{com}. {c )-}
-{txt}  5{com}. {c )-}
-{txt}note: const omitted because of collinearity
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    4697
-{txt}{hline 13}{char +}{hline 30}           F(  0,  4696) ={res}    0.00
-    {txt}   Model {char |} {res}          0     0           .           {txt}Prob > F      = {res}      .
-    {txt}Residual {char |} {res} 6450.82257  4696  1.37368453           {txt}R-squared     = {res} 0.0000
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0000
-    {txt}   Total {char |} {res} 6450.82257  4696  1.37368453           {txt}Root MSE      = {res}  1.172
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}   SPFCPI_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 7}const {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
-{space 7}_cons {c |}{col 14}{res}{space 2} .1216707{col 26}{space 2} .0171015{col 37}{space 1}    7.11{col 46}{space 3}0.000{col 54}{space 4} .0881438{col 67}{space 3} .1551976
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}note: const omitted because of collinearity
-
-      Source {c |}       SS       df       MS              Number of obs ={res}    1679
-{txt}{hline 13}{char +}{hline 30}           F(  0,  1678) ={res}    0.00
-    {txt}   Model {char |} {res}          0     0           .           {txt}Prob > F      = {res}      .
-    {txt}Residual {char |} {res} 1914.26649  1678  1.14080244           {txt}R-squared     = {res} 0.0000
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.0000
-    {txt}   Total {char |} {res} 1914.26649  1678  1.14080244           {txt}Root MSE      = {res} 1.0681
-
-{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1}   SPFPCE_FE{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 7}const {c |}{col 14}{res}{space 2}        0{col 26}{txt}  (omitted)
-{space 7}_cons {c |}{col 14}{res}{space 2} .2107691{col 26}{space 2} .0260663{col 37}{space 1}    8.09{col 46}{space 3}0.000{col 54}{space 4} .1596431{col 67}{space 3}  .261895
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}
-{com}. 
-. esttab using "${c -(}sum_table_folder{c )-}/ind/SPFIndBias.csv", drop(_cons) mtitles se r2 replace
-{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/SPFIndBias.csv"'})
-
-{com}. 
-. 
 . **********************************************
 . *** Revision Efficiency Test Using FE       **
 . **********************************************
@@ -1362,8 +1329,339 @@ Linear regression                                      Number of obs ={res}    1
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/FEEfficiencySPFIndQ.csv"'})
 
 {com}. 
-. dd
-{err}unrecognized command:  dd
+. ***************************************************
+. *** Revision Efficiency Test Using Mean Revision **
+. ***************************************************
+. 
+. 
+. ***********************************************************
+. ** Create some deviation measures from population median **
+. ***********************************************************
+. eststo clear
+{txt}
+{com}. 
+. foreach mom in Mean{c -(}
+{txt}  2{com}.   foreach var in SPFCPI SPFPCE{c -(}
+{txt}  3{com}.   gen `var'_dv = `var'_Mean-`var'_ct50
+{txt}  4{com}.   label var `var'_dv "Deviation from median forecast"
+{txt}  5{com}.   {c )-}
+{txt}  6{com}. {c )-}
+{txt}(3116 missing values generated)
+(6459 missing values generated)
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. foreach var in SPFCPI SPFPCE{c -(}
+{txt}  2{com}.   foreach mom in Mean{c -(}
+{txt}  3{com}.      replace InfExp_`mom'_rv =  `var'_`mom'0 - l1.`var'_`mom'
+{txt}  4{com}.          eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date)
+{txt}  5{com}.      eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+{txt}  6{com}.          eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+{txt}  7{com}.          eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv `var'_ct50, vce(cluster date)
+{txt}  8{com}.  {c )-}
+{txt}  9{com}. {c )-}
+{txt}(1337 real changes made)
+
+Linear regression                                      Number of obs ={res}    1337
+                                                       {txt}F(  0,    48) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} .86308
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:49} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Mea~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.256674{col 26}{space 2} .0445274{col 37}{space 1}  -28.22{col 46}{space 3}0.000{col 54}{space 4}-1.346203{col 67}{space 3}-1.167146
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}    1045
+                                                       {txt}F(  2,    47) ={res}  250.52
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.3349
+                                                       {txt}Root MSE      = {res}  .6979
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:48} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2}   .53873{col 28}{space 2} .0305298{col 39}{space 1}   17.65{col 48}{space 3}0.000{col 56}{space 4}  .477312{col 69}{space 3} .6001481
+{txt}{space 14} {c |}
+{space 3}SPFCPI_ct50 {c |}{col 16}{res}{space 2}-.4441147{col 28}{space 2} .1047657{col 39}{space 1}   -4.24{col 48}{space 3}0.000{col 56}{space 4}-.6548761{col 69}{space 3}-.2333532
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .3288634{col 28}{space 2} .1907303{col 39}{space 1}    1.72{col 48}{space 3}0.091{col 56}{space 4}-.0548365{col 69}{space 3} .7125632
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     822
+                                                       {txt}F(  3,    46) ={res}  130.27
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.3551
+                                                       {txt}Root MSE      = {res} .69214
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:47} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2} .4182359{col 28}{space 2}  .042999{col 39}{space 1}    9.73{col 48}{space 3}0.000{col 56}{space 4} .3316835{col 69}{space 3} .5047883
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2177217{col 28}{space 2} .0396093{col 39}{space 1}    5.50{col 48}{space 3}0.000{col 56}{space 4} .1379923{col 69}{space 3} .2974511
+{txt}{space 14} {c |}
+{space 3}SPFCPI_ct50 {c |}{col 16}{res}{space 2}-.3911071{col 28}{space 2} .1236701{col 39}{space 1}   -3.16{col 48}{space 3}0.003{col 56}{space 4}-.6400421{col 69}{space 3}-.1421722
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .3509712{col 28}{space 2} .2372332{col 39}{space 1}    1.48{col 48}{space 3}0.146{col 56}{space 4}-.1265544{col 69}{space 3} .8284969
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     652
+                                                       {txt}F(  4,    45) ={res}   82.35
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.3721
+                                                       {txt}Root MSE      = {res}  .6886
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:46} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2} .3867924{col 28}{space 2} .0522712{col 39}{space 1}    7.40{col 48}{space 3}0.000{col 56}{space 4} .2815127{col 69}{space 3}  .492072
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .1656606{col 28}{space 2} .0534033{col 39}{space 1}    3.10{col 48}{space 3}0.003{col 56}{space 4} .0581009{col 69}{space 3} .2732204
+{txt}{space 11}L3. {c |}{col 16}{res}{space 2} .1338223{col 28}{space 2} .0483538{col 39}{space 1}    2.77{col 48}{space 3}0.008{col 56}{space 4} .0364326{col 69}{space 3} .2312119
+{txt}{space 14} {c |}
+{space 3}SPFCPI_ct50 {c |}{col 16}{res}{space 2}-.4535953{col 28}{space 2} .1380975{col 39}{space 1}   -3.28{col 48}{space 3}0.002{col 56}{space 4} -.731738{col 69}{space 3}-.1754526
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .5455621{col 28}{space 2} .2692317{col 39}{space 1}    2.03{col 48}{space 3}0.049{col 56}{space 4} .0033017{col 69}{space 3} 1.087822
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}(1417 real changes made, 308 to missing)
+
+Linear regression                                      Number of obs ={res}    1111
+                                                       {txt}F(  0,    47) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} .79597
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:48} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Mea~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.095444{col 26}{space 2} .0390148{col 37}{space 1}  -28.08{col 46}{space 3}0.000{col 54}{space 4}-1.173932{col 67}{space 3}-1.016957
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     867
+                                                       {txt}F(  2,    46) ={res}  202.00
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.4085
+                                                       {txt}Root MSE      = {res} .60309
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:47} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2} .6064541{col 28}{space 2} .0338533{col 39}{space 1}   17.91{col 48}{space 3}0.000{col 56}{space 4} .5383109{col 69}{space 3} .6745974
+{txt}{space 14} {c |}
+{space 3}SPFPCE_ct50 {c |}{col 16}{res}{space 2}-.4320311{col 28}{space 2} .1093116{col 39}{space 1}   -3.95{col 48}{space 3}0.000{col 56}{space 4} -.652064{col 69}{space 3}-.2119983
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .3645596{col 28}{space 2} .1875847{col 39}{space 1}    1.94{col 48}{space 3}0.058{col 56}{space 4}-.0130288{col 69}{space 3} .7421481
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     683
+                                                       {txt}F(  3,    45) ={res}  150.12
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.4435
+                                                       {txt}Root MSE      = {res} .57627
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:46} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2} .4348013{col 28}{space 2} .0421754{col 39}{space 1}   10.31{col 48}{space 3}0.000{col 56}{space 4} .3498558{col 69}{space 3} .5197469
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2608536{col 28}{space 2} .0465215{col 39}{space 1}    5.61{col 48}{space 3}0.000{col 56}{space 4} .1671546{col 69}{space 3} .3545526
+{txt}{space 14} {c |}
+{space 3}SPFPCE_ct50 {c |}{col 16}{res}{space 2}-.4134349{col 28}{space 2} .1110816{col 39}{space 1}   -3.72{col 48}{space 3}0.001{col 56}{space 4}-.6371648{col 69}{space 3} -.189705
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .4277893{col 28}{space 2} .1906758{col 39}{space 1}    2.24{col 48}{space 3}0.030{col 56}{space 4} .0437486{col 69}{space 3} .8118299
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     549
+                                                       {txt}F(  4,    44) ={res}  108.87
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.4522
+                                                       {txt}Root MSE      = {res}  .5686
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:45} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_rv {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2} .3685224{col 28}{space 2} .0493808{col 39}{space 1}    7.46{col 48}{space 3}0.000{col 56}{space 4}  .269002{col 69}{space 3} .4680429
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2458168{col 28}{space 2} .0584193{col 39}{space 1}    4.21{col 48}{space 3}0.000{col 56}{space 4} .1280804{col 69}{space 3} .3635532
+{txt}{space 11}L3. {c |}{col 16}{res}{space 2} .1159029{col 28}{space 2} .0692972{col 39}{space 1}    1.67{col 48}{space 3}0.102{col 56}{space 4}-.0237564{col 69}{space 3} .2555622
+{txt}{space 14} {c |}
+{space 3}SPFPCE_ct50 {c |}{col 16}{res}{space 2}-.5043422{col 28}{space 2} .1375066{col 39}{space 1}   -3.67{col 48}{space 3}0.001{col 56}{space 4}-.7814686{col 69}{space 3}-.2272158
+{txt}{space 9}_cons {c |}{col 16}{res}{space 2} .6412178{col 28}{space 2} .2281376{col 39}{space 1}    2.81{col 48}{space 3}0.007{col 56}{space 4} .1814366{col 69}{space 3} 1.100999
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. foreach var in SPFCPI SPFPCE{c -(}
+{txt}  2{com}.   foreach mom in Var{c -(}
+{txt}  3{com}.      replace InfExp_`mom'_rv =  `var'_`mom'0 - l1.`var'_`mom'
+{txt}  4{com}.          eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date) 
+{txt}  5{com}.      eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv, vce(cluster date) 
+{txt}  6{com}.          eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv, vce(cluster date) 
+{txt}  7{com}.          eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv, vce(cluster date)
+{txt}  8{com}.  {c )-}
+{txt}  9{com}. {c )-}
+{txt}(1189 real changes made)
+
+Linear regression                                      Number of obs ={res}    1189
+                                                       {txt}F(  0,    47) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} .18512
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:48} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Var~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0335273{col 26}{space 2} .0049694{col 37}{space 1}   -6.75{col 46}{space 3}0.000{col 54}{space 4}-.0435245{col 67}{space 3}-.0235301
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     877
+                                                       {txt}F(  1,    46) ={res}    5.64
+                                                       {txt}Prob > F      = {res} 0.0217
+                                                       {txt}R-squared     = {res} 0.1242
+                                                       {txt}Root MSE      = {res} .11911
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:47} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .2895926{col 27}{space 2} .1218994{col 38}{space 1}    2.38{col 47}{space 3}0.022{col 55}{space 4} .0442219{col 68}{space 3} .5349632
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0108971{col 27}{space 2}  .003588{col 38}{space 1}   -3.04{col 47}{space 3}0.004{col 55}{space 4}-.0181194{col 68}{space 3}-.0036748
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     663
+                                                       {txt}F(  2,    45) ={res}   10.21
+                                                       {txt}Prob > F      = {res} 0.0002
+                                                       {txt}R-squared     = {res} 0.2837
+                                                       {txt}Root MSE      = {res} .09446
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:46} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .5292833{col 27}{space 2}  .117128{col 38}{space 1}    4.52{col 47}{space 3}0.000{col 55}{space 4} .2933754{col 68}{space 3} .7651913
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2}-.0587291{col 27}{space 2}  .125227{col 38}{space 1}   -0.47{col 47}{space 3}0.641{col 55}{space 4}-.3109492{col 68}{space 3} .1934911
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0084305{col 27}{space 2} .0034601{col 38}{space 1}   -2.44{col 47}{space 3}0.019{col 55}{space 4}-.0153994{col 68}{space 3}-.0014616
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     504
+                                                       {txt}F(  3,    44) ={res}    8.15
+                                                       {txt}Prob > F      = {res} 0.0002
+                                                       {txt}R-squared     = {res} 0.4075
+                                                       {txt}Root MSE      = {res} .07866
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:45} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .5813735{col 27}{space 2} .1453757{col 38}{space 1}    4.00{col 47}{space 3}0.000{col 55}{space 4} .2883881{col 68}{space 3}  .874359
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2} -.209009{col 27}{space 2} .1274407{col 38}{space 1}   -1.64{col 47}{space 3}0.108{col 55}{space 4}-.4658488{col 68}{space 3} .0478308
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2} .3525332{col 27}{space 2} .1211523{col 38}{space 1}    2.91{col 47}{space 3}0.006{col 55}{space 4} .1083667{col 68}{space 3} .5966996
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0053383{col 27}{space 2} .0039975{col 38}{space 1}   -1.34{col 47}{space 3}0.189{col 55}{space 4}-.0133948{col 68}{space 3} .0027182
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}(1199 real changes made, 258 to missing)
+
+Linear regression                                      Number of obs ={res}    1082
+                                                       {txt}F(  0,    47) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} .17386
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:48} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Var~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0386895{col 26}{space 2} .0055218{col 37}{space 1}   -7.01{col 46}{space 3}0.000{col 54}{space 4} -.049798{col 67}{space 3}-.0275811
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     801
+                                                       {txt}F(  1,    46) ={res}   52.65
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.3532
+                                                       {txt}Root MSE      = {res} .14066
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:47} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .5770089{col 27}{space 2} .0795219{col 38}{space 1}    7.26{col 47}{space 3}0.000{col 55}{space 4} .4169397{col 68}{space 3} .7370782
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0187872{col 27}{space 2} .0063737{col 38}{space 1}   -2.95{col 47}{space 3}0.005{col 55}{space 4}-.0316167{col 68}{space 3}-.0059577
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     604
+                                                       {txt}F(  2,    45) ={res}   49.86
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.5831
+                                                       {txt}Root MSE      = {res} .11815
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:46} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2} .4771173{col 27}{space 2} .1298426{col 38}{space 1}    3.67{col 47}{space 3}0.001{col 55}{space 4} .2156009{col 68}{space 3} .7386336
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .3602304{col 27}{space 2} .1429591{col 38}{space 1}    2.52{col 47}{space 3}0.015{col 55}{space 4}  .072296{col 68}{space 3} .6481648
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0101987{col 27}{space 2} .0034285{col 38}{space 1}   -2.97{col 47}{space 3}0.005{col 55}{space 4}-.0171042{col 68}{space 3}-.0032933
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}     458
+                                                       {txt}F(  3,    44) ={res}   33.55
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.7232
+                                                       {txt}Root MSE      = {res} .09958
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:45} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_rv {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2}  .343767{col 27}{space 2} .1481177{col 38}{space 1}    2.32{col 47}{space 3}0.025{col 55}{space 4} .0452555{col 68}{space 3} .6422786
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .2047146{col 27}{space 2} .0982414{col 38}{space 1}    2.08{col 47}{space 3}0.043{col 55}{space 4} .0067221{col 68}{space 3}  .402707
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2} .3901984{col 27}{space 2} .1485954{col 38}{space 1}    2.63{col 47}{space 3}0.012{col 55}{space 4} .0907241{col 68}{space 3} .6896727
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-.0074135{col 27}{space 2} .0027771{col 38}{space 1}   -2.67{col 47}{space 3}0.011{col 55}{space 4}-.0130104{col 68}{space 3}-.0018167
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. esttab using "${c -(}sum_table_folder{c )-}/ind/RVEfficiencySPFIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/RVEfficiencySPFIndQ.csv"'})
+
+{com}. ddd
+{err}unrecognized command:  ddd
 {txt}{search r(199):r(199);}
 
 end of do-file
@@ -1372,27 +1670,6 @@ end of do-file
 
 {com}. clear
 
-. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step05b_IndSCEAnalysis.do"
-{txt}
-{com}. clear
-{txt}
-{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
-{txt}
-{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
-{txt}
-{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
-{txt}
-{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
-{txt}
-{com}. 
-. cd ${c -(}folder{c )-}
-{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
-{txt}
-{com}. pwd
-{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
-{txt}
-{com}. set more off 
-{txt}
-{com}. capture log close
-{smcl}
-{com}{sf}{ul off}
+. clear
+
+. 
