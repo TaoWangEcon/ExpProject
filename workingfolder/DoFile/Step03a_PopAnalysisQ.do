@@ -494,6 +494,8 @@ foreach var in SPFCPI SPFPCE{
 }
 
 esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+*/
+
 
 save "${folder}/InfExpQ.dta",replace 
 

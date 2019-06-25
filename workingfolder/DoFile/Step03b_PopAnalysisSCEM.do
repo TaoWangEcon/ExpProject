@@ -527,8 +527,9 @@ foreach var in SCE{
 }
 
 esttab using "${sum_table_folder}/RVEfficiencySCEM.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+*/
 
 save "${folder}/InfExpM.dta",replace 
-*/
+
 
 log close 

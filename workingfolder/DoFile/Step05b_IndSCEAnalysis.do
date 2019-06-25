@@ -21,7 +21,6 @@ duplicates report year month userid
 
 rename userid ID 
 
-
 merge m:1 year month using "${mainfolder}/OtherData/InfShocksMClean.dta",keep(match using master)
 rename _merge infshocks_merge
 

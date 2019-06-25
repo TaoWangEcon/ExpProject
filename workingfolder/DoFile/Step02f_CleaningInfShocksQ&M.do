@@ -30,7 +30,7 @@ log using "${mainfolder}/irf_log",replace
 * Generate monthly inflation shock data   *
 *******************************************
 
-import excel "${mainfolder}/OtherData/2MPShocksJW.xls", sheet("data") firstrow clear
+import excel "${mainfolder}/OtherData/2MPShocksJW.xls", sheet("data") firstrow allstring clear
 
 gen date = daily(Date,"MDY")
 drop Date
@@ -39,8 +39,10 @@ gen month = month(date)
 gen date_str=string(year)+"M"+string(month)
 gen dateM = monthly(date_str,"YM")
 
+
 rename date dateD
 rename dateM date
+format date %tm
 
 keep year month date dateD MP1 ED4 ED8
 sort date dateD year month MP1 ED4 ED8
@@ -54,6 +56,23 @@ rename `var'M `var'
 }
 
 duplicates drop year month,force 
+
+** Complete all months in the sameple since MP shocks are only recorded for some months
+
+tsset date 
+
+tsfill
+replace year = yofd(dofm(date))
+replace month = month(dofm(date))
+
+sort date
+
+foreach var in MP1 ED4 ED8{
+   replace `var'=0 if `var'==.
+}
+
+
+duplicates report date 
 
 save "${mainfolder}/OtherData/MPShocksM.dta",replace 
 
@@ -82,11 +101,13 @@ rename dateM date
 tsset date
 format date %tm
 
-** Normorlize MP shcoks
+** Normalize Oil shock
 
-egen OPShock_sd =sd(OPShock)
-gen OPShock_nm = OPShock/OPShock_sd
-label var OPShock_nm "Normalized oil price shock"
+egen OPShock_sd = sd(OPShock)
+gen OPShock_nom = OPShock/OPShock_sd
+label var OPShock_nom "Oil price shock(normalized)"
+
+
 
 save "${mainfolder}/OtherData/OPShocksM.dta",replace 
 
@@ -99,13 +120,13 @@ rename _merge MPshock_merge
 
 
 * Merge with inflation 
-merge 1:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master)
+merge 1:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master using)
 rename _merge InfM_merge 
 
 
 ** Label and rename
 
-rename OPShock_nm op_shock 
+rename OPShock_nom op_shock 
 label var op_shock "Oil price shock (Hamilton 1996)"
 rename MP1 mp1_shock
 label var mp1_shock "Unexpected change in federal funds rate"
