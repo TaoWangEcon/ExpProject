@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  24 JUN 2019 23:30
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  25 JUN 2019 00:34
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -563,42 +563,42 @@ LaTeX Warning: No positions in optional float specifier.
 File: figures/CPIAU_ashocks_nmp.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmp.png>
-Package pdftex.def Info: figures/CPIAU_ashocks_nmp.png used on input line 554.
+Package pdftex.def Info: figures/CPIAU_ashocks_nmp.png used on input line 593.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/CPIAU_ashocks.png, id=83, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocks.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks.png>
-Package pdftex.def Info: figures/CPIAU_ashocks.png used on input line 555.
+Package pdftex.def Info: figures/CPIAU_ashocks.png used on input line 594.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/PCEPI_ashocks_nmp.png, id=84, 932.98563pt x 678.535pt>
 File: figures/PCEPI_ashocks_nmp.png Graphic file (type png)
 
 <use figures/PCEPI_ashocks_nmp.png>
-Package pdftex.def Info: figures/PCEPI_ashocks_nmp.png used on input line 556.
+Package pdftex.def Info: figures/PCEPI_ashocks_nmp.png used on input line 595.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/PCEPI_ashocks.png, id=85, 932.98563pt x 678.535pt>
 File: figures/PCEPI_ashocks.png Graphic file (type png)
 
 <use figures/PCEPI_ashocks.png>
-Package pdftex.def Info: figures/PCEPI_ashocks.png used on input line 557.
+Package pdftex.def Info: figures/PCEPI_ashocks.png used on input line 596.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/SPFFE_ashocks_nmp.png, id=86, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_nmp.png>
-Package pdftex.def Info: figures/SPFFE_ashocks_nmp.png used on input line 559.
+Package pdftex.def Info: figures/SPFFE_ashocks_nmp.png used on input line 598.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFFE_ashocks.png, id=87, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks.png>
-Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 560.
+Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 599.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFDisg_ab_ashocks_nmp.png, id=88, 932.98563pt x 678.535pt>
@@ -606,14 +606,14 @@ File: figures/SPFDisg_ab_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_nmp.png>
 Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp.png used on input line 
-562.
+601.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFDisg_ab_ashocks.png, id=89, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks.png>
-Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 563.
+Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 602.
 
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
@@ -625,7 +625,7 @@ File: figures/CPIAU_ashocks_nmp_post2007.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmp_post2007.png>
 Package pdftex.def Info: figures/CPIAU_ashocks_nmp_post2007.png used on input l
-ine 570.
+ine 609.
 (pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
 
 <figures/CPIAU_ashocks_post2007.png, id=91, 932.98563pt x 678.535pt>
@@ -633,7 +633,7 @@ File: figures/CPIAU_ashocks_post2007.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_post2007.png>
 Package pdftex.def Info: figures/CPIAU_ashocks_post2007.png used on input line 
-571.
+610.
 (pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
 
 <figures/PCEPI_ashocks_nmp_post2007.png, id=92, 932.98563pt x 678.535pt>
@@ -641,7 +641,7 @@ File: figures/PCEPI_ashocks_nmp_post2007.png Graphic file (type png)
 
 <use figures/PCEPI_ashocks_nmp_post2007.png>
 Package pdftex.def Info: figures/PCEPI_ashocks_nmp_post2007.png used on input l
-ine 572.
+ine 611.
 (pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
 
 <figures/PCEPI_ashocks_post2007.png, id=93, 932.98563pt x 678.535pt>
@@ -649,7 +649,7 @@ File: figures/PCEPI_ashocks_post2007.png Graphic file (type png)
 
 <use figures/PCEPI_ashocks_post2007.png>
 Package pdftex.def Info: figures/PCEPI_ashocks_post2007.png used on input line 
-573.
+612.
 (pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
 
 <figures/SPFFE_ashocks_nmp_post2007.png, id=94, 932.98563pt x 678.535pt>
@@ -657,7 +657,7 @@ File: figures/SPFFE_ashocks_nmp_post2007.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_nmp_post2007.png>
 Package pdftex.def Info: figures/SPFFE_ashocks_nmp_post2007.png used on input l
-ine 575.
+ine 614.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFFE_ashocks_post2007.png, id=95, 932.98563pt x 678.535pt>
@@ -665,7 +665,7 @@ File: figures/SPFFE_ashocks_post2007.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_post2007.png>
 Package pdftex.def Info: figures/SPFFE_ashocks_post2007.png used on input line 
-576.
+615.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFDisg_ab_ashocks_nmp_post2007.png, id=96, 932.98563pt x 678.535pt>
@@ -673,7 +673,7 @@ File: figures/SPFDisg_ab_ashocks_nmp_post2007.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_nmp_post2007.png>
 Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp_post2007.png used on in
-put line 578.
+put line 617.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFDisg_ab_ashocks_post2007.png, id=97, 932.98563pt x 678.535pt>
@@ -681,7 +681,7 @@ File: figures/SPFDisg_ab_ashocks_post2007.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_post2007.png>
 Package pdftex.def Info: figures/SPFDisg_ab_ashocks_post2007.png used on input 
-line 579.
+line 618.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFVar_ab_ashocks_nmp_post2007.png, id=98, 932.98563pt x 678.535pt>
@@ -689,7 +689,7 @@ File: figures/SPFVar_ab_ashocks_nmp_post2007.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks_nmp_post2007.png>
 Package pdftex.def Info: figures/SPFVar_ab_ashocks_nmp_post2007.png used on inp
-ut line 581.
+ut line 620.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 <figures/SPFVar_ab_ashocks_post2007.png, id=99, 932.98563pt x 678.535pt>
@@ -697,11 +697,11 @@ File: figures/SPFVar_ab_ashocks_post2007.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks_post2007.png>
 Package pdftex.def Info: figures/SPFVar_ab_ashocks_post2007.png used on input l
-ine 582.
+ine 621.
 (pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
 
 
-LaTeX Warning: Float too large for page by 30.66002pt on input line 584.
+LaTeX Warning: Float too large for page by 30.66002pt on input line 623.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
@@ -710,7 +710,7 @@ LaTeX Warning: `h' float specifier changed to `ht'.
 File: figures/CPIAU_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmpM.png>
-Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 589.
+Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 628.
 
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
@@ -718,14 +718,14 @@ Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 589.
 File: figures/CPIAU_ashocksM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocksM.png>
-Package pdftex.def Info: figures/CPIAU_ashocksM.png used on input line 590.
+Package pdftex.def Info: figures/CPIAU_ashocksM.png used on input line 629.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/SCEFE_ashocks_nmpM.png, id=102, 932.98563pt x 678.535pt>
 File: figures/SCEFE_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocks_nmpM.png>
-Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 592.
+Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 631.
 
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
@@ -733,7 +733,7 @@ Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 592.
 File: figures/SCEFE_ashocksM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocksM.png>
-Package pdftex.def Info: figures/SCEFE_ashocksM.png used on input line 593.
+Package pdftex.def Info: figures/SCEFE_ashocksM.png used on input line 632.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 <figures/SCEDisg_ab_ashocks_nmpM.png, id=104, 932.98563pt x 678.535pt>
@@ -741,14 +741,14 @@ File: figures/SCEDisg_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocks_nmpM.png>
 Package pdftex.def Info: figures/SCEDisg_ab_ashocks_nmpM.png used on input line
- 595.
+ 634.
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
 <figures/SCEDisg_ab_ashocksM.png, id=105, 932.98563pt x 678.535pt>
 File: figures/SCEDisg_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocksM.png>
-Package pdftex.def Info: figures/SCEDisg_ab_ashocksM.png used on input line 596
+Package pdftex.def Info: figures/SCEDisg_ab_ashocksM.png used on input line 635
 .
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
@@ -757,21 +757,21 @@ File: figures/SCEVar_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocks_nmpM.png>
 Package pdftex.def Info: figures/SCEVar_ab_ashocks_nmpM.png used on input line 
-598.
+637.
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
 <figures/SCEVar_ab_ashocksM.png, id=107, 932.98563pt x 678.535pt>
 File: figures/SCEVar_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocksM.png>
-Package pdftex.def Info: figures/SCEVar_ab_ashocksM.png used on input line 599.
+Package pdftex.def Info: figures/SCEVar_ab_ashocksM.png used on input line 638.
 
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
-(./Draft.bbl [14]) [15] [16 <./figures/ni_illustration.png>] [17 <./figures/ir_
+(./Draft.bbl) [14] [15] [16 <./figures/ni_illustration.png>] [17 <./figures/ir_
 popseni.png>] [18 <./figures/rigidity.png>] [19 <./figures/fe_var2Q.png> <./fig
 ures/var_disg2Q.png> <./figures/fe_var3Q.png> <./figures/var_disg3Q.png> <./fig
 ures/fe_var.png> <./figures/var_disg.png>] [20 <./figures/IQRvarCPIQ.png> <./fi
@@ -799,7 +799,7 @@ LaTeX Warning: There were undefined references.
 Here is how much of TeX's memory you used:
  3099 strings out of 493117
  48023 string characters out of 6135433
- 111551 words of memory out of 5000000
+ 117551 words of memory out of 5000000
  6462 multiletter control sequences out of 15000+600000
  9846 words of font info for 36 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -823,7 +823,7 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2014/texmf-
 dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on Draft.pdf (25 pages, 4714736 bytes).
+Output written on Draft.pdf (25 pages, 4715742 bytes).
 PDF statistics:
  255 PDF objects out of 1000 (max. 8388607)
  115 compressed objects within 2 object streams
