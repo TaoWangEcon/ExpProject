@@ -710,7 +710,7 @@ In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component 
 
 \subsection{Replicating \cite{coibion2012can}}
 
-For a direct comparison of my results and \cite{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \cite{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. 
+For a direct comparison of my results and \cite{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \cite{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. Besides, standard errors are computed using the parametric bootstrapping approach as in \cite{coibion2012can}. 
 
 The underlying regression that produces impulse response estimates is the Equation \ref{IRRegression}, according to which inflation(or moments) in current quarter is a function of 4-period lagged of itself  and the current and previous period realized shocks. The estimate of autoregression coefficient $\beta_\tau$ and shock-specific coefficient $\beta_{S,k}$ for diffrent lags can be used to compute impulse response of the inflation as well as forecasting moments. 
 
@@ -720,15 +720,16 @@ y_{t}  = \alpha + \sum^4_{\tau=1} \beta_{\tau} y_{t-\tau} +  \sum^1_{k=0} \sum_{
 
 FIRE predicts $\beta_{S,k}=0\quad \forall k=1$ for the regressions with forecasts moments as dependent variable. i.e. forecasts react only to contemporaneous shocks instataneously therefore. 
 
-Standard errors are computed using the parametric bootstrapping approach as in \cite{coibion2012can} paper. 
 
 Responses to productivity and oil price shocks presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are broadly consistent with \cite{coibion2012can} despite a wider confidence band possibly due to the change in different measures. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around $10 \%$  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around $30\%$ in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
 
 Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both CPI and PCE forecasts in the second graph of the left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
 
-Both SE and NI models predict disagreements rise after a shock and gradully converge to zero over the long-run. 
+FIRE predicts zero disagreements while both SE and NI models imply disagreements pick up following shocks regardless of the sign and gradully drop over longer horizon.  Looking into the graph, the average response of disgreements to the absolute value of technology and oil shocks does exhibite a pattern similar to the later.  Note now that the initial response is not statistically significant(same as the original result.). Besides, there is also one subtle difference between the SE and NI on disagreements in that disagreements always exist with the presense of private signals, in contrast, SE predicts that the disagreements is zero over the long run. The evidence from impulse response of disagreements seem to be more consistent with SE than NI.
 
-In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include additional uncertainty. This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
+
+
+
 
 \begin{figure}[h]\label{ReplicateCoibionBefore2007}
 	\centering
@@ -746,6 +747,15 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 \end{figure}
 
 
+
+
+\subsection{Additional Evidence from Uncertainty}
+
+
+
+In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include additional uncertainty. This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
+
+
 \begin{figure}[h]\label{ReplicateCoibionpost2007}
 	\centering
 	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_nmp_post2007.png}  
@@ -759,10 +769,13 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp_post2007.png} 
 	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_post2007.png} \\
 	\smallskip 
-		\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp_post2007.png} 
+	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp_post2007.png} 
 	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_post2007.png} 
 	\caption{ Replicating \cite{coibion2012can}: 2008-2019}
 \end{figure}
+
+\subsection{Evidence from Households}
+
 
 
 \begin{figure}[h]\label{SCE_IR}
@@ -780,11 +793,6 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 	\includegraphics[width=6cm,height=2cm]{figures/SCEVar_ab_ashocksM.png} 
 	\caption{ Impulse Responses of Inflation and SCE Forecasts to Inflation Shocks}
 \end{figure}
-
-
-\subsection{Additional Evidence from Uncertainty}
-
-\subsection{Evidence from Households}
 
 \section{Conclusion}
 
