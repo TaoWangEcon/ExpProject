@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/indSCE_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}24 Jun 2019, 15:48:40
+ {txt}opened on:  {res}25 Jun 2019, 15:51:31
 {txt}
 {com}. 
 . 
@@ -28,7 +28,6 @@
 . rename userid ID 
 {res}{txt}
 {com}. 
-. 
 . merge m:1 year month using "${c -(}mainfolder{c )-}/OtherData/InfShocksMClean.dta",keep(match using master)
 {res}{txt}{p 0 7 2}
 (note: variable
@@ -458,6 +457,134 @@ Linear regression                                      Number of obs ={res}   67
 {com}. esttab using "${c -(}sum_table_folder{c )-}/ind/FEEfficiencySCEIndM.csv", mtitles se(%8.3f) scalars(N r2) replace
 {res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/FEEfficiencySCEIndM.csv"'})
 
+{com}. 
+. 
+. *******************************************************
+. ***  Weak test on changes of forecst and uncertainty **
+. *******************************************************
+. 
+. ** Generate central tendency measures
+. 
+. foreach var in SCE{c -(}
+{txt}  2{com}. foreach mom in Mean{c -(}
+{txt}  3{com}.    egen `var'_`mom'_ct50 = pctile(`var'_`mom'),p(50) by(date)
+{txt}  4{com}.    label var `var'_`mom'_ct50 "Median 1-year-ahead inflation."
+{txt}  5{com}. {c )-}
+{txt}  6{com}. {c )-}
+{txt}(827 missing values generated)
+
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. foreach var in SCE{c -(}
+{txt}  2{com}.   foreach mom in Mean{c -(}
+{txt}  3{com}.      replace InfExp_`mom'_ch =  `var'_`mom' - l1.`var'_`mom'
+{txt}  4{com}.          eststo `var'`mom'diff0: reg InfExp_`mom'_ch, vce(cluster date)
+{txt}  5{com}.      eststo `var'`mom'diff1: reg InfExp_`mom'_ch l1.InfExp_`mom'_ch, vce(cluster date)
+{txt}  6{com}.          capture eststo `var'`mom'diff2: reg  InfExp_`mom'_ch l(1/3).InfExp_`mom'_ch, vce(cluster date)
+{txt}  7{com}.          capture eststo `var'`mom'diff3: reg  InfExp_`mom'_ch l(1/6).InfExp_`mom'_ch, vce(cluster date)
+{txt}  8{com}.  {c )-}
+{txt}  9{com}. {c )-}
+{txt}(0 real changes made)
+
+Linear regression                                      Number of obs ={res}   53016
+                                                       {txt}F(  0,    51) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} 4.4389
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:52} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Mea~h{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0551881{col 26}{space 2} .0231053{col 37}{space 1}   -2.39{col 46}{space 3}0.021{col 54}{space 4}-.1015739{col 67}{space 3}-.0088023
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}   43166
+                                                       {txt}F(  1,    50) ={res} 1962.85
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.2020
+                                                       {txt}Root MSE      = {res}  3.763
+
+{txt}{ralign 80:(Std. Err. adjusted for {res:51} clusters in date)}
+{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 16}{c |}{col 28}    Robust
+{col 1}InfExp_Mean_ch{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
+{hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Mean_ch {c |}
+{space 11}L1. {c |}{col 16}{res}{space 2}-.4326329{col 28}{space 2} .0097651{col 39}{space 1}  -44.30{col 48}{space 3}0.000{col 56}{space 4}-.4522467{col 69}{space 3}-.4130192
+{txt}{space 14} {c |}
+{space 9}_cons {c |}{col 16}{res}{space 2}-.0338056{col 28}{space 2} .0225094{col 39}{space 1}   -1.50{col 48}{space 3}0.139{col 56}{space 4}-.0790171{col 69}{space 3} .0114059
+{txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. foreach var in SCE{c -(}
+{txt}  2{com}.   foreach mom in Var{c -(}
+{txt}  3{com}.      replace InfExp_`mom'_ch =  `var'_`mom' - l1.`var'_`mom'
+{txt}  4{com}.          eststo `var'`mom'diff0: reg InfExp_`mom'_ch, vce(cluster date) 
+{txt}  5{com}.      eststo `var'`mom'diff1: reg InfExp_`mom'_ch l1.InfExp_`mom'_ch, vce(cluster date) 
+{txt}  6{com}.          eststo `var'`mom'diff2: reg  InfExp_`mom'_ch l(1/3).InfExp_`mom'_ch, vce(cluster date) 
+{txt}  7{com}.          capture eststo `var'`mom'diff3: reg  InfExp_`mom'_ch l(1/6).InfExp_`mom'_ch, vce(cluster date)
+{txt}  8{com}.  {c )-}
+{txt}  9{com}. {c )-}
+{txt}(0 real changes made)
+
+Linear regression                                      Number of obs ={res}   53016
+                                                       {txt}F(  0,    51) ={res}    0.00
+                                                       {txt}Prob > F      = {res}      .
+                                                       {txt}R-squared     = {res} 0.0000
+                                                       {txt}Root MSE      = {res} 25.964
+
+{txt}{ralign 78:(Std. Err. adjusted for {res:52} clusters in date)}
+{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}{col 26}    Robust
+{col 1}InfExp_Var~h{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_cons {c |}{col 14}{res}{space 2}-1.338781{col 26}{space 2}  .123064{col 37}{space 1}  -10.88{col 46}{space 3}0.000{col 54}{space 4}-1.585842{col 67}{space 3} -1.09172
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}   43166
+                                                       {txt}F(  1,    50) ={res}  635.23
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.1821
+                                                       {txt}Root MSE      = {res} 20.835
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:51} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_ch {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2}-.3817313{col 27}{space 2} .0151459{col 38}{space 1}  -25.20{col 47}{space 3}0.000{col 55}{space 4}-.4121526{col 68}{space 3}-.3513099
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-1.323801{col 27}{space 2} .1103923{col 38}{space 1}  -11.99{col 47}{space 3}0.000{col 55}{space 4}-1.545531{col 68}{space 3}-1.102072
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}
+{txt}Linear regression                                      Number of obs ={res}   28850
+                                                       {txt}F(  3,    48) ={res}  223.13
+                                                       {txt}Prob > F      = {res} 0.0000
+                                                       {txt}R-squared     = {res} 0.2780
+                                                       {txt}Root MSE      = {res} 17.287
+
+{txt}{ralign 79:(Std. Err. adjusted for {res:49} clusters in date)}
+{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 15}{c |}{col 27}    Robust
+{col 1}InfExp_Var_ch{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
+{hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+InfExp_Var_ch {c |}
+{space 10}L1. {c |}{col 15}{res}{space 2}-.5647049{col 27}{space 2}  .021977{col 38}{space 1}  -25.70{col 47}{space 3}0.000{col 55}{space 4}-.6088927{col 68}{space 3}-.5205172
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2}-.2999338{col 27}{space 2} .0213771{col 38}{space 1}  -14.03{col 47}{space 3}0.000{col 55}{space 4}-.3429155{col 68}{space 3}-.2569522
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.1231272{col 27}{space 2} .0124153{col 38}{space 1}   -9.92{col 47}{space 3}0.000{col 55}{space 4}-.1480899{col 68}{space 3}-.0981644
+{txt}{space 13} {c |}
+{space 8}_cons {c |}{col 15}{res}{space 2}-1.139332{col 27}{space 2} .1035406{col 38}{space 1}  -11.00{col 47}{space 3}0.000{col 55}{space 4}-1.347514{col 68}{space 3}-.9311498
+{txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}
+{com}. 
+. esttab using "${c -(}sum_table_folder{c )-}/ind/ChEfficiencySCEIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+{res}{txt}(output written to {browse  `"/Users/Myworld/Dropbox/ExpProject/workingfolder/tables/ind/ChEfficiencySCEIndQ.csv"'})
+
 {com}. ddd
 {err}unrecognized command:  ddd
 {txt}{search r(199):r(199);}
@@ -468,4 +595,27 @@ end of do-file
 
 {com}. clear
 
-. 
+. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD01602.000000"
+{txt}
+{com}. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
+{com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

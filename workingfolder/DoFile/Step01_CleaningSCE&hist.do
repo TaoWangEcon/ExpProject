@@ -2,9 +2,8 @@
 clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
 global folder "${mainfolder}/SurveyData/"
-global surveyfolder "NYFEDSurvey"
-global sum_graph_folder "${folder}/${surveyfolder}/graphs/pop"
-global sum_table_folder "${folder}/${surveyfolder}/tables"
+global sum_graph_folder "${mainfolder}/graphs/pop"
+global sum_table_folder "${mainfolder}/tables"
 
 cd ${folder}
 pwd
@@ -281,15 +280,16 @@ label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
 gen SCE_mean = .
 gen SCE_var = .
 
-/*
+
 * Kernal density plot only 
-foreach mom in mean{
+
  foreach var in SCE{
+ foreach mom in mean{
     replace `var'_`mom' = Q9_`mom'
-	*local lb: variable label Q9_`mom'
-    twoway (kdensity `var'_`mom',fcolor(none) lcolor(red) n(50) k(gaussian)), ///
-	       by(year,title("Distribution of `lb'")) 
-	graph export "${sum_graph_folder}/hist/hist", as(png) replace 
+	local lb: variable label Q9_`mom'
+    twoway (kdensity `var'_`mom',lcolor(red)), ///
+	       by(year,title("Distribution of `lb'",size(med))) xtitle("Mean forecast")
+	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
 }
 }
 
@@ -298,9 +298,9 @@ foreach mom in var{
 foreach var in SCE{
     replace `var'_`mom' = Q9_`mom'
 	local lb: variable label Q9_`mom'
-    twoway (kdensity `var'_`mom',fcolor(none) lcolor(red) k(gaussian)), ///
-	       by(year,title("Distribution of `lb'")) 
-	graph export "${sum_graph_folder}/hist/`var'_hist", as(png) replace 
+    twoway (kdensity `var'_`mom',lcolor(blue)), ///
+	       by(year,title("Distribution of `lb'",size(med))) xtitle("Uncertainty")
+	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
 }
 }
 

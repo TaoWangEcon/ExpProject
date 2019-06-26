@@ -3,6 +3,7 @@
 \usepackage{adjustbox}
 \usepackage{graphicx}
 
+
 %opening
 \title{Testing Theories of Expectation Formation using Probabilistic Forecasts}
 \author{Tao Wang}
@@ -433,7 +434,7 @@ A summary of the data information is as below.
 
 \begin{table}[]
 			\caption{Information of Data}
-	\begin{tabular}{lll}
+	\begin{tabular}{lll} 
 
 		\hline 
 		& SCE & SPF        \\
@@ -457,8 +458,11 @@ A summary of the data information is as below.
 Figure \ref{UnceratitnyOtherMoments} plots the population uncertainty asgainst forecast errors and disagreements. 
 
 
-The left  three figures look into the relationship between forecast error and uncertainty. In general, one may expect that  greater ex ante uncertainty implies greater ex post forecast errors. 
+The left  three figures look into the relationship between forecast error and uncertainty. One may expect that  greater ex ante uncertainty implies greater ex post forecast errors. 
 
+
+Another widely spoken fact is that uncertainty is positively correlated with the level of the inflation. We look this hypothesis by ploting uncertainty against the realized inflation.  
+ 
 Many literature use disagreements and uncertainty interchangably but they are different objects. From the graph, we can also see in general uncertainty captures different information from disagreements. This is more so in professional forecaster data. There is a more obvious correlation between disgreements and uncertainty. 
 
 
@@ -470,14 +474,19 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 
 \begin{figure}[h]\label{UnceratitnyOtherMoments}
 	\centering
-	\includegraphics[width=6cm]{figures/fe_var2Q.png}
-	\includegraphics[width=6cm]{figures/var_disg2Q.png}\\
+		\centering
 	\smallskip
-	\includegraphics[width=6cm]{figures/fe_var3Q.png}
-	\includegraphics[width=6cm]{figures/var_disg3Q.png}\\
+	\includegraphics[width=3.5cm]{figures/Inf_var2Q.png}
+	\includegraphics[width=3.5cm]{figures/fe_var2Q.png}
+	\includegraphics[width=3.5cm]{figures/var_disg2Q.png}\\
+	\smallskip
+	\includegraphics[width=3.5cm]{figures/Inf_var3Q.png}
+	\includegraphics[width=3.5cm]{figures/fe_var3Q.png}
+	\includegraphics[width=3.5cm]{figures/var_disg3Q.png}\\
 	\smallskip	
-	\includegraphics[width=6cm]{figures/fe_var.png}
-	\includegraphics[width=6cm]{figures/var_disg.png}\\
+	\includegraphics[width=3.5cm]{figures/Inf_var.png}
+	\includegraphics[width=3.5cm]{figures/fe_var.png}
+	\includegraphics[width=3.5cm]{figures/var_disg.png}\\
 		\caption{Unceratinty and Other Moments}
 \end{figure}
 
@@ -501,8 +510,8 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 		\includegraphics[width=6cm]{figures/PRCPCEMean1_hist.png} 
 	\includegraphics[width=6cm]{figures/PRCPCEVar1_hist.png}  \\
 	\smallskip
-		\includegraphics[width=6cm]{figures/SCEMean1_hist.png} 
-	\includegraphics[width=6cm]{figures/SCEVar1_hist.png}  \\
+		\includegraphics[width=6cm]{figures/SCEmean_hist.png} 
+	\includegraphics[width=6cm]{figures/SCEvar_hist.png}  \\
 	\caption{Distribution of Mean Forecast and Uncertainty }
 \end{figure}
 
@@ -519,6 +528,8 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 	\includegraphics[width=6cm]{figures/SCEVar_rv_hist.png}  \\
 	\caption{Distribution of Revision in Forecasts}
 \end{figure}
+
+
 
 \subsection{Test of Null Hypothesis of Rational Expectation}
 
@@ -579,6 +590,104 @@ The second batch of tests focus on  forecasting efficiency utilizing revision ac
 \end{tabular}
 \end{table}
 
+\newpage 
+
+\begin{adjustbox}{angle=90}\label{RevEfficiency}
+	\begin{tabular}{lllllllll}
+		\hline 
+		& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       \\
+		\hline 
+		\multicolumn{9}{l}{Test 1.  Revision efficiency of mean forecast}            \\
+	                                            \hline 
+		& Mean revision & t-1       & t-1- t-2 & t-1-t-3  & Mean revision & t-1       & t-1- t-2  & t-1-t-3   \\
+		\hline 
+		L.InfExp\_Mean\_rv  &               & 0.539***  & 0.418*** & 0.387*** &               & 0.606***  & 0.435***  & 0.369***  \\
+		&               & (0.031)   & (0.043)  & (0.052)  &               & (0.034)   & (0.042)   & (0.049)   \\
+		L2.InfExp\_Mean\_rv &               &           & 0.218*** & 0.166**  &               &           & 0.261***  & 0.246***  \\
+		&               &           & (0.040)  & (0.053)  &               &           & (0.047)   & (0.058)   \\
+		L3.InfExp\_Mean\_rv &               &           &          & 0.134**  &               &           &           & 0.116     \\
+		&               &           &          & (0.048)  &               &           &           & (0.069)   \\
+		SPFCPI\_ct50        &               & -0.444*** & -0.391** & -0.454** &               &           &           &           \\
+		&               & (0.105)   & (0.124)  & (0.138)  &               &           &           &           \\
+		SPFPCE\_ct50        &               &           &          &          &               & -0.432*** & -0.413*** & -0.504*** \\
+		&               &           &          &          &               & (0.109)   & (0.111)   & (0.138)   \\
+		& -1.257***     & 0.329     & 0.351    & 0.546*   & -1.095***     & 0.365     & 0.428*    & 0.641**   \\
+		Constant & (0.045)       & (0.191)   & (0.237)  & (0.269)  & (0.039)       & (0.188)   & (0.191)   & (0.228)   \\
+		\hline 
+		N                   & 1337          & 1045      & 822      & 652      & 1111          & 867       & 683       & 549       \\
+		$R^2$                  & 0.000         & 0.335     & 0.355    & 0.372    & 0.000         & 0.409     & 0.444     & 0.452     \\
+		\hline 
+		\multicolumn{9}{l}{Test 2. Revision efficiency of uncertainty}                                                            \\
+		\hline 
+		& Mean revision & t-1       & t-1- t-2 & t-1-t-3  & Mean revision & t-1       & t-1- t-2  & t-1-t-3   \\
+		\hline 
+		L.InfExp\_Var\_rv   &               & 0.290*    & 0.529*** & 0.581*** &               & 0.577***  & 0.477***  & 0.344*    \\
+		&               & (0.122)   & (0.117)  & (0.145)  &               & (0.080)   & (0.130)   & (0.148)   \\
+		L2.InfExp\_Var\_rv  &               &           & -0.059   & -0.209   &               &           & 0.360*    & 0.205*    \\
+		&               &           & (0.125)  & (0.127)  &               &           & (0.143)   & (0.098)   \\
+		L3.InfExp\_Var\_rv  &               &           &          & 0.353**  &               &           &           & 0.390*    \\
+		&               &           &          & (0.121)  &               &           &           & (0.149)   \\
+		Constant              & -0.034***     & -0.011**  & -0.008*  & -0.005   & -0.039***     & -0.019**  & -0.010**  & -0.007*   \\
+		& (0.005)       & (0.004)   & (0.003)  & (0.004)  & (0.006)       & (0.006)   & (0.003)   & (0.003)   \\
+		\hline 
+		N                   & 1189          & 877       & 663      & 504      & 1082          & 801       & 604       & 458       \\
+	$R^2$                 & 0.000         & 0.124     & 0.284    & 0.408    & 0.000         & 0.353     & 0.583     & 0.723    \\
+		\hline 
+	\end{tabular}
+\end{adjustbox}
+
+
+\begin{adjustbox}{width={22cm},totalheight={12cm},angle=90}\label{WeakRevEfficiency}
+	\begin{tabular}{llllllllllllll}
+		\hline 
+		& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       &                      & \multicolumn{4}{l}{SCE}                           \\
+		\hline 
+		\multicolumn{14}{l}{Test 3. Weak revision efficiency of change in forecast}                                                                                                                                    \\
+		\hline 
+		& Mean change & t-1       & t-1- t-2  & t-1-t-3   & Mean revision & t-1       & t-1- t-2  & t-1-t-3   &                      & Mean revision & t-1       & t-1- t-2  & t-1-t-3   \\
+		\hline 
+		L.InfExp\_Mean\_ch   &             & -0.295*** & -0.344*** & -0.367*** &               & -0.303*** & -0.348*** & -0.364*** & L.InfExp\_Var\_ch    &               & -0.382*** & -0.565*** & -0.652*** \\
+		&             & (0.034)   & (0.044)   & (0.045)   &               & (0.043)   & (0.059)   & (0.062)   &                      &               & (0.015)   & (0.022)   & (0.037)   \\
+		L2.InfExp\_Mean\_ch  &             &           & -0.179*** & -0.242*** &               &           & -0.162*   & -0.200**  & L2.InfExp\_Var\_ch   &               &           & -0.300*** & -0.406*** \\
+		&             &           & (0.047)   & (0.049)   &               &           & (0.061)   & (0.067)   &                      &               &           & (0.021)   & (0.031)   \\
+		L3.InfExp\_Mean\_ch  &             &           &           & -0.097**  &               &           &           & -0.088*   & L3.InfExp\_Var\_ch   &               &           & -0.123*** & -0.265*** \\
+		&             &           &           & (0.032)   &               &           &           & (0.036)   &                      &               &           & (0.012)   & (0.027)   \\
+		&             &           &           &           &               &           &           &           & L4.InfExp\_Var\_ch   &               &           &           & -0.130*** \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.025)   \\
+		&             &           &           &           &               &           &           &           & L5.InfExp\_Var\_ch   &               &           &           & -0.058**  \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.018)   \\
+		&             &           &           &           &               &           &           &           & L6.InfExp\_Var\_ch   &               &           &           & -0.025    \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.012)   \\
+		Constant               & -0.005      & -0.004    & -0.011    & -0.015    & 0.001         & 0.008     & -0.002    & -0.007    & Constant               & -1.339***     & -1.324*** & -1.139*** & -0.839*** \\
+		& (0.023)     & (0.024)   & (0.026)   & (0.026)   & (0.020)       & (0.020)   & (0.022)   & (0.022)   &                      & (0.123)       & (0.110)   & (0.104)   & (0.163)   \\
+		\hline 
+		N                    & 1636        & 1430      & 1266      & 1141      & 1402          & 1190      & 1022      & 898       & N                    & 53016         & 43166     & 28850     & 14445     \\
+	$R^2$                  & 0.000       & 0.086     & 0.112     & 0.128     & 0.000         & 0.090     & 0.112     & 0.120     & $R^2$ & 0.000         & 0.182     & 0.278     & 0.321     \\
+		\hline 
+		\multicolumn{14}{l}{Test 4. Weak revision efficiency of change in uncertainty}                \\
+		\hline                                                                                                                 
+		& Mean change & t-1       & t-1- t-2  & t-1-t-3   & Mean change   & t-1       & t-1- t-2  & t-1-t-3   &                      & Mean change   & t-1       & t-1- t-2  & t-1-t-3   \\
+		\hline 
+		L.InfExp\_Var\_ch    &             & -0.393**  & -0.568*** & -0.543**  &               & -0.444*** & -0.602*** & -0.658*** & L.InfExp\_Var\_ch    &               & -0.382*** & -0.565*** & -0.652*** \\
+		&             & (0.136)   & (0.146)   & (0.177)   &               & (0.094)   & (0.127)   & (0.145)   &                      &               & -0.015    & -0.022    & -0.037    \\
+		L2.InfExp\_Var\_ch   &             &           & -0.322**  & -0.278*   &               &           & -0.289*   & -0.404**  & L2.InfExp\_Var\_ch   &               &           & -0.300*** & -0.406*** \\
+		&             &           & (0.104)   & (0.132)   &               &           & (0.110)   & (0.137)   &                      &               &           & -0.021    & -0.031    \\
+		L3.InfExp\_Var\_ch   &             &           &           & 0.048     &               &           &           & -0.292    & L3.InfExp\_Var\_ch   &               &           & -0.123*** & -0.265*** \\
+		&             &           &           & (0.096)   &               &           &           & (0.154)   &                      &               &           & -0.012    & -0.027    \\
+		&             &           &           &           &               &           &           &           & L4.InfExp\_Var\_ch   &               &           &           & -0.130*** \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & -0.025    \\
+		&             &           &           &           &               &           &           &           & L5.InfExp\_Var\_ch   &               &           &           & -0.058**  \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & -0.018    \\
+		&             &           &           &           &               &           &           &           & L6.InfExp\_Var\_ch   &               &           &           & -0.025    \\
+		&             &           &           &           &               &           &           &           &                      &               &           &           & -0.012    \\
+		Constant               & -0.002      & -0.001    & 0.004     & 0.004     & 0.000         & 0.002     & 0.004     & 0.005     &   Constant                   & -1.339***     & -1.324*** & -1.139*** & -0.839*** \\
+		& (0.005)     & (0.005)   & (0.004)   & (0.004)   & (0.004)       & (0.004)   & (0.004)   & (0.004)   &                      & -0.123        & -0.11     & -0.104    & -0.163    \\
+		\hline 
+		N                    & 1202        & 950       & 765       & 625       & 1078          & 842       & 657       & 519       &                      & 53016         & 43166     & 28850     & 14445     \\
+		$R^2$ & 0.000       & 0.120     & 0.265     & 0.242     & 0.000         & 0.233     & 0.321     & 0.385     &                      & 0             & 0.182     & 0.278     & 0.321  \\
+		\hline    
+	\end{tabular}
+\end{adjustbox}
 
 \subsection{Professional Forecasters as a Benchmark}
 

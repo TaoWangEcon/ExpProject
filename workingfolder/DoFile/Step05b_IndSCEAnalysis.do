@@ -126,6 +126,45 @@ foreach mom in FE{
 esttab using "${sum_table_folder}/ind/FEEfficiencySCEIndM.csv", mtitles se(%8.3f) scalars(N r2) replace
 
 
+*******************************************************
+***  Weak test on changes of forecst and uncertainty **
+*******************************************************
+
+** Generate central tendency measures
+
+foreach var in SCE{
+foreach mom in Mean{
+   egen `var'_`mom'_ct50 = pctile(`var'_`mom'),p(50) by(date)
+   label var `var'_`mom'_ct50 "Median 1-year-ahead inflation."
+}
+}
+
+eststo clear
+
+foreach var in SCE{
+  foreach mom in Mean{
+     replace InfExp_`mom'_ch =  `var'_`mom' - l1.`var'_`mom'
+	 eststo `var'`mom'diff0: reg InfExp_`mom'_ch, vce(cluster date)
+     eststo `var'`mom'diff1: reg InfExp_`mom'_ch l1.InfExp_`mom'_ch, vce(cluster date)
+	 capture eststo `var'`mom'diff2: reg  InfExp_`mom'_ch l(1/3).InfExp_`mom'_ch, vce(cluster date)
+	 capture eststo `var'`mom'diff3: reg  InfExp_`mom'_ch l(1/6).InfExp_`mom'_ch, vce(cluster date)
+ }
+}
+
+foreach var in SCE{
+  foreach mom in Var{
+     replace InfExp_`mom'_ch =  `var'_`mom' - l1.`var'_`mom'
+	 eststo `var'`mom'diff0: reg InfExp_`mom'_ch, vce(cluster date) 
+     eststo `var'`mom'diff1: reg InfExp_`mom'_ch l1.InfExp_`mom'_ch, vce(cluster date) 
+	 eststo `var'`mom'diff2: reg  InfExp_`mom'_ch l(1/3).InfExp_`mom'_ch, vce(cluster date) 
+	 capture eststo `var'`mom'diff3: reg  InfExp_`mom'_ch l(1/6).InfExp_`mom'_ch, vce(cluster date)
+ }
+}
+
+esttab using "${sum_table_folder}/ind/ChEfficiencySCEIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+ddd
+
+
 ** Does not work for SCE 
 ***************************************************
 *** Revision Efficiency Test Using Mean Revision **
@@ -139,7 +178,7 @@ foreach mom in Var{
 }
 */
 
-
+/*
 eststo clear
 
 foreach var in SCE{
@@ -182,7 +221,7 @@ foreach var in SCE{
 }
 
 esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
-
+*/
 /*
 ******************************************************
 ** Response  Estimates using individual moments     **
