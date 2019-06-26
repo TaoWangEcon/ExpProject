@@ -5,7 +5,7 @@
 
 
 %opening
-\title{Testing Theories of Expectation Formation using Probabilistic Forecasts}
+\title{Rigidity of Expectation Formation: Additional Evidence from Desntify Forecasts}
 \author{Tao Wang}
 
 \begin{document}
@@ -15,9 +15,7 @@
 \section{Introduction}
 
 
-The theories on how different agents form expectations have proliferated over the past decade. On one hand, these theories built upon different micro foundations produce some similar macro patterns. For instance, the notion of information rigidity, or expectation rigidity could be micro founded by many different theories, but mostly generate sluggish response to new information.  
-
-On the other hand, however, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. My goal of this exercise is to derive the testable predictions based on various theories, and utilize the probablistic questions from both professional forecasters survey and household survey to test them. 
+The theories on how agents form expectations in ways deviating from rational expectation(RE) benchmark have proliferated over the past decade. On one hand, these theories built upon different micro foundations produce some similar macro patterns. For instance, the notion of information rigidity, or expectation rigidity could be micro founded by many different theories, but mostly generate sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. This paper extends the current literature in this front by deriving the testable predictions from various theories on uncertainty and empirically test them utilizing the previously ignored probablistic forecast from both professional forecasters survey and household survey. Overall, the paper finds additional evidence from uncertainty consistent with the rigidity models. 
 
 The potential contribution lies in the extra insights I may get from using probablistic questions.\footnote{For an insightful survey on the importance of measuring subjective expectations using probablistic surveys, see \cite{manski2004measuring}.} One obvious advantage of density expectations compared to point one is availability of higher moments, i.e. variance of the forecast indicates the dispersion of the forecasts. Along time dimension, the dynamics of conditional relative likelihood is a useful indicator of information gain or forecasting efficiency. Besides, as in a typical signal-extraction model, the prediction that new information reduce conditional variance can be tested only using probability distributions. Although the detailed implementation of these tests involves technical difficulties, the ideas are quite clear.  Lastly, with second moments in individual level expectations, we are allowed to potentialy explore the heterogeneity across agents within one theory. For instance, sticky information typically assume a posson update rate for all agents in the economy. This is partly due to the fact that available data only allows us to recover single parameter of regidity instead of inter-group heterogeneity.  
 
@@ -425,7 +423,7 @@ The structure of SPF allows us to directly test efficiency in revision as for th
 
 SCE data, although each individual is surveyed for 12 months in a row, is only asked to forecast 1-year-ahead inflation. This is especially so in the density forecast. So we can only perform a weak test. 
 
-We follow \cite{Manski} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
+We follow \cite{engelberg2009comparing} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
 
 We drop the outliers of uncertainty estimates at both top and bottom one percentiles as these are typically abnormals that are due to measurement errors or other reasons.   
 
@@ -450,6 +448,7 @@ A summary of the data information is as below.
 	\end{tabular}
 \end{table}
 
+Throughout the paper, I use two measures of Inflation, headline CPI inflation and PCE inflation. The forecasts-based measures are computed and used correspondingly.  
 
 \subsection{Stylized Facts}
 
@@ -460,11 +459,9 @@ Figure \ref{UnceratitnyOtherMoments} plots the population uncertainty asgainst f
 
 The left  three figures look into the relationship between forecast error and uncertainty. One may expect that  greater ex ante uncertainty implies greater ex post forecast errors. 
 
-
-Another widely spoken fact is that uncertainty is positively correlated with the level of the inflation. We look this hypothesis by ploting uncertainty against the realized inflation.  
+Another widely made statement is that uncertainty is positively correlated with the level of the inflation. I look into this hypothesis by ploting uncertainty against the realized inflation.  
  
 Many literature use disagreements and uncertainty interchangably but they are different objects. From the graph, we can also see in general uncertainty captures different information from disagreements. This is more so in professional forecaster data. There is a more obvious correlation between disgreements and uncertainty. 
-
 
 Once implication from FIRE is that all individuals not only agree on mean but also share same degree of uncertainty. While in fact, we observe long-lasting heterogeneity in uncertainty both from professional forecasters and households. Figure \ref{IQR_Unceratitny} show that there is  not only dispersion of individual forecasts i.e. disagreements, but alslo notable heterogeneity in uncertainty. One stylized fact from these observations is that  the dispersion in ucnertainty seems persistent over time.  
  
@@ -523,9 +520,6 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 	\smallskip
 	\includegraphics[width=6cm]{figures/PRCPCEMean_rv_hist.png} 
 	\includegraphics[width=6cm]{figures/PRCPCEVar_rv_hist.png}  \\
-	\smallskip
-		\includegraphics[width=6cm]{figures/SCEMean_rv_hist.png} 
-	\includegraphics[width=6cm]{figures/SCEVar_rv_hist.png}  \\
 	\caption{Distribution of Revision in Forecasts}
 \end{figure}
 
@@ -693,12 +687,12 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 
 \section{Responses of Expectations to Inflation Shocks }\label{IRShocks}
 
- \cite{Coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in previous section, this approach allows a more straightforward comparison between the emprical evidence from surveys and the theoriecal predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
+ \cite{coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in previous section, this approach allows a more straightforward comparison between the emprical evidence from surveys and the theoriecal predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
  
-In this paper I use three types of shocks: technology shock\cite{gali1999technology}, oil price shock\cite{hamilton1996happened} and monetary policy shocks \cite{laseen2011anticipated}. The first two are the same in \cite{Coibion2012can}. \footnote{ Another shock in \cite{Coibon2012can} is the news shock by \cite{barsky2011news}. This will be included in later version of the paper }
+In this paper I use three types of shocks: technology shock\cite{gali1999technology}, oil price shock\cite{hamilton1996happened} and monetary policy shocks \cite{laseen2011anticipated}. The first two are the same in \cite{coibion2012can}. \footnote{ Another shock in \cite{coibon2012can} is the news shock by \cite{barsky2011news}. This will be included in later version of the paper.} 
 
 
-(1) Technology shock is identified from a three variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. \footnote{An recent alternative to long-run restriction approach is the ''max-share appraoch'' developed by \cite{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determiend horizon. The resutls using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \cite{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
+(1) Technology shock is identified from a three variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. Based on Bayes information criteria, I use the lag of 4 quarters as in \cite{coibion2012can} \footnote{A recent alternative to long-run restriction approach is the ``max-share appraoch'' developed by \cite{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determiend horizon. The resutls using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \cite{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
 
 (2) Oil price shock in each period is defined as the maximum of log change in crude oil prices over the past 1-year and 0. Therefore it is bounded zero.\footnote{The series of oil price is Spot Crude Oil Price: West Texas Intermediate (WTI).}
 
@@ -716,7 +710,23 @@ In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component 
 
 \subsection{Replicating \cite{coibion2012can}}
 
-In Figure \ref{ReplicateCoibionBefore2007}, I replicate the results from  \cite{coibion2012can}. The period is between 1987-2007.  In the right column, I do the same exercise with monetary policy shocks. 
+For a direct comparison of my results and \cite{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \cite{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. 
+
+The underlying regression that produces impulse response estimates is the Equation \ref{IRRegression}, according to which inflation(or moments) in current quarter is a function of 4-period lagged of itself  and the current and previous period realized shocks. The estimate of autoregression coefficient $\beta_\tau$ and shock-specific coefficient $\beta_{S,k}$ for diffrent lags can be used to compute impulse response of the inflation as well as forecasting moments. 
+
+\begin{eqnarray}\label{IRRegression}
+y_{t}  = \alpha + \sum^4_{\tau=1} \beta_{\tau} y_{t-\tau} +  \sum^1_{k=0} \sum_{S \in \{O,T\}}\beta_{S,k}\omega_{S,t-k} + \epsilon_t 
+\end{eqnarray}
+
+FIRE predicts $\beta_{S,k}=0\quad \forall k=1$ for the regressions with forecasts moments as dependent variable. i.e. forecasts react only to contemporaneous shocks instataneously therefore. 
+
+Standard errors are computed using the parametric bootstrapping approach as in \cite{coibion2012can} paper. 
+
+Responses to productivity and oil price shocks presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are broadly consistent with \cite{coibion2012can} despite a wider confidence band possibly due to the change in different measures. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around $10 \%$  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around $30\%$ in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
+
+Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both CPI and PCE forecasts in the second graph of the left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
+
+Both SE and NI models predict disagreements rise after a shock and gradully converge to zero over the long-run. 
 
 In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include additional uncertainty. This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
 
