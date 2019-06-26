@@ -511,7 +511,7 @@ plt.savefig('figures/ir_indseni.png')
 # +
 plt.style.use('ggplot')
 fig=plt.figure(figsize=(16,10))
-fig.suptitle("Impulse Response to Shock at t: Individual Moments",fontsize=20)
+fig.suptitle("Impulse Response to Shock at t: Population Moments",fontsize=20)
 
 plt.subplot(2,3,1)
 plt.title(r'$\omega_t$',fontsize=15)
