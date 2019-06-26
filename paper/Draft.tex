@@ -21,7 +21,7 @@ On the other hand, however, there are important and subtle differences in testab
 
 The potential contribution lies in the extra insights I may get from using probablistic questions.\footnote{For an insightful survey on the importance of measuring subjective expectations using probablistic surveys, see \cite{manski2004measuring}.} One obvious advantage of density expectations compared to point one is availability of higher moments, i.e. variance of the forecast indicates the dispersion of the forecasts. Along time dimension, the dynamics of conditional relative likelihood is a useful indicator of information gain or forecasting efficiency. Besides, as in a typical signal-extraction model, the prediction that new information reduce conditional variance can be tested only using probability distributions. Although the detailed implementation of these tests involves technical difficulties, the ideas are quite clear.  Lastly, with second moments in individual level expectations, we are allowed to potentialy explore the heterogeneity across agents within one theory. For instance, sticky information typically assume a posson update rate for all agents in the economy. This is partly due to the fact that available data only allows us to recover single parameter of regidity instead of inter-group heterogeneity.  
 
-\section{Theories of Expectation Formation}
+\section{Theories of Expectation Formation}\label{theory}
 
 \subsection{Definition of moments}
 
@@ -414,7 +414,7 @@ One of the common predictions of SE and NI is there is information rigidity or s
 
 \end{enumerate}
 
-\section{Empirical Results}
+\section{Empirical Results}\label{empirical}
 
 \subsection{Data}
 
@@ -542,7 +542,7 @@ The first set of tests utilize the dynamics of forecast errors. First, the forec
 The weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
 
 \begin{table}[]\label{NullTestTable}
-	\caption{Test of Rationality and Efficicency}
+	\caption{Tests of Rationality and Efficicency using Forecast Errors}
 	\centering 
 \begin{tabular}{llll}
 	\hline 
@@ -555,7 +555,7 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 	\hline 
 	N                                   & 4697             & 1208             & 67380          \\
 	\hline 
-	\multicolumn{4}{l}{Test2: FE Depends on past information}                                  \\
+	\multicolumn{4}{l}{Test 2: FE depends on past information}                                  \\
 	\hline 
 	Forecast 1-yr before                & 0.307***         & 0.586***         & NA             \\
 	& (0.020)          & (0.061)          & NA             \\
@@ -565,7 +565,7 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 	N                                   & 3429             & 1208             & NA             \\
 	$R^2$                 & 0.0721           & 0.118            & NA             \\
 	\hline 
-	\multicolumn{4}{l}{Test3: FE of non-overlapping forecast horizons are serially correlated} \\
+	\multicolumn{4}{l}{Test 3: FEs of non-overlapping forecast horizons are serially correlated} \\
 	\hline 
 	Forecast Error 1-year before        & 0.0756***        & 0.0503***        & NA             \\
 	& (0.020)          & (0.035)          & NA             \\
@@ -575,7 +575,7 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 	N                                   & 3356             & 1208             & NA             \\
 	$R^2$                   & 0.00591          & 0.00264          & NA             \\
 	\hline 
-	\multicolumn{4}{l}{Test4: Overlapping FE are only weakly serially correlated}                          \\
+	\multicolumn{4}{l}{Test 4: Overlapping FEs are only weakly serially correlated}                          \\
 	\hline 
 	Forecast Error 1-q before           & 0.657***         & 0.834***         & 0.297***       \\
 	& (0.025)          & (0.037)          & (0.021)        \\
@@ -691,9 +691,30 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 	\end{tabular}
 \end{adjustbox}
 
-\subsection{Professional Forecasters as a Benchmark}
+\section{Responses of Expectations to Inflation Shocks }\label{IRShocks}
 
-\subsubsection{Replicating \cite{coibion2012can}}
+ \cite{Coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in previous section, this approach allows a more straightforward comparison between the emprical evidence from surveys and the theoriecal predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
+ 
+In this paper I use three types of shocks: technology shock\cite{gali1999technology}, oil price shock\cite{hamilton1996happened} and monetary policy shocks \cite{laseen2011anticipated}. The first two are the same in \cite{Coibion2012can}. \footnote{ Another shock in \cite{Coibon2012can} is the news shock by \cite{barsky2011news}. This will be included in later version of the paper }
+
+
+(1) Technology shock is identified from a three variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. \footnote{An recent alternative to long-run restriction approach is the ''max-share appraoch'' developed by \cite{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determiend horizon. The resutls using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \cite{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
+
+(2) Oil price shock in each period is defined as the maximum of log change in crude oil prices over the past 1-year and 0. Therefore it is bounded zero.\footnote{The series of oil price is Spot Crude Oil Price: West Texas Intermediate (WTI).}
+
+(3) Monetary policy shocks: target surprise and path surprise in the termiology of \cite{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular dates of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
+
+The reason for including monetary policy shocks, although it turns out to provide less robust evidence, is twofold. First, it is well known that the role of expectation in the working and implementation of monetary policy in the post criss period has been of a great relevance. Especially, around zero-lower-bound, the central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
+
+In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component of inflation are plotted in quarterly between 1985-2019. All shocks are normalized by its respective sample standard deviations. 
+
+\begin{figure}[h]\label{Inflationshocks}
+	\centering
+	\includegraphics[width=12cm]{figures/inf_shocksQ.png}
+	\caption{ Shocks to Inflation}
+\end{figure}
+
+\subsection{Replicating \cite{coibion2012can}}
 
 In Figure \ref{ReplicateCoibionBefore2007}, I replicate the results from  \cite{coibion2012can}. The period is between 1987-2007.  In the right column, I do the same exercise with monetary policy shocks. 
 
@@ -751,7 +772,7 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 \end{figure}
 
 
-\subsubsection{Additional Evidence from Uncertainty}
+\subsection{Additional Evidence from Uncertainty}
 
 \subsection{Evidence from Households}
 
