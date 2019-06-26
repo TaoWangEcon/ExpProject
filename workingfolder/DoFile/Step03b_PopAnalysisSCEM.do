@@ -150,13 +150,6 @@ twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
 graph export "${sum_graph_folder}/var_var", as(png) replace 
 
 
-twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
-       (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if Q9_disg!=., ///
-	   title("1-yr-ahead Expected Inflation") xtitle("Time") ///
-	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/var_disg", as(png) replace 
-
 
 
 twoway (tsline CORECPI_disg, ytitle(" ",axis(1))) ///
@@ -198,34 +191,6 @@ twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash"
 graph export "${sum_graph_folder}/fe_fe", as(png) replace
 
 
-twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCCPIVar1p25!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarCPI", as(png) replace 
-
-
-twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCPCEVar1p25!=. , ///
-	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarPCE", as(png) replace 
-
-
-twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
-       (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
-	   if Q9_var!=., ///
-	   title("1-yr-ahead Expected Inflation") xtitle("Time") ///
-	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/fe_var", as(png) replace 
-
-
 twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("dash")) ///
        (tsline Q9_varp75, ytitle(" ",axis(1)) lp("dash")) ///
 	   (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") ) ///
@@ -234,9 +199,59 @@ twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("dash")) ///
 	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
 	          label(3 "50 percentile of uncertainty")) 
 graph export "${sum_graph_folder}/IQRvarSCEM", as(png) replace 
+
+
+twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+       (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if Q9_disg!=., ///
+	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/var_disgSCEM", as(png) replace 
+
+
+twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
+       (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+	   if Q9_var!=., ///
+	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
+graph export "${sum_graph_folder}/fe_varSCEM", as(png) replace
+
+pwcorr Inf1yf_CPIAU Q9_var, star(0.05)
+local rho: display %4.2f r(rho) 
+twoway (tsline Inf1yf_CPIAU,ytitle(" ",axis(1))lp("shortdash") lwidth(thick)) ///
+       (tsline Q9_var, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+	   if Q9_var!=., ///
+	   title("1-yr-ahead Expected Inflation(SCE)",size(large)) xtitle("Time") ytitle("") ///
+	   legend(label(1 "Headline CPI Inflation") ///
+	          label(2 "Average Uncertainty(RHS)") size(sml)) ///
+	   caption("{superscript:Corr Coeff: `rho'}", ///
+	   justification(left) position(11) size(large))
+graph export "${sum_graph_folder}/true_varSCEM", as(png) replace 
+
+
+
+
+
+** These are the charts for paper draft 
+
+label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+label var SCE_FE "Average Forecast Error"
+label var Q9_disg "Disagreements"
+label var Q9_var "Average Uncertainty(RHS)"
+
+foreach var in Inf1yf_CPIAU SCE_FE Q9_disg{
+pwcorr `var' Q9_var, star(0.05)
+local rho: display %4.2f r(rho) 
+twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+       (tsline Q9_var, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+	   if Q9_var!=., ///
+	   title("1-yr-ahead Expected Inflation(SCE)",size(med)) xtitle("Time") ytitle("") ///
+	   legend(size(small)) ///
+	   caption("{superscript:Corr Coeff= `rho'}", ///
+	   justification(left) position(11) size(large))
+graph export "${sum_graph_folder}/`var'_varSCEM", as(png) replace
+}
 */
-
-
 ***************************
 ***  Population Moments *** 
 ***************************

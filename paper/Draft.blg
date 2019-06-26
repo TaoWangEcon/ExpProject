@@ -4,46 +4,48 @@ The top-level auxiliary file: Draft.aux
 The style file: apalike.bst
 Database file #1: TestingExpectationTheories.bib
 Warning--I didn't find a database entry for "xx"
-Warning--I didn't find a database entry for "fuhrer2018intrinsic"
-You've used 8 entries,
+Warning--I didn't find a database entry for "coibon2012can"
+Warning--empty journal in fuhrer2018intrinsic
+Warning--empty journal in laseen2011anticipated
+You've used 16 entries,
             1935 wiz_defined-function locations,
-            532 strings with 4836 characters,
-and the built_in function-call counts, 3117 in all, are:
-= -- 323
-> -- 79
-< -- 7
-+ -- 26
-- -- 24
-* -- 270
-:= -- 533
-add.period$ -- 24
-call.type$ -- 8
-change.case$ -- 52
-chr.to.int$ -- 8
-cite$ -- 8
-duplicate$ -- 112
-empty$ -- 245
-format.name$ -- 36
-if$ -- 606
+            580 strings with 6169 characters,
+and the built_in function-call counts, 6145 in all, are:
+= -- 629
+> -- 174
+< -- 14
++ -- 58
+- -- 54
+* -- 523
+:= -- 1051
+add.period$ -- 46
+call.type$ -- 16
+change.case$ -- 107
+chr.to.int$ -- 16
+cite$ -- 18
+duplicate$ -- 231
+empty$ -- 468
+format.name$ -- 78
+if$ -- 1198
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 8
-newline$ -- 43
-num.names$ -- 24
-pop$ -- 29
+missing$ -- 16
+newline$ -- 81
+num.names$ -- 48
+pop$ -- 72
 preamble$ -- 1
-purify$ -- 52
+purify$ -- 107
 quote$ -- 0
-skip$ -- 88
+skip$ -- 186
 stack$ -- 0
-substring$ -- 316
-swap$ -- 8
-text.length$ -- 0
+substring$ -- 565
+swap$ -- 23
+text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 48
-warning$ -- 0
-while$ -- 32
+type$ -- 96
+warning$ -- 2
+while$ -- 61
 width$ -- 0
-write$ -- 106
-(There were 2 warnings)
+write$ -- 204
+(There were 4 warnings)

@@ -111,6 +111,8 @@ eststo clear
 ***  Collapse monthly data to quarterly  **
 *******************************************
 
+local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCEPI Inf1yf_PCEPI
+
 local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
 				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
@@ -128,7 +130,7 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75
 
 
-collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
+collapse (mean) `Moments' `MomentsMom' `MomentsRv' `Infbf', ///
 				by(year quarter) 
 
 gen date2=string(year)+"Q"+string(quarter)
@@ -143,11 +145,10 @@ sort year quarter
 order date year quarter 
 
 /*
-******************************************
-*** Multiple series charts Quarterly  ****
-*******************************************
+********************************************************
+*** Multiple series charts Quarterly (Moments Only)  ***
+********************************************************
 drop if CPI1y ==. | PCE1y==.
-
 
 
 twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
@@ -217,7 +218,7 @@ twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
 	   if PRCCPIVar1mean!=., ///
 	   title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
 	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-graph export "${sum_graph_folder}/fe_var2Q", as(png) replace 
+graph export "${sum_graph_folder}/fe_varSPFSPIQ", as(png) replace 
 
 
 twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
@@ -225,7 +226,7 @@ twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
 	   if PRCPCEVar1mean!=., ///
 	   title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
 	   legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-graph export "${sum_graph_folder}/fe_var3Q", as(png) replace 
+graph export "${sum_graph_folder}/fe_varSPFPCEQ", as(png) replace 
 
 
 
@@ -234,7 +235,7 @@ twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
 	   if PRCCPIVar1mean!=., ///
 	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
 	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/var_disg2Q", as(png) replace 
+graph export "${sum_graph_folder}/var_disgSPFCPIQ", as(png) replace 
 
 
 twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
@@ -242,8 +243,59 @@ twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
 	   if PRCPCEVar1mean!=., ///
 	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
 	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-graph export "${sum_graph_folder}/var_disg3Q", as(png) replace 
+graph export "${sum_graph_folder}/var_disgSPFPCEQ", as(png) replace 
+
 */
+
+
+** These are the charts for paper draft 
+
+label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+label var SPFCPI_FE "Average Forecast Error"
+label var CPI_disg "Disagreements"
+label var PRCCPIVar1mean "Average Uncertainty(RHS)"
+label var Inf1yf_PCE "Realized PCE Inflation"
+label var SPFPCE_FE "Average Forecast Error"
+label var PCE_disg "Disagreements"
+label var PRCPCEVar1mean "Average Uncertainty(RHS)"
+
+
+foreach var in Inf1yf_CPIAU SPFCPI_FE CPI_disg{
+pwcorr `var' PRCCPIVar1mean, star(0.05)
+local rho: display %4.2f r(rho) 
+twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+       (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+	   if PRCCPIVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation(SPF CPI)",size(med)) xtitle("Time") ytitle("") ///
+	   legend(size(small)) ///
+	   caption("{superscript:Corr Coeff= `rho'}", ///
+	   justification(left) position(11) size(large))
+graph export "${sum_graph_folder}/`var'_varSPFCPIQ", as(png) replace
+}
+
+
+foreach var in Inf1yf_PCE SPFPCE_FE PCE_disg{
+pwcorr `var' PRCPCEVar1mean, star(0.05)
+local rho: display %4.2f r(rho) 
+twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+       (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+	   if PRCPCEVar1mean!=., ///
+	   title("1-yr-ahead Expected Inflation(SPF PCE)",size(med)) xtitle("Time") ytitle("") ///
+	   legend(size(small)) ///
+	   caption("{superscript:Corr Coeff= `rho'}", ///
+	   justification(left) position(11) size(large))
+graph export "${sum_graph_folder}/`var'_varSPFPCEQ", as(png) replace
+}
+ddd
+
+********************************************************************
+** Drop the inflation measures temporarily used for plotting ********
+*********************************************************************
+
+
+foreach var in `Infbf'{
+  drop `var'
+}
 
 ********************************
 ***  Autoregression Quarterly **
@@ -495,6 +547,8 @@ foreach var in SPFCPI SPFPCE{
 
 esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(btestpv N r2) sfmt(%8.3f %8.3f %8.3f) replace
 */
+
+
 
 
 save "${folder}/InfExpQ.dta",replace 

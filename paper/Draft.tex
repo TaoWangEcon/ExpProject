@@ -473,17 +473,17 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 	\centering
 		\centering
 	\smallskip
-	\includegraphics[width=3.5cm]{figures/Inf_var2Q.png}
-	\includegraphics[width=3.5cm]{figures/fe_var2Q.png}
-	\includegraphics[width=3.5cm]{figures/var_disg2Q.png}\\
+	\includegraphics[width=3.5cm]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
+	\includegraphics[width=3.5cm]{figures/SPFCPI_FE_varSPFCPIQ.png}
+	\includegraphics[width=3.5cm]{figures/CPI_disg_varSPFCPIQ.png}\\
 	\smallskip
-	\includegraphics[width=3.5cm]{figures/Inf_var3Q.png}
-	\includegraphics[width=3.5cm]{figures/fe_var3Q.png}
-	\includegraphics[width=3.5cm]{figures/var_disg3Q.png}\\
+	\includegraphics[width=3.5cm]{figures/Inf1yf_PCE_varSPFPCEQ.png}
+	\includegraphics[width=3.5cm]{figures/SPFPCE_FE_varSPFPCEQ.png}
+	\includegraphics[width=3.5cm]{figures/PCE_disg_varSPFPCEQ.png}\\
 	\smallskip	
-	\includegraphics[width=3.5cm]{figures/Inf_var.png}
-	\includegraphics[width=3.5cm]{figures/fe_var.png}
-	\includegraphics[width=3.5cm]{figures/var_disg.png}\\
+	\includegraphics[width=3.5cm]{figures/Inf1yf_CPIAU_varSCEM.png}
+	\includegraphics[width=3.5cm]{figures/SCE_FE_varSCEM.png}
+	\includegraphics[width=3.5cm]{figures/Q9_disg_varSCEM.png}\\
 		\caption{Unceratinty and Other Moments}
 \end{figure}
 
@@ -642,23 +642,28 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 		\hline 
 		& Mean change & t-1       & t-1- t-2  & t-1-t-3   & Mean revision & t-1       & t-1- t-2  & t-1-t-3   &                      & Mean revision & t-1       & t-1- t-2  & t-1-t-3   \\
 		\hline 
-		L.InfExp\_Mean\_ch   &             & -0.295*** & -0.344*** & -0.367*** &               & -0.303*** & -0.348*** & -0.364*** & L.InfExp\_Var\_ch    &               & -0.382*** & -0.565*** & -0.652*** \\
-		&             & (0.034)   & (0.044)   & (0.045)   &               & (0.043)   & (0.059)   & (0.062)   &                      &               & (0.015)   & (0.022)   & (0.037)   \\
-		L2.InfExp\_Mean\_ch  &             &           & -0.179*** & -0.242*** &               &           & -0.162*   & -0.200**  & L2.InfExp\_Var\_ch   &               &           & -0.300*** & -0.406*** \\
-		&             &           & (0.047)   & (0.049)   &               &           & (0.061)   & (0.067)   &                      &               &           & (0.021)   & (0.031)   \\
-		L3.InfExp\_Mean\_ch  &             &           &           & -0.097**  &               &           &           & -0.088*   & L3.InfExp\_Var\_ch   &               &           & -0.123*** & -0.265*** \\
-		&             &           &           & (0.032)   &               &           &           & (0.036)   &                      &               &           & (0.012)   & (0.027)   \\
-		&             &           &           &           &               &           &           &           & L4.InfExp\_Var\_ch   &               &           &           & -0.130*** \\
-		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.025)   \\
-		&             &           &           &           &               &           &           &           & L5.InfExp\_Var\_ch   &               &           &           & -0.058**  \\
-		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.018)   \\
-		&             &           &           &           &               &           &           &           & L6.InfExp\_Var\_ch   &               &           &           & -0.025    \\
-		&             &           &           &           &               &           &           &           &                      &               &           &           & (0.012)   \\
-		Constant               & -0.005      & -0.004    & -0.011    & -0.015    & 0.001         & 0.008     & -0.002    & -0.007    & Constant               & -1.339***     & -1.324*** & -1.139*** & -0.839*** \\
-		& (0.023)     & (0.024)   & (0.026)   & (0.026)   & (0.020)       & (0.020)   & (0.022)   & (0.022)   &                      & (0.123)       & (0.110)   & (0.104)   & (0.163)   \\
+		L.InfExp\_Mean\_ch   &             & -0.295*** & -0.344*** & -0.367*** &               & -0.303*** & -0.348*** & -0.364*** & L.InfExp\_Mean\_ch  &         & -0.433*** & -0.586*** & -0.642*** \\
+		&             & (0.034)   & (0.044)   & (0.045)   &               & (0.043)   & (0.059)   & (0.062)   &                    &         & (0.01)     & (0.013)    & (0.025)    \\
+	
+		L2.InfExp\_Mean\_ch  &             &           & -0.179*** & -0.242*** &               &           & -0.162*   & -0.200**  & L2.InfExp\_Mean\_ch &         &           & -0.336*** & -0.439*** \\
+	
+		&             &           & (0.047)   & (0.049)   &               &           & (0.061)   & (0.067)   &                                   &         &           & (0.018)    & (0.031)    \\
+		L3.InfExp\_Mean\_ch  &             &           &           & -0.097**  &               &           &           & -0.088*   & L3.InfExp\_Mean\_ch &         &           & -0.143*** & -0.270*** \\
+		
+		&             &           &           & (0.032)   &               &           &           & (0.036)   &                                &         &           & (0.012)    & (0.027)    \\
+		
+		&             &           &           &           &               &           &           &           & L4.InfExp\_Mean\_ch &         &           &           & -0.183*** \\
+		
+		&             &           &           &           &               &           &           &           &                                 &         &           &           & (0.027)    \\
+		&             &           &           &           &               &           &           &           & L5.InfExp\_Mean\_ch &         &           &           & -0.096*** \\
+		&             &           &           &           &               &           &           &           &                      &         &           &           & (0.021)    \\
+		&             &           &           &           &               &           &           &           & L6.InfExp\_Mean\_ch &         &           &           & -0.044**  \\
+		&             &           &           &           &               &           &           &           &                                     &         &           &           & (0.013)    \\
+		Constant               & -0.005      & -0.004    & -0.011    & -0.015    & 0.001         & 0.008     & -0.002    & -0.007    & Constant              & -0.055* & -0.034    & -0.001    & -0.002    \\
+		& (0.023)     & (0.024)   & (0.026)   & (0.026)   & (0.020)       & (0.020)   & (0.022)   & (0.022)   &                                 & -0.023  & -0.023    & -0.028    & -0.033    \\
 		\hline 
-		N                    & 1636        & 1430      & 1266      & 1141      & 1402          & 1190      & 1022      & 898       & N                    & 53016         & 43166     & 28850     & 14445     \\
-	$R^2$                  & 0.000       & 0.086     & 0.112     & 0.128     & 0.000         & 0.090     & 0.112     & 0.120     & $R^2$ & 0.000         & 0.182     & 0.278     & 0.321     \\
+		N                    & 1636        & 1430      & 1266      & 1141      & 1402          & 1190      & 1022      & 898       & N                   & 53016   & 43166     & 28850     & 14445     \\
+	$R^2$                  & 0.000       & 0.086     & 0.112     & 0.128     & 0.000         & 0.090     & 0.112     & 0.120     & $R^2$ &  0.000       & 0.202     & 0.273     & 0.306   \\
 		\hline 
 		\multicolumn{14}{l}{Test 4. Weak revision efficiency of change in uncertainty}                \\
 		\hline                                                                                                                 
@@ -725,8 +730,9 @@ Responses to productivity and oil price shocks presented in the left panel of th
 
 Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both CPI and PCE forecasts in the second graph of the left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
 
-FIRE predicts zero disagreements while both SE and NI models imply disagreements pick up following shocks regardless of the sign and gradully drop over longer horizon.  Looking into the graph, the average response of disgreements to the absolute value of technology and oil shocks does exhibite a pattern similar to the later.  Note now that the initial response is not statistically significant(same as the original result.). Besides, there is also one subtle difference between the SE and NI on disagreements in that disagreements always exist with the presense of private signals, in contrast, SE predicts that the disagreements is zero over the long run. The evidence from impulse response of disagreements seem to be more consistent with SE than NI.
+FIRE predicts zero disagreements while both SE and NI models imply disagreements pick up following shocks regardless of the sign and gradully drop over longer horizon.  Looking into the graph, the average response of disgreements to the absolute value of technology and oil shocks does exhibite a pattern similar to the later.  Note now that the initial response is no longer statistically significant(same as the original result.) and the pick-up of disagreement after both shocks seem to take place one quarter after the shock. 
 
+The level at whch disagreements converge over the long-run shed light upon one subtle difference between the SE and NI. Disagreements always exist in NI with the presense of private signals , in contrast, disagreements is zero over the long run. The evidence from impulse response of disagreements seem to be more consistent with SE than NI.
 
 
 

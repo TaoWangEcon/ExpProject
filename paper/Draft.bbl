@@ -5,6 +5,11 @@ Angeletos, G.-M. and Jennifer, L. (2009).
 \newblock Incomplete information, higher-order beliefs and price inertia.
 \newblock {\em Journal of Monetary Economics}, 56:S19--S37.
 
+\bibitem[Barsky and Sims, 2011]{barsky2011news}
+Barsky, R.~B. and Sims, E.~R. (2011).
+\newblock News shocks and business cycles.
+\newblock {\em Journal of monetary Economics}, 58(3):273--289.
+
 \bibitem[Carroll, 2003]{carroll2003macroeconomic}
 Carroll, C.~D. (2003).
 \newblock Macroeconomic expectations of households and professional
@@ -16,10 +21,42 @@ Coibion, O. and Gorodnichenko, Y. (2012).
 \newblock What can survey forecasts tell us about information rigidities?
 \newblock {\em Journal of Political Economy}, 120(1):116--159.
 
+\bibitem[Engelberg et~al., 2009]{engelberg2009comparing}
+Engelberg, J., Manski, C.~F., and Williams, J. (2009).
+\newblock Comparing the point predictions and subjective probability
+  distributions of professional forecasters.
+\newblock {\em Journal of Business \& Economic Statistics}, 27(1):30--41.
+
+\bibitem[Francis et~al., 2014]{francis2014flexible}
+Francis, N., Owyang, M.~T., Roush, J.~E., and DiCecio, R. (2014).
+\newblock A flexible finite-horizon alternative to long-run restrictions with
+  an application to technology shocks.
+\newblock {\em Review of Economics and Statistics}, 96(4):638--647.
+
+\bibitem[Fuhrer, 2018]{fuhrer2018intrinsic}
+Fuhrer, J.~C. (2018).
+\newblock Intrinsic expectations persistence: evidence from professional and
+  household survey expectations.
+
 \bibitem[Gabaix, 2014]{gabaix2014sparsity}
 Gabaix, X. (2014).
 \newblock A sparsity-based model of bounded rationality.
 \newblock {\em The Quarterly Journal of Economics}, 129(4):1661--1710.
+
+\bibitem[Gali, 1999]{gali1999technology}
+Gali, J. (1999).
+\newblock Technology, employment, and the business cycle: do technology shocks
+  explain aggregate fluctuations?
+\newblock {\em American economic review}, 89(1):249--271.
+
+\bibitem[Hamilton, 1996]{hamilton1996happened}
+Hamilton, J.~D. (1996).
+\newblock This is what happened to the oil price-macroeconomy relationship.
+\newblock {\em Journal of Monetary Economics}, 38(2):215--220.
+
+\bibitem[Las{\'e}en and Svensson, 2011]{laseen2011anticipated}
+Las{\'e}en, S. and Svensson, L.~E. (2011).
+\newblock Anticipated alternative instrument-rate paths in policy simulations.
 
 \bibitem[Mankiw et~al., 2003]{mankiw2003disagreement}
 Mankiw, N.~G., Reis, R., and Wolfers, J. (2003).
@@ -30,6 +67,11 @@ Mankiw, N.~G., Reis, R., and Wolfers, J. (2003).
 Manski, C.~F. (2004).
 \newblock Measuring expectations.
 \newblock {\em Econometrica}, 72(5):1329--1376.
+
+\bibitem[Nordhaus, 1987]{nordhaus1987forecasting}
+Nordhaus, W.~D. (1987).
+\newblock Forecasting efficiency: concepts and applications.
+\newblock {\em The Review of Economics and Statistics}, pages 667--674.
 
 \bibitem[Reis, 2006]{reis2006inattentive}
 Reis, R. (2006).

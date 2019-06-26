@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}25 Jun 2019, 20:35:51
+ {txt}opened on:  {res}26 Jun 2019, 17:41:56
 {txt}
 {com}. 
 . ****************************************
@@ -609,6 +609,9 @@ COREPCE1y_ch {c |}
 . ***  Collapse monthly data to quarterly  **
 . *******************************************
 . 
+. local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCEPI Inf1yf_PCEPI
+{txt}
+{com}. 
 . local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
 >                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
 >                                 PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
@@ -629,7 +632,7 @@ COREPCE1y_ch {c |}
 {txt}
 {com}. 
 . 
-. collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
+. collapse (mean) `Moments' `MomentsMom' `MomentsRv' `Infbf', ///
 >                                 by(year quarter) 
 {txt}
 {com}. 
@@ -654,6 +657,225 @@ COREPCE1y_ch {c |}
 {com}. 
 . order date year quarter 
 {txt}
+{com}. 
+. /*
+> ********************************************************
+> *** Multiple series charts Quarterly (Moments Only)  ***
+> ********************************************************
+> drop if CPI1y ==. | PCE1y==.
+> 
+> 
+> twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
+>        (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
+>                                                  title("1-yr-ahead Expected Inflation") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(label(1 "Mean Expectation(SCE)") ///
+>                                                         label(2 "Median Expectation(Michigan)") ///
+>                                                                 label(3 "Mean Expectation CPI (SPF)") ///
+>                                                                 label(4 "Mean Expectation PCE (SPF)") col(1))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_medQ", as(png) replace
+> 
+> 
+> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+>        (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if CORECPI_disg!=., ///
+>            title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/disg_disgQ", as(png) replace 
+> 
+> 
+> twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
+>            (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
+>            if Q9_var!=., ///
+>            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Uncertainty (SCE)")  /// 
+>                   label(2 "Uncertainty (SPF CPI)(RHS)") ///
+>                           label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
+>                           
+> graph export "${c -(}sum_graph_folder{c )-}/var_varQ", as(png) replace 
+> 
+> 
+> twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
+>         (tsline SPFPCE_FE, yaxis(2) lp("dash_dot")) ///
+>                          if SPFCPI_FE!=., ///
+>                                                  title("1-yr-ahead Forecast Errors") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(col(1) label(1 "SCE") label(2 "SPF CPI (RHS)") ///
+>                                                                 label(3 "SPF PCE(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_feQ", as(png) replace
+> 
+> 
+> twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+>        (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+>            (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+>            if PRCCPIVar1p25!=. , /// 
+>            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+>                   label(3 "50 percentile of uncertainty")) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRvarCPIQ", as(png) replace 
+> 
+> 
+> twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
+>        (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
+>            (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
+>            if PRCPCEVar1p25!=. , ///
+>            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+>                   label(3 "50 percentile of uncertainty")) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRvarPCEQ", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCCPIVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_varSPFSPIQ", as(png) replace 
+> 
+> 
+> twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
+>        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCPCEVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_varSPFPCEQ", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCCPIVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disgSPFCPIQ", as(png) replace 
+> 
+> 
+> twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
+>        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if PRCPCEVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disgSPFPCEQ", as(png) replace 
+> 
+> */
+. 
+. 
+. ** These are the charts for paper draft 
+. 
+. label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+{txt}
+{com}. label var SPFCPI_FE "Average Forecast Error"
+{txt}
+{com}. label var CPI_disg "Disagreements"
+{txt}
+{com}. label var PRCCPIVar1mean "Average Uncertainty(RHS)"
+{txt}
+{com}. label var Inf1yf_PCE "Realized PCE Inflation"
+{txt}
+{com}. label var SPFPCE_FE "Average Forecast Error"
+{txt}
+{com}. label var PCE_disg "Disagreements"
+{txt}
+{com}. label var PRCPCEVar1mean "Average Uncertainty(RHS)"
+{txt}
+{com}. 
+. 
+. foreach var in Inf1yf_CPIAU SPFCPI_FE CPI_disg{c -(}
+{txt}  2{com}. pwcorr `var' PRCCPIVar1mean, star(0.05)
+{txt}  3{com}. local rho: display %4.2f r(rho) 
+{txt}  4{com}. twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+>            if PRCCPIVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF CPI)",size(med)) xtitle("Time") ytitle("") ///
+>            legend(size(small)) ///
+>            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
+>            justification(left) position(11) size(large))
+{txt}  5{com}. graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFCPIQ", as(png) replace
+{txt}  6{com}. {c )-}
+
+             {txt}{c |} Inf1yf~U PRCCPI..
+{hline 13}{c +}{hline 18}
+Inf1yf_CPIAU {c |} {res}  1.0000 
+{txt}PRCCPIVar1~n {c |} {res} -0.1007   1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/Inf1yf_CPIAU_varSPFCPIQ written in PNG format)
+
+             {c |} SPFCPI~E PRCCPI..
+{hline 13}{c +}{hline 18}
+   SPFCPI_FE {c |} {res}  1.0000 
+{txt}PRCCPIVar1~n {c |} {res}  0.1264   1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/SPFCPI_FE_varSPFCPIQ written in PNG format)
+
+             {c |} CPI_disg PRCCPI..
+{hline 13}{c +}{hline 18}
+    CPI_disg {c |} {res}  1.0000 
+{txt}PRCCPIVar1~n {c |} {res} -0.2887*  1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/CPI_disg_varSPFCPIQ written in PNG format)
+
+{com}. 
+. 
+. foreach var in Inf1yf_PCE SPFPCE_FE PCE_disg{c -(}
+{txt}  2{com}. pwcorr `var' PRCPCEVar1mean, star(0.05)
+{txt}  3{com}. local rho: display %4.2f r(rho) 
+{txt}  4{com}. twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>        (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+>            if PRCPCEVar1mean!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF PCE)",size(med)) xtitle("Time") ytitle("") ///
+>            legend(size(small)) ///
+>            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
+>            justification(left) position(11) size(large))
+{txt}  5{com}. graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFPCEQ", as(png) replace
+{txt}  6{com}. {c )-}
+
+             {txt}{c |} Inf1yf~I PRCPCE..
+{hline 13}{c +}{hline 18}
+Inf1yf_PCEPI {c |} {res}  1.0000 
+{txt}PRCPCEVar1~n {c |} {res} -0.0507   1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/Inf1yf_PCE_varSPFPCEQ written in PNG format)
+
+             {c |} SPFPCE~E PRCPCE..
+{hline 13}{c +}{hline 18}
+   SPFPCE_FE {c |} {res}  1.0000 
+{txt}PRCPCEVar1~n {c |} {res}  0.0625   1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/SPFPCE_FE_varSPFPCEQ written in PNG format)
+
+             {c |} PCE_disg PRCPCE..
+{hline 13}{c +}{hline 18}
+    PCE_disg {c |} {res}  1.0000 
+{txt}PRCPCEVar1~n {c |} {res} -0.4582*  1.0000 
+{p 0 4 2}
+{txt}(note:  named style
+med not found in class
+gsize,  default attributes used)
+{p_end}
+{res}{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/PCE_disg_varSPFPCEQ written in PNG format)
+
 {com}. ddd
 {err}unrecognized command:  ddd
 {txt}{search r(199):r(199);}
@@ -662,6 +884,4 @@ end of do-file
 
 {search r(199):r(199);}
 
-{com}. clear
-
-. 
+{com}. 
