@@ -6,47 +6,48 @@ Database file #1: TestingExpectationTheories.bib
 Warning--I didn't find a database entry for "xx"
 Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "coibon2012can"
+Warning--I didn't find a database entry for "xxx"
 Warning--empty journal in fuhrer2018intrinsic
 Warning--empty journal in laseen2011anticipated
-You've used 17 entries,
+You've used 18 entries,
             1935 wiz_defined-function locations,
-            586 strings with 6337 characters,
-and the built_in function-call counts, 6567 in all, are:
-= -- 673
-> -- 187
-< -- 15
-+ -- 62
-- -- 58
-* -- 562
-:= -- 1121
-add.period$ -- 49
-call.type$ -- 17
-change.case$ -- 114
-chr.to.int$ -- 17
-cite$ -- 19
-duplicate$ -- 245
-empty$ -- 500
-format.name$ -- 85
-if$ -- 1281
+            594 strings with 6465 characters,
+and the built_in function-call counts, 6989 in all, are:
+= -- 717
+> -- 200
+< -- 16
++ -- 66
+- -- 62
+* -- 601
+:= -- 1191
+add.period$ -- 52
+call.type$ -- 18
+change.case$ -- 121
+chr.to.int$ -- 18
+cite$ -- 20
+duplicate$ -- 259
+empty$ -- 532
+format.name$ -- 92
+if$ -- 1364
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 17
-newline$ -- 86
-num.names$ -- 51
-pop$ -- 76
+missing$ -- 18
+newline$ -- 91
+num.names$ -- 54
+pop$ -- 80
 preamble$ -- 1
-purify$ -- 114
+purify$ -- 121
 quote$ -- 0
-skip$ -- 197
+skip$ -- 208
 stack$ -- 0
-substring$ -- 608
-swap$ -- 24
+substring$ -- 651
+swap$ -- 25
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 102
+type$ -- 108
 warning$ -- 2
-while$ -- 65
+while$ -- 69
 width$ -- 0
-write$ -- 217
-(There were 5 warnings)
+write$ -- 230
+(There were 6 warnings)

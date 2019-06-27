@@ -16,7 +16,7 @@ footskip=.25in]{geometry}
 \usepackage{natbib}
 
 %opening
-\title{Rigidity of Expectation: Additional Evidence from Density Forecasts}
+\title{Rigidity of Expectation: Additional Evidence from Density Forecasts of Professionals and Households}
 \author{Tao Wang}
 
 \begin{document}
@@ -78,7 +78,9 @@ In summary, we have 3 individual moments and 4 population moments listed in belo
 
 Finally, we assume the underlying true process of $y_{t}$ is $AR(1)$ with persistency parameter $0<\rho <1$ and i.i.d. shock $\omega_t$. 
 
-$$y_{t+1} = \rho y_t + \omega_t$$
+\begin{eqnarray}\label{AR_process}
+	y_{t+1} = \rho y_t + \omega_t
+\end{eqnarray}
 
 $$\omega_t \sim N(0,\sigma^2_{\omega})$$
 
@@ -735,7 +737,7 @@ In this paper I use three types of shocks: technology shock\citet{gali1999techno
 
 (2) Oil price shock in each period is defined as the maximum of log change in crude oil prices over the past 1-year and 0. Therefore it is bounded zero.\footnote{The series of oil price is Spot Crude Oil Price: West Texas Intermediate (WTI).}
 
-(3) Monetary policy shocks: target surprise and path surprise in the termiology of \citet{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular dates of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
+(3) Monetary policy shocks: target surprise and path surprise in the termiology of \citet{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular date of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
 
 The reason for including monetary policy shocks, although it turns out to provide less robust evidence, is twofold. First, it is well known that the role of expectation in the working and implementation of monetary policy in the post criss period has been of a great relevance. Especially, around zero-lower-bound, the central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
 
@@ -786,14 +788,14 @@ Or there are other explanations.  First, overal the monetary policy shocks contr
 	\smallskip
 	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
 		\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks.png} 
-	\caption{Inflation and Forecasts Moments Responses: 1984-2007}
+	\caption{Responses of Inflation and Professional Forecast Moments: 1984-2007}
 	\label{ReplicateCoibionBefore2007}
 \end{figure}
 
 
 \subsection{Additional Evidence from Uncertainty}
 
-In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to include the post-2007 period till 2019. Since PCE inflation forecast is avaiable during this period, I report results for both CPI and PCE as in previous analysis. Besides, post2007 is the period when SPF surveys density forecasts that allow us to study the dynamics of uncertainty. 
+In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to include the post-2007 years till 2019. Importantly, post2007 is the period when SPF starts surveying density forecasts that allow us to study the dynamics of uncertainty. In addition, the post crisis period has been characterized by a number of different features in terms of the behavior of macroeconomy(i.e. persistently low inflation) and monetary policy implmentation (i.e. emphasis on monetary policy communication and zero lower bound), therefore it is worth examining if the patterns documented by \cite{coibion2012can} remain for the entire period. Also, since PCE inflation forecast is not avaiable untill 2007, I report results for both CPI and PCE as in previous analysis. 
 
 The left panel of  Figure \ref{ReplicateCoibionwholeperiod} presents impulse reponses of average uncertainty of SPF in addition to that inflation, forecast error, disagreements in response to technology and oil price shocks. As shown in the top three figures, the results are consistent with that in Figure \ref{ReplicateCoibionBefore2007} for period before 2007.  Oil shock(technology shock) increases(decreases) inflation in the first quarter by 10 percentage  points, whose imapcts last till 7-8th quarters. Confidence interval of the responses is smaller compared to previous figure probably due to larger sample size.  Average forecast errors react partially to the shock and gradually return to zero over the 4-5th quarters afterward. Disagreements picked up in the second quarter and return to zero 2 or 3 quarters  later. 
 
@@ -804,10 +806,11 @@ The primary focus of this paper is the behavior of uncertainty. Its responses to
  
 Impacts of monetary policies are shown in the right panel of Figure \ref{ReplicateCoibionwholeperiod}. Path surprise to federal funds rate, i.e. future monetary policy stances, again brings about the inflationary effect as before. One standard deviation of ture tightenning shock increases headlien CPI inflation by around 15 percentage points in the first period.  In the same time, unexpected rate change does not affect inflation significantly once we include the post-2007 period.  One possible explanation for this is the small variation of target surprise after financial crisis, as illustrated in Figure \ref{Inflationshocks}. Except for the dramatic monetary loosenning during financial crisis, there was little variation in the unexpected federal fund rate change.  
 
-Similar to results for pre-2007 period, the initial response of average forecast error to future tightening shock is statistically signifcant in the first period but insignificant soon after.  Intrestingly, even though the target surprise does not impacts on inflation iteself, forecast errors do react in an inflationary manner. The magnitude of the response is as large as 25 percentage points. Rigidity models predict forecast errors shoud depend on past shocks, while this does not seem to be the case for monetary policy shocks. Forecasters reaction to monetary policy shocks apear to more efficient than for supply shocks.
+Similar to results for pre-2007 period, the initial response of average forecast error to future tightening shock is statistically signifcant in the first period but insignificant soon after.  Interestingly, even though the target surprise does not affect inflation iteself, forecast errors do react to it in an inflationary manner. The magnitude of the response is as large as 25 percentage points in the first quarter. Rigidity models predict forecast errors depend on past shocks, while there does not seem to be strong evidence for this when it comes to monetary policy shocks. Forecasters reaction to monetary policy shocks apear to more efficient than for supply shocks. 
 
-Disagreements show little response to monetary policy shocks as well, with the only exception being PCE forecast with respect to path surprise.  
+Disagreements show little response to monetary policy shocks as well, with the only exception being PCE forecast with respect to path surprise. The estimates of these responses are not  significantly from zero throughout the entire horizon. Non-response of disagreements could arise if forecasters have incorparated the monetary policy shocks (thus the shock no longer qualified as a ``shock'') , or all forecasters simultaneously incorporating the realization of the monetary shocks. In the context of NI model, the disagreements can only arise with the presence of private signals. Therefore, monetary policy being a more public signal can help explain the mutted response of disagreements in comparison of the other shocks. \footnote{Another explanation is that monetary policy actually coordinates agents' expectations, thus accordingly reduce disagreements, according to \citet{morris2002social}. This mechanism can mute the response of disagreements.}
 
+Lastly, average uncertainty do not react to monetary policy shocks in the extended period. None of the response is significantly different from zero. This is the same with technology and oil price shocks. 
 
 \begin{figure}[ht]
 	\centering
@@ -824,12 +827,28 @@ Disagreements show little response to monetary policy shocks as well, with the o
 	\smallskip 
 	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp.png} 
 	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks.png} 
-	\caption{Inflation and Forecasts Moments Responses: 1984-2019}
+	\caption{Responses of Inflation and Professional Forecast Moments: 1984-2019}
 	\label{ReplicateCoibionwholeperiod}
 \end{figure}
 
 
 \subsection{Evidence from Households}
+
+It is widely documented in the literature that behaviors of households expectations more idiosyncratic in comarison with that of professional forecasters. \footnote{For this reason, \cite{carroll2003macroeconomic}, for instance, use median professional forecasts as to approximate ``rational'' forecasts.} This section extends the impulse responses estimation of externally identified shocks to the household forecasts moments of SCE.  The monthly data of SCE allows an analysis in a higher frequency but for a shorter period 2013-2019. 
+
+As technology shock can only be recovered from quarterly time series of output, I only present results using oil price shock and monetary policy shocks in Figure \ref{SCE_IR}. The responses to oil price shocks, target surprise and path surprise are plottd in column 1, 2 and 3, respectively. 
+
+Oil price shock increases CPI by  7-8 percentage points in the first period and the imapcts last over the entire 10 months. This is not surprising from the previous results on quarterly data. 
+
+Estimated in higher frequency, the response to target surprise is on average 2.5 percentage points and statistically significant in $10\%$ level. This confirms the wide practice of the literature that identifies monetary non-netrality using high frequency data. In contrast, the inflation responses to path surprise is not significant. 
+
+As to the households forecast, the starkly wider confidence band across  shocks and moments seen in Figure \ref{SCE_IR} are not that surprising given the wide dispersion of the forecasts moments of a dramatically larger magnitude seen in Figure \ref{UnceratitnyOtherMoments}.  
+
+One of the major patterns arising here is that there is no notable difference in responses to oil price shock versus monetary policy shocks, as seen in professional forecasters.  Average forecast errors react to none of these shocks and neither do disagreements and uncertainty.  
+
+One interesting exception is the response of disagreements to oil price changes. Households' disagreements concerning inflation drop by 1 percentage point in the first period after an oil price shock and the response has a reasonably small standard error. The drop only lasts for 1 month and immediately return to zero since then. This suggests that households are digesting the shock in an efficient manner.  
+
+It is widely conjectured (in spite of limited evidence) that salient items such as gasline price plays an improprotionate role in affectign household inflation expectation. The evidence presented here seems to be consistent with such a prediction. 
 
 
 
@@ -846,9 +865,19 @@ Disagreements show little response to monetary policy shocks as well, with the o
 	\smallskip 
 	\includegraphics[width=3cm,height=2cm]{figures/SCEVar_ab_ashocks_nmpM.png} 
 	\includegraphics[width=6cm,height=2cm]{figures/SCEVar_ab_ashocksM.png} 
-	\caption{ Impulse Responses of Inflation and SCE Forecasts to Inflation Shocks}
+	\caption{ Responses of Inflation and Household Forecast Moments: 2013-2019}
 	\label{SCE_IR}
 \end{figure}
+
+\subsection{Discussion of the results and next step}
+
+This section presents one major additional insight in addition to \cite{coibion2012can}: expectation rigidity is dependent on the type of shock. In particular, professional forecasters are slow in digesting oil and technology shock to resolve disagreements and reduce forecast error while react to monetary policy shocks relatively more efficient. This is the easiest seen in the non-response or instantaneous response if any of forecast error and disagreements to monetary policy shocks. The similar can be said for households, in constrast, for oil price shock instead of monetary policy shocks.
+
+Shock-dependent rigidity is not a default feature in the benchmark rigidity models such as SE and NI, i.e. $\omega_t$ in Equation \ref{AR_process}. It is true that the distinction of public and private signals within NI provides one possibility of reconciling difference in resposnes to shocks.  If we interprete different ``shocks'' considered here as noisy signals instead of shocks to fundamental variable as defiend in \ref{AR_process}, then the difference across ``shocks'' in their degree of publicity may acount for the difference in rigidity.  But this implicitly implies redefining the  framework presentd in this paper. 
+
+Moreover, the finding that average uncertainty of fixing horizon by forecasters and households do not react to all the shocks is consistent with the current framework although it does not differentiate rigidity models from FIRE benchmark.  
+
+Efficient revision implies  uncertainty drop as much as the volatility of the shock as one approach the terminate date. Given the volatility of of different shock are different, this provides the possibility of identifying rigidity by directly comparing the observed revision in uncertainty and that is consistent with the volatility of the shock. This will be the next step of the analysis.  
 
 \section{Conclusion}
 
