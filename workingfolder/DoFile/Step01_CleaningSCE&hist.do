@@ -232,6 +232,18 @@ label var Q48 "interesting/uninteresting of the questions in the survey(1/0)"
 
 
 *************************
+*** Exclude outliers *****
+*************************
+
+local Moments Q9_mean Q9_var
+
+foreach var in `Moments'{
+      egen `var'p5=pctile(`var'),p(5)
+	  egen `var'p95=pctile(`var'),p(95)
+	  replace `var' = . if `var' <`var'p5 | (`var' >`var'p95 & `var'!=.)
+}
+
+*************************
 *** Other Measures *****
 *************************
 
@@ -253,25 +265,6 @@ foreach mom in mean var{
 
 save "${folder}/SCE/InfExpSCEProbIndM",replace 
 
-*************************
-*** Population SCE ******
-*************************
-
-
-
-local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg
-local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75
-
-
-collapse (mean) `Moments' `MomentsMom', by(date year month)
-
-label var Q9_mean "Average 1-yr-ahead Expected Inflation(%)"
-label var Q9_var "Average Uncertainty of 1-yr-ahead Expected Inflation"
-label var Q9_iqr "Average 25/75 IQR of 1-yr-ahead Expected Inflation(%)"
-label var Q9_cent50 "Average Median of 1-yr-ahead Expected Inflation(%)"
-label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
-
-
 ***************************************
 **   Histograms of Moments  ***********
 ** Maybe replaced by kernel desntiy **
@@ -287,8 +280,9 @@ gen SCE_var = .
  foreach mom in mean{
     replace `var'_`mom' = Q9_`mom'
 	local lb: variable label Q9_`mom'
-    twoway (kdensity `var'_`mom',lcolor(red)), ///
-	       by(year,title("Distribution of `lb'",size(med))) xtitle("Mean forecast")
+    twoway (kdensity `var'_`mom',lcolor(red) lwidth(thick) ), ///
+	       by(year,title("Distribution of `lb'",size(med)) note("")) xtitle("Mean forecast") ///
+		   ytitle("Fraction of population")
 	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
 }
 }
@@ -298,13 +292,31 @@ foreach mom in var{
 foreach var in SCE{
     replace `var'_`mom' = Q9_`mom'
 	local lb: variable label Q9_`mom'
-    twoway (kdensity `var'_`mom',lcolor(blue)), ///
-	       by(year,title("Distribution of `lb'",size(med))) xtitle("Uncertainty")
+    twoway (kdensity `var'_`mom',lcolor(blue) lwidth(thick)), ///
+	       by(year,title("Distribution of `lb'",size(med)) note("")) xtitle("Uncertainty") ///
+		   ytitle("Fraction of population")
 	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
 }
 }
 
-*/
+
+*************************
+*** Population SCE ******
+*************************
+
+
+local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg
+local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75
+
+
+collapse (mean) `Moments' `MomentsMom', by(date year month)
+
+label var Q9_mean "Average 1-yr-ahead Expected Inflation(%)"
+label var Q9_var "Average Uncertainty of 1-yr-ahead Expected Inflation"
+label var Q9_iqr "Average 25/75 IQR of 1-yr-ahead Expected Inflation(%)"
+label var Q9_cent50 "Average Median of 1-yr-ahead Expected Inflation(%)"
+label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
+
 
 save "${folder}/SCE/InfExpSCEProbPopM",replace 
 

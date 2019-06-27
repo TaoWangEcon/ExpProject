@@ -440,7 +440,7 @@ SCE data, although each individual is surveyed for 12 months in a row, is only a
 
 We follow \citet{engelberg2009comparing} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
 
-We drop the outliers of uncertainty estimates at both top and bottom one percentiles as these are typically abnormals that are due to measurement errors or other reasons.   
+For SPF, I drop the outliers of mean forecast and uncertainty estimates at both top and bottom one percentiles as these are typically abnormals that are due to measurement errors or other reasons.   For SCE, I drop top and bottom 5 percentile of mean forecasts and uncertainty as households mean forecast re inclined to give extream values. \footnote{(For mean forecasts and uncertainty, respectively, this means dropping 6528 and 5096 observations, out of 68887 observations in totla.}
 
 
 A summary of the data information is as below. 
@@ -536,11 +536,11 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=7cm]{figures/PRCCPIMean_rv_hist.png} 
-	\includegraphics[width=7cm]{figures/PRCCPIVar_rv_hist.png}  \\
+	\includegraphics[width=7cm]{figures/PRCCPIMean01_rv_true_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCCPIVar01_rv_true_hist.png}  \\
 	\smallskip
-	\includegraphics[width=7cm]{figures/PRCPCEMean_rv_hist.png} 
-	\includegraphics[width=7cm]{figures/PRCPCEVar_rv_hist.png}  \\
+	\includegraphics[width=7cm]{figures/PRCPCEMean01_rv_true_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCPCEVar01_rv_true_hist.png}  \\
 	\caption{Distribution of Revision in Forecasts}
 	\label{RevisionHist}
 \end{figure}

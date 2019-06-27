@@ -86,7 +86,7 @@ drop if ID==ID[_n-1] & INDUSTRY != INDUSTRY[_n-1]
 *** Save individual data afterwinsorization 
 
 save InfExpSPFDstIndQClean,replace 
-ddd
+
 ******************************
 **   Moments of Moments   ****
 ******************************
@@ -139,7 +139,7 @@ foreach mom in Mean Var{
 foreach mom in Mean Var{
    foreach var in PRCCPI PRCPCE{
       gen `var'`mom'_rv = `var'`mom'0 - `var'`mom'l1
-	  label var `var'`mom'_rv "Revision of `var'`mom'"
+	  *label var `var'`mom'_rv "Revision of `var'`mom'"
    }
 }
 
@@ -168,13 +168,49 @@ foreach mom in Var {
 ** Maybe replaced by kernel desntiy **
 ***************************************
 
-* Kernal density plot only 
+label var PRCCPIMean1 "forecast of CPI"
+label var PRCPCEMean1 "forecast of PCE"
+
+** These are charts for paper draft.
+foreach mom in Mean{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'1 
+    twoway (kdensity `var'`mom'_rv, n(20) lcolor(red) lwidth(thick)), ///
+	       xline(0) ///
+	       by(year,title("Distribution of revision in `lb'") note("")) ytitle("Fraction of population") ///
+		   xtitle("Revision in mean forecast")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
+ }
+}
+
+
+label var PRCCPIVar1 "uncertainty about CPI"
+label var PRCPCEVar1 "uncertainty about PCE"
+
+foreach mom in Var{
+   foreach var in PRCCPI PRCPCE{
+	local lb: variable label `var'`mom'1 
+    twoway (kdensity `var'`mom'_rv, n(50) lcolor(blue) lwidth(thick)), ///
+	       xline(0) ///
+	       by(year,title("Distribution of revision in `lb'") note("")) ytitle("Fraction of population") ///
+		   xtitle("Revision in uncertainty")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
+ }
+}
+
+
+
+
 /*
+* Kernal density plot only 
+** These are charts for paper draft.
+ 
 foreach mom in Mean{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'1
-    twoway (kdensity `var'`mom'1,fcolor(none) lcolor(red)), ///
-	       by(year,title("Distribution of `lb'")) 
+    twoway (kdensity `var'`mom'1,fcolor(none) lcolor(red) lwidth(thick)), ///
+	       by(year,title("Distribution of `lb'") note("")) ytitle("Fraction of population") ///
+		   note("")
 	graph export "${sum_graph_folder}/hist/`var'`mom'1_hist", as(png) replace 
  }
 }
@@ -182,24 +218,13 @@ foreach mom in Mean{
 foreach mom in Var{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'1 
-    twoway (kdensity `var'`mom'1, n(50) lcolor(blue)), ///
-	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population")
+    twoway (kdensity `var'`mom'1, n(50) lcolor(blue) lwidth(thick)), ///
+	       by(year,title("Distribution of `lb'") note("")) ytitle("Fraction of population")
 	graph export "${sum_graph_folder}/hist/`var'`mom'1_hist", as(png) replace 
  }
 }
 
 
-
-foreach mom in Mean{
-   foreach var in PRCCPI PRCPCE{
-	local lb: variable label `var'`mom'1 
-    twoway (kdensity `var'`mom'1, n(20) ) ///
-	       (kdensity `var'`mom'f0, n(50) lpattern(dash) fcolor(ltblue)), ///
-		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
-	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population")
-	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_hist", as(png) replace 
- }
-}
 
 foreach mom in Var{
    foreach var in PRCCPI PRCPCE{
@@ -214,27 +239,14 @@ foreach mom in Var{
 }
 
 
-
 foreach mom in Mean{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'1 
-    twoway (kdensity `var'`mom'_rv, n(20) lcolor(blue)), ///
-	       xline(0) ///
-	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population") ///
-		   xtitle("Revision in mean forecast")
-	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
- }
-}
-
-
-foreach mom in Var{
-   foreach var in PRCCPI PRCPCE{
-	local lb: variable label `var'`mom'_rv 
-    twoway (kdensity `var'`mom'_rv, n(50) lcolor(blue) ), ///
-	       xline(0) ///
-	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population") ///
-		   xtitle("Revision in uncertainty")
-	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_true_hist", as(png) replace 
+    twoway (kdensity `var'`mom'1, n(20) ) ///
+	       (kdensity `var'`mom'f0, n(50) lpattern(dash) fcolor(ltblue)), ///
+		   legend(order(1 "Nowcasting" 2 "Forecasting" )) ///
+	       by(year,title("Distribution of `lb'")) ytitle("Fraction of population")
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_rv_hist", as(png) replace 
  }
 }
 
@@ -262,8 +274,8 @@ foreach mom in Var{
 	graph export "${sum_graph_folder}/hist/`var'`mom'_hist", as(png) replace 
  }
 }
-*/
-/*
+
+
 * nowcasting and forecasting 
 
 foreach mom in Var{
