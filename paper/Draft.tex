@@ -2,7 +2,18 @@
 \usepackage{amsmath}
 \usepackage{adjustbox}
 \usepackage{graphicx}
-
+\usepackage[a4paper,bindingoffset=0.2in,%
+left=1in,right=1in,top=1.2in,bottom=1.2in,%
+footskip=.25in]{geometry}
+\usepackage{hyperref}
+\hypersetup{
+	colorlinks=true,
+	linkcolor=blue,
+	filecolor=blue,      
+	urlcolor=blue,
+	citecolor=blue
+}
+\usepackage{natbib}
 
 %opening
 \title{Rigidity of Expectation Formation: Additional Evidence from Desntify Forecasts}
@@ -17,7 +28,7 @@
 
 The theories on how agents form expectations in ways deviating from rational expectation(RE) benchmark have proliferated over the past decade. On one hand, these theories built upon different micro foundations produce some similar macro patterns. For instance, the notion of information rigidity, or expectation rigidity could be micro founded by many different theories, but mostly generate sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. This paper extends the current literature in this front by deriving the testable predictions from various theories on uncertainty and empirically test them utilizing the previously ignored probablistic forecast from both professional forecasters survey and household survey. Overall, the paper finds additional evidence from uncertainty consistent with the rigidity models. 
 
-The potential contribution lies in the extra insights I may get from using probablistic questions.\footnote{For an insightful survey on the importance of measuring subjective expectations using probablistic surveys, see \cite{manski2004measuring}.} One obvious advantage of density expectations compared to point one is availability of higher moments, i.e. variance of the forecast indicates the dispersion of the forecasts. Along time dimension, the dynamics of conditional relative likelihood is a useful indicator of information gain or forecasting efficiency. Besides, as in a typical signal-extraction model, the prediction that new information reduce conditional variance can be tested only using probability distributions. Although the detailed implementation of these tests involves technical difficulties, the ideas are quite clear.  Lastly, with second moments in individual level expectations, we are allowed to potentialy explore the heterogeneity across agents within one theory. For instance, sticky information typically assume a posson update rate for all agents in the economy. This is partly due to the fact that available data only allows us to recover single parameter of regidity instead of inter-group heterogeneity.  
+The potential contribution lies in the extra insights I may get from using probablistic questions.\footnote{For an insightful survey on the importance of measuring subjective expectations using probablistic surveys, see \citet{manski2004measuring}.} One obvious advantage of density expectations compared to point one is availability of higher moments, i.e. variance of the forecast indicates the dispersion of the forecasts. Along time dimension, the dynamics of conditional relative likelihood is a useful indicator of information gain or forecasting efficiency. Besides, as in a typical signal-extraction model, the prediction that new information reduce conditional variance can be tested only using probability distributions. Although the detailed implementation of these tests involves technical difficulties, the ideas are quite clear.  Lastly, with second moments in individual level expectations, we are allowed to potentialy explore the heterogeneity across agents within one theory. For instance, sticky information typically assume a posson update rate for all agents in the economy. This is partly due to the fact that available data only allows us to recover single parameter of regidity instead of inter-group heterogeneity.  
 
 \section{Theories of Expectation Formation}\label{theory}
 
@@ -30,7 +41,7 @@ Denote $ f_{i,t+h|t}$ as agent i's $h$-period-ahead density forecast. $ f_{i,t+h
 $$f_{i,t+h|t} \equiv f_{i,t}(y_{t+h}|I_{i,t})$$
 
 
-$I_{i,t}$ is the information set available for individual $i$ at time t. The information set can be  agent specific, thus it has subscript $i$.  The specific content contained in $I_t$ varies from different models of expectation. For instance, sticky expectation and rational inattention literature all assume that agents are not able to update new information instataneously. So the information set may not contain the most recent realization of the variable of forecast $y_t$. \footnote{Given the same information set available to agents, different theories may also differ in the underlying models each agent use to form the conditional density of the variables by agent $i$. Examples of such include multi-prior or model uncertainty. \cite{xx}. }
+$I_{i,t}$ is the information set available for individual $i$ at time t. The information set can be  agent specific, thus it has subscript $i$.  The specific content contained in $I_t$ varies from different models of expectation. For instance, sticky expectation and rational inattention literature all assume that agents are not able to update new information instataneously. So the information set may not contain the most recent realization of the variable of forecast $y_t$. \footnote{Given the same information set available to agents, different theories may also differ in the underlying models each agent use to form the conditional density of the variables by agent $i$. Examples of such include multi-prior or model uncertainty. \citet{xx}. }
 
 Accordingly, h-period ahead mean forecast at $t$, denoted as $ y_{i,t+h|t}$, is the conditional expectation of $y_{t+h}$ by the agent $i$. 
 
@@ -44,13 +55,14 @@ Individual forecast error $FE_{i,t+h|t}$ is the difference of ex post realized v
 
 $$FE_{i,t+h|t} = y_{i,t+h|t} - y_{t+h}$$
 
-The population analogues of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreements is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  \footnote{This is the same terminology used by \cite{xx}.}
+The population analogues of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreements is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  \footnote{This is the same terminology used by \citet{xx}.}
 
 In summary, we have 3 individual moments and 4 population moments listed in below in Table \ref{MomSum}.
 
-\begin{table}[]\label{MomSum}
+\begin{table}[]
 	\centering
 		\caption{Definition and Notation of Moments}
+		\label{MomSum}
 	\begin{tabular}{ll}
 
 		\hline 
@@ -79,23 +91,23 @@ Both individual and population forecast errors are simply the realized shocks be
 $$\overline{FE}^{*}_{i,t+h|t} = \sum^{h-1}_{s=1} \rho^s \omega_{t+h-s}$$ 
 
 
-I use supscrit of $*$ to denote all the moments according to FIRE. It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE. \cite{xx}
+I use supscrit of $*$ to denote all the moments according to FIRE. It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE. \citet{xx}
 
 The second implication from FIRE here is that forecast errors of non-overlapping horizon forecasts are not correlated. For instance, forecast error at time $t$ and that at time $t+h$ or further are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors. 
 
 $$Cov(\overline{FE}^{*}_{t+h|t}, \overline{FE}^{*}_{t+s+h|t+s}) = 0 \quad \forall s \geq h$$
 
-FIRE also has predictions about  population disagreements. \footnote{For instance, \cite{mankiw2003disagreement} documents substantial time-varying disagreements about future inflation using consumers and professional forecasters' survey. } As agents perfect update the same information, there is no disagreements at any point of the time. 
+FIRE also has predictions about  population disagreements. \footnote{For instance, \citet{mankiw2003disagreement} documents substantial time-varying disagreements about future inflation using consumers and professional forecasters' survey. } As agents perfect update the same information, there is no disagreements at any point of the time. 
 
 $$\overline{Disg}^{*}_{t+h|t}=0 \quad \forall t$$
 
-A corollary is that disagreements do not respond to realized shocks any any point of the time.  \footnote{Empricial tests of this kind include \cite{xx}.\cite{xx} etc. }
+A corollary is that disagreements do not respond to realized shocks any any point of the time.  \footnote{Empricial tests of this kind include \citet{xx}.\citet{xx} etc. }
 
-In addition to forecast error and disagreements, according to FIRE all individual shares the same degree of uncertainty. The uncertainty simply comes from uncertainty about future unrealized shocks between $t$ and $t+h$. To put it another way, according to FIRE, there is neither disagreements about mean, nor disagreements about the uncertainty \footnote{This is the same to \cite{}'s terminology.} 
+In addition to forecast error and disagreements, according to FIRE all individual shares the same degree of uncertainty. The uncertainty simply comes from uncertainty about future unrealized shocks between $t$ and $t+h$. To put it another way, according to FIRE, there is neither disagreements about mean, nor disagreements about the uncertainty \footnote{This is the same to \citet{}'s terminology.} 
 
 $$\bar \sigma^{*2}_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
 
-The time series behavior of uncertainty according to FIRE is less obvious. Weather it is time-variant depends on if the variance of the shocks $\omega_t$ is time varying. Although in our baseline case we make such an assumption, in general it may not be true. \footnote{\cite{xx} on time-varying volatility.}
+The time series behavior of uncertainty according to FIRE is less obvious. Weather it is time-variant depends on if the variance of the shocks $\omega_t$ is time varying. Although in our baseline case we make such an assumption, in general it may not be true. \footnote{\citet{xx} on time-varying volatility.}
 
 In the same time, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
 
@@ -110,7 +122,7 @@ $$\bar \sigma^{*2}_{t+h|t+1} - \bar \sigma^{*2}_{t+h|t} = - \rho^{2h}\sigma^2_\o
 
 \subsection{Sticky Expectation (SE)}
 
-The theory of sticky expectation (\cite{xx}, \cite{xx} ), regardless of its different microfoundations by various authors, builds upon the assumption that agents do not update information instantaneously as they do in FIRE. One of the most tractable models assume there is a homogenous Possion rate $\lambda$ of updating among the population. Specificaly, at any point of time $t$, each agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
+The theory of sticky expectation (\citet{xx}, \citet{xx} ), regardless of its different microfoundations by various authors, builds upon the assumption that agents do not update information instantaneously as they do in FIRE. One of the most tractable models assume there is a homogenous Possion rate $\lambda$ of updating among the population. Specificaly, at any point of time $t$, each agent learns about the up-to-date realization of $y_t$ with probability of $\lambda$; otherwise, it forms the expectation based on the most recent up-to-date realization of $y_{t-\tau}$, where $\tau$ is the time experienced since previous update. 
 
 
 
@@ -139,10 +151,10 @@ In summary, the key difference between FIRE and SE with respect to behavior of u
 	
 It is important to note that the rigidity in updating according to SE cannot be systamatically observable in the individual level, both in terms of forecasts errors and uncertainty. This is because the behaviors of each individual foreacst specifically depends on if the she updates or not in that period. 
 
-Relying upon the Law of Large Numbers, we can derive testable predictions about population moments that allow us perform tests of sticky expectation and recover rigidity parameter $\lambda$. \footnote{\cite{carroll2003macroeconomic} is one notable example of this.} 
+Relying upon the Law of Large Numbers, we can derive testable predictions about population moments that allow us perform tests of sticky expectation and recover rigidity parameter $\lambda$. \footnote{\citet{carroll2003macroeconomic} is one notable example of this.} 
 	
 
-One well known prediction from SE literature is that the average foreacast is a weighted average of update-to-date rational expectation and lagged average expectation as reproduced below. \footnote{See \cite{coibion2012can} or appendix of this paper for detailed steps.} It can be also expressed as a weighted average to all the past realizations of $y$. Setting $\lambda=1$, then the SE collapses to FIRE and the average forecast is equal to $y$'s long-run mean of zero.
+One well known prediction from SE literature is that the average foreacast is a weighted average of update-to-date rational expectation and lagged average expectation as reproduced below. \footnote{See \citet{coibion2012can} or appendix of this paper for detailed steps.} It can be also expressed as a weighted average to all the past realizations of $y$. Setting $\lambda=1$, then the SE collapses to FIRE and the average forecast is equal to $y$'s long-run mean of zero.
 
 \begin{eqnarray}
 \begin{aligned}
@@ -161,7 +173,7 @@ It is also easy to show that the average forecast errors are serially correlated
 \end{eqnarray}
 
 
-\cite{coibion2012can} also derives predictions about the disagreements in rigidity models. Unlike zero disagreements in FIRE, SE is characterized by non-zero dispersion in forecasting because of different lags in updating across populations. \footnote{need to check if correct also. Need to derive change in disagreements.} 
+\citet{coibion2012can} also derives predictions about the disagreements in rigidity models. Unlike zero disagreements in FIRE, SE is characterized by non-zero dispersion in forecasting because of different lags in updating across populations. \footnote{need to check if correct also. Need to derive change in disagreements.} 
 
 \begin{eqnarray}
 \begin{aligned}
@@ -171,7 +183,7 @@ It is also easy to show that the average forecast errors are serially correlated
 
 From time $t$ to $t+1$, the change in disagreements comes from two sources. One is newly realized shock at time $t+1$. The other component is from people who did not update at time $t$ and update at time $t+1$.  
 
-In SE, disagreements rise after realization of the shock and gradually returns to its steady state level. In the same time, it does not depend upon the particular realization of the shock. \cite{coibion2012can} derive the impulse response of dispersion at time $t+j$ to a shock that realized at $t$. 
+In SE, disagreements rise after realization of the shock and gradually returns to its steady state level. In the same time, it does not depend upon the particular realization of the shock. \citet{coibion2012can} derive the impulse response of dispersion at time $t+j$ to a shock that realized at $t$. 
 
 \begin{eqnarray}
 \rho^{2(h+j)} (1-\lambda^{j+1})\lambda^{j+1} \omega^2_t
@@ -211,7 +223,7 @@ Since not all agents incorporate the recent realized shocks, the revision in ave
 
 \subsection{Noisy information(NI)}
 
-A class of noisy information models (\cite{},\cite{}) describes the expectation formation as a process of extracting or filtering true variable $y_t$ from a sequence of realized signals. The starting assumption is that agent cannot observe the true variable perfectly. Unlike information rigidity model, it is assumed that agents keep track of the realizations of the signals instantaneously all the time. 
+A class of noisy information models (\citet{},\citet{}) describes the expectation formation as a process of extracting or filtering true variable $y_t$ from a sequence of realized signals. The starting assumption is that agent cannot observe the true variable perfectly. Unlike information rigidity model, it is assumed that agents keep track of the realizations of the signals instantaneously all the time. 
 
 We assume agent $i$ observe two signals $s^{pb}$ and $s^{pr}_i$, with $s^{pb}$ being public signal common to all agents, and $s^{pr}_i$ private signals being individual specific with subscript $i$. The generating process of two signals are assumed to be the following.
 
@@ -321,10 +333,11 @@ From $t$ to $t+1$, when $h\geq 1$, the decline in variance come from two sources
 Figure \ref{IllustrateNI} illustrates both the signal extraction problem at each period of $t+k$ and how it is used to predict the prediction of $y_{t+h}$. 
 
 
-\begin{figure}[h]\label{IllustrateNI}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=13cm]{figures/ni_illustration.png}  
-	\caption{Illustration Noisy Information}
+	\caption{Nowcasting and Forecasting in Noisy Information}
+	\label{IllustrateNI}
 \end{figure}
 
 
@@ -378,18 +391,20 @@ Figure \ref{ir_pop} plots the impulse responses of population moments of forecas
 
 This is the most intuitively seen in the dynamics of uncertainty. In particular, as one appraoch the realization $t+h$, uncertainty necessarily drop for FIRE and attains zero at the last period.  
 
-\begin{figure}[h]\label{ir_pop}
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=15cm]{figures/ir_popseni.png} 
+	\includegraphics[width=16cm]{figures/ir_popseni.png} 
 	\caption{Impulse responses of moments to a shock to inflation}
+	\label{ir_pop}
 \end{figure}
 
 One of the common predictions of SE and NI is there is information rigidity or stickiness of expecatations.  But both theory have suble difference in implied rigidity. I illustrate this in Figure \ref{rigidity}. One notable difference is that SE's rigidty is exogeously fixed. NI's rigidity is endogeously determined by the noisiness of the signals and it is time varying. 
  
-\begin{figure}[h]\label{rigidity}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=13cm]{figures/rigidity.png} 
 	\caption{Rigidity from Two Models}
+	\label{rigidity}
 \end{figure}
 
 
@@ -398,15 +413,15 @@ One of the common predictions of SE and NI is there is information rigidity or s
 \begin{enumerate}
 \item Rational inattention. 
 \begin{itemize}
-	\item Chris Sim's model.\cite{sims2003implications} Information serves the role of uncertainty reduction measured by relative entropy. Agents optimally trade off the fixed cost of being attentative versus the gain from uncertainty gain.   
-	\item Ricardo Reis's model. \cite{reis2006inattentive}
-	\item Xavier Gabaix's sparse matrix model. \cite{gabaix2014sparsity}
+	\item Chris Sim's model.\citet{sims2003implications} Information serves the role of uncertainty reduction measured by relative entropy. Agents optimally trade off the fixed cost of being attentative versus the gain from uncertainty gain.   
+	\item Ricardo Reis's model. \citet{reis2006inattentive}
+	\item Xavier Gabaix's sparse matrix model. \citet{gabaix2014sparsity}
 \end{itemize}
 
-\item Epidemiologic view. \cite{carroll2003macroeconomic} Regardless of the microfoundations of the information rigidity, households infrequently get access to more rational-and-up-to-date expectations from professional forecasters with a poisson process. 
+\item Epidemiologic view. \citet{carroll2003macroeconomic} Regardless of the microfoundations of the information rigidity, households infrequently get access to more rational-and-up-to-date expectations from professional forecasters with a poisson process. 
 
 
-\item Strategic behaviors. Second order belief, i.e., what you believe of what others believe. \cite{angeletos2009incomplete}
+\item Strategic behaviors. Second order belief, i.e., what you believe of what others believe. \citet{angeletos2009incomplete}
 
 
 
@@ -423,15 +438,16 @@ The structure of SPF allows us to directly test efficiency in revision as for th
 
 SCE data, although each individual is surveyed for 12 months in a row, is only asked to forecast 1-year-ahead inflation. This is especially so in the density forecast. So we can only perform a weak test. 
 
-We follow \cite{engelberg2009comparing} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
+We follow \citet{engelberg2009comparing} to estiamte the density distribution of each individual surveyee for SPF. New York Fed has followed the same procedures for SCE and directly provided their estimate of uncertainty. Therefore, I directly use them. 
 
 We drop the outliers of uncertainty estimates at both top and bottom one percentiles as these are typically abnormals that are due to measurement errors or other reasons.   
 
 
 A summary of the data information is as below. 
 
-\begin{table}[]
+\begin{table}[ht]
 			\caption{Information of Data}
+			\label{DataInfo}
 	\begin{tabular}{lll} 
 
 		\hline 
@@ -469,26 +485,26 @@ Once implication from FIRE is that all individuals not only agree on mean but al
 Another prediction from FIRE is that there is unambigous uncertainty reduction as one appraoches to the date of realization. Figure \ref{RevisionHist} plots the average revision in mean forecasts and uncertainty. The the more negative the revision lies in, the more rational of the forecast.  
 
 
-\begin{figure}[h]\label{UnceratitnyOtherMoments}
+\begin{figure}[ht]
 	\centering
-		\centering
 	\smallskip
-	\includegraphics[width=3.5cm]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
-	\includegraphics[width=3.5cm]{figures/SPFCPI_FE_varSPFCPIQ.png}
-	\includegraphics[width=3.5cm]{figures/CPI_disg_varSPFCPIQ.png}\\
+	\includegraphics[width=4.5cm]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
+	\includegraphics[width=4.5cm]{figures/SPFCPI_FE_varSPFCPIQ.png}
+	\includegraphics[width=4.5cm]{figures/CPI_disg_varSPFCPIQ.png}\\
 	\smallskip
-	\includegraphics[width=3.5cm]{figures/Inf1yf_PCE_varSPFPCEQ.png}
-	\includegraphics[width=3.5cm]{figures/SPFPCE_FE_varSPFPCEQ.png}
-	\includegraphics[width=3.5cm]{figures/PCE_disg_varSPFPCEQ.png}\\
+	\includegraphics[width=4.5cm]{figures/Inf1yf_PCE_varSPFPCEQ.png}
+	\includegraphics[width=4.5cm]{figures/SPFPCE_FE_varSPFPCEQ.png}
+	\includegraphics[width=4.5cm]{figures/PCE_disg_varSPFPCEQ.png}\\
 	\smallskip	
-	\includegraphics[width=3.5cm]{figures/Inf1yf_CPIAU_varSCEM.png}
-	\includegraphics[width=3.5cm]{figures/SCE_FE_varSCEM.png}
-	\includegraphics[width=3.5cm]{figures/Q9_disg_varSCEM.png}\\
+	\includegraphics[width=4.5cm]{figures/Inf1yf_CPIAU_varSCEM.png}
+	\includegraphics[width=4.5cm]{figures/SCE_FE_varSCEM.png}
+	\includegraphics[width=4.5cm]{figures/Q9_disg_varSCEM.png}\\
 		\caption{Unceratinty and Other Moments}
+		\label{UnceratitnyOtherMoments}
 \end{figure}
 
 
-\begin{figure}[h]\label{IQR_Unceratitny}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=8cm]{figures/IQRvarCPIQ.png} \\
 	\smallskip
@@ -496,47 +512,47 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 		\smallskip
 	\includegraphics[width=8cm]{figures/IQRvarSCEM.png}\\
 	\caption{Dispersion in Mean Forecast and Unceratinty }
+	\label{IQR_Unceratitny}
 \end{figure}
 
 
-\begin{figure}[h]\label{Unceratitny_Histogram}
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=6cm]{figures/PRCCPIMean1_hist.png} 
-	\includegraphics[width=6cm]{figures/PRCCPIVar1_hist.png}  \\
+	\includegraphics[width=7cm]{figures/PRCCPIMean1_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCCPIVar1_hist.png}  \\
 	\smallskip
-		\includegraphics[width=6cm]{figures/PRCPCEMean1_hist.png} 
-	\includegraphics[width=6cm]{figures/PRCPCEVar1_hist.png}  \\
+		\includegraphics[width=7cm]{figures/PRCPCEMean1_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCPCEVar1_hist.png}  \\
 	\smallskip
-		\includegraphics[width=6cm]{figures/SCEmean_hist.png} 
-	\includegraphics[width=6cm]{figures/SCEvar_hist.png}  \\
+		\includegraphics[width=7cm]{figures/SCEmean_hist.png} 
+	\includegraphics[width=7cm]{figures/SCEvar_hist.png}  \\
 	\caption{Distribution of Mean Forecast and Uncertainty }
+	\label{Unceratitny_Histogram}
 \end{figure}
 
 
-\begin{figure}[h]\label{RevisionHist}
+\begin{figure}[ht]
 	\centering
-	\includegraphics[width=6cm]{figures/PRCCPIMean_rv_hist.png} 
-	\includegraphics[width=6cm]{figures/PRCCPIVar_rv_hist.png}  \\
+	\includegraphics[width=7cm]{figures/PRCCPIMean_rv_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCCPIVar_rv_hist.png}  \\
 	\smallskip
-	\includegraphics[width=6cm]{figures/PRCPCEMean_rv_hist.png} 
-	\includegraphics[width=6cm]{figures/PRCPCEVar_rv_hist.png}  \\
+	\includegraphics[width=7cm]{figures/PRCPCEMean_rv_hist.png} 
+	\includegraphics[width=7cm]{figures/PRCPCEVar_rv_hist.png}  \\
 	\caption{Distribution of Revision in Forecasts}
+	\label{RevisionHist}
 \end{figure}
 
 
 
 \subsection{Test of Null Hypothesis of Rational Expectation}
 
-In Table \ref{NullTestTable}, I reproduce a number of commonly used tests of null hypothesis of FIRE replying on differnet specific implications discussed in the previous section mostly following \cite{mankiw2003disagreement}. 
+In Table \ref{NullTestTable}, I reproduce a number of commonly used tests of null hypothesis of FIRE replying on differnet specific implications discussed in the previous section mostly following \citet{mankiw2003disagreement}. 
 
 The first set of tests utilize the dynamics of forecast errors. First, the forecast error should be on average unbiased. The forecast error should converge to zero. Second, forecast errors of non-overlapping forecasting horizon are not serially correlated.  Third, forecast errors should not be predicted by any information available at the time of forecast, including the forecast itself and other variable that is in the agent's information content. 
 
- The second batch of tests focus on  forecasting efficiency utilizing revision across different vintages of forecasts in the spirit of \cite{nordhaus1987forecasting} and \cite{fuhrer2018intrinsic}. In particular, I follow the model specifications in \cite{fuhrer2018intrinsic}. According to FIRE, rational forecast revision only responds to newly realized shocks thus it cannot be predicted by past information. For the same reason, regression coefficient of forecast for $y_{t+h}$  at time $t+1$ on that at $t-1$ is exactly equal to $1$, implying one-to-one responses.  A weaker test in the similar test is that the change in mean forecast from one period to the next one fixing forecasting horizon is serially correlated to an greater extent than that comes from the additional period in far future. 
-
-The weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
-
-\begin{table}[]\label{NullTestTable}
+\begin{table}[ht]
 	\caption{Tests of Rationality and Efficicency using Forecast Errors}
+	\label{NullTestTable}
 	\centering 
 \begin{tabular}{llll}
 	\hline 
@@ -586,9 +602,15 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 \end{tabular}
 \end{table}
 
-\newpage 
 
-\begin{adjustbox}{angle=90}\label{RevEfficiency}
+The second batch of tests in Table \ref{RevEfficiency} focus on  forecasting efficiency utilizing revision across different vintages of forecasts in the spirit of \citet{nordhaus1987forecasting} and \citet{fuhrer2018intrinsic}. In particular, I follow the model specifications in \citet{fuhrer2018intrinsic}. According to FIRE, rational forecast revision only responds to newly realized shocks thus it cannot be predicted by past information. For the same reason, regression coefficient of forecast for $y_{t+h}$  at time $t+1$ on that at $t-1$ is exactly equal to $1$, implying one-to-one responses.  A weaker test in the similar test is that the change in mean forecast from one period to the next one fixing forecasting horizon is serially correlated to an greater extent than that comes from the additional period in far future. 
+
+
+\begin{table}[ht]
+	\caption{Tests of Revision Efficiency using Mean Revision and Uncertainty}
+	\label{RevEfficency}
+\begin{adjustbox}{angle=90}
+	
 	\begin{tabular}{lllllllll}
 		\hline 
 		& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       \\
@@ -631,9 +653,15 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 		\hline 
 	\end{tabular}
 \end{adjustbox}
+\end{table}
 
+The weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
 
-\begin{adjustbox}{width={22cm},totalheight={12cm},angle=90}\label{WeakRevEfficiency}
+\begin{table}
+	\centering 
+	\caption{Weak Tests of Revision Efficiency using Change in Foreacsts and Uncertainty}
+	\label{WeakRevEfficiency}
+\begin{adjustbox}{width={24cm},totalheight={14cm},angle=90}
 	\begin{tabular}{llllllllllllll}
 		\hline 
 		& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       &                      & \multicolumn{4}{l}{SCE}                           \\
@@ -689,33 +717,35 @@ The weak efficiency tests use change in forecast and uncertainty instead of revi
 		\hline    
 	\end{tabular}
 \end{adjustbox}
-
+\end{table}
+	
 \section{Responses of Expectations to Inflation Shocks }\label{IRShocks}
 
- \cite{coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in previous section, this approach allows a more straightforward comparison between the emprical evidence from surveys and the theoriecal predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
+ \citet{coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in previous section, this approach allows a more straightforward comparison between the emprical evidence from surveys and the theoriecal predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
  
-In this paper I use three types of shocks: technology shock\cite{gali1999technology}, oil price shock\cite{hamilton1996happened} and monetary policy shocks \cite{laseen2011anticipated}. The first two are the same in \cite{coibion2012can}. \footnote{ Another shock in \cite{coibon2012can} is the news shock by \cite{barsky2011news}. This will be included in later version of the paper.} 
+In this paper I use three types of shocks: technology shock\citet{gali1999technology}, oil price shock\citet{hamilton1996happened} and monetary policy shocks \citet{laseen2011anticipated}. The first two are the same in \citet{coibion2012can}. \footnote{ Another shock in \citet{coibon2012can} is the news shock by \citet{barsky2011news}. This will be included in later version of the paper.} 
 
 
-(1) Technology shock is identified from a three variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. Based on Bayes information criteria, I use the lag of 4 quarters as in \cite{coibion2012can} \footnote{A recent alternative to long-run restriction approach is the ``max-share appraoch'' developed by \cite{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determiend horizon. The resutls using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \cite{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
+(1) Technology shock is identified from a three variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. Based on Bayes information criteria, I use the lag of 4 quarters as in \citet{coibion2012can} \footnote{A recent alternative to long-run restriction approach is the ``max-share appraoch'' developed by \citet{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determiend horizon. The resutls using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \citet{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
 
 (2) Oil price shock in each period is defined as the maximum of log change in crude oil prices over the past 1-year and 0. Therefore it is bounded zero.\footnote{The series of oil price is Spot Crude Oil Price: West Texas Intermediate (WTI).}
 
-(3) Monetary policy shocks: target surprise and path surprise in the termiology of \cite{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular dates of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
+(3) Monetary policy shocks: target surprise and path surprise in the termiology of \citet{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular dates of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
 
 The reason for including monetary policy shocks, although it turns out to provide less robust evidence, is twofold. First, it is well known that the role of expectation in the working and implementation of monetary policy in the post criss period has been of a great relevance. Especially, around zero-lower-bound, the central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
 
 In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component of inflation are plotted in quarterly between 1985-2019. All shocks are normalized by its respective sample standard deviations. 
 
-\begin{figure}[h]\label{Inflationshocks}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=12cm]{figures/inf_shocksQ.png}
 	\caption{ Shocks to Inflation}
+	\label{Inflationshocks}
 \end{figure}
 
-\subsection{Replicating \cite{coibion2012can}}
+\subsection{Replicating \citet{coibion2012can}}
 
-For a direct comparison of my results and \cite{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \cite{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. Besides, standard errors are computed using the parametric bootstrapping approach as in \cite{coibion2012can}. 
+For a direct comparison of my results and \citet{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \citet{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. Besides, standard errors are computed using the parametric bootstrapping approach as in \citet{coibion2012can}. 
 
 The underlying regression that produces impulse response estimates is the Equation \ref{IRRegression}, according to which inflation(or moments) in current quarter is a function of 4-period lagged of itself  and the current and previous period realized shocks. The estimate of autoregression coefficient $\beta_\tau$ and shock-specific coefficient $\beta_{S,k}$ for diffrent lags can be used to compute impulse response of the inflation as well as forecasting moments. 
 
@@ -726,7 +756,7 @@ y_{t}  = \alpha + \sum^4_{\tau=1} \beta_{\tau} y_{t-\tau} +  \sum^1_{k=0} \sum_{
 FIRE predicts $\beta_{S,k}=0\quad \forall k=1$ for the regressions with forecasts moments as dependent variable. i.e. forecasts react only to contemporaneous shocks instataneously therefore. 
 
 
-Responses to productivity and oil price shocks presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are broadly consistent with \cite{coibion2012can} despite a wider confidence band possibly due to the change in different measures. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around $10 \%$  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around $30\%$ in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
+Responses to productivity and oil price shocks presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are broadly consistent with \citet{coibion2012can} despite a wider confidence band possibly due to the change in different measures. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around $10 \%$  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around $30\%$ in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
 
 Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both CPI and PCE forecasts in the second graph of the left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
 
@@ -737,7 +767,7 @@ The level at whch disagreements converge over the long-run shed light upon one s
 
 
 
-\begin{figure}[h]\label{ReplicateCoibionBefore2007}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=6cm,height=2cm]{figures/CPIAU_ashocks_nmp.png}  
 	\includegraphics[width=6cm,height=2cm]{figures/CPIAU_ashocks.png} \\
@@ -749,7 +779,8 @@ The level at whch disagreements converge over the long-run shed light upon one s
 	\smallskip
 	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
 		\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks.png} 
-	\caption{ Replicating \cite{coibion2012can}: 1987-2007}
+	\caption{ Replicating \citet{coibion2012can}: 1987-2007}
+	\label{ReplicateCoibionBefore2007}
 \end{figure}
 
 
@@ -762,7 +793,7 @@ The level at whch disagreements converge over the long-run shed light upon one s
 In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include additional uncertainty. This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
 
 
-\begin{figure}[h]\label{ReplicateCoibionpost2007}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_nmp_post2007.png}  
 	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_post2007.png} \\
@@ -777,14 +808,15 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 	\smallskip 
 	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp_post2007.png} 
 	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_post2007.png} 
-	\caption{ Replicating \cite{coibion2012can}: 2008-2019}
+	\caption{ Replicating \citet{coibion2012can}: 2008-2019}
+	\label{ReplicateCoibionpost2007}
 \end{figure}
 
 \subsection{Evidence from Households}
 
 
 
-\begin{figure}[h]\label{SCE_IR}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=3cm,height=2cm]{figures/CPIAU_ashocks_nmpM.png}  
 	\includegraphics[width=6cm,height=2cm]{figures/CPIAU_ashocksM.png} \\
@@ -798,6 +830,7 @@ In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include add
 	\includegraphics[width=3cm,height=2cm]{figures/SCEVar_ab_ashocks_nmpM.png} 
 	\includegraphics[width=6cm,height=2cm]{figures/SCEVar_ab_ashocksM.png} 
 	\caption{ Impulse Responses of Inflation and SCE Forecasts to Inflation Shocks}
+	\label{SCE_IR}
 \end{figure}
 
 \section{Conclusion}

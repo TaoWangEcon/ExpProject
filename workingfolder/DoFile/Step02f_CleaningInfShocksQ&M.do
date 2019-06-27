@@ -148,7 +148,7 @@ foreach var in mp1 ED4 ED8{
   egen `var'_shock_sd =sd(`var'_shock)
   gen `var'ut_shock = `var'_shock/`var'_shock_sd 
   local lb : var label `var'_shock
-  label var `var'ut_shock "`lb' in std unit"
+  label var `var'ut_shock "Normalized `lb'"
 }
 
 ** Absolute values of the shocks
@@ -181,12 +181,12 @@ foreach Inf in CPIAU CPICore PCEPI{
 tsset date
 format date %tm
 
-/*
-foreach var in mp1 ED4 ED8 op{
-tsline(`var'_shock) if `var'_shock!=., title("Shocks to Inflation(Monthly)")
-}
+
+foreach var in mp1ut ED4ut ED8ut op{
+local lb: variable label `var'_shock
+tsline(`var'_shock) if `var'_shock!=., title("`lb'") ytitle("")
 graph export "${mainfolder}/graphs/shocks/`var'_shock",as(png) replace 
-*/
+}
 
 save "${mainfolder}/OtherData/InfShocksMClean.dta",replace
   
