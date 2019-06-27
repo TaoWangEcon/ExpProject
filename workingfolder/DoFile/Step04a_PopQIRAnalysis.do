@@ -37,7 +37,8 @@ drop if quarter ==.
 ** Period filter   
 ** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
 
-keep if year > 2007
+keep if year>=1984
+*keep if year > 2007
 *keep if year>=1976 & year <= 2007
 tsset date
 
@@ -80,8 +81,8 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
 */
 
 
-/*
 
+/*
 ***********************************************
 ** IRF of inflation (MP shocks at one time) **
 ***********************************************
@@ -104,6 +105,7 @@ foreach Inf in CPIAU PCEPI{
 
 
 
+
 ***********************************************
 ** IRF of inflation (all shocks exl MP at one time) **
 ***********************************************
@@ -111,7 +113,7 @@ foreach Inf in CPIAU PCEPI{
 
 eststo clear
 
-foreach Inf in CPIAU CPICore PCEPI{ 
+foreach Inf in CPIAU PCEPI{ 
    var Inf1y_`Inf', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock)   
    set seed 123456
@@ -136,7 +138,7 @@ foreach mom in FE{
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
    set seed 123456
-   capture irf create `var', set(`mom') step(10) bsp replace 
+   capture irf create `var', set(irf) step(10) bsp replace 
 }
  
    capture irf graph dm, impulse(mp1ut_shock ED8ut_shock) ///
@@ -160,14 +162,14 @@ foreach mom in Disg Var{
                      exo(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
 					 l(0/1).pty_abshock l(0/1).op_abshock l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock)
    set seed 123456
-   capture irf create `var', set(`mom') step(10) bsp replace 
+   capture irf create `var', set(irf) step(10) bsp replace 
 }
  
    capture irf graph dm, impulse(mp1ut_abshock ED8ut_abshock) ///
                          byopts(col(2) title("`mom'") yrescale /// 
 						 xrescale note("") ) legend(col(2) /// 
 						 order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
-						 xtitle("Quarters") xtick(0(1)10)
+						 xtitle("Quarters")
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ab_ashocks", as(png) replace
 }
 
@@ -181,7 +183,7 @@ foreach mom in FE{
 	   capture var `var'_`mom', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock) 
    set seed 123456
-   capture irf create `var'_nmp, set(`mom'_nmp) step(20) bsp replace  
+   capture irf create `var', set(irf_nmp) step(10) bsp replace  
 }
    capture irf graph dm, impulse(pty_shock op_shock) ///
                          byopts(title("`mom'") yrescale /// 
@@ -204,7 +206,7 @@ foreach mom in Disg Var{
                      exo(l(0/1).pty_shock ///
 					 l(0/1).pty_abshock l(0/1).op_abshock)
    set seed 123456
-   capture irf create `var'_nmp, set(`mom'_nmp) step(10) bsp replace 
+   capture irf create `var', set(irf_nmp) step(10) bsp replace 
 }
  
    capture irf graph dm, impulse(pty_abshock op_abshock) ///
@@ -215,6 +217,7 @@ foreach mom in Disg Var{
    capture graph export "${sum_graph_folder}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
 }
 
+*/
 
 /*  need to debug 
 ****************************************************

@@ -748,72 +748,73 @@ In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component 
 
 \subsection{Replicating \citet{coibion2012can}}
 
-For a direct comparison of my results and \citet{coibion2012can}, I first explore the impulse responses along one-standard-deviation confidence band of inflation $y_{t+k}$, and SPF forecast errors $\overline {FE}_{t+h|t+k}$ to one standard deviation of each shock at time $t$, and SPF disagreements $\overline Disg_{t+h|t+k}$ and average uncertainty $\bar\sigma^2_{t+h|t+k}$ to the absolute value of shocks. The sample period is the same to that in Figure 2 from \citet{coibion2012can}: 1987-2007. The only difference is that CPI and PCE inflation are used instead of GDP deflator as in their paper. Besides, standard errors are computed using the parametric bootstrapping approach as in \citet{coibion2012can}. 
+For a direct comparison of my results and \citet{coibion2012can}, I first explore the impulse responses of CPI inflation $y_{t+k}$, SPF forecast errors and disagreements to one standard deviation of each shock at time $t$. In particular, the responses of disagreements is with respect to the absolute value of the shocks. Because CPI inflation forecast is available only after 1984, the sample period 1984-2007 is six years shorter than that in Figure 2 from \citet{coibion2012can}: 1976-2007. I do not include the results for PCE inflation as there is no PCE forecast during this period. 
 
-The underlying regression that produces impulse response estimates is the Equation \ref{IRRegression}, according to which inflation(or moments) in current quarter is a function of 4-period lagged of itself  and the current and previous period realized shocks. The estimate of autoregression coefficient $\beta_\tau$ and shock-specific coefficient $\beta_{S,k}$ for diffrent lags can be used to compute impulse response of the inflation as well as forecasting moments. 
+The underlying regression that produces impulse response estimates is  Equation \ref{IRRegression}, according to which inflation(or moments) in current quarter is a function of 4-period lags of itself  and the realized shocks in current and previous period. The estimate of autoregression coefficients $\beta_\tau$ and shock-specific coefficients $\beta_{S,k}$ for diffrent lags can be used to compute impulse responses of the variables of interest. In the impulse response graph, standard errors are computed using the parametric bootstrapping approach as in \citet{coibion2012can}. 
 
 \begin{eqnarray}\label{IRRegression}
 y_{t}  = \alpha + \sum^4_{\tau=1} \beta_{\tau} y_{t-\tau} +  \sum^1_{k=0} \sum_{S \in \{O,T\}}\beta_{S,k}\omega_{S,t-k} + \epsilon_t 
 \end{eqnarray}
 
-FIRE predicts $\beta_{S,k}=0\quad \forall k=1$ for the regressions with forecasts moments as dependent variable. i.e. forecasts react only to contemporaneous shocks instataneously therefore. 
+FIRE predicts $\beta_{S,k}=0\quad \forall k=1$ for the regressions with forecasts moments as dependent variable. i.e. forecasts react only to contemporaneous shocks instataneously. Therefore, the average FE should not be dependent upon past shocks and  only experience a one-time rise and return zero immediately. The disagreements will not respond to the shock at all. 
 
+The results  presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are consistent with FIRE predictions. Responses to productivity and oil price shocks are broadly consistent with \citet{coibion2012can} despite a wider confidence band possibly due to the change in inflation measures and difference in sample period. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around 10 percentage points  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around 3 percentage points in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
 
-Responses to productivity and oil price shocks presented in the left panel of the Figure \ref{ReplicateCoibionBefore2007} are broadly consistent with \citet{coibion2012can} despite a wider confidence band possibly due to the change in different measures. First, one standard deviation of productivity unsurprisingly brings down headline inflation by around $10 \%$  in the first quarter and the negative impacts gradually mute since then till the 7-th quarter. Oil price shock of one standard deviation increases headline inflation by around $30\%$ in the first quarter and the inflationary impacts last for 6 quarters. PCE inflation responds to both the shocks in a similar manner with slightly different magnitudes. The responses coefficients are statistically significant as the $95\%$ confidence intervel stays on one side of zero for both shock for the same period. 
+Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both SPF's FE of CPI in the second graph of  left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as point forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
 
-Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both CPI and PCE forecasts in the second graph of the left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
+Lastly, SE and NI models imply disagreement pick up after shocks and gradually drop over longer horizon.  Looking into the graph, the average response of Disg to absolute value of  technology and oil shocks exhibit patterns similar to this prediction. Note now that the initial response is no longer statistically significant(same as the original result) and the pick-up of disagreement after both shocks do not take place immediately in the same quarter but in one quarter after the shock. \footnote{In addition, the degree of long-run disagreements sheds light upon one subtle difference between the SE and NI. Disagreements always exist in NI with the presense of private signals , in contrast, disagreement is zero over the long run in SE. The evidence from impulse response of disagreements seem to be more consistent with SE than with NI.}
 
-FIRE predicts zero disagreements while both SE and NI models imply disagreements pick up following shocks regardless of the sign and gradully drop over longer horizon.  Looking into the graph, the average response of disgreements to the absolute value of technology and oil shocks does exhibite a pattern similar to the later.  Note now that the initial response is no longer statistically significant(same as the original result.) and the pick-up of disagreement after both shocks seem to take place one quarter after the shock. 
+The responses to monetary policy shocks turn out to be nosier than for technology and oil price shocks, as presented in the right panel of \ref{ReplicateCoibionBefore2007}. On the top figure, I first plot the impulse response of inflation to paths surprises and target surprise, seperately. On average, inflation reduces by around 10 percentage points after one unit increase of target surprise and increases by 10 percentage points following one unit of path surprise to federal funds rate. Both responses are  statistically significant in $10\%$  level. The unexpected future tightening causing a rise in inflation is conistent with the literature of price puzzle. \footnote{See \cite{nakamura2018high} as an example of inflationary responses to a monetary tightening move of the Fed.}
 
-The level at whch disagreements converge over the long-run shed light upon one subtle difference between the SE and NI. Disagreements always exist in NI with the presense of private signals , in contrast, disagreements is zero over the long run. The evidence from impulse response of disagreements seem to be more consistent with SE than NI.
+In the middle figure plots the responses of CPI forecast erros by SPF.  Although the average response seems to go in the same direction of the respective monetary shocks, consistent with the pattern seen for techonology and oil price shocks, none of the responses are statistically significant and the estimates have big standard errors of 10-20 percentage points.  
 
+Similarly, the responses of disagreements to both monetary policy shocks in the bottom panel are not statistically signifcant throughout the 10 quarters.  
 
+How do we intereprete this finding of non-response of forecasting errror and disagreements to monetary policy shocks in the conext of rigidity models? Non-response of FE suggests that on average professional forecaters have incorporated the shock in their forecasts. Non-response of disagreements could be due to that forecasters ``agree'' on the realization of monetary policy shocks. Althouth the benchmark theory of SE and NI do not differentiate shocks, the evidence here seems to suggest that the degree of rigidity depends on the nature of the shocks. 
 
+There are other explanations.  First, overal, the monetary policy shocks contribute only a small part of variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetry policy shocks from low frequency data as all other papers addressing this issue. \footnote{Examples of identifying monetary policy shocks. \cite{xxx} } 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=6cm,height=2cm]{figures/CPIAU_ashocks_nmp.png}  
-	\includegraphics[width=6cm,height=2cm]{figures/CPIAU_ashocks.png} \\
-	\includegraphics[width=6cm,height=2cm]{figures/PCEPI_ashocks_nmp.png} 
-	\includegraphics[width=6cm,height=2cm]{figures/PCEPI_ashocks.png}  \\
+	\includegraphics[width=6cm,height=4cm]{figures/CPIAU_ashocks_nmp.png}  
+	\includegraphics[width=6cm,height=4cm]{figures/CPIAU_ashocks.png} \\
 	\smallskip
 	\includegraphics[width=6cm]{figures/SPFFE_ashocks_nmp.png} 
 		\includegraphics[width=6cm]{figures/SPFFE_ashocks.png} \\
 	\smallskip
 	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
 		\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks.png} 
-	\caption{ Replicating \citet{coibion2012can}: 1987-2007}
+	\caption{Inflation and Forecasts Moments Responses: 1984-2007}
 	\label{ReplicateCoibionBefore2007}
 \end{figure}
-
-
 
 
 \subsection{Additional Evidence from Uncertainty}
 
 
 
-In Figure \ref{ReplicateCoibionpost2007}, I do the same exercise but include additional uncertainty. This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
+In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to that is after 2007 to 2019. For uncertainty and PCE inflation, data is only avaiable after 2007.  This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
 
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_nmp_post2007.png}  
-	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_post2007.png} \\
-	\includegraphics[width=6cm,height=3cm]{figures/PCEPI_ashocks_nmp_post2007.png} 
-	\includegraphics[width=6cm,height=3cm]{figures/PCEPI_ashocks_post2007.png}  \\
+	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks_nmp.png}  
+	\includegraphics[width=6cm,height=3cm]{figures/CPIAU_ashocks.png} \\
+	\includegraphics[width=6cm,height=3cm]{figures/PCEPI_ashocks_nmp.png} 
+	\includegraphics[width=6cm,height=3cm]{figures/PCEPI_ashocks.png}  \\
 	\smallskip
-	\includegraphics[width=6cm]{figures/SPFFE_ashocks_nmp_post2007.png} 
-	\includegraphics[width=6cm]{figures/SPFFE_ashocks_post2007.png} \\
+	\includegraphics[width=6cm]{figures/SPFFE_ashocks_nmp.png} 
+	\includegraphics[width=6cm]{figures/SPFFE_ashocks.png} \\
 	\smallskip
-	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp_post2007.png} 
-	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_post2007.png} \\
+	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
+	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks.png} \\
 	\smallskip 
-	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp_post2007.png} 
-	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_post2007.png} 
-	\caption{ Replicating \citet{coibion2012can}: 2008-2019}
-	\label{ReplicateCoibionpost2007}
+	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks_nmp.png} 
+	\includegraphics[width=6cm]{figures/SPFVar_ab_ashocks.png} 
+	\caption{Inflation and Forecasts Moments Responses: 1984-2019}
+	\label{ReplicateCoibionwholeperiod}
 \end{figure}
+
 
 \subsection{Evidence from Households}
 

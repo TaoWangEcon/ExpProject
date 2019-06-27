@@ -1439,4 +1439,35 @@ end of do-file
 
 {com}. clear
 
+. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD09504.000000"
+{txt}
+{com}. *******************************************************************************
+. ***  This do file starts with  a clean quarterly version of                  **
+. ***  InfShocksClean to be used for individual IR analysis.                   **
+. ***   Then it merges with population survey data and plot all kinds of impulse *
+. ***   responses. Be careful with the period filter. 
+. ********************************************************************************
 . 
+. 
+. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/pop"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
+{com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}
