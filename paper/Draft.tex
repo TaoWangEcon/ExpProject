@@ -16,7 +16,7 @@ footskip=.25in]{geometry}
 \usepackage{natbib}
 
 %opening
-\title{Rigidity of Expectation: Additional Evidence from Desntify Forecasts}
+\title{Rigidity of Expectation: Additional Evidence from Density Forecasts}
 \author{Tao Wang}
 
 \begin{document}
@@ -111,7 +111,9 @@ The time series behavior of uncertainty according to FIRE is less obvious. Weath
 
 In the same time, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
 
-$$\bar \sigma^{*2}_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+\begin{eqnarray}\label{VarREEq}
+\bar \sigma^{*2}_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}
+\end{eqnarray}
 
 As the forecasting horizon decreases relative to a given future point of time, there is a pure efficiency gain or reduction in uncertainty as more and more shocks have realized. So the uncertainty should drop unambigously. 
 
@@ -762,17 +764,17 @@ The results  presented in the left panel of the Figure \ref{ReplicateCoibionBefo
 
 Second, population forecast errors respond to shocks in a sluggish manner as predicted in rigidity models. This is illustrated using both SPF's FE of CPI in the second graph of  left panel in Figure \ref{ReplicateCoibionBefore2007}. As we define the forecast error as point forecast minus realized value, forecast error rises(drops) after a positive(negative) shock and gradully return to zero around 4-5th quarters after the shock. 
 
-Lastly, SE and NI models imply disagreement pick up after shocks and gradually drop over longer horizon.  Looking into the graph, the average response of Disg to absolute value of  technology and oil shocks exhibit patterns similar to this prediction. Note now that the initial response is no longer statistically significant(same as the original result) and the pick-up of disagreement after both shocks do not take place immediately in the same quarter but in one quarter after the shock. \footnote{In addition, the degree of long-run disagreements sheds light upon one subtle difference between the SE and NI. Disagreements always exist in NI with the presense of private signals , in contrast, disagreement is zero over the long run in SE. The evidence from impulse response of disagreements seem to be more consistent with SE than with NI.}
+Lastly, SE and NI models imply disagreement pick up after shocks and gradually drop over longer horizon.  Looking into the graph, the average response of Disg to absolute value of  technology and oil shocks exhibit patterns similar to this prediction. Note now that the initial response is no longer statistically significant(same as the original result) and the pick-up of disagreement after both shocks do not take place immediately in the same quarter but in one quarter after the shock. \footnote{In addition, the degree of long-run disagreements sheds light upon one subtle difference between the SE and NI. Disagreements always exist in NI with the presense of private signals , in contrast, disagreement is zero over the long run in SE. }
 
-The responses to monetary policy shocks turn out to be nosier than for technology and oil price shocks, as presented in the right panel of \ref{ReplicateCoibionBefore2007}. On the top figure, I first plot the impulse response of inflation to paths surprises and target surprise, seperately. On average, inflation reduces by around 10 percentage points after one unit increase of target surprise and increases by 10 percentage points following one unit of path surprise to federal funds rate. Both responses are  statistically significant in $10\%$  level. The unexpected future tightening causing a rise in inflation is conistent with the literature of price puzzle. \footnote{See \cite{nakamura2018high} as an example of inflationary responses to a monetary tightening move of the Fed.}
+The responses to monetary policy shocks turn out to be nosier than for technology and oil price shocks, as presented in the right panel of Figure \ref{ReplicateCoibionBefore2007}. On the top, I first plot the impulse response of inflation to path surprises $ED8ut$ and target surprise $MP1ut$, seperately. On average, inflation reduces by around 10 percentage points after one unit increase of target surprise and increases by 10 percentage points following one unit of path surprise to federal funds rate. Both responses are  statistically significant in $10\%$  level. The unexpected future tightening causing a rise in inflation is conistent with the literature of price puzzle. \footnote{See \cite{nakamura2018high} as an example of inflationary responses to a monetary tightening move of the Fed.}
 
-In the middle figure plots the responses of CPI forecast erros by SPF.  Although the average response seems to go in the same direction of the respective monetary shocks, consistent with the pattern seen for techonology and oil price shocks, none of the responses are statistically significant and the estimates have big standard errors of 10-20 percentage points.  
+In the middle figure presents the responses of CPI forecast erros by SPF.  Although the average response seems to go in the same direction of the respective monetary shocks, consistent with the pattern seen for techonology and oil price shocks, none of the responses are statistically significant and the estimates have big standard errors of 10-20 percentage points.  
 
 Similarly, the responses of disagreements to both monetary policy shocks in the bottom panel are not statistically signifcant throughout the 10 quarters.  
 
-How do we intereprete this finding of non-response of forecasting errror and disagreements to monetary policy shocks in the conext of rigidity models? Non-response of FE suggests that on average professional forecaters have incorporated the shock in their forecasts. Non-response of disagreements could be due to that forecasters ``agree'' on the realization of monetary policy shocks. Althouth the benchmark theory of SE and NI do not differentiate shocks, the evidence here seems to suggest that the degree of rigidity depends on the nature of the shocks. 
+How do we intereprete the finding of non-response of forecasting errror and disagreements to monetary policy shocks in the conext of rigidity models? Non-response of FE suggests that on average professional forecaters have incorporated the monetary policy changes in their forecasts. Non-response of disagreements could be due to that forecasters ``agree'' on the realization of monetary policy shocks. Althouth the benchmark theory of SE and NI do not differentiate shocks, the evidence here seems to suggest that the degree of rigidity depends on  nature of the shocks. 
 
-There are other explanations.  First, overal, the monetary policy shocks contribute only a small part of variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetry policy shocks from low frequency data as all other papers addressing this issue. \footnote{Examples of identifying monetary policy shocks. \cite{xxx} } 
+Or there are other explanations.  First, overal the monetary policy shocks contribute only a small part of variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetry policy shocks from low frequency data as all other papers addressing this issue. \footnote{Examples of identifying monetary policy shocks. \cite{xxx} } 
 
 \begin{figure}[ht]
 	\centering
@@ -791,9 +793,20 @@ There are other explanations.  First, overal, the monetary policy shocks contrib
 
 \subsection{Additional Evidence from Uncertainty}
 
+In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to include the post-2007 period till 2019. Since PCE inflation forecast is avaiable during this period, I report results for both CPI and PCE as in previous analysis. Besides, post2007 is the period when SPF surveys density forecasts that allow us to study the dynamics of uncertainty. 
+
+The left panel of  Figure \ref{ReplicateCoibionwholeperiod} presents impulse reponses of average uncertainty of SPF in addition to that inflation, forecast error, disagreements in response to technology and oil price shocks. As shown in the top three figures, the results are consistent with that in Figure \ref{ReplicateCoibionBefore2007} for period before 2007.  Oil shock(technology shock) increases(decreases) inflation in the first quarter by 10 percentage  points, whose imapcts last till 7-8th quarters. Confidence interval of the responses is smaller compared to previous figure probably due to larger sample size.  Average forecast errors react partially to the shock and gradually return to zero over the 4-5th quarters afterward. Disagreements picked up in the second quarter and return to zero 2 or 3 quarters  later. 
 
 
-In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to that is after 2007 to 2019. For uncertainty and PCE inflation, data is only avaiable after 2007.  This is also the period when SPF provides density forecasts that allow me to estimate uncertainty. 
+The primary focus of this paper is the behavior of uncertainty. Its responses to the absolute value of various shocks is presented in the bottom of the panel. Since  average uncertainty do not directly depend on the realizations and sizes of the shocks in various models, as shown in Equation \ref{VarREEq}  Equation \ref{VarSEEq}, and Equation \ref{VarNIEq}, the response of uncertainty cannot be used as a screening device of  FIRE and rigidity models. Instead, it should be taken as a basic consistency check of different theories with respect to the behavior of uncertainty.  
+
+ The response graph seems consistent with this simpel prediction, except for the uncertainty about CPI in responses to oil price shock. The responses of average uncertainty is not significantly different from zero throughout 10 quarters. \footnote{The impulse response that provides direct checking of rigidity models versus FIRE is the responses of revision in uncertainty, i.e. uncertainty about inflation in $t+h$ at time $t$ relative to $t-1$, $t-2$, etc. The results will be presented in a revised version of the paper.} 
+ 
+Impacts of monetary policies are shown in the right panel of Figure \ref{ReplicateCoibionwholeperiod}. Path surprise to federal funds rate, i.e. future monetary policy stances, again brings about the inflationary effect as before. One standard deviation of ture tightenning shock increases headlien CPI inflation by around 15 percentage points in the first period.  In the same time, unexpected rate change does not affect inflation significantly once we include the post-2007 period.  One possible explanation for this is the small variation of target surprise after financial crisis, as illustrated in Figure \ref{Inflationshocks}. Except for the dramatic monetary loosenning during financial crisis, there was little variation in the unexpected federal fund rate change.  
+
+Similar to results for pre-2007 period, the initial response of average forecast error to future tightening shock is statistically signifcant in the first period but insignificant soon after.  Intrestingly, even though the target surprise does not impacts on inflation iteself, forecast errors do react in an inflationary manner. The magnitude of the response is as large as 25 percentage points. Rigidity models predict forecast errors shoud depend on past shocks, while this does not seem to be the case for monetary policy shocks. Forecasters reaction to monetary policy shocks apear to more efficient than for supply shocks.
+
+Disagreements show little response to monetary policy shocks as well, with the only exception being PCE forecast with respect to path surprise.  
 
 
 \begin{figure}[ht]
