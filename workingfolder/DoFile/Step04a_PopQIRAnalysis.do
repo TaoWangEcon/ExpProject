@@ -42,13 +42,13 @@ keep if year > 2007
 tsset date
 
  
+
 /*
 ** Plot all shocks for checking 
 
-twoway (tsline pty_shock) (tsline op_shock) ///
-        (tsline mp1ut_shock) (tsline ED8ut_shock) ///
-		(tsline CPIAU_uid_shock), ///
-		title("Shocks to Inflation",size(4)) ///
+twoway (tsline pty_shock,lp(solid) lwidth(thick)) (tsline op_shock,lp(dash) lwidth(thick)) ///
+        (tsline mp1ut_shock,lp(shortdash) lwidth(thick)) (tsline ED8ut_shock,lp(dash_dot) lwidth(thick)), ///
+		title("Shocks to Inflation",size(large)) ///
 		xtitle("Time") ytitle("") ///
 		legend(cols(1)) 
 		
@@ -79,7 +79,9 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
 }
 */
 
+
 /*
+
 ***********************************************
 ** IRF of inflation (MP shocks at one time) **
 ***********************************************

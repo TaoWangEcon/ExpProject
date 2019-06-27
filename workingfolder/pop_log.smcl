@@ -379,4 +379,37 @@ end of do-file
 
 {search r(199):r(199);}
 
+{com}. help irf graph 
+
+. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step04a_PopQIRAnalysis.do"
+{txt}
+{com}. *******************************************************************************
+. ***  This do file starts with  a clean quarterly version of                  **
+. ***  InfShocksClean to be used for individual IR analysis.                   **
+. ***   Then it merges with population survey data and plot all kinds of impulse *
+. ***   responses. Be careful with the period filter. 
+. ********************************************************************************
+. 
+. 
+. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/pop"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
+{txt}
 {com}. 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
+{txt}
+{com}. set more off 
+{txt}
+{com}. capture log close
+{smcl}
+{com}{sf}{ul off}

@@ -233,7 +233,7 @@ label var news_shock "News shock(Sims etal.2011)"
 rename OPShock_nm op_shock 
 label var op_shock "Oil price shock (Hamilton 1996)"
 rename MP1 mp1_shock
-label var mp1_shock "Unexpected change in federal funds rate"
+label var mp1_shock "unexpected change in federal funds rate"
 label var ED4 "1-year ahead future-implied change in federal funds rate"
 label var ED8 "2-year ahead future-implied change in federal funds rate"
 
@@ -242,7 +242,7 @@ label var ED8 "2-year ahead future-implied change in federal funds rate"
 foreach ed in ED4 ED8{
   reg `ed' mp1_shock
   predict `ed'_shock, residual
-label var `ed'_shock "Unexpected shock to future federal funds rate"
+label var `ed'_shock "unexpected shock to future federal funds rate"
 }
 
 ** Normorlize MP shcoks
@@ -251,7 +251,7 @@ foreach var in mp1 ED4 ED8{
   egen `var'_shock_sd =sd(`var'_shock)
   gen `var'ut_shock = `var'_shock/`var'_shock_sd 
   local lb : var label `var'_shock
-  label var `var'ut_shock "`lb' in std unit"
+  label var `var'ut_shock "Normalized `lb'"
 }
 
 ** Absolute values of the shocks
