@@ -275,6 +275,7 @@ gen SCE_var = .
 
 
 * Kernal density plot only 
+label var Q9_mean "1-yr-ahed forecast of inflation "
 
  foreach var in SCE{
  foreach mom in mean{
@@ -288,6 +289,8 @@ gen SCE_var = .
 }
 
 * Kernal density plot only 
+label var Q9_var "1-yr-ahed uncertainty of inflation"
+
 foreach mom in var{
 foreach var in SCE{
     replace `var'_`mom' = Q9_`mom'

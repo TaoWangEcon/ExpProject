@@ -53,7 +53,6 @@ twoway (tsline op_shock) ///
 graph export "${sum_graph_folder}/inf_shocksM", as(png) replace
 
 
-
 ** First-run of inflation 
 
 eststo clear
@@ -124,6 +123,7 @@ foreach Inf in CPIAU CPICore PCEPI{
 }
 
 
+
 ****************************************************
 ** IRF of SCE moments (MP shocks at one time)    **
 ****************************************************
@@ -170,6 +170,7 @@ foreach mom in Disg Var{
 						 xtitle("Month") xtick(0(1)10)
    capture graph export "${sum_graph_folder}/irf/moments/SCE`mom'_ab_ashocksM", as(png) replace
 }
+*/
 
 ***********************************************************
 ** IRF of SPF moments (all shocks exl MP at one time)    **
