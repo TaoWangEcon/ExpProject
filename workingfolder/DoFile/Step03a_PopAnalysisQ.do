@@ -192,26 +192,6 @@ twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
 graph export "${sum_graph_folder}/fe_feQ", as(png) replace
 
 
-twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCCPIVar1p25!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarCPIQ", as(png) replace 
-
-
-twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if PRCPCEVar1p25!=. , ///
-	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace 
-
-
 
 twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
@@ -244,11 +224,54 @@ twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
 	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
 	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
 graph export "${sum_graph_folder}/var_disgSPFPCEQ", as(png) replace 
-
 */
 
 
+*****************************************
 ** These are the charts for paper draft 
+****************************************
+
+twoway (tsline PRCCPIMean1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
+       (tsline PRCCPIMean1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
+	   (tsline PRCCPIMean1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
+	   if PRCCPIVar1p25!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of forecast") label(2 "75 percentile of forecast") ///
+	          label(3 "50 percentile of forecast") col(1)) 
+graph export "${sum_graph_folder}/IQRmeanCPIQ", as(png) replace 
+
+
+twoway (tsline PRCPCEMean1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
+       (tsline PRCPCEMean1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
+	   (tsline PRCPCEMean1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
+	   if PRCPCEVar1p25!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of forecast") label(2 "75 percentile of forecast") ///
+	          label(3 "50 percentile of forecast") col(1)) 
+graph export "${sum_graph_folder}/IQRmeanPCEQ", as(png) replace 
+
+
+twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
+       (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
+	   (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
+	   if PRCCPIVar1p25!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty") col(1)) 
+graph export "${sum_graph_folder}/IQRvarCPIQ", as(png) replace 
+
+
+twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
+       (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
+	   (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
+	   if PRCPCEVar1p25!=. , ///
+	   title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty") col(1)) 
+graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace 
+
+
+** temporarily change the name for plotting 
 
 label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
 label var SPFCPI_FE "Average Forecast Error"
@@ -286,7 +309,8 @@ twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 	   justification(left) position(11) size(large))
 graph export "${sum_graph_folder}/`var'_varSPFPCEQ", as(png) replace
 }
-ddd
+
+
 
 ********************************************************************
 ** Drop the inflation measures temporarily used for plotting ********

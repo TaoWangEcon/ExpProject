@@ -191,14 +191,6 @@ twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash"
 graph export "${sum_graph_folder}/fe_fe", as(png) replace
 
 
-twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("dash")) ///
-       (tsline Q9_varp75, ytitle(" ",axis(1)) lp("dash")) ///
-	   (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") ) ///
-	   if Q9_varp50!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
-	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
-	          label(3 "50 percentile of uncertainty")) 
-graph export "${sum_graph_folder}/IQRvarSCEM", as(png) replace 
 
 
 twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
@@ -251,7 +243,29 @@ twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 	   justification(left) position(11) size(large))
 graph export "${sum_graph_folder}/`var'_varSCEM", as(png) replace
 }
+
+
+twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+       (tsline Q9_varp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+	   (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
+	   if Q9_varp50!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+	          label(3 "50 percentile of uncertainty") col(1)) 
+graph export "${sum_graph_folder}/IQRvarSCEM", as(png) replace 
 */
+
+
+twoway (tsline Q9_meanp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+       (tsline Q9_meanp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+	   (tsline Q9_meanp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
+	   if Q9_varp50!=. , /// 
+	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   legend(label(1 "25 percentile of forecast") label(2 "75 percentile of forecast") ///
+	          label(3 "50 percentile of forecast") col(1)) 
+graph export "${sum_graph_folder}/IQRmeanSCEM", as(png) replace 
+
+ddd
 ***************************
 ***  Population Moments *** 
 ***************************
