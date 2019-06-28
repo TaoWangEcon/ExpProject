@@ -94,13 +94,17 @@ save InfExpSPFDstIndQClean,replace
 foreach mom in Mean Var{
    foreach var in PRCCPI PRCPCE{
     forvalues i=0/1{
+	  egen `var'`mom'`i'p90 =pctile(`var'`mom'`i'),p(90) by(year quarter)
      egen `var'`mom'`i'p75 =pctile(`var'`mom'`i'),p(75) by(year quarter)
 	 egen `var'`mom'`i'p25 =pctile(`var'`mom'`i'),p(25) by(year quarter)
+	 egen `var'`mom'`i'p10 =pctile(`var'`mom'`i'),p(10) by(year quarter)
 	 egen `var'`mom'`i'p50=pctile(`var'`mom'`i'),p(50) by(year quarter)
 	 local lb: variable label `var'`mom'`i'
 	 label var `var'`mom'`i'p75 "`lb': 75 pctile"
 	 label var `var'`mom'`i'p25 "`lb': 25 pctile"
 	 label var `var'`mom'`i'p50 "`lb': 50 pctile"
+	 label var `var'`mom'`i'p10 "`lb': 10 pctile"
+	 label var `var'`mom'`i'p90 "`lb': 10 pctile"
  }
  }
 }
@@ -152,14 +156,14 @@ foreach mom in Mean Var{
 foreach mom in Mean {
    foreach var in PRCCPI PRCPCE{
 	label var `var'`mom'0 "expected inflation from previous year"
-	label var `var'`mom'1 "1-year-head expected inflation"
+	label var `var'`mom'1 "1-year-ahead expected inflation"
  }
 }
 
 foreach mom in Var {
    foreach var in PRCCPI PRCPCE{
 	label var `var'`mom'0 "uncertainty about inflation from previous year"
-	label var `var'`mom'1 "uncertainty of 1-year-head expected inflation"
+	label var `var'`mom'1 "uncertainty of 1-year-ahead expected inflation"
  }
 }
 
@@ -171,6 +175,7 @@ foreach mom in Var {
 label var PRCCPIMean1 "forecast of CPI"
 label var PRCPCEMean1 "forecast of PCE"
 
+/*
 ** These are charts for paper draft.
 foreach mom in Mean{
    foreach var in PRCCPI PRCPCE{
@@ -198,10 +203,6 @@ foreach mom in Var{
  }
 }
 
-
-
-
-/*
 * Kernal density plot only 
 ** These are charts for paper draft.
  
@@ -210,7 +211,8 @@ foreach mom in Mean{
 	local lb: variable label `var'`mom'1
     twoway (kdensity `var'`mom'1,fcolor(none) lcolor(red) lwidth(thick)), ///
 	       by(year,title("Distribution of `lb'") note("")) ytitle("Fraction of population") ///
-		   note("")
+		   xtitle("Mean forecast") ///
+		   note("") 
 	graph export "${sum_graph_folder}/hist/`var'`mom'1_hist", as(png) replace 
  }
 }
@@ -219,11 +221,12 @@ foreach mom in Var{
    foreach var in PRCCPI PRCPCE{
 	local lb: variable label `var'`mom'1 
     twoway (kdensity `var'`mom'1, n(50) lcolor(blue) lwidth(thick)), ///
-	       by(year,title("Distribution of `lb'") note("")) ytitle("Fraction of population")
+	       by(year,title("Distribution of `lb'") note("")) ytitle("Fraction of population") ///
+		   xtitle("Uncertainty") ///
+		   note("")
 	graph export "${sum_graph_folder}/hist/`var'`mom'1_hist", as(png) replace 
  }
 }
-
 
 
 foreach mom in Var{
@@ -299,6 +302,10 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
               PRCCPIVar0p50 PRCCPIVar1p50 PRCPCEVar0p50 PRCPCEVar1p50 ///
 			  PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75 ///
+			   PRCCPIMean0p10 PRCCPIMean1p10 PRCPCEMean0p10 PRCPCEMean1p10 /// 
+              PRCCPIVar0p10 PRCCPIVar1p10 PRCPCEVar0p10 PRCPCEVar1p10 ///
+			   PRCCPIMean0p90 PRCCPIMean1p90 PRCPCEMean0p90 PRCPCEMean1p90 /// 
+              PRCCPIVar0p90 PRCCPIVar1p90 PRCPCEVar0p90 PRCPCEVar1p90 
 
 local Momentsrv PRCPCEMeanl1 PRCPCEMeanf0 PRCPCEVarl1  PRCPCEVarf0 ///
                 PRCCPIMeanl1 PRCCPIMeanf0 PRCCPIVarl1  PRCCPIVarf0 ///

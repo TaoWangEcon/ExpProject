@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SPFirf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}27 Jun 2019, 11:59:04
+ {txt}opened on:  {res}28 Jun 2019, 19:37:55
 {txt}
 {com}. 
 . 
@@ -46,17 +46,16 @@ long, now double to accommodate using data's values)
 . ** Period filter   
 . ** i.e. Coibion et al2012. 1976-2007. But Density data is only avaiable after 2007.
 . 
-. keep if year>=1984
-{txt}(0 observations deleted)
+. *keep if year>=1984
+. *keep if year > 2007
+. keep if year>=1976 & year <= 2007
+{txt}(44 observations deleted)
 
-{com}. *keep if year > 2007
-. *keep if year>=1976 & year <= 2007
-. tsset date
-{res}{txt}{col 9}time variable:  {res}{col 25}date, 1984q1 to 2018q4
+{com}. tsset date
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1984q1 to 2007q4
 {txt}{col 17}delta:  {res}1 quarter
 {txt}
-{com}. 
-.  
+{com}.  
 . 
 . /*
 > ** Plot all shocks for checking 
@@ -96,21 +95,26 @@ long, now double to accommodate using data's values)
 . 
 . 
 . 
+. 
 . /*
 > ***********************************************
 > ** IRF of inflation (MP shocks at one time) **
 > ***********************************************
 > 
+> label var CPIAU "CPI Inflation"
+> label var PCEPI "PCE Inflation"
+> 
 > eststo clear
 > 
-> foreach Inf in CPIAU PCEPI{c -(} 
+> foreach Inf in CPIAU{c -(} 
+>    local lb: variable label `Inf'
 >    var Inf1y_`Inf', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 >                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)   
 >    set seed 123456
->    irf create irf1, set(irf,replace) step(10) bsp replace 
+>    irf create `Inf', set(irf,replace) step(10) bsp replace 
 >    irf graph dm, impulse(mp1ut_shock ED8ut_shock) ///
->                  byopts(title("`mom'") yrescale xrescale note("")) ///
+>                  byopts(title("`lb'") yrescale xrescale note("")) ///
 >                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall)) ///
 >                                  xtitle("Quarters") 
 >    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks", as(png) replace
@@ -119,116 +123,47 @@ long, now double to accommodate using data's values)
 > 
 > 
 > 
-> 
 > ***********************************************
 > ** IRF of inflation (all shocks exl MP at one time) **
 > ***********************************************
 > 
-> 
 > eststo clear
 > 
-> foreach Inf in CPIAU PCEPI{c -(} 
+> foreach Inf in CPIAU{c -(} 
+>    local lb: variable label `Inf'
 >    var Inf1y_`Inf', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock)   
 >    set seed 123456
->    irf create irf1, set(irf,replace) step(10) bsp replace 
+>    irf create `Inf', set(irf,replace) step(10) bsp replace 
 >    irf graph dm, impulse(pty_shock op_shock) ///
->                  byopts(title("`mom'") yrescale xrescale note("")) ///
->                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall)) ///
+>                  byopts(title("`lb'") yrescale xrescale note("")) ///
+>                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(small)) ///
 >                                  xtitle("Quarters") 
->    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks_nmp", as(png) replace
+>    graph export "${c -(}sum_graph_folder{c )-}/irf/`Inf'_ashocks_nmp_before2007", as(png) replace
 > 
 > {c )-}
-> 
-> ****************************************************
-> ** IRF of SPF moments (MP shocks at one time)    **
-> ****************************************************
-> 
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * shocks 
->        capture var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock l(0/1).op_shock ///
->                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)
->    set seed 123456
->    capture irf create `var', set(irf) step(10) bsp replace 
-> {c )-}
->  
->    capture irf graph dm, impulse(mp1ut_shock ED8ut_shock) ///
->                          byopts(col(2) title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks", as(png) replace
-> {c )-}
-> 
-> 
-> *********************************************************
-> ** IRF of SPF moments (MP shocks(abs) at one time)    **
-> *********************************************************
-> 
-> 
-> foreach mom in Disg Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->        * shocks 
->        capture var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
->                                          l(0/1).pty_abshock l(0/1).op_abshock l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock)
->    set seed 123456
->    capture irf create `var', set(irf) step(10) bsp replace 
-> {c )-}
->  
->    capture irf graph dm, impulse(mp1ut_abshock ED8ut_abshock) ///
->                          byopts(col(2) title("`mom'") yrescale /// 
->                                                  xrescale note("") ) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters")
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks", as(png) replace
-> {c )-}
-> 
-> ***********************************************************
-> ** IRF of SPF moments (all shocks exl MP at one time)    **
-> ***********************************************************
-> 
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->            capture var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock l(0/1).op_shock) 
->    set seed 123456
->    capture irf create `var', set(irf_nmp) step(10) bsp replace  
-> {c )-}
->    capture irf graph dm, impulse(pty_shock op_shock) ///
->                          byopts(title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
->    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
-> {c )-}
-> 
 > */
-. ****************************************************************
-. ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
-. ****************************************************************
+. 
+. *********************************************************
+. ** IRF of SPF moments (MP shocks(abs) at one time)    **
+. *********************************************************
 . 
 . 
 . foreach mom in Disg Var{c -(}
-{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
+{txt}  2{com}.    foreach var in SPFCPI{c -(}
 {txt}  3{com}.        * shocks 
 .        capture var `var'_`mom', lags(1/4) ///
->                      exo(l(0/1).pty_shock ///
->                                          l(0/1).pty_abshock l(0/1).op_abshock)
+>                      exo(l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock ///
+>                                          l(0/1).pty_abshock l(0/1).op_abshock l(0/1).mp1ut_abshock l(0/1).ED8ut_abshock)
 {txt}  4{com}.    set seed 123456
-{txt}  5{com}.    capture irf create `var', set(irf_nmp) step(10) bsp replace 
-{txt}  6{com}. {c )-}
-{txt}  7{com}.  
-.    capture irf graph dm, impulse(pty_abshock op_abshock) ///
->                          byopts(title("`mom'") yrescale /// 
->                                                  xrescale note("")) legend(col(2) /// 
->                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(vsmall))  ///
->                                                  xtitle("Quarters") 
-{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
+{txt}  5{com}.    capture irf create `var', set(irf,replace) step(10) bsp replace 
+{txt}  6{com}.    {c )-}
+{txt}  7{com}.    capture irf graph dm, impulse(mp1ut_abshock ED8ut_abshock) ///
+>                          byopts(col(2) title("`mom'") yrescale /// 
+>                                                  xrescale note("") ) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(small))  ///
+>                                                  xtitle("Quarters")
+{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks_before2007", as(png) replace
 {txt}  9{com}. {c )-}
 {txt}
 {com}. ddd

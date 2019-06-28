@@ -321,7 +321,7 @@ Second, the expectation adjusts in each period as long as there is new informati
 
 The posterior variance at time $t$ is a linear function of prior variance and variance of signals. 
 
-\begin{eqnarray}
+\begin{eqnarray}\label{VarNIRv}
 \begin{aligned}
 \Sigma^y_{i,t|t} = \Sigma^y_{i,t|t-1} - \Sigma^y_{i,t|t-1} H'(H \Sigma^y_{i,t-1} H' +\Sigma^v) H \Sigma^y_{i,t|t-1} 
 \end{aligned}
@@ -343,7 +343,7 @@ These two properties carry through to the h-period ahead forecast as well. As th
 \end{eqnarray}
 
 
-\begin{eqnarray}
+\begin{eqnarray}\label{VarNIIndPop}
 \Delta \Sigma_{i,t+h|t} = \rho^{2h}\Delta  \Sigma_{i,t|t}  - \rho^{2h} \sigma^2_{\omega}
 \end{eqnarray}
 
@@ -572,7 +572,7 @@ FIRE also predicts an unambigous reduction in uncertainty as one approaches to t
 
 \subsection{Test of null hypothesis of rational expectation}\label{NullTest}
 
-This section first reproduces the results of a list of statistical tests of FIRE used in the existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests replying upon data of individual uncertainty in Table \ref{RevEfficency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It can be seen as an extension of what \citet{fuhrer2018intrinsic} does to mean forecast to uncertainty.  
+This section first reproduces a number of statistical tests of FIRE used seen existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests relying on uncertainty in Table \ref{RevEfficency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It is an extension of what \citet{fuhrer2018intrinsic} does to mean forecast to uncertainty.  
  
 The first set of tests, hereafter, referred as FE-based tests, utilize the moment restrictions on forecast errors. In plain words, the null hypothesis of the three tests are the following. First, since the forecasts are on average unbiased according to FIRE, forecast errors across agents should converge to zero in large sample. Second, forecast errors of non-overlapping forecasting horizon are not serially correlated (Equation \ref{NoSerialCorrFE} ).  Third, forecast errors cannot be predicted by any information available at the time of forecast, including the mean forecast itself and other variable that is in the agent's information content. This follows from Equation \ref{NoPastInfFE}. In addition, I include what is called weak version of the FE-based test which explores the serial correlation of forecast erros in overlapping periods,  i.e. 1-year-ahead forecasts within one year. The forecast errors are correlated to the extent of the realized shocks in the overlapping periods. So the positve serial correlation does not direct violate FIRE. For this reason, looking into the correlation of overlapping forecast errors still contain the useful information about the size of the realized shocks. 
 
@@ -650,7 +650,7 @@ In the above equation $\beta =0$ according to FIRE, because rational forecast re
 
 The test with uncertainy simply replaces the revision of forecast with revision in uncertainty $\sigma^2_{i,t+1|t+1} - \sigma^2_{i.t+1|t}$, for instance. This regresion follows from Equation \ref{VarSERv} for SE and Equation \ref{VarNIRv} for NI. Although it  cannot be directly used as a test against FIRE null, the autocorrelation coefficient speaks to the speed of drop in uncertainty. Depending on the model, one can interprete it as the particular structural parameter of rigidty, as shown in Figure \ref{rigidity}. 
 
-Top panel in Table \ref{RevEffMeanTest} and bottom panel presents the results for mean forecast. Following \citet{fuhrer2018intrinsic}, I include median forecast available at time $t$ and $t-1$ as an indicator of past information for the revision regression. In the first column of each panel, I report the regression on a constant. 
+Top panel in Table \ref{RevEfficency} and bottom panel presents the results for mean forecast. Following \citet{fuhrer2018intrinsic}, I include median forecast available at time $t$ and $t-1$ as an indicator of past information for the revision regression. In the first column of each panel, I report the regression on a constant. 
 
 What's surprising is the mean revision in forecast being negative and significant. Forecaters on average make downward adjustment of 1.26 percentage points of CPI and  1.1 perentage points of PCE from her previous year forecast of the same-period inflation. 
 
@@ -658,7 +658,7 @@ The second to fourth columns of each panel in Table \ref{RevEfficency} checks au
 
 In the bottom panel reports auto regression results for revision in uncertainty. Again, the first column first test the mean revision against the null being zero. The mean revisions in uncertainty are both negative(0.5-0.6 percentage poitns equivalence in standard devation of uncertainty) and statistically sigificant, confirming our observation from Figure \ref{RevisionHist} that forecaters are more certain about current inflation compared her previous year forecast. 
 
-The second to fourth column rejects the null of non-serial correlation for both CPI and PCE forecasts. The revision to CPI seems more efficient as serial correlation is with only one quarter lag. For PCE, the revisions in uncertainty are serially correlated with all past three quarters. 
+The second to fourth column show positive serial correlation of revision in uncertainty for both CPI and PCE forecasts. The revision to CPI seems more efficient as serial correlation is with only one quarter lag. For PCE, the revisions in uncertainty are serially correlated with all past three quarters. 
 
 \begin{table}[ht]
 	\caption{Tests of Revision Efficiency using Mean Revision and Uncertainty}
@@ -829,14 +829,14 @@ Or there are other explanations.  First, overal the monetary policy shocks contr
 
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=6cm,height=4cm]{figures/CPIAU_ashocks_nmp.png}  
-	\includegraphics[width=6cm,height=4cm]{figures/CPIAU_ashocks.png} \\
+	\includegraphics[width=7cm,totalheight=3cm]{figures/CPIAU_ashocks_nmp_before2007.png}  
+	\includegraphics[width=7cm,totalheight=3cm]{figures/CPIAU_ashocks_before2007.png} \\
 	\smallskip
-	\includegraphics[width=6cm]{figures/SPFFE_ashocks_nmp.png} 
-		\includegraphics[width=6cm]{figures/SPFFE_ashocks.png} \\
+	\includegraphics[width=7cm,totalheight=3cm]{figures/SPFFE_ashocks_nmp_before2007.png} 
+		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFFE_ashocks_before2007.png} \\
 	\smallskip
-	\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
-		\includegraphics[width=6cm]{figures/SPFDisg_ab_ashocks.png} 
+	\includegraphics[width=7cm,totalheight=3cm]{figures/SPFDisg_ab_ashocks_nmp_before2007.png} 
+		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFDisg_ab_ashocks_before2007.png} 
 	\caption{Responses of Inflation and Professional Forecast Moments: 1984-2007}
 	\label{ReplicateCoibionBefore2007}
 \end{figure}
