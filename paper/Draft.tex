@@ -25,7 +25,7 @@ footskip=.25in]{geometry}
 \maketitle
 
 \begin{abstract}
-	Surveys on density forecasts of macroeconomic variable that are not available until recent dacade provides one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion not only in mean forecast but also in uncertainty about future inflation across economists and households. Second,  utilizing the panel data of individual uncertainty, I provde additional test results that reject the null hypothesis of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theoreis of expectation rigidity, but in the same time bears the evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific regidity using uncertainty as the next step of analysis.  
+	Surveys on density forecasts of macroeconomic variable that are not available until recent dacade provides one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion not only in mean forecast but also in uncertainty about future inflation across economists and households. Second,  utilizing the panel data of individual uncertainty, I provide additional test results that reject the null hypothesis of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theoreis of expectation rigidity, but in the same time bears the evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific regidity using uncertainty as the next step of analysis.  
 	
 \end{abstract}
 
@@ -34,7 +34,7 @@ footskip=.25in]{geometry}
 \section{Introduction}
 
 
-Theories on how agents form expectations in ways deviating from rational expectation(RE) have proliferated over the past decade. This has been also engined by an incresingly welcoming recognition of the use of surveys of macroeconomists in testing theories empirically.  On one hand, various theories built upon different micro foundations produce some similar macro patterns. For instance, the notion of information rigidity, or expectation rigidity could be micro founded by many different theories, but mostly generate sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. 
+Theories on how agents form expectations in ways deviating from rational expectation(RE) have proliferated over the past decade. This has been also engined by an incresingly welcoming recognition of the use of surveys by macroeconomists in testing theories empirically.  On one hand, various theories built upon different micro foundations produce some similar macro patterns. For instance, the notion of information rigidity, or expectation rigidity could be micro founded by many different theories, but mostly generate sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. 
 
 This paper extends the current literature in this front by deriving the testable predictions from various theories on uncertainty and empirically test them utilizing the previously ignored probablistic forecast from both professional forecasters survey and household survey. Overall, the paper finds additional evidence from uncertainty consistent with the rigidity models. But in the same time, the degree of rigidity apears to be shock-specific and bears the difference to households and professional forecasters. 
 
@@ -333,7 +333,7 @@ But the efficiency gain in reduction of uncertainty depends upon the noisiness o
 
 These two properties carry through to the h-period ahead forecast as well. As the forecast variance is the following 
 
-\begin{eqnarray}
+\begin{eqnarray}\label{VarNIEq}
 \Sigma_{i,t+h|t} = \rho^{2h} \underbrace{\Sigma_{i,t}}_{\Sigma_{i,t|t}} + \sum^{h}_{s=0}\rho^{2s} \sigma^2_{\omega}
 \end{eqnarray}
 
@@ -482,7 +482,8 @@ Throughout the paper, I use two measures of Inflation, headline CPI inflation an
 
 \subsection{Stylized facts}
 
-Figure \ref{UnceratitnyOtherMoments} plots the population uncertainty asgainst realized inflation,  forecast errors and disagreements in the first, second and third rows, respectively. 
+
+Although the sheer magnitudes of the differences between professionals' moments and those of houseolds are so big that a direct comparison of the two seems redundant, their respective within-agent-type correlation serves a ready checking device of some statistical consistency. Figure \ref{UnceratitnyOtherMoments} plots the population uncertainty against realized inflation,  forecast errors and disagreements in the first, second and third rows, respectively. 
 
 It is widely documented in literature \cite{xxx, xxx} and resonated by anecdotal narrative that high inflation is typically associated with high inflation uncertainty. However, the observable correlation of realized inflation and the directly estimated average uncertainty from both  forecasters and households are, if any, negative during the period between 2007-2019. In particular, the correlation coefficients are -0.1, -0.05 and -0.24 for SPF's  CPI forecast, SPF's PCE forecast and SCE's CPI expectation. This may suggest that during a period of persistently low inflation, the conventiaonl positive redux of inflation and uncertainty is not a good description of the relation of the two. 
 
@@ -490,16 +491,17 @@ The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationsh
  
  The last row in of Figure \ref{UnceratitnyOtherMoments} explores the relationship between disagreements and uncertainty. Many empriical literature in macroecoomics use disagreements and uncertainty as if they are similar concepts. Partly this confusion in practice is due to difficulty of finding the appropriate measure of this in the first place. But as we have presented in \ref{theory}, the two are distinct concepts. The empricial pattern of the two,  as shown in the plots, also confirms that the two are different objects. The correlation coefficients of the two turn out to be negative, -0.29 and -0.46 for SPF forecasts. In stark contrast, households seem to bear a strong correlation of 0.62 between the two moments.  
  
-Although the sheer magnitudes of the differences between professionals' moments and those of houseolds are so big that a direct comparison of the two seems redundant, their respective within-agent-type correlation serves a ready checking device of some statistical consistency. In particular, the positive correlation across households' ex ante uncertainty, ex post forecat errors, and cross-section disagreements cannot be completely reconciled by the framework we set up in \ref{theory}. 
- 
+Overall, professional forecasters' moments exhibit patterns more consistency from a statistical point of view.  In constrast, the positive correlation across households' ex ante uncertainty, ex post forecat errors, and cross-section disagreements cannot be easily reconciled by the framework we set up in Section \ref{theory}. 
 
-The presence of persistent disagreements in expectations has been used as  important stylized evidence against the null of identical expectation assumption embedded in FIRE, for instance, \citet{mankiw2003disagreement}. A similar fact checking can be done with respect to individual uncertaintiy. FIRE predicts individual share equal degree of uncertainty as we clearly seen in Equation \ref{VarREEq}. In contrast, SE predicts that uncertainty of individuals differ in that agents are not equally updated at a point of the time (Equation \ref{VarSEEq}). NI allows for possibility of homogeneity in uncertainty only under sringent condistion of the same precesions of the signals and the same prior of uncertainty. Therefore, precense of dispersion of uncertainty across agents can be read against FIRE.  
+Persistent disagreements in expectations has been used as an important stylized evidence against the null of identical expectation assumption embedded in FIRE, for instance, \citet{mankiw2003disagreement}. A similar fact checking can be done with respect to individual uncertaintiy. FIRE predicts individual share equal degree of uncertainty as  seen in Equation \ref{VarREEq}. In contrast, SE predicts that uncertainty of individuals differ in that agents are not equally updated at a point of the time (Equation \ref{VarSEEq}). NI allows for possibility of homogeneity in uncertainty only under stringent condition of the equal precesion of signals and the same prior of uncertainty (Equation \ref{VarNIEq}). Therefore, precense of dispersion of uncertainty across agents can be read against FIRE.  
  
-Figure \ref{IQR_Unceratitny} plots the median forecsts along its 25/75 percentiles on the left column and its counterpart in uncertainty in the righ coumn.  it is clear that not only there is long-lasting dispersion in individual forecasts i.e. disagreements, but alslo notable heterogeneity in uncertainty across agents. 
-----------------------------
- 
-Another prediction from FIRE is that there is unambigous uncertainty reduction as one appraoches to the date of realization. Figure \ref{RevisionHist} plots the average revision in mean forecasts and uncertainty. The the more negative the revision lies in, the more rational of the forecast.  
+Figure \ref{IQR_Unceratitny} plots the median inflation expectation along its 25/75 percentiles in the left and its counterpart in uncertainty in the righ coumn.  Not only there is long-lasting dispersion in individual forecasts, i.e. disagreements, but alslo notable heterogeneity in uncertainty across agents.  And not surprisingly, the dispersion of both forecasts and uncertainty of households are both of a much greater magnitude than that of the professionals. The 25/75 inter-quantile-range of households point forecasts is 4-5 percentage points compared to 1 percentage point of professionals. And the IQR of uncertainty of housheolds are around 150-200 times(12-14 times for standard deviation) as that of professional forecasters.  
 
+Beside, there are cross-agent-type difference and similarity in terms of distribution of uncertainty. Households' uncertainty are more skewed toward to the right (higher uncertainty), meaning there is a wide dispersion in the high values of uncertainty. This can be also seen in Figure \ref{Unceratitny_Histogram}, where I plot the kernal density estimated distribution of uncertainty by year on. What is common for both types of agents is that the dispersion in uncertainty is persistent over time and do not show much time-variation.  
+
+Another pattern worth discussing in Figure \ref{IQR_Unceratitny} is that there is a notable rise in the dispersion of professional forecasts in the recent 2-3 years, primarily driven by an increase of upper side of the forecast (i.e. 75 percentile forecast increases from 1\% to 2\%). \footnote{This should be interpreted with causion since the disagreements of SPF forecasts shown in bottom row of Figure \ref{UnceratitnyOtherMoments} actually exihibits a gradual decline. } This is consistent with the observation in top left two figures Figure \ref{Unceratitny_Histogram} that the distribution of inflation forecasts in recent years have become flatten.
+
+Another prediction from FIRE is that there is an unambigous reduction in uncertainty as one approaches to the date of realization, where the drop is exactly equal to the volatility of the realized shocks. Although quantitatively, it is hard to check this directly, at least qualitatively, one can look at the distribution of the uncertainy revision concentrate in the negative range. Figure \ref{RevisionHist} plots the average revision in mean forecasts and uncertainty from 1-year-ahead forecast in year $t-1$ to the current-year nowcast in year $t$. The more negative range in which the revision lies, the more ``rational'' of the forecast. Looking from the histograms, the uncertainty revision is indeed centerred around zero while slightly showing left-skewness. Overall, more forecasters fell more certainy for nowcast compared to his forecast one year before.  Unfortunately, since SCE does not provide the data structure that allows us to look at revision, we cannot make a comparison between two types of agents. A form test of revision equal to zero or being negative will be carried out in the Section \ref{NullTest}. 
 
 \begin{figure}[ht]
 	\centering
@@ -557,13 +559,13 @@ Another prediction from FIRE is that there is unambigous uncertainty reduction a
 	\smallskip
 	\includegraphics[width=7cm]{figures/PRCPCEMean01_rv_true_hist.png} 
 	\includegraphics[width=7cm]{figures/PRCPCEVar01_rv_true_hist.png}  \\
-	\caption{Distribution of Revision in Forecasts}
+	\caption{Distribution of Revision in Forecasts and Uncertainty}
 	\label{RevisionHist}
 \end{figure}
 
 
 
-\subsection{Test of null hypothesis of rational expectation}
+\subsection{Test of null hypothesis of rational expectation}\label{NullTest}
 
 In Table \ref{NullTestTable}, I reproduce a number of commonly used tests of null hypothesis of FIRE replying on differnet specific implications discussed in the previous section mostly following \citet{mankiw2003disagreement}. 
 
@@ -749,7 +751,7 @@ In this paper I use three types of shocks: technology shock\citet{gali1999techno
 
 (2) Oil price shock in each period is defined as the maximum of log change in crude oil prices over the past 1-year and 0. Therefore it is bounded zero.\footnote{The series of oil price is Spot Crude Oil Price: West Texas Intermediate (WTI).}
 
-(3) Monetary policy shocks: target surprise and path surprise in the termiology of \citet{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular date of FOMC meenting. It is the OLS residual of federal funds rate change in the past federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
+(3) Monetary policy shocks: target surprise and path surprise in the termiology of \citet{laseen2011anticipated}. Target surprise is defined as unexpected change in federal funds rate in a particular date of FOMC meenting. It is the OLS residual of federal funds rate change in the past expected change in federal funds rate. The 2-year ahead path surprise is the regression residual of future implied federal funds rate on the target surprise. Depending on the frequency of the data being monthly or quarterly, I take the sum of all the changes within each period.   
 
 The reason for including monetary policy shocks, although it turns out to provide less robust evidence, is twofold. First, it is well known that the role of expectation in the working and implementation of monetary policy in the post criss period has been of a great relevance. Especially, around zero-lower-bound, the central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
 
