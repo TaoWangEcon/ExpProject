@@ -25,7 +25,7 @@ footskip=.25in]{geometry}
 \maketitle
 
 \begin{abstract}
-	Surveys on density forecasts of macroeconomic variable that are not available until recent dacade provides one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion not only in mean forecast but also in uncertainty about future inflation across economists and households. Second,  utilizing the panel data of individual uncertainty, I provide additional test results that reject the null hypothesis of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theoreis of expectation rigidity, but in the same time bears the evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific regidity using uncertainty as the next step of analysis.  
+	Surveys on density forecasts of macroeconomic variable that are not available until recent dacade provides one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion in uncertainty about future inflation across economists and households. Second,  utilizing the panel data of individual uncertainty, I provide additional test results and estimates that are not consistent with the benchmark prediction of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theoreis of expectation rigidity and points to evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific regidity using uncertainty as the next step of analysis.  
 	
 \end{abstract}
 
@@ -126,7 +126,7 @@ The time series behavior of uncertainty according to FIRE is less obvious. Weath
 
 In the same time, the serial correlation of uncertainty across different horizons of forecasting does follow testable pattern according to FIRE. In particular, consistent with our current notation, let us denote the forecast of $y_{t+h}$ over horizon of $h-k$ as $y_{t+h|t+k} \quad \forall k =0,1...h$. 
 
-\begin{eqnarray}\label{VarREEq}
+\begin{eqnarray}\label{VarREPop}
 \bar \sigma^{*2}_{t+h|t+k} = \sum^{h-k}_{s=1}\rho^{2s} \sigma^2_{\omega}
 \end{eqnarray}
 
@@ -152,7 +152,9 @@ $$y_{i,t+h|t-\tau} = \rho^{h+\tau} y_{t-\tau}$$
 
 Now her information set is not up to date, the uncertainty to a non-updater is higher than an updater and it increases with the duration of non-updating $\tau$. 
 
-$$\sigma^2_{i,t|t-\tau}= \sum^{h+\tau}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+\begin{eqnarray}\label{VarSEInd}
+	\sigma^2_{i,t|t-\tau}= \sum^{h+\tau}_{s=1}\rho^{2s} \sigma^2_{\omega}
+\end{eqnarray}	
  
 In FIRE, updating at each period $t$ resolves only the uncertainty about the shocks realizing in $t$. In constrast, in SE each updating resolves the uncertainty about all the realized shocks since last update. Fixing the terminate date, i.e. forecasting  $y_{t+1}$ at time $t$ relative to forecasting $y_{t+1}$ at $t-\tau$, the revision in uncertainty is 
 
@@ -208,7 +210,7 @@ In SE, disagreements rise after realization of the shock and gradually returns t
 
 Finally, SE predicts an sluggish inefficiency in revision in uncertainty. Average uncertainty at any point of time is now a weighted average of uncertainty to agents whose last updates have taken place in different periods of past.  
 
-\begin{eqnarray}
+\begin{eqnarray}\label{VarSEPop}
 \begin{aligned}
 \bar \sigma^2_{t+h|t} & = \sum^{+\infty}_{\tau =0} \underbrace{\lambda (1-\lambda)^\tau}_{\text{fraction who non-updater until }t-\tau} \underbrace{\sigma^2_{t+h|t-\tau}}_{\text{ uncertainty of most recent update at }t-\tau} \\
 & = \sum^{+\infty}_{\tau =0} \lambda (1-\lambda)^\tau \sum^{h+\tau}_{s=0}\rho^{2s} \sigma^2_{\omega}
@@ -218,7 +220,7 @@ Finally, SE predicts an sluggish inefficiency in revision in uncertainty. Averag
 Since not all agents incorporate the recent realized shocks, the revision in average uncertainty exhibites serial correlation described as below in a similar spirt of forecast errors. It is equal to a weighted average of the resolution of uncertainty from the most recent shocks and its lagged counterpart. \footnote{Make sure you have clarify the difference between revision and change.}
 
 
-\begin{eqnarray}\label{VarSEEq}
+\begin{eqnarray}\label{VarSERv}
 \begin{aligned}
 \bar \sigma^2_{t+h|t+1} - \bar \sigma^2_{t+h|t} = (1-\lambda)(
 \bar \sigma^2_{t+h|t} - \bar \sigma^2_{t+h|t-1}) -\lambda \rho^{2h} \sigma^2 
@@ -496,7 +498,7 @@ The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationsh
  
 Overall, professional forecasters' moments exhibit patterns more consistency from a statistical point of view.  In constrast, the positive correlation across households' ex ante uncertainty, ex post forecat errors, and cross-section disagreements cannot be easily reconciled by the framework we set up in Section \ref{theory}. 
 
-Persistent disagreements in expectations has been used as an important stylized evidence against the null of identical expectation assumption embedded in FIRE, for instance, \citet{mankiw2003disagreement}. A similar fact checking can be done with respect to individual uncertaintiy. FIRE predicts individual share equal degree of uncertainty as  seen in Equation \ref{VarREEq}. In contrast, SE predicts that uncertainty of individuals differ in that agents are not equally updated at a point of the time (Equation \ref{VarSEEq}). NI allows for possibility of homogeneity in uncertainty only under stringent condition of the equal precesion of signals and the same prior of uncertainty (Equation \ref{VarNIEq}). Therefore, precense of dispersion of uncertainty across agents can be read against FIRE.  
+Persistent disagreements in expectations has been used as an important stylized evidence against the null of identical expectation assumption embedded in FIRE, for instance, \citet{mankiw2003disagreement}. A similar fact checking can be done with respect to individual uncertaintiy. FIRE predicts individual share equal degree of uncertainty as  seen in Equation \ref{VarREInd}. In contrast, SE predicts that uncertainty of individuals differ in that agents are not equally updated at a point of the time (Equation \ref{VarSEInd}). NI allows for possibility of homogeneity in uncertainty only under stringent condition of the equal precesion of signals and the same prior of uncertainty (Equation \ref{VarNIEq}). Therefore, precense of dispersion of uncertainty across agents can be read against FIRE.  
  
 Figure \ref{IQR_Unceratitny} plots the median inflation expectation along its 25/75 percentiles in the left and its counterpart in uncertainty in the righ coumn.  Not only there is long-lasting dispersion in individual forecasts, i.e. disagreements, but alslo notable heterogeneity in uncertainty across agents.  And not surprisingly, the dispersion of both forecasts and uncertainty of households are both of a much greater magnitude than that of the professionals. The 25/75 inter-quantile-range of households point forecasts is 4-5 percentage points compared to 1 percentage point of professionals. And the IQR of uncertainty of housheolds are around 150-200 times(12-14 times for standard deviation) as that of professional forecasters.  
 
@@ -574,7 +576,7 @@ This section first reproduces the results of a list of statistical tests of FIRE
  
 The first set of tests, hereafter, referred as FE-based tests, utilize the moment restrictions on forecast errors. In plain words, the null hypothesis of the three tests are the following. First, since the forecasts are on average unbiased according to FIRE, forecast errors across agents should converge to zero in large sample. Second, forecast errors of non-overlapping forecasting horizon are not serially correlated (Equation \ref{NoSerialCorrFE} ).  Third, forecast errors cannot be predicted by any information available at the time of forecast, including the mean forecast itself and other variable that is in the agent's information content. This follows from Equation \ref{NoPastInfFE}. In addition, I include what is called weak version of the FE-based test which explores the serial correlation of forecast erros in overlapping periods,  i.e. 1-year-ahead forecasts within one year. The forecast errors are correlated to the extent of the realized shocks in the overlapping periods. So the positve serial correlation does not direct violate FIRE. For this reason, looking into the correlation of overlapping forecast errors still contain the useful information about the size of the realized shocks. 
 
-FE-based tests results are prensented in Table \ref{NullTestTable}. Individual level data are used thanks to the panel structure of both surveys. But since test 2 and 3 requires individual forecasts in vintages that are more than one year apart while SCE only surveys each household for 12 months, the two tests are done for only SPF forecasts of CPI and PCE. Also,the regresions are adjusted corresponding to the quarterly and monthly frequency of SPF and SCE. Since these regressions are based on 1-year inflations in overlapping periods, white standard error is computed for hypothesis testing. 
+FE-based tests results are prensented in Table \ref{NullTestTable}. Individual level data are used thanks to the panel structure of both surveys. Since test 2 and 3 requires individual forecasts in vintages that are more than one year apart while SCE only surveys each household for 12 months, the two tests are done for only SPF forecasts of CPI and PCE. Also,the regresions are adjusted accordingly depending on the quarterly and monthly frequency of SPF and SCE. Since these regressions are based on 1-year inflations in overlapping periods, white standard error is computed for hypothesis testing. 
 
 First,  all three forecast series easily reject the unbiasedness test in the significance level of $1\%$. There is upward bias across professional forecasters and households \footnote{\citet{coibion2018firms} finds the same upward bias for firms' managers.}, while unsurprisingly, the bias is almost 20 times of that for professional forecaters(2.2 versus 0.12) for headline CPI. 
 
@@ -636,19 +638,27 @@ Lastly, test 4 in Table \ref{NullTestTable} presents higher serial correlation o
 \end{tabular}
 \end{table}
 
-The second batch of tests in Table \ref{RevEfficency} focus on testing forecasting efficiency using revisions of mean forecasts and uncertainty, as referred as Revision-based test.  
+The second batch of tests in Table \ref{RevEfficency} focus on estimating forecasting efficiency using revisions of mean forecasts and uncertainty, hereafter referred as revision-based tests.  In plain words, the revision from 1-year-ahead forecast to nowcast of current-year inflation is efficient according two criteria (1) Forecast revision does not depend on past information, including the past revisions. (2) Drop in uncertainy is sufficiently rapid to reflect the uncertainty of all realized shocks. 
 
-In plain words, it checks if the revision from 1-year-ahead forecast to nowcast of current-year inflation is efficient by two criteria. (1) Forecast revision does not depend on past information, including the past revisions of forecast. (2) Drop in uncertainy are not serially correlated. 
-
- \citet{fuhrer2018intrinsic}'s test for mean forecast revision takes the following form(using 1 period revision as an exampl).
+The mean revision test by \citet{fuhrer2018intrinsic} takes the following form (using 1 period as an example): 
 
 \begin{eqnarray}\label{RevEffMeanTest}
 y_{i,t+1|t+1} - y_{i,t+1|t}=\alpha + \beta (y_{i,t+1|t} - y_{i,t+1|t-1})+\epsilon_{i,t+1}
 \end{eqnarray}
 
-$\beta =0$ according to FIRE, because rational forecast revision only responds to newly realized shocks thus it is note predictable by past revisions.\footnote{Adding $y_{t+1|t}$ to both sides of Equation \ref{RevEffMeanTest} gives an equivalent null hypothesis used by \citet{fuhrer2018instrinsic}: coefficient of regression of $y_{t+1|t+1}$ on  $y_{t+1|t}$ is $1-\beta=1$. } Since we have four vintages of the forecasts from SPF, we can check if the revision in nowcasting are serially correlated with 1-year-ahead forecats in previous three quarters. 
+In the above equation $\beta =0$ according to FIRE, because rational forecast revision only responds to newly realized shocks thus it is not predictable by past revisions.\footnote{Adding $y_{t+1|t}$ to both sides of Equation \ref{RevEffMeanTest} gives an equivalent null hypothesis used by \citet{fuhrer2018intrinsic}: coefficient of regression of $y_{t+1|t+1}$ on  $y_{t+1|t}$ is $1-\beta=1$. }. Since we have four vintages of the forecasts from SPF, the above specification can include lagged revisions up to 4 quarters.  
 
------------------------------
+The test with uncertainy simply replaces the revision of forecast with revision in uncertainty $\sigma^2_{i,t+1|t+1} - \sigma^2_{i.t+1|t}$, for instance. This regresion follows from Equation \ref{VarSERv} for SE and Equation \ref{VarNIRv} for NI. Although it  cannot be directly used as a test against FIRE null, the autocorrelation coefficient speaks to the speed of drop in uncertainty. Depending on the model, one can interprete it as the particular structural parameter of rigidty, as shown in Figure \ref{rigidity}. 
+
+Top panel in Table \ref{RevEffMeanTest} and bottom panel presents the results for mean forecast. Following \citet{fuhrer2018intrinsic}, I include median forecast available at time $t$ and $t-1$ as an indicator of past information for the revision regression. In the first column of each panel, I report the regression on a constant. 
+
+What's surprising is the mean revision in forecast being negative and significant. Forecaters on average make downward adjustment of 1.26 percentage points of CPI and  1.1 perentage points of PCE from her previous year forecast of the same-period inflation. 
+
+The second to fourth columns of each panel in Table \ref{RevEfficency} checks auto correlation of revisions including different lags. Revisions of forecasts are serially correlated over 4 quarters and the coefficients are all positive and significant. Also, the median forecasts as the past information always predicts a negative revision with significant coefficients. This is evidence against null hypothesis of FIRE and my estiamtes are comparable with those by \citet{fuhrer2018intrinsic}. 
+
+In the bottom panel reports auto regression results for revision in uncertainty. Again, the first column first test the mean revision against the null being zero. The mean revisions in uncertainty are both negative(0.5-0.6 percentage poitns equivalence in standard devation of uncertainty) and statistically sigificant, confirming our observation from Figure \ref{RevisionHist} that forecaters are more certain about current inflation compared her previous year forecast. 
+
+The second to fourth column rejects the null of non-serial correlation for both CPI and PCE forecasts. The revision to CPI seems more efficient as serial correlation is with only one quarter lag. For PCE, the revisions in uncertainty are serially correlated with all past three quarters. 
 
 \begin{table}[ht]
 	\caption{Tests of Revision Efficiency using Mean Revision and Uncertainty}
@@ -699,9 +709,9 @@ $\beta =0$ according to FIRE, because rational forecast revision only responds t
 \end{adjustbox}
 \end{table}
 
-A weaker test in the similar test is that the change in mean forecast from one period to the next one fixing forecasting horizon is serially correlated to an greater extent than that comes from the additional period in far future. Table \ref{WeakRevEfficiency} present the results. 
 
-Weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
+Table \ref{WeakRevEfficiency} presents the results with the revision replaced with change in mean forecasts and uncertainty, i.e. $y_{t|t-1}$ to $y_{t+1|t}$. The auto-correlation of change in mean forecast and uncertainty does embed  tests of null of FIRE (Equation \ref{VarREPop}). But if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
+
 
 \begin{table}
 	\centering 
@@ -780,7 +790,7 @@ In this paper I use three types of shocks: technology shock\citet{gali1999techno
 
 The reason for including monetary policy shocks, although it turns out to provide less robust evidence, is twofold. First, it is well known that the role of expectation in the working and implementation of monetary policy in the post criss period has been of a great relevance. Especially, around zero-lower-bound, the central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
 
-In Figure \ref{Inflationshocks}, all four shocks plus the unexplained component of inflation are plotted in quarterly between 1985-2019. All shocks are normalized by its respective sample standard deviations. 
+In Figure \ref{Inflationshocks}, all four shocks are plotted in quarterly between 1985-2019. All shocks are normalized by its respective sample standard deviations. 
 
 \begin{figure}[ht]
 	\centering
@@ -839,7 +849,7 @@ In Figure \ref{ReplicateCoibionwholeperiod}, I extend the sample period to inclu
 The left panel of  Figure \ref{ReplicateCoibionwholeperiod} presents impulse reponses of average uncertainty of SPF in addition to that inflation, forecast error, disagreements in response to technology and oil price shocks. As shown in the top three figures, the results are consistent with that in Figure \ref{ReplicateCoibionBefore2007} for period before 2007.  Oil shock(technology shock) increases(decreases) inflation in the first quarter by 10 percentage  points, whose imapcts last till 7-8th quarters. Confidence interval of the responses is smaller compared to previous figure probably due to larger sample size.  Average forecast errors react partially to the shock and gradually return to zero over the 4-5th quarters afterward. Disagreements picked up in the second quarter and return to zero 2 or 3 quarters  later. 
 
 
-The primary focus of this paper is the behavior of uncertainty. Its responses to the absolute value of various shocks is presented in the bottom of the panel. Since  average uncertainty do not directly depend on the realizations and sizes of the shocks in various models, as shown in Equation \ref{VarREEq}  Equation \ref{VarSEEq}, and Equation \ref{VarNIEq}, the response of uncertainty cannot be used as a screening device of  FIRE and rigidity models. Instead, it should be taken as a basic consistency check of different theories with respect to the behavior of uncertainty.  
+The primary focus of this paper is the behavior of uncertainty. Its responses to the absolute value of various shocks is presented in the bottom of the panel. Since  average uncertainty do not directly depend on the realizations and sizes of the shocks in various models, as shown in Equation \ref{VarREEq}  Equation \ref{VarSEPop}, and Equation \ref{VarNIEq}, the response of uncertainty cannot be used as a screening device of  FIRE and rigidity models. Instead, it should be taken as a basic consistency check of different theories with respect to the behavior of uncertainty.  
 
  The response graph seems consistent with this simpel prediction, except for the uncertainty about CPI in responses to oil price shock. The responses of average uncertainty is not significantly different from zero throughout 10 quarters. \footnote{The impulse response that provides direct checking of rigidity models versus FIRE is the responses of revision in uncertainty, i.e. uncertainty about inflation in $t+h$ at time $t$ relative to $t-1$, $t-2$, etc. The results will be presented in a revised version of the paper.} 
  
