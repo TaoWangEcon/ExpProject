@@ -576,14 +576,13 @@ The first set of tests, hereafter, referred as FE-based tests, utilize the momen
 
 FE-based tests results are prensented in Table \ref{NullTestTable}. Individual level data are used thanks to the panel structure of both surveys. But since test 2 and 3 requires individual forecasts in vintages that are more than one year apart while SCE only surveys each household for 12 months, the two tests are done for only SPF forecasts of CPI and PCE. Also,the regresions are adjusted corresponding to the quarterly and monthly frequency of SPF and SCE. Since these regressions are based on 1-year inflations in overlapping periods, white standard error is computed for hypothesis testing. 
 
-First,  all three forecast series easily reject the unbiasedness test in the significance level of $1\%$. There is upward bias across professional forecasters and households \footnote{\citet{
-coibion2018firms}finds the same for firms.}, while unsurprisingly, the bias is almost 20 times of that for professional forecaters(2.2 versus 0.12) for headline CPI. 
+First,  all three forecast series easily reject the unbiasedness test in the significance level of $1\%$. There is upward bias across professional forecasters and households \footnote{\citet{coibion2018firms} finds the same upward bias for firms' managers.}, while unsurprisingly, the bias is almost 20 times of that for professional forecaters(2.2 versus 0.12) for headline CPI. 
 
 Second, the point forecast one year ago predicts the forecat errors for professionals in the significance level of 1\%. For headline CPI inflation, for instance, one percentage point inflation forecast corresponds to 0.3 percentage points of the forecast errors one year later. Thus test 2 in Table \ref{NullTestTable} easily rejects the second hypothesis test of FIRE that past information does not predict future forecast errors. 
 
 Third, forecast errors can be predicted by forecast errors one year ago with a significant coefficient of around $0.08$ for headline CPI and $0.05$ for PCE, as seen in test 3 of Table \ref{NullTestTable}. Errors of non-overlapping forecastign periods are correlated, against the null of FIRE. 
 
-Lastly, test 4 in Table \ref{NullTestTable} presents higher serial correlation of forecast errros produced within a year. For SPF forecasts, the serial correlation does not exist beyond 1 quarter, implying relative efficiency of forecasts. For the households, the forecast errors are more persisent over the entire year in that current forecat errors are correlated with all past forecast errors over the past three quarters.  Again, although the persistency of forecast errors in 1-year inflation withon a year do not directly violate FIRE, the fact that households forecast errors being more persistent with professionals provide useful clues about the relative rigidity of the two types of agents. 
+Lastly, test 4 in Table \ref{NullTestTable} presents higher serial correlation of forecast errros produced within a year. For SPF forecasts, the serial correlation does not exist beyond 1 quarter, implying relative efficiency of forecasts. For the households, the forecast errors are more persisent over the entire year in that current forecat errors are correlated with all past forecast errors over the past three quarters.  Again, although the persistency of 1-year forecast errors within one year do not directly violate FIRE, the fact that households' forecast errors being more persistent than professionals provide useful clues about the relative rigidity of the two types of agents. 
 
 \begin{table}[ht]
 	\caption{Tests of Rationality and Efficicency using Forecast Errors}
@@ -637,9 +636,19 @@ Lastly, test 4 in Table \ref{NullTestTable} presents higher serial correlation o
 \end{tabular}
 \end{table}
 
+The second batch of tests in Table \ref{RevEfficency} focus on testing forecasting efficiency using revisions of mean forecasts and uncertainty, as referred as Revision-based test.  
 
-The second batch of tests in Table \ref{RevEfficency} focus on  forecasting efficiency utilizing revision across different vintages of forecasts in the spirit of \citet{nordhaus1987forecasting} and \citet{fuhrer2018intrinsic}. In particular, I follow the model specifications in \citet{fuhrer2018intrinsic}. According to FIRE, rational forecast revision only responds to newly realized shocks thus it cannot be predicted by past information. For the same reason, regression coefficient of forecast for $y_{t+h}$  at time $t+1$ on that at $t-1$ is exactly equal to $1$, implying one-to-one responses.  A weaker test in the similar test is that the change in mean forecast from one period to the next one fixing forecasting horizon is serially correlated to an greater extent than that comes from the additional period in far future. 
+In plain words, it checks if the revision from 1-year-ahead forecast to nowcast of current-year inflation is efficient by two criteria. (1) Forecast revision does not depend on past information, including the past revisions of forecast. (2) Drop in uncertainy are not serially correlated. 
 
+ \citet{fuhrer2018intrinsic}'s test for mean forecast revision takes the following form(using 1 period revision as an exampl).
+
+\begin{eqnarray}\label{RevEffMeanTest}
+y_{i,t+1|t+1} - y_{i,t+1|t}=\alpha + \beta (y_{i,t+1|t} - y_{i,t+1|t-1})+\epsilon_{i,t+1}
+\end{eqnarray}
+
+$\beta =0$ according to FIRE, because rational forecast revision only responds to newly realized shocks thus it is note predictable by past revisions.\footnote{Adding $y_{t+1|t}$ to both sides of Equation \ref{RevEffMeanTest} gives an equivalent null hypothesis used by \citet{fuhrer2018instrinsic}: coefficient of regression of $y_{t+1|t+1}$ on  $y_{t+1|t}$ is $1-\beta=1$. } Since we have four vintages of the forecasts from SPF, we can check if the revision in nowcasting are serially correlated with 1-year-ahead forecats in previous three quarters. 
+
+-----------------------------
 
 \begin{table}[ht]
 	\caption{Tests of Revision Efficiency using Mean Revision and Uncertainty}
@@ -690,7 +699,9 @@ The second batch of tests in Table \ref{RevEfficency} focus on  forecasting effi
 \end{adjustbox}
 \end{table}
 
-The weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
+A weaker test in the similar test is that the change in mean forecast from one period to the next one fixing forecasting horizon is serially correlated to an greater extent than that comes from the additional period in far future. Table \ref{WeakRevEfficiency} present the results. 
+
+Weak efficiency tests use change in forecast and uncertainty instead of revisions. This is not a direct test of the null of FIRE as we have discussed that the rigidity models do not have direct testable predictions about the change in forecast and uncertainty with fixed forecast horizon. But in the same time, the auto regression features do speak to the persistence of the forecasts over the time horizon. In particular, if the individual forecasts and their uncertainty turn out to be persisent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
 
 \begin{table}
 	\centering 
