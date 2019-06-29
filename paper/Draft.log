@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  28 JUN 2019 19:43
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  28 JUN 2019 20:15
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -786,171 +786,156 @@ LaTeX Warning: Reference `VarREEq' on page 21 undefined on input line 852.
 e2007.png> <./figures/SPFFE_ashocks_nmp_before2007.png> <./figures/SPFFE_ashock
 s_before2007.png> <./figures/SPFDisg_ab_ashocks_nmp_before2007.png> <./figures/
 SPFDisg_ab_ashocks_before2007.png>]
-<figures/CPIAU_ashocks_nmp.png, id=537, 932.98563pt x 678.535pt>
-File: figures/CPIAU_ashocks_nmp.png Graphic file (type png)
+<figures/Inf_ashocks_nmp.png, id=537, 932.98563pt x 678.535pt>
+File: figures/Inf_ashocks_nmp.png Graphic file (type png)
 
-<use figures/CPIAU_ashocks_nmp.png>
-Package pdftex.def Info: figures/CPIAU_ashocks_nmp.png used on input line 866.
-(pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
+<use figures/Inf_ashocks_nmp.png>
+Package pdftex.def Info: figures/Inf_ashocks_nmp.png used on input line 866.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/CPIAU_ashocks.png, id=538, 932.98563pt x 678.535pt>
-File: figures/CPIAU_ashocks.png Graphic file (type png)
+<figures/Inf_ashocks.png, id=538, 932.98563pt x 678.535pt>
+File: figures/Inf_ashocks.png Graphic file (type png)
 
-<use figures/CPIAU_ashocks.png>
-Package pdftex.def Info: figures/CPIAU_ashocks.png used on input line 867.
-(pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
+<use figures/Inf_ashocks.png>
+Package pdftex.def Info: figures/Inf_ashocks.png used on input line 867.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PCEPI_ashocks_nmp.png, id=539, 932.98563pt x 678.535pt>
-File: figures/PCEPI_ashocks_nmp.png Graphic file (type png)
-
-<use figures/PCEPI_ashocks_nmp.png>
-Package pdftex.def Info: figures/PCEPI_ashocks_nmp.png used on input line 868.
-(pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
-
-<figures/PCEPI_ashocks.png, id=540, 932.98563pt x 678.535pt>
-File: figures/PCEPI_ashocks.png Graphic file (type png)
-
-<use figures/PCEPI_ashocks.png>
-Package pdftex.def Info: figures/PCEPI_ashocks.png used on input line 869.
-(pdftex.def)             Requested size: 170.70622pt x 85.35504pt.
-
-<figures/SPFFE_ashocks_nmp.png, id=541, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks_nmp.png, id=539, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_nmp.png>
-Package pdftex.def Info: figures/SPFFE_ashocks_nmp.png used on input line 871.
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+Package pdftex.def Info: figures/SPFFE_ashocks_nmp.png used on input line 869.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFFE_ashocks.png, id=542, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks.png, id=540, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks.png>
-Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 872.
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 870.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks_nmp.png, id=543, 932.98563pt x 678.535pt>
+<figures/SPFDisg_ab_ashocks_nmp.png, id=541, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_nmp.png>
 Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp.png used on input line 
-874.
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+872.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks.png, id=544, 932.98563pt x 678.535pt>
+<figures/SPFDisg_ab_ashocks.png, id=542, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks.png>
-Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 875.
+Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 873.
 
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFVar_ab_ashocks_nmp.png, id=545, 932.98563pt x 678.535pt>
+<figures/SPFVar_ab_ashocks_nmp.png, id=543, 932.98563pt x 678.535pt>
 File: figures/SPFVar_ab_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks_nmp.png>
 Package pdftex.def Info: figures/SPFVar_ab_ashocks_nmp.png used on input line 8
-77.
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+75.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFVar_ab_ashocks.png, id=546, 932.98563pt x 678.535pt>
+<figures/SPFVar_ab_ashocks.png, id=544, 932.98563pt x 678.535pt>
 File: figures/SPFVar_ab_ashocks.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks.png>
-Package pdftex.def Info: figures/SPFVar_ab_ashocks.png used on input line 878.
-(pdftex.def)             Requested size: 170.71652pt x 124.14998pt.
+Package pdftex.def Info: figures/SPFVar_ab_ashocks.png used on input line 876.
+(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/CPIAU_ashocks_nmpM.png, id=553, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocks_nmpM.png, id=551, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmpM.png>
-Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 906.
+Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 904.
 
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
-<figures/CPIAU_ashocksM.png, id=554, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocksM.png, id=552, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocksM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocksM.png>
-Package pdftex.def Info: figures/CPIAU_ashocksM.png used on input line 907.
+Package pdftex.def Info: figures/CPIAU_ashocksM.png used on input line 905.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
-<figures/SCEFE_ashocks_nmpM.png, id=555, 932.98563pt x 678.535pt>
+<figures/SCEFE_ashocks_nmpM.png, id=553, 932.98563pt x 678.535pt>
 File: figures/SCEFE_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocks_nmpM.png>
-Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 909.
+Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 907.
 
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
-<figures/SCEFE_ashocksM.png, id=556, 932.98563pt x 678.535pt>
+<figures/SCEFE_ashocksM.png, id=554, 932.98563pt x 678.535pt>
 File: figures/SCEFE_ashocksM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocksM.png>
-Package pdftex.def Info: figures/SCEFE_ashocksM.png used on input line 910.
+Package pdftex.def Info: figures/SCEFE_ashocksM.png used on input line 908.
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
-<figures/SCEDisg_ab_ashocks_nmpM.png, id=557, 932.98563pt x 678.535pt>
+<figures/SCEDisg_ab_ashocks_nmpM.png, id=555, 932.98563pt x 678.535pt>
 File: figures/SCEDisg_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocks_nmpM.png>
 Package pdftex.def Info: figures/SCEDisg_ab_ashocks_nmpM.png used on input line
- 912.
+ 910.
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
-<figures/SCEDisg_ab_ashocksM.png, id=558, 932.98563pt x 678.535pt>
+<figures/SCEDisg_ab_ashocksM.png, id=556, 932.98563pt x 678.535pt>
 File: figures/SCEDisg_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocksM.png>
-Package pdftex.def Info: figures/SCEDisg_ab_ashocksM.png used on input line 913
+Package pdftex.def Info: figures/SCEDisg_ab_ashocksM.png used on input line 911
 .
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
 
-<figures/SCEVar_ab_ashocks_nmpM.png, id=559, 932.98563pt x 678.535pt>
+<figures/SCEVar_ab_ashocks_nmpM.png, id=557, 932.98563pt x 678.535pt>
 File: figures/SCEVar_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocks_nmpM.png>
 Package pdftex.def Info: figures/SCEVar_ab_ashocks_nmpM.png used on input line 
-915.
+913.
 (pdftex.def)             Requested size: 85.346pt x 56.90337pt.
 
-<figures/SCEVar_ab_ashocksM.png, id=560, 932.98563pt x 678.535pt>
+<figures/SCEVar_ab_ashocksM.png, id=558, 932.98563pt x 678.535pt>
 File: figures/SCEVar_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocksM.png>
-Package pdftex.def Info: figures/SCEVar_ab_ashocksM.png used on input line 916.
+Package pdftex.def Info: figures/SCEVar_ab_ashocksM.png used on input line 914.
 
 (pdftex.def)             Requested size: 170.70622pt x 56.90337pt.
  [22] (./Draft.bbl [23])
 
 Package natbib Warning: There were undefined citations.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 944.
-[24] [25] [26] [27 <./figures/CPIAU_ashocks_nmp.png> <./figures/CPIAU_ashocks.p
-ng> <./figures/PCEPI_ashocks_nmp.png> <./figures/PCEPI_ashocks.png> <./figures/
-SPFFE_ashocks_nmp.png> <./figures/SPFFE_ashocks.png> <./figures/SPFDisg_ab_asho
-cks_nmp.png> <./figures/SPFDisg_ab_ashocks.png> <./figures/SPFVar_ab_ashocks_nm
-p.png> <./figures/SPFVar_ab_ashocks.png>] [28 <./figures/CPIAU_ashocks_nmpM.png
-> <./figures/CPIAU_ashocksM.png> <./figures/SCEFE_ashocks_nmpM.png> <./figures/
-SCEFE_ashocksM.png> <./figures/SCEDisg_ab_ashocks_nmpM.png> <./figures/SCEDisg_
-ab_ashocksM.png> <./figures/SCEVar_ab_ashocks_nmpM.png> <./figures/SCEVar_ab_as
-hocksM.png>]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 944.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 942.
+[24] [25] [26] [27 <./figures/Inf_ashocks_nmp.png> <./figures/Inf_ashocks.png> 
+<./figures/SPFFE_ashocks_nmp.png> <./figures/SPFFE_ashocks.png> <./figures/SPFD
+isg_ab_ashocks_nmp.png> <./figures/SPFDisg_ab_ashocks.png> <./figures/SPFVar_ab
+_ashocks_nmp.png> <./figures/SPFVar_ab_ashocks.png>] [28 <./figures/CPIAU_ashoc
+ks_nmpM.png> <./figures/CPIAU_ashocksM.png> <./figures/SCEFE_ashocks_nmpM.png> 
+<./figures/SCEFE_ashocksM.png> <./figures/SCEDisg_ab_ashocks_nmpM.png> <./figur
+es/SCEDisg_ab_ashocksM.png> <./figures/SCEVar_ab_ashocks_nmpM.png> <./figures/S
+CEVar_ab_ashocksM.png>]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 942.
  (./Draft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 944.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 944.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 942.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 942.
 Package rerunfilecheck Info: File `Draft.out' has not changed.
 (rerunfilecheck)             Checksum: 561CE21CF9A55D5F49A35C019647A21F;1810.
 
 
 LaTeX Warning: There were undefined references.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 944.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 942.
  ) 
 Here is how much of TeX's memory you used:
- 7727 strings out of 493117
- 118106 string characters out of 6135433
+ 7717 strings out of 493117
+ 117794 string characters out of 6135433
  275863 words of memory out of 5000000
- 10897 multiletter control sequences out of 15000+600000
+ 10889 multiletter control sequences out of 15000+600000
  10285 words of font info for 37 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  40i,20n,35p,1242b,469s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -977,10 +962,10 @@ st/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2014/texmf-dist
 onts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf-dist/fon
 ts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (28 pages, 5761772 bytes).
+Output written on Draft.pdf (28 pages, 5656632 bytes).
 PDF statistics:
- 725 PDF objects out of 1000 (max. 8388607)
+ 721 PDF objects out of 1000 (max. 8388607)
  560 compressed objects within 6 object streams
  147 named destinations out of 1000 (max. 500000)
- 458 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 448 words of extra memory for PDF output out of 10000 (max. 10000000)
 
