@@ -7,47 +7,48 @@ Warning--I didn't find a database entry for "xx"
 Warning--I didn't find a database entry for ""
 Warning--I didn't find a database entry for "xxx"
 Warning--I didn't find a database entry for "coibon2012can"
+Warning--there's a number but no volume in armantier2017overview
 Warning--empty journal in fuhrer2018intrinsic
 Warning--empty journal in laseen2011anticipated
-You've used 19 entries,
+You've used 22 entries,
             1935 wiz_defined-function locations,
-            601 strings with 6634 characters,
-and the built_in function-call counts, 7436 in all, are:
-= -- 762
-> -- 218
-< -- 16
-+ -- 72
-- -- 68
-* -- 644
-:= -- 1267
-add.period$ -- 55
-call.type$ -- 19
-change.case$ -- 129
-chr.to.int$ -- 19
-cite$ -- 21
-duplicate$ -- 273
-empty$ -- 564
-format.name$ -- 99
-if$ -- 1450
+            622 strings with 7133 characters,
+and the built_in function-call counts, 8637 in all, are:
+= -- 883
+> -- 261
+< -- 18
++ -- 90
+- -- 82
+* -- 754
+:= -- 1473
+add.period$ -- 64
+call.type$ -- 22
+change.case$ -- 151
+chr.to.int$ -- 22
+cite$ -- 25
+duplicate$ -- 315
+empty$ -- 650
+format.name$ -- 118
+if$ -- 1679
 int.to.chr$ -- 1
 int.to.str$ -- 0
-missing$ -- 19
-newline$ -- 96
-num.names$ -- 57
-pop$ -- 86
+missing$ -- 22
+newline$ -- 111
+num.names$ -- 66
+pop$ -- 101
 preamble$ -- 1
-purify$ -- 129
+purify$ -- 151
 quote$ -- 0
-skip$ -- 218
+skip$ -- 248
 stack$ -- 0
-substring$ -- 694
-swap$ -- 26
+substring$ -- 797
+swap$ -- 29
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 114
-warning$ -- 2
-while$ -- 73
+type$ -- 132
+warning$ -- 3
+while$ -- 85
 width$ -- 0
-write$ -- 243
-(There were 6 warnings)
+write$ -- 282
+(There were 7 warnings)
