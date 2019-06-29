@@ -70,14 +70,30 @@ Hamilton, J.~D. (1996).
 \newblock This is what happened to the oil price-macroeconomy relationship.
 \newblock {\em Journal of Monetary Economics}, 38(2):215--220.
 
+\bibitem[Jurado et~al., 2015]{jurado2015measuring}
+Jurado, K., Ludvigson, S.~C., and Ng, S. (2015).
+\newblock Measuring uncertainty.
+\newblock {\em American Economic Review}, 105(3):1177--1216.
+
 \bibitem[Las{\'e}en and Svensson, 2011]{laseen2011anticipated}
 Las{\'e}en, S. and Svensson, L.~E. (2011).
 \newblock Anticipated alternative instrument-rate paths in policy simulations.
+
+\bibitem[Lucas~Jr, 1972]{lucas1972expectations}
+Lucas~Jr, R.~E. (1972).
+\newblock Expectations and the neutrality of money.
+\newblock {\em Journal of economic theory}, 4(2):103--124.
 
 \bibitem[Malmendier and Nagel, 2015]{malmendier2015learning}
 Malmendier, U. and Nagel, S. (2015).
 \newblock Learning from inflation experiences.
 \newblock {\em The Quarterly Journal of Economics}, 131(1):53--87.
+
+\bibitem[Mankiw and Reis, 2002]{mankiw2002sticky}
+Mankiw, N.~G. and Reis, R. (2002).
+\newblock Sticky information versus sticky prices: a proposal to replace the
+  new keynesian phillips curve.
+\newblock {\em The Quarterly Journal of Economics}, 117(4):1295--1328.
 
 \bibitem[Mankiw et~al., 2003]{mankiw2003disagreement}
 Mankiw, N.~G., Reis, R., and Wolfers, J. (2003).
@@ -114,5 +130,10 @@ Reis, R. (2006).
 Sims, C.~A. (2003).
 \newblock Implications of rational inattention.
 \newblock {\em Journal of monetary Economics}, 50(3):665--690.
+
+\bibitem[Woodford, 2001]{woodford2001imperfect}
+Woodford, M. (2001).
+\newblock Imperfect common knowledge and the effects of monetary policy.
+\newblock Technical report, National Bureau of Economic Research.
 
 \end{thebibliography}
