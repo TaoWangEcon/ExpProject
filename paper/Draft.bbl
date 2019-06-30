@@ -1,10 +1,5 @@
 \begin{thebibliography}{}
 
-\bibitem[Angeletos and Jennifer, 2009]{angeletos2009incomplete}
-Angeletos, G.-M. and Jennifer, L. (2009).
-\newblock Incomplete information, higher-order beliefs and price inertia.
-\newblock {\em Journal of Monetary Economics}, 56:S19--S37.
-
 \bibitem[Armantier et~al., 2017]{armantier2017overview}
 Armantier, O., Topa, G., Van~der Klaauw, W., and Zafar, B. (2017).
 \newblock An overview of the survey of consumer expectations.
@@ -14,6 +9,12 @@ Armantier, O., Topa, G., Van~der Klaauw, W., and Zafar, B. (2017).
 Barsky, R.~B. and Sims, E.~R. (2011).
 \newblock News shocks and business cycles.
 \newblock {\em Journal of monetary Economics}, 58(3):273--289.
+
+\bibitem[Bertrand and Mullainathan, 2001]{bertrand2001people}
+Bertrand, M. and Mullainathan, S. (2001).
+\newblock Do people mean what they say? implications for subjective survey
+  data.
+\newblock {\em American Economic Review}, 91(2):67--72.
 
 \bibitem[Branch, 2004]{branch2004theory}
 Branch, W.~A. (2004).
@@ -37,6 +38,11 @@ Coibion, O., Gorodnichenko, Y., and Kumar, S. (2018).
 \newblock How do firms form their expectations? new survey evidence.
 \newblock {\em American Economic Review}, 108(9):2671--2713.
 
+\bibitem[Das et~al., 2017]{das2017socioeconomic}
+Das, S., Kuhnen, C.~M., and Nagel, S. (2017).
+\newblock Socioeconomic status and macroeconomic expectations.
+\newblock Technical report, National Bureau of Economic Research.
+
 \bibitem[Engelberg et~al., 2009]{engelberg2009comparing}
 Engelberg, J., Manski, C.~F., and Williams, J. (2009).
 \newblock Comparing the point predictions and subjective probability
@@ -54,11 +60,6 @@ Fuhrer, J.~C. (2018).
 \newblock Intrinsic expectations persistence: evidence from professional and
   household survey expectations.
 
-\bibitem[Gabaix, 2014]{gabaix2014sparsity}
-Gabaix, X. (2014).
-\newblock A sparsity-based model of bounded rationality.
-\newblock {\em The Quarterly Journal of Economics}, 129(4):1661--1710.
-
 \bibitem[Gali, 1999]{gali1999technology}
 Gali, J. (1999).
 \newblock Technology, employment, and the business cycle: do technology shocks
@@ -69,6 +70,16 @@ Gali, J. (1999).
 Hamilton, J.~D. (1996).
 \newblock This is what happened to the oil price-macroeconomy relationship.
 \newblock {\em Journal of Monetary Economics}, 38(2):215--220.
+
+\bibitem[Hansen and Sargent, 2001]{hansen2001robust}
+Hansen, L. and Sargent, T.~J. (2001).
+\newblock Robust control and model uncertainty.
+\newblock {\em American Economic Review}, 91(2):60--66.
+
+\bibitem[Hansen and Sargent, 2008]{hansen2008robustness}
+Hansen, L.~P. and Sargent, T.~J. (2008).
+\newblock {\em Robustness}.
+\newblock Princeton university press.
 
 \bibitem[Jurado et~al., 2015]{jurado2015measuring}
 Jurado, K., Ludvigson, S.~C., and Ng, S. (2015).
@@ -120,11 +131,6 @@ Nakamura, E. and Steinsson, J. (2018).
 Nordhaus, W.~D. (1987).
 \newblock Forecasting efficiency: concepts and applications.
 \newblock {\em The Review of Economics and Statistics}, pages 667--674.
-
-\bibitem[Reis, 2006]{reis2006inattentive}
-Reis, R. (2006).
-\newblock Inattentive consumers.
-\newblock {\em Journal of monetary Economics}, 53(8):1761--1800.
 
 \bibitem[Sims, 2003]{sims2003implications}
 Sims, C.~A. (2003).
