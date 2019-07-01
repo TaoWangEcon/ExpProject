@@ -16,7 +16,8 @@ footskip=.25in]{geometry}
 \usepackage{natbib}
 \usepackage{rotating}
 \usepackage{threeparttable}
-
+\usepackage{caption}
+\usepackage{subcaption}
 	
 %opening
 \title{Rigidity of Expectation: Additional Evidence from Density Forecasts of Professionals and Households}
@@ -49,7 +50,7 @@ footskip=.25in]{geometry}
 	
 	Third, \citet{manski2004measuring} and many other papers have advocated long for elicitating probabilistic questions measuring subjective uncertainty in economic surveys. Although the initial suspicion concerning to people's ability in understanding, using and answering probabilistic questions is understandable, \citet{bertrand2001people} and other work have all shown that this is actually less of a concern. \citet{armantier2017overview} have a thorough discussion on designing, experimenting and implementing the consumer expectation surveys to insure the quality of the responses. Broadly speaking, the advocators have argued that going beyond the revealed preference approach, availability to survey data provides economists with direct information on agents' expectations and helps avoids imposing arbitrary assumption.  This insight holds for not only point forecast, but also and even more importantly, for uncertainty.
 	
-	The paper is organized as followed. Section \label{theory} first sets up a common framework in which testable various theories can be compared. Also, I derive the testable predictions from these theories for individual and population uncertainty as well as other moments. Section \ref{empirical} discusses the survey data used for this paper and presents both the stylized patterns and time series regressions that test the implications of these theories.   Section \ref{ShockBased} includes results from estimating the impulse response of forecast moments to externally identified shocks.  Section \ref{Conclusion} concludes the paper and discusses the plan for the next step. 
+	The paper is organized as followed. Section \ref{theory} first sets up a common framework in which testable various theories can be compared. Also, I derive the testable predictions from these theories for individual and population uncertainty as well as other moments. Section \ref{empirical} discusses the survey data used for this paper and presents both the stylized patterns and time series regressions that test the implications of these theories.   Section \ref{ShockBased} includes results from estimating the impulse response of forecast moments to externally identified shocks.  Section \ref{Conclusion} concludes the paper and discusses the plan for the next step. 
 	
 	\section{Theories of Expectation Formation}\label{theory}
 	
@@ -391,7 +392,7 @@ footskip=.25in]{geometry}
 	
 	Taking stock, both SE and NI predict rigidity in incorporating the arrival of new information. In the former context, the rigidity comes from the simple non-updating of the most realization of the variable. In the latter case, the rigidity comes from a partial reaction to new information due to the nosiness of the signals.  In addition to forecast and disagreements, the rigidity is also reflected in the dynamics of uncertainty.  Uncertainty in SE does not resolve as rapidly as in FIRE because the newly realized shocks do not get updated by some of the agents. While in NI, the drop in uncertainty is dampened because there is additional uncertainty associated with the real-time realization of the variable.  
 	
-	Figure \ref{ir_pop} illustrates the impulse response of population moments to a hypothetical one-time shock of size one unit at time $t$ according to different theories. Still, I maintain the assumption in \ref{IllustrateNI} that the standard deviation of private and public signals are both equal to one unconditional standard deviation of $y$.  And the $\lambda$ is set to be $0.25$, implying on average an update interval of four quarters.  
+	Figure \ref{ir_pop} illustrates the impulse response of population moments to a hypothetical one-time shock of size one unit at time $t$ according to different theories. Still, I maintain the assumption in \ref{IllustrateNI} that the standard deviation of private and public signals are both equal to one unconditional standard deviation of $y$.  And the $\lambda$ is set to be $0.75$, implying on average an update interval of four quarters.  
 	
 	
 	Both FE and disagreements from SE and NI exhibit sluggish adjustment following the shock as we have anticipated. Both pick up in the time of the shock and gradually declines over the horizon as the forecaster approaches terminate date $t+10$. The difference is that in NI, both the forecast and forecast errors move up and downs around the smooth version of the SE since signals are not perfect. 
@@ -403,8 +404,10 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=16cm]{figures/ir_popseni.png} 
-			{\footnotesize Note: figure 1-6 plot the dynamics of a one-time shock to inflation $\omega_{t+k}$, the realized value of $y_{t+k}$,  average forecast of $\bar y_{t+10|t+k}$, forecasting errors $\overline{FE}_{t+10|t+k}$, disagreements $\overline {Disg}_{t+10|t+k}$, and uncertainty $\bar \sigma^2_{t+10|t+k}$ to a one-time shock  of unit one at time $t$, i.e. $\omega_t=1$. For NI, public and private signals’ variance is equal to long-run variance of $y$, i.e. $\sigma_\epsilon = \sigma_\xi = \sigma_\xi $. For SE, $\lambda = 0.75$.  }
+		\includegraphics[width=\textwidth]{figures/ir_popseni.png} 
+		\begin{flushleft}
+			{\footnotesize Note: figure 1-6 plot the dynamics of a one-time shock to inflation $\omega_{t+k}$, the realized value of $y_{t+k}$,  average forecast of $\bar y_{t+10|t+k}$, forecasting errors $\overline{FE}_{t+10|t+k}$, disagreements $\overline {Disg}_{t+10|t+k}$, and uncertainty $\bar \sigma^2_{t+10|t+k}$ to a one-time shock  of unit one at time $t$, i.e. $\omega_t=1$. For NI, public and private signals’ variance is equal to long-run variance of $y$, i.e. $\sigma_\epsilon = \sigma_\xi = \sigma_\xi $. For SE, $\lambda = 0.25$.  }
+		\end{flushleft}
 		\caption{Impulse responses of population moments to a shock to inflation}
 		\label{ir_pop}
 	\end{figure}
@@ -418,8 +421,10 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=13cm]{figures/rigidity.png} \\
-		{\footnotesize Note: implied rigidity is $1-\lambda$ in SE and $(1-P_{t+k}H)$ in NI. Rigidity from NI are plotted for three values of noisiness of signals, i.e. 0.1, 1 and 10 times of the unconditional variance of $y$. }
+		\includegraphics[width=0.7\textwidth]{figures/rigidity.png} 
+		\begin{flushleft}
+			{\footnotesize Note: implied rigidity is $1-\lambda$ in SE and $(1-P_{t+k}H)$ in NI. Rigidity from NI are plotted for three values of noisiness of signals, i.e. 0.1, 1 and 10 times of the unconditional variance of $y$. }
+		\end{flushleft}
 		\caption{Rigidity from Two Models}
 		\label{rigidity}
 	\end{figure}
@@ -488,60 +493,105 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=4.5cm]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
-		\includegraphics[width=4.5cm]{figures/Inf1yf_PCE_varSPFPCEQ.png}
-		\includegraphics[width=4.5cm]{figures/Inf1yf_CPIAU_varSCEM.png}\\
-		\smallskip
-		\includegraphics[width=4.5cm]{figures/SPFCPI_FE_varSPFCPIQ.png}
-		\includegraphics[width=4.5cm]{figures/SPFPCE_FE_varSPFPCEQ.png}
-		\includegraphics[width=4.5cm]{figures/SCE_FE_varSCEM.png}\\
-		\smallskip	
-		\includegraphics[width=4.5cm]{figures/CPI_disg_varSPFCPIQ.png}
-		\includegraphics[width=4.5cm]{figures/PCE_disg_varSPFPCEQ.png}
-		\includegraphics[width=4.5cm]{figures/Q9_disg_varSCEM.png}\\
-		{\footnotesize Note:  From left to right: SPF’s CPI, SPF’s PCE, and SCE’s CPI forecast. From top to the bottom, uncertainty (red dash) versus realized inflation (blue dot) with correlation coefficient of -0.10, -0.05 and -0.24, respectively; uncertainty (red dash) versus forecast errors (blue dot) with correlation coefficient of 0.13, 0.06, 0.40, respectively; uncertainty (red dash) versus  disagreements (blue dot) with correlation coefficient of -0.29, -0.46 and 0.62. }
-		\caption{Unceratinty and Other Moments}
+		\begin{subfigure}[b]{\textwidth}
+			\centering
+			\caption{Realized Inflation and Uncertainty}
+			\label{InfVar}
+			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_CPIAU_varSCEM.png}
+			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_PCE_varSPFPCEQ.png}
+		\end{subfigure}
+	    \vspace{1em}
+		\vfill
+		\begin{subfigure}[b]{\textwidth}
+			\centering
+			\caption{Forecast Errors and Uncertainty}
+			\label{FEVar}
+			\includegraphics[width=0.3\textwidth]{figures/SPFCPI_FE_varSPFCPIQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/SPFPCE_FE_varSPFPCEQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/SCE_FE_varSCEM.png}
+		\end{subfigure}
+	 \vspace{0.5em}
+		\vfill
+		\begin{subfigure}[b]{\textwidth}
+			\centering
+			\caption{Disagreements and Uncertainty}
+			\label{DisgVar}
+			\includegraphics[width=0.3\textwidth]{figures/CPI_disg_varSPFCPIQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/PCE_disg_varSPFPCEQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/Q9_disg_varSCEM.png}\\
+		\end{subfigure}
+		\\
+		\begin{flushleft}
+			{\footnotesize Note:  From left to right: SPF’s CPI, SPF’s PCE, and SCE’s CPI forecast. From top to the bottom, uncertainty (red dash) versus realized inflation (blue dot) with correlation coefficient of -0.10, -0.05 and -0.24, respectively; uncertainty (red dash) versus forecast errors (blue dot) with correlation coefficient of 0.13, 0.06, 0.40, respectively; uncertainty (red dash) versus  disagreements (blue dot) with correlation coefficient of -0.29, -0.46 and 0.62. }
+		\end{flushleft}
+		\caption{Uncertainty and Other Moments}
 		\label{UnceratitnyOtherMoments}
 	\end{figure}
 	
 	
 	\begin{figure}[ht]
+		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
+		\caption{Mean Forecasts}
 		\includegraphics[width=7cm]{figures/IQRmeanCPIQ.png} 
-		\includegraphics[width=7cm]{figures/IQRvarCPIQ.png} \\
 		\smallskip
 		\includegraphics[width=7cm]{figures/IQRmeanPCEQ.png}
-		\includegraphics[width=7cm]{figures/IQRvarPCEQ.png}\\
 		\smallskip
 		\includegraphics[width=7cm]{figures/IQRmeanSCEM.png}
-		\includegraphics[width=7cm]{figures/IQRvarSCEM.png}\\
-		\caption{Dispersion in Mean Forecast and Unceratinty }
+		\end{subfigure}
+	    \hfill 
+		\begin{subfigure}[b]{0.5\textwidth}
+		\centering 
+		\caption{Uncertainty}
+		\includegraphics[width=7cm]{figures/IQRvarCPIQ.png}
+		\smallskip
+		\includegraphics[width=7cm]{figures/IQRvarPCEQ.png}
+		\smallskip
+		\includegraphics[width=7cm]{figures/IQRvarSCEM.png}
+		\end{subfigure}
+		\caption{Dispersion of Mean Forecasts and Unceratinty }
 		\label{IQR_Unceratitny}
 	\end{figure}
 	
 	
 	\begin{figure}[ht]
+		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
+		\caption{Revision in Mean Forecasts}
 		\includegraphics[width=7cm]{figures/PRCCPIMean1_hist.png} 
-		\includegraphics[width=7cm]{figures/PRCCPIVar1_hist.png}  \\
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEMean1_hist.png} 
-		\includegraphics[width=7cm]{figures/PRCPCEVar1_hist.png}  \\
 		\smallskip
 		\includegraphics[width=7cm]{figures/SCEmean_hist.png} 
-		\includegraphics[width=7cm]{figures/SCEvar_hist.png}  \\
+		\end{subfigure}
+	   \hfill 
+	  	\begin{subfigure}[b]{0.5\textwidth}
+	  	\caption{Revision in Uncertainty}
+		\includegraphics[width=7cm]{figures/PRCCPIVar1_hist.png}  
+		\smallskip
+		\includegraphics[width=7cm]{figures/PRCPCEVar1_hist.png}  
+		\smallskip
+		\includegraphics[width=7cm]{figures/SCEvar_hist.png}  
+		\end{subfigure}
 		\caption{Distribution of Mean Forecast and Uncertainty }
 		\label{Unceratitny_Histogram}
 	\end{figure}
 	
 	
 	\begin{figure}[ht]
+		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\includegraphics[width=7cm]{figures/PRCCPIMean01_rv_true_hist.png} 
-		\includegraphics[width=7cm]{figures/PRCCPIVar01_rv_true_hist.png}  \\
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEMean01_rv_true_hist.png} 
-		\includegraphics[width=7cm]{figures/PRCPCEVar01_rv_true_hist.png}  \\
+		\end{subfigure}
+		   \hfill 
+		\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=7cm]{figures/PRCCPIVar01_rv_true_hist.png}  
+		\smallskip
+		\includegraphics[width=7cm]{figures/PRCPCEVar01_rv_true_hist.png} 
+		\end{subfigure}
 		\caption{Distribution of Revision in Forecasts and Uncertainty}
 		\label{RevisionHist}
 	\end{figure}
@@ -782,7 +832,10 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=12cm]{figures/inf_shocksQ.png}
+		\includegraphics[width=0.7\textwidth]{figures/inf_shocksQ.png}
+			\begin{flushleft}
+			{\footnotesize Note: all the shocks are normalized by their sample standard deviation. Technology shock is idetified by long-run restriction of structural VAR with labor productivity, hours and inflation. Oil shock is defined as the max \{0, the largest increase of oil price over the past 12 months.\} }
+		\end{flushleft}
 		\caption{ Shocks to Inflation}
 		\label{Inflationshocks}
 	\end{figure}
@@ -817,14 +870,21 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=7cm,totalheight=3cm]{figures/CPIAU_ashocks_nmp_before2007.png}  
-		\includegraphics[width=7cm,totalheight=3cm]{figures/CPIAU_ashocks_before2007.png} \\
+		\begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=7cm]{figures/CPIAU_ashocks_nmp_before2007.png}  
+				\smallskip
+			\includegraphics[width=7cm]{figures/SPFFE_ashocks_nmp_before2007.png} 
+					\smallskip
+				\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_nmp_before2007.png} 
+		\end{subfigure}	
+	    \hfill 
+	    \begin{subfigure}[b]{0.5\textwidth}
+		\includegraphics[width=7cm]{figures/CPIAU_ashocks_before2007.png} 
 		\smallskip
-		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFFE_ashocks_nmp_before2007.png} 
-		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFFE_ashocks_before2007.png} \\
+		\includegraphics[width=7cm]{figures/SPFFE_ashocks_before2007.png} 
 		\smallskip
-		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFDisg_ab_ashocks_nmp_before2007.png} 
-		\includegraphics[width=7cm,totalheight=3cm]{figures/SPFDisg_ab_ashocks_before2007.png} 
+		\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_before2007.png} 
+	\end{subfigure}
 		\caption{Responses of Inflation and Professional Forecast Moments: 1984-2007}
 		\label{ReplicateCoibionBefore2007}
 	\end{figure}
