@@ -828,7 +828,7 @@ footskip=.25in]{geometry}
 	
 	The reasons for including monetary policy shocks, although it turns out to provide less robust evidence, are twofold. First, the role of expectation in the working and implementation of monetary policy in the post-crisis period has been of a great relevance. Especially, around zero-lower-bound, central banks have utilized nontraditional tools such as forward guidance which primarily works through influencing expectations of market agents. 
 	
-	In Figure \ref{Inflationshocks}, all four shocks are plotted in quarterly between 1985-2019. All shocks are normalized by its respective sample standard deviations. 
+	In Figure \ref{Inflationshocks}, all four shocks are plotted in quarterly between 1985-2019 and normalized by its respective sample standard deviations. 
 	
 	\begin{figure}[ht]
 		\centering
@@ -868,27 +868,31 @@ footskip=.25in]{geometry}
 	
 	Or there are other explanations.  First, overall the monetary policy shocks contribute only a small part of the variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetary policy shocks from low frequency data as all other papers addressing this issue. 
 	
-	\begin{figure}[ht]
+
+\begin{figure}[ht]
+	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\begin{subfigure}[b]{0.5\textwidth}
+		\caption{Technology and Oil Shocks}
 		\includegraphics[width=7cm]{figures/CPIAU_ashocks_nmp_before2007.png}  
-				\smallskip
-			\includegraphics[width=7cm]{figures/SPFFE_ashocks_nmp_before2007.png} 
-					\smallskip
-				\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_nmp_before2007.png} 
-		\end{subfigure}	
-	    \hfill 
-	    \begin{subfigure}[b]{0.5\textwidth}
+		\smallskip
+		\includegraphics[width=7cm]{figures/SPFFE_ashocks_nmp_before2007.png} 
+		\smallskip
+		\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_nmp_before2007.png} 
+	\end{subfigure}
+	\hspace{1em}
+	\hfill
+	\begin{subfigure}[b]{0.5\textwidth}
+		\caption{Monetary Policy Shocks}
 		\includegraphics[width=7cm]{figures/CPIAU_ashocks_before2007.png} 
 		\smallskip
 		\includegraphics[width=7cm]{figures/SPFFE_ashocks_before2007.png} 
 		\smallskip
 		\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_before2007.png} 
 	\end{subfigure}
-		\caption{Responses of Inflation and Professional Forecast Moments: 1984-2007}
-		\label{ReplicateCoibionBefore2007}
-	\end{figure}
-	
+	\caption{Responses of Inflation and Professional Forecast Moments: 1984-2007}
+	\label{ReplicateCoibionBefore2007}
+\end{figure}
+
 	
 	\subsection{Additional evidence from uncertainty}
 	
@@ -909,23 +913,34 @@ footskip=.25in]{geometry}
 	
 	Lastly, average uncertainty do not react to monetary policy shocks in the extended period. None of the response is significantly different from zero. This is the same with technology and oil price shocks. 
 	
-	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=7cm]{figures/Inf_ashocks_nmp.png}  
-		\includegraphics[width=7cm]{figures/Inf_ashocks.png} \\
-		\smallskip
-		\includegraphics[width=7cm]{figures/SPFFE_ashocks_nmp.png} 
-		\includegraphics[width=7cm]{figures/SPFFE_ashocks.png} \\
-		\smallskip
-		\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
-		\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks.png} \\
-		\smallskip 
-		\includegraphics[width=7cm]{figures/SPFVar_ab_ashocks_nmp.png} 
-		\includegraphics[width=7cm]{figures/SPFVar_ab_ashocks.png} 
+
+		\begin{figure}[ht]
+		\begin{subfigure}[b]{0.5\textwidth}
+			\centering
+			\caption{Technology and Oil Shocks}
+			\includegraphics[width=7cm]{figures/Inf_ashocks_nmp.png}  
+			\smallskip
+			\includegraphics[width=7cm]{figures/SPFFE_ashocks_nmp.png} 
+			\smallskip 
+			\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks_nmp.png} 
+			\smallskip 
+			\includegraphics[width=7cm]{figures/SPFVar_ab_ashocks_nmp.png} 
+		\end{subfigure}
+		\hfill
+		\hspace{1em}
+		\begin{subfigure}[b]{0.5\textwidth}
+			\caption{Monetary Policy Shocks}
+			\includegraphics[width=7cm]{figures/Inf_ashocks.png} 
+			\smallskip
+			\includegraphics[width=7cm]{figures/SPFFE_ashocks.png} 
+			\smallskip
+			\includegraphics[width=7cm]{figures/SPFDisg_ab_ashocks.png} 
+			\smallskip
+			\includegraphics[width=7cm]{figures/SPFVar_ab_ashocks.png} 
+		\end{subfigure} 
 		\caption{Responses of Inflation and Professional Forecast Moments: 1984-2019}
 		\label{ReplicateCoibionwholeperiod}
 	\end{figure}
-	
 	
 	\subsection{Evidence from households}
 	
@@ -948,21 +963,34 @@ footskip=.25in]{geometry}
 	
 	
 	\begin{figure}[ht]
-		\centering
-		\includegraphics[width=4.5cm,height=3.5cm]{figures/CPIAU_ashocks_nmpM.png}  
-		\includegraphics[width=9cm,height=3.5cm]{figures/CPIAU_ashocksM.png} \\
-		\smallskip
-		\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEFE_ashocks_nmpM.png} 
-		\includegraphics[width=9cm,height=3.5cm]{figures/SCEFE_ashocksM.png} \\
-		\smallskip
-		\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEDisg_ab_ashocks_nmpM.png} 
-		\includegraphics[width=9cm,height=3.5cm]{figures/SCEDisg_ab_ashocksM.png} \\
-		\smallskip 
-		\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEVar_ab_ashocks_nmpM.png} 
-		\includegraphics[width=9cm,height=3.5cm]{figures/SCEVar_ab_ashocksM.png} 
+		
+		\begin{subfigure}[b]{0.35\textwidth}
+			\centering
+			\caption{Technology Shocks}
+			\includegraphics[width=4.5cm,height=3.5cm]{figures/CPIAU_ashocks_nmpM.png}
+			\smallskip
+			\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEFE_ashocks_nmpM.png} 
+			\smallskip
+			\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEDisg_ab_ashocks_nmpM.png}
+			\smallskip
+			\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEVar_ab_ashocks_nmpM.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.65\textwidth}
+			\centering
+			\caption{Monetary Policy Shocks}
+			\includegraphics[width=9cm,height=3.5cm]{figures/CPIAU_ashocksM.png} 
+			\smallskip
+			\includegraphics[width=9cm,height=3.5cm]{figures/SCEFE_ashocksM.png} 
+			\smallskip
+			\includegraphics[width=9cm,height=3.5cm]{figures/SCEDisg_ab_ashocksM.png} 
+			\smallskip 
+			\includegraphics[width=9cm,height=3.5cm]{figures/SCEVar_ab_ashocksM.png} 
+		\end{subfigure}
 		\caption{ Responses of Inflation and Household Forecast Moments: 2013-2019}
 		\label{SCE_IR}
 	\end{figure}
+	
 	
 	\subsection{Discussion of the results and next step}
 	
