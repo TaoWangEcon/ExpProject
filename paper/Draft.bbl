@@ -5,6 +5,11 @@ Armantier, O., Topa, G., Van~der Klaauw, W., and Zafar, B. (2017).
 \newblock An overview of the survey of consumer expectations.
 \newblock {\em Economic Policy Review}, (23-2):51--72.
 
+\bibitem[Ball et~al., 1990]{ball1990inflation}
+Ball, L., Cecchetti, S.~G., and Gordon, R.~J. (1990).
+\newblock Inflation and uncertainty at short and long horizons.
+\newblock {\em Brookings Papers on Economic Activity}, 1(1990):215--254.
+
 \bibitem[Barsky and Sims, 2011]{barsky2011news}
 Barsky, R.~B. and Sims, E.~R. (2011).
 \newblock News shocks and business cycles.
@@ -86,6 +91,11 @@ Jurado, K., Ludvigson, S.~C., and Ng, S. (2015).
 \newblock Measuring uncertainty.
 \newblock {\em American Economic Review}, 105(3):1177--1216.
 
+\bibitem[Justiniano and Primiceri, 2008]{justiniano2008time}
+Justiniano, A. and Primiceri, G.~E. (2008).
+\newblock The time-varying volatility of macroeconomic fluctuations.
+\newblock {\em American Economic Review}, 98(3):604--41.
+
 \bibitem[Las{\'e}en and Svensson, 2011]{laseen2011anticipated}
 Las{\'e}en, S. and Svensson, L.~E. (2011).
 \newblock Anticipated alternative instrument-rate paths in policy simulations.
@@ -132,10 +142,22 @@ Nordhaus, W.~D. (1987).
 \newblock Forecasting efficiency: concepts and applications.
 \newblock {\em The Review of Economics and Statistics}, pages 667--674.
 
+\bibitem[Patton and Timmermann, 2010]{patton2010forecasters}
+Patton, A.~J. and Timmermann, A. (2010).
+\newblock Why do forecasters disagree? lessons from the term structure of
+  cross-sectional dispersion.
+\newblock {\em Journal of Monetary Economics}, 57(7):803--820.
+
 \bibitem[Sims, 2003]{sims2003implications}
 Sims, C.~A. (2003).
 \newblock Implications of rational inattention.
 \newblock {\em Journal of monetary Economics}, 50(3):665--690.
+
+\bibitem[Vavra, 2013]{vavra2013inflation}
+Vavra, J. (2013).
+\newblock Inflation dynamics and time-varying volatility: New evidence and an
+  ss interpretation.
+\newblock {\em The Quarterly Journal of Economics}, 129(1):215--258.
 
 \bibitem[Woodford, 2001]{woodford2001imperfect}
 Woodford, M. (2001).
