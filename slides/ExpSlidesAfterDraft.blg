@@ -1,0 +1,68 @@
+This is BibTeX, Version 0.99d (TeX Live 2014)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: ExpSlidesAfterDraft.aux
+The style file: apalike.bst
+Database file #1: ExpSlides.bib
+Repeated entry---line 101 of file ExpSlides.bib
+ : @article{reis2006inattentive
+ :                             ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 112 of file ExpSlides.bib
+ : @article{carroll2003macroeconomic
+ :                                  ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 123 of file ExpSlides.bib
+ : @article{gabaix2014sparsity
+ :                            ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 134 of file ExpSlides.bib
+ : @article{sims2003implications
+ :                              ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 145 of file ExpSlides.bib
+ : @article{bordalo2018diagnostic
+ :                               ,
+I'm skipping whatever remains of this entry
+Warning--empty journal in fuhrer2018intrinsic
+You've used 16 entries,
+            1935 wiz_defined-function locations,
+            576 strings with 6052 characters,
+and the built_in function-call counts, 5910 in all, are:
+= -- 598
+> -- 181
+< -- 13
++ -- 58
+- -- 56
+* -- 505
+:= -- 1030
+add.period$ -- 47
+call.type$ -- 16
+change.case$ -- 107
+chr.to.int$ -- 16
+cite$ -- 17
+duplicate$ -- 220
+empty$ -- 446
+format.name$ -- 84
+if$ -- 1143
+int.to.chr$ -- 1
+int.to.str$ -- 0
+missing$ -- 17
+newline$ -- 82
+num.names$ -- 48
+pop$ -- 78
+preamble$ -- 1
+purify$ -- 108
+quote$ -- 0
+skip$ -- 170
+stack$ -- 0
+substring$ -- 500
+swap$ -- 14
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 92
+warning$ -- 1
+while$ -- 56
+width$ -- 0
+write$ -- 205
+(There were 5 error messages)

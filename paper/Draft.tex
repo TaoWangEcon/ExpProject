@@ -20,7 +20,7 @@ footskip=.25in]{geometry}
 \usepackage{subcaption}
 	
 %opening
-\title{Rigidity of Expectation: Additional Evidence from Density Forecasts of Professionals and Households}
+\title{Rigidity of Expectations: Additional Evidence from Density Forecasts of Professionals and Households}
 \author{Tao Wang}
 
 
@@ -29,7 +29,7 @@ footskip=.25in]{geometry}
 	\maketitle
 	
 	\begin{abstract}
-		Surveys on density forecasts of macroeconomic variable that are not available until recent provide one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion in uncertainty about future inflation as well as other stylized facts across economists and households.  Second,  utilizing the panel data of individual uncertainty, I provide additional test results and estimates that are not consistent with the benchmark prediction of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theories of expectation rigidity and additional evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific rigidity using uncertainty as the next step of the analysis.  
+		Surveys on density forecasts of macroeconomic variable that are not availables until recently provide one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion in uncertainty about future inflation as well as other stylized facts across economists and households.  Second,  utilizing the panel data of individual uncertainty, I provide additional test results and estimates that are not consistent with the benchmark prediction of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theories of expectation rigidity and additional evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific rigidity using uncertainty as the next step of the analysis.  
 		
 	\end{abstract}
 	
@@ -38,11 +38,11 @@ footskip=.25in]{geometry}
 	\section{Introduction}
 	
 	
-	Theories on how agents form expectations in ways deviating from rational expectation(RE) have proliferated over the past decade. This has been also engined by an increasingly welcoming recognition of the use of surveys by macroeconomists in testing these theories empirically.  On one hand, various theories built upon different micro foundations produce somewhat similar macro patterns. For instance, the notion of expectation rigidity micro-founded by different theories mostly generate a sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. 
+	Theories on how agents form expectations in ways deviating from rational expectation(RE) have proliferated over the past decade. This has been also accompanied by an increasingly welcoming recognition of the use of surveys by macroeconomists in testing these theories empirically.  On one hand, various theories built upon different micro foundations produce somewhat similar macro patterns. For instance, the notion of expectation rigidity micro-founded by different theories mostly generate a sluggish response to new information.  On the other hand, there are important and subtle differences in testable predictions from these theories for both individual forecasts and aggregate moments of the forecasts. 
 	
-	This paper extends this research effort by bringing an additional moment of forecasts into perspective, i.e. uncertainty. Specifically, in this paper, I first derive the testable predictions from various theories on uncertainty and carefully compare the differences mostly obvious seen from uncertainty. Second empirically I test and estimate these implications utilizing the recently available probabilistic forecasts from both professional forecasters survey and household survey. Overall, the paper finds additional evidence from uncertainty consistent with the rigidity models. In the same time, the degree of rigidity appears to be shock-specific and bears the difference to households and professional forecasters. 
+	This paper extends this research effort by bringing an additional moment of forecasts into perspective, i.e. uncertainty. Specifically, in this paper, I first derive the testable predictions from various theories on uncertainty and carefully compare the differences mostly obvious seen from uncertainty. Second empirically I test and estimate these implications utilizing the recently available probabilistic forecasts from both professional forecasters survey and household survey. Overall, the paper finds additional evidence from uncertainty consistent with the rigidity models. In the same time, the degree of rigidity appears to be shock-specific and bears the difference between households and professional forecasters. 
 	
-	The contributions of this paper primarily rely upon the additional insights from the forecast uncertainty, that is only available if surveyees are asked to assign their perceived probabilities to a range of values of the variable of forecast\footnote{For an insightful survey on the importance of measuring subjective expectations using probabilistic surveys, see \citet{manski2004measuring}.}. With density forecasts,  the variance of individual forecast can be estimated as an indicator of the uncertainty. Across different vintages of the forecast, the revision in uncertainty is a direct measure of  information gain or the degree of forecasting efficiency. Besides, the dispersion of uncertainty across agents, and its relationship with other moments widely looked by the literature, such as forecast errors and disagreements provide many insights as to how the agents expectation actually work.  
+	The contributions of this paper primarily rely upon the additional insights from the forecast uncertainty, that is only available if surveyees are asked to assign their perceived probabilities to a range of values of the variable of forecast\footnote{For an insightful survey on the importance of measuring subjective expectations using probabilistic surveys, see \citet{manski2004measuring}.}. With density forecasts,  the variance of individual forecast can be estimated as an indicator of the uncertainty. Across different vintages of the forecast, the revision in uncertainty is a direct measure of  information gain or the degree of forecasting efficiency. Besides, the dispersion of uncertainty across agents, and its relationship with other moments widely examined by the literature, such as forecast errors and disagreements provide many insights as to how the agents expectation actually work.  
 	
 	This paper is related to three strands of literature. First, the recent decade has seen an emergence of the empirical work directly testing and evaluating the various theories on expectations theories using survey data. For instance, \citet{mankiw2003disagreement}, \citet{carroll2003macroeconomic}, \citet{branch2004theory}. More recent examples include \citet{coibion2018firms} on firms' managers. In addition to testing particular sets of theories, there is also a number of papers that show people's expectations are driven by idiosyncratic demographics and macroeconomic history experienced(\citet{malmendier2015learning}, \citet{das2017socioeconomic},etc.). In terms of the methodology, this paper is closest to \citet{coibion2012can} and \citet{fuhrer2018intrinsic}.  However, all of these research simply rely upon point forecasts instead of density forecast or surveyed uncertainty. This is one theme on which this paper differs from the existing literature.   
 	
@@ -101,7 +101,7 @@ footskip=.25in]{geometry}
 	Finally, we assume the underlying true process of $y_{t}$ is $AR(1)$ with persistence parameter $0<\rho <1$ and i.i.d. shock $\omega_t$. 
 	
 	\begin{eqnarray}\label{AR_process}
-		y_{t+1} = \rho y_t + \omega_t
+		y_{t} = \rho y_{t-1} + \omega_t
 	\end{eqnarray}
 	
 	$$\omega_t \sim N(0,\sigma^2_{\omega})$$
@@ -740,7 +740,7 @@ footskip=.25in]{geometry}
 						\item Standard errors are clustered by date. *** p$<$0.001, ** p$<$0.01 and * p$<$0.05.
 					\end{tablenotes}
 				\end{threeparttable}
-			\end{adjustbox}
+				\end{adjustbox}
 		\end{sidewaystable}
 	
 	
@@ -958,7 +958,7 @@ footskip=.25in]{geometry}
 	
 	One interesting exception is the response of disagreements to oil price changes. Households' disagreements concerning inflation drop by 1 percentage point in the first period after an oil price shock and the response have a reasonably small standard error. The drop only lasts for 1 month and immediately return to zero since then. This suggests that households are digesting the shock in an efficient manner.  
 	
-	Researchers have also conjectured (in spite of limited evidence) that salient items such as gasoline price plays an important role in affecting household inflation expectation. The evidence presented here seems to be consistent with such a prediction. 
+	Researchers have also conjectured (in spite of limited evidence) that salient items such as gasoline price plays an important role in affecting household inflation expectations. The evidence presented here seems to be consistent with such a prediction. 
 	
 	
 	
@@ -966,7 +966,7 @@ footskip=.25in]{geometry}
 		
 		\begin{subfigure}[b]{0.35\textwidth}
 			\centering
-			\caption{Technology Shocks}
+			\caption{Oil Shocks}
 			\includegraphics[width=4.5cm,height=3.5cm]{figures/CPIAU_ashocks_nmpM.png}
 			\smallskip
 			\includegraphics[width=4.5cm,height=3.5cm]{figures/SCEFE_ashocks_nmpM.png} 
