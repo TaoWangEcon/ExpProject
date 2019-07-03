@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  2 JUL 2019 15:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  3 JUL 2019 12:21
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -490,28 +490,28 @@ Package pdftex.def Info: figures/rigidity.png used on input line 424.
 (pdftex.def)             Requested size: 306.95854pt x 306.9725pt.
 
 [11 <./figures/ir_popseni.png>] [12 <./figures/rigidity.png>] [13]
-<figures/Inf1yf_CPIAU_varSCEM.png, id=344, 932.98563pt x 678.535pt>
-File: figures/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
-
-<use figures/Inf1yf_CPIAU_varSCEM.png>
-Package pdftex.def Info: figures/Inf1yf_CPIAU_varSCEM.png used on input line 50
-0.
-(pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
-
-<figures/Inf1yf_CPIAU_varSPFCPIQ.png, id=345, 932.98563pt x 678.535pt>
+<figures/Inf1yf_CPIAU_varSPFCPIQ.png, id=344, 932.98563pt x 678.535pt>
 File: figures/Inf1yf_CPIAU_varSPFCPIQ.png Graphic file (type png)
 
 <use figures/Inf1yf_CPIAU_varSPFCPIQ.png>
 Package pdftex.def Info: figures/Inf1yf_CPIAU_varSPFCPIQ.png used on input line
- 501.
+ 500.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/Inf1yf_PCE_varSPFPCEQ.png, id=346, 932.98563pt x 678.535pt>
+<figures/Inf1yf_PCE_varSPFPCEQ.png, id=345, 932.98563pt x 678.535pt>
 File: figures/Inf1yf_PCE_varSPFPCEQ.png Graphic file (type png)
 
 <use figures/Inf1yf_PCE_varSPFPCEQ.png>
 Package pdftex.def Info: figures/Inf1yf_PCE_varSPFPCEQ.png used on input line 5
-02.
+01.
+(pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
+
+<figures/Inf1yf_CPIAU_varSCEM.png, id=346, 932.98563pt x 678.535pt>
+File: figures/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
+
+<use figures/Inf1yf_CPIAU_varSCEM.png>
+Package pdftex.def Info: figures/Inf1yf_CPIAU_varSCEM.png used on input line 50
+2.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
 <figures/SPFCPI_FE_varSPFCPIQ.png, id=347, 932.98563pt x 678.535pt>
@@ -975,8 +975,8 @@ Overfull \hbox (2.2222pt too wide) in paragraph at lines 967--990
 Package natbib Warning: There were undefined citations.
 
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1018.
-[23] [24 <./figures/Inf1yf_CPIAU_varSCEM.png> <./figures/Inf1yf_CPIAU_varSPFCPI
-Q.png> <./figures/Inf1yf_PCE_varSPFPCEQ.png> <./figures/SPFCPI_FE_varSPFCPIQ.pn
+[23] [24 <./figures/Inf1yf_CPIAU_varSPFCPIQ.png> <./figures/Inf1yf_PCE_varSPFPC
+EQ.png> <./figures/Inf1yf_CPIAU_varSCEM.png> <./figures/SPFCPI_FE_varSPFCPIQ.pn
 g> <./figures/SPFPCE_FE_varSPFPCEQ.png> <./figures/SCE_FE_varSCEM.png> <./figur
 es/CPI_disg_varSPFCPIQ.png> <./figures/PCE_disg_varSPFPCEQ.png> <./figures/Q9_d
 isg_varSCEM.png>] [25 <./figures/IQRmeanCPIQ.png> <./figures/IQRmeanPCEQ.png> <
@@ -1038,7 +1038,7 @@ fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2014/texmf-dist/fo
 nts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/texmf-dist/font
 s/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmti10.pfb>
-Output written on Draft.pdf (32 pages, 5675011 bytes).
+Output written on Draft.pdf (32 pages, 5675218 bytes).
 PDF statistics:
  774 PDF objects out of 1000 (max. 8388607)
  608 compressed objects within 7 object streams

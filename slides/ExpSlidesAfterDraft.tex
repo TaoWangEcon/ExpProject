@@ -3,10 +3,11 @@
 \usepackage{amsmath}
 \usepackage{graphicx}
 \usepackage{adjustbox}  % Allows for fitting tables into slide
-
+\usepackage{hyperref}
 \usepackage{threeparttable}
 \usepackage{caption}
-\usepackage{subcaption}
+%\usepackage{subcaption}
+\usepackage{natbib}
 
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
@@ -36,7 +37,7 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
-\title{Understanding Expectation Formation from Probabilistic Surveys}
+\title{Rigidity of Expectations: Additional Evidence from Density Forecasts of Professionals and Households}
 
 
 % A subtitle is optional and this may be deleted
@@ -93,11 +94,11 @@
 %\end{frame}
 
 
-\begin{frame}{What I am doing}
+\begin{frame}{What this paper does?}
 \begin{itemize}
-	\item Use \textcolor{blue}{density information} to 
+	\item Use \textcolor{blue}{uncertainty} from density forecasts to 
 	\begin{itemize}
-		\item test expectation rigidity models 
+		\item test models of expectation rigidity 
 		\item ... and identify differences in various theories 
 	\end{itemize}
 	\item Both \textcolor{blue}{individual} and population moments 
@@ -130,11 +131,11 @@
 %\begin{itemize}
 %	\item ``Subjective surveys are not trustworthy'' 
 %	\begin{itemize}
-%		\item Actually carefully designed. \cite{armantier2017overview}
+%		\item Actually carefully designed. \citet{armantier2017overview}
 %	\end{itemize}
 %	\item ``People are bad at answering surveys, and worse on probabilities''  
 %	\begin{itemize}
-%		\item Not that bad. \cite{manski2004measuring}, \cite{delavande2014probabilistic}
+%		\item Not that bad. \citet{manski2004measuring}, \citet{delavande2014probabilistic}
 %		\item Better than not.
 %	\end{itemize}
 %	\item ``A single parameter is enough for matching macro dynamics''
@@ -146,22 +147,13 @@
 
 \begin{frame}{Literature}
 \begin{itemize}
-	\item \textbf{Theory}
-	\begin{itemize}
-		\item Sticky expectation \cite{carroll2003macroeconomic}, \cite{reis2006inattentive}
-		\item Rational inattention \cite{sims2003implications},  \cite{gabaix2014sparsity}
-		\item Noisy information \cite{lucas1972expectations}, \cite{woodford2001imperfect}
-	\item Learning \cite{evans2012learning}
-	\item Strategic interaction \cite{morris2002social}, \cite{hellwig2009knowing}
-	\item Diagostic expectation  \cite{bordalo2018diagnostic}
-	\item Model uncertainty \cite{hansen2001robust}, \cite{hansen2008robustness}
-	\end{itemize}
-\item \textbf{Empirics}
-\begin{itemize}
-	\item \textbf{Heterogeneity in Expectation:} \cite{mankiw2003disagreement}
-	\item \textbf{Testing Theories:}  \textcolor{blue}{\cite{coibion2012can}, \cite{fuhrer2018intrinsic}}
+	\item \textbf{Testing theories of expectation formation}
+	\item \citet{mankiw2003disagreement}, \citet{carroll2003macroeconomic}, \citet{branch2004theory}. 
+	\item  \citet{coibion2018firms} 
+	\item  \citet{malmendier2015learning}, \citet{das2017socioeconomic}
+	\item \textcolor{blue}{\citet{coibion2012can} and \citet{fuhrer2018intrinsic}}
 \end{itemize}
-\end{itemize}
+
 \end{frame}
 
 \section{Theories}
@@ -171,33 +163,34 @@
 h-period ahead density forecast by agent $i$ at time $t$ based on information set $I_{i,t}$
 
 \begin{eqnarray*}
-	\widehat f_{i,t}(y_{t+h}|I_{i,t})
+	f_{i,t+h|t} \equiv f_{i,t}(y_{t+h}|I_{i,t})
 \end{eqnarray*}
 
 \begin{itemize}
 	\item Theories differ in $I_{i,t}$
-	\item May also differ on information processing, i.e. $I_{i,t} \rightarrow \widehat f_{i,t}$
+	\item May also differ on information processing, i.e. $I_{i,t} \rightarrow f_{i,t+h|t}$, i.e. heterogeneous models and priors. \citet{patton2010forecasters}.
 \end{itemize}
 
 \end{frame}
 
 
 \begin{frame}{Definition and notation}
-\begin{itemize}
-	\item \textcolor{red}{Individual}
-	\begin{itemize}
-		\item  mean forecast $\quad E_{i,t}(y_{t+h})$
-		\item forecast error $\quad FE_{i,t+h|t} = y_{t+h}- E_{i,t}(y_{t+h})$
-		\item \textcolor{blue}{uncertainty} $\quad Var_{i,t}(y_{t+h})$
-	\end{itemize}
-	\item \textcolor{red}{Population}
-	\begin{itemize}
-		\item average forecast  $\quad \bar E_{t}(y_{t+h})$
-		\item average forecast error $\quad \overline {FE}_{t}= y_{t+h}-\bar E_{t}(y_{t+h})$
-		\item \textcolor{blue}{cross-section disagreements}  $\quad Var_t(E_{i,t}(y_{t+h}))$
-		\item \textcolor{blue}{average uncertainty}  $\quad \overline{Var}_t(y_{t+h})$
-	\end{itemize}
-\end{itemize}
+	\begin{table}[ht]
+	\centering
+	\caption{Definition and Notation of Moments}
+	\label{MomSum}
+	\begin{tabular}{ll}
+		
+		\hline 
+		Individual Moments                                  & Population Moments                             \\
+		\hline 
+		Mean forecast: $y_{i,t+h|t}$                   & Average forecast: $\bar y_{t+h|t}$                   \\
+		Forecast error: $FE_{i,t+h|t}$ & Average forecast error: $\overline{FE}_{t+h|t}$ \\
+		Uncertainty: $\sigma^2_{i,t+h|t}$         & Average uncertainty:  $\bar \sigma^2_{i,t+h|t}$ \\
+		& Disagreements:  $\overline{Disg}_{t+h|t}$       \\
+		\hline 
+	\end{tabular}
+\end{table}
 
 \end{frame}
 
@@ -215,6 +208,24 @@ $$\omega_t \sim N(0,\sigma^2_{\omega})$$
 
 \end{frame}
 
+\subsection{Full-information Rational Expectation(FIRE)}
+
+\begin{frame}{Full-information rational expectation: assumptions}
+\begin{itemize}
+	\item $y_t$ is perfectly observed in each period
+	\item All agents understand and agree on the process 
+\end{itemize}
+\end{frame}
+
+\begin{frame}{FIRE: predictions}
+\begin{itemize}
+	\item  $$\overline{FE}^{*}_{i,t+h|t} = \sum^{h}_{k=1} \rho^k \omega_{t+k}$$
+	\item  $$\bar \sigma^{*2}_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}$$
+	\item 	
+	$$\bar \sigma^{*2}_{t+h|t+1} - \bar \sigma^{*2}_{t+h|t}  =  \rho (\bar \sigma^{*2}_{t+h|t} - \bar \sigma^{*2}_{t+h|t-1})$$
+\end{itemize}
+\end{frame}
+
 
 \subsection{Sticky Expectation(SE)}
 
@@ -223,71 +234,60 @@ $$\omega_t \sim N(0,\sigma^2_{\omega})$$
 \begin{itemize}
 	\item At time $t$, agent $i$ learns about $y_t$ at a fixed Poisson rate $\lambda$ 
 	\item A non-updater since $t-\tau$  
-	$$E_{i,t}(y_{t+h}|y_{t-\tau}) =\rho^{h+\tau} y_{t-\tau} $$
-	\item An updater is a special cae  $\tau=0$ 
+	$$y_{i,t+h|t-\tau}=\rho^{h+\tau} y_{t-\tau} $$
+	\item An updater is a special case  $\tau=0$ 
 \end{itemize}
 \end{frame}
 
-\begin{frame}{Impulse responses to shocks: individual moments}
 
-$$\textrm{True Process} \quad  \rho=0.9, \quad \sigma_\omega=0.1, \quad \omega_1 = 0.1$$
-$$\textrm{SE} \quad \quad  \lambda = 0.4 $$ 
-\begin{figure}
-	\includegraphics[scale=0.25]{figuresDraft/ir_indse} 
-\end{figure}
-\end{frame}
-
-
-\begin{frame}{Impulse responses to shocks: population moments}
-
-$$\textrm{True Process} \quad  \rho=0.9, \quad \sigma_\omega=0.1, \quad \omega_1 = 0.1$$
-$$\textrm{SE} \quad \quad  \lambda = 0.4 $$ 
-
-\begin{figure}
-	\includegraphics[scale=0.25]{figuresDraft/ir_popse} 
-\end{figure}
-
-\end{frame}
 
 \subsection{Noisy Information(NI)}
 
 \begin{frame}{Noisy Information: assumptions}
 \begin{itemize}
-	\item Individual only observes noisy signals 
-	\begin{eqnarray*}
-		\begin{aligned}
-			& s_{i,t}=[s^{pb}_t, s^{pr}_{i,t}]' \in I_{i,t} \\
-			&\text{public signal:} \quad s^{pb}_t = y_t + \epsilon_t, \quad \epsilon_t \sim N(0,\sigma^2_\epsilon)\\ 
-			& \text{private signal:} \quad s^{pr}_{i,t} = y_t + \xi_{i,t} \quad \xi_{i,t} \sim N(0,\sigma^2_\xi)
-		\end{aligned}
-	\end{eqnarray*} 
-   
-	\item Kalman filtering (simply normal updating if $\rho$=0)
+\item Individual only observes noisy signals 
+\begin{eqnarray*}
+	\begin{aligned}
+		& s_{i,t}=[s^{pb}_t, s^{pr}_{i,t}]' \in I_{i,t} \\
+		&\text{public signal:} \quad s^{pb}_t = y_t + \epsilon_t, \quad \epsilon_t \sim N(0,\sigma^2_\epsilon)\\ 
+		& \text{private signal:} \quad s^{pr}_{i,t} = y_t + \xi_{i,t} \quad \xi_{i,t} \sim N(0,\sigma^2_\xi)
+	\end{aligned}
+\end{eqnarray*} 
+
+\item Kalman filtering (simply normal updating if $\rho$=0)
 \end{itemize}
+\end{frame}
+
+
+\begin{frame}{An illustration of noisy information}
+
+
+\begin{figure}
+	\includegraphics[height=0.8\textheight,width=\textwidth]{figuresDraft/ni_illustration} 
+\end{figure}
+
 \end{frame}
 
 
 
 \begin{frame}{Impulse responses to shocks: individual moments}
 
-
-$$\textrm{True Process} \quad   \rho=0.9, \quad \sigma_\omega= 0.1, \quad \omega_1 = 0.1$$
-$$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1, \quad \sigma_\epsilon = 0.1$$
+$$\textrm{True Process} \quad   \rho=0.9, \quad \sigma_\omega= 1, \quad \omega_t = 1$$
+$$ \textrm{SE:} \quad  \lambda = 0.25; \quad \textrm{NI:} \quad \sigma_\xi =  \sigma_\epsilon = \sigma_y$$
 
 \begin{figure}
-	\includegraphics[height=6.3cm,width=10cm]{figuresDraft/ir_indseni} 
+	\includegraphics[height=0.6\textheight,width=\textwidth]{figuresDraft/ir_indseni} 
 \end{figure}
 
 \end{frame}
 
 \begin{frame}{Impulse responses to shocks: population moments}
 
-
-$$\textrm{True Process} \quad   \rho=0.9, \quad \sigma_\omega= 0.1, \quad \omega_1 = 0.1$$
-$$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1, \quad \sigma_\epsilon = 0.1$$
+$$\textrm{True Process} \quad   \rho=0.9, \quad \sigma_\omega= 1, \quad \omega_t = 1$$
+$$ \textrm{SE:} \quad  \lambda = 0.25; \quad \textrm{NI:} \quad \sigma_\xi =  \sigma_\epsilon = \sigma_y$$
 
 \begin{figure}
-	\includegraphics[height=6.3cm,width=10cm]{figuresDraft/ir_popseni} 
+	\includegraphics[height=0.6\textheight,width=\textwidth]{figuresDraft/ir_popseni} 
 \end{figure}
 
 \end{frame}
@@ -312,17 +312,8 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 %\end{frame}
 
 
-\begin{frame}{A detailed look into noisy information}
 
-
-\begin{figure}
-	\includegraphics[height=8cm,width=8cm]{figuresDraft/ni_illustration} 
-\end{figure}
-
-\end{frame}
-
-
-\begin{frame}{Implied rigidity of different models}
+\begin{frame}{Comparing FIRE, SE and NI}
 
 
 \begin{figure}
@@ -343,7 +334,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 \begin{frame}{Identification strategies 1: testing rigidity models}
 
 \begin{itemize}
-	\item\cite{coibion2012can}
+	\item \citet{coibion2012can}
 	\begin{itemize}
 		\item \textcolor{blue}{FEs} respond to shocks and serially correlated. 
 	\end{itemize}
@@ -357,7 +348,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \begin{frame}{Identification strategies 2: differentiating theories}
 \begin{itemize}
-	\item\cite{coibion2012can}
+	\item \citet{coibion2012can}
 	\begin{itemize}
 		\item \textcolor{blue}{FEs} do not depend on past realizations according to baseline SE and NI; but do so according to heterogeneous priors or precision models. 
 		\item Implied rigidity does not differ across shocks according to SE but differs according to NI. 
@@ -488,8 +479,8 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \begin{itemize}
 
-\item \textbf{Density Estimation}: generalized beta estimation, \cite{engelberg2009comparing}
- \item \textbf{Identification of Shocks}: following \cite{coibion2012can} and monetary policy shocks. 
+\item \textbf{Density Estimation}: generalized beta estimation, \citet{engelberg2009comparing}
+ \item \textbf{Identification of Shocks}: following \citet{coibion2012can} and monetary policy shocks. 
 \end{itemize}
 
 \end{frame}
@@ -554,7 +545,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 	\begin{adjustbox}{width=0.9\textwidth}
 	\begin{threeparttable}
-		\label{RevEfficiency}
+		\label{MeanRevEfficiency}
 		\begin{tabular}{lllllllll}
 			\hline 
 			& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       \\
@@ -593,7 +584,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \begin{adjustbox}{width=0.9\textwidth}
 	\begin{threeparttable}
-		\label{RevEfficiency}
+		\label{VarRevEfficiency}
 		\begin{tabular}{lllllllll}
 			\hline 
 			& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       \\
@@ -629,7 +620,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 	\begin{adjustbox}{width=\textwidth}
 	\begin{threeparttable}
 		\caption{Weak Tests of Revision Efficiency using Change in Forecasts and Uncertainty}
-		\label{WeakRevEfficiency}
+		\label{MeanWeakRevEfficiency}
 		\begin{tabular}{llllllllllllll}
 			\hline 
 			& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       &                      & \multicolumn{4}{l}{SCE}                           \\
@@ -672,7 +663,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 \begin{frame}{Weak Tests of Efficiency using changes in uncertainty}
 \begin{adjustbox}{width=\textwidth}
 	\begin{threeparttable}
-				\label{WeakRevEfficiency}
+				\label{VarWeakRevEfficiency}
 		\begin{tabular}{llllllllllllll}
 			\hline 
 			& \multicolumn{4}{l}{SPF CPI}                     & \multicolumn{4}{l}{SPF PCE}                       &                      & \multicolumn{4}{l}{SCE}                           \\
@@ -718,7 +709,7 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 
 \end{frame}
 
-\begin{frame}{Results from \cite{coibion2012can}}
+\begin{frame}{Results from \citet{coibion2012can}}
 
 \begin{figure}
 	\includegraphics[width=0.9\textwidth]{figuresDraft/RigidityJPEFigure2.png} 
@@ -748,39 +739,32 @@ $$ \textrm{SE:} \quad  \lambda = 0.5; \quad \textrm{NI:} \quad \sigma_\xi = 0.1,
 	\smallskip
 	\includegraphics[width=0.5\textwidth,totalheight=0.28\textheight]{figuresDraft/SPFDisg_ab_ashocks_before2007.png} 
 \end{figure}
-
 \end{frame}
 
 
 \begin{frame}{Technology and oil shocks: 1984-2019}
 
 \begin{figure}
-	\includegraphics[width=7cm]{figuresDraft/Inf_ashocks.png} 
-	\smallskip
-	\includegraphics[width=7cm]{figuresDraft/SPFFE_ashocks.png} \\
-	\smallskip
-	\includegraphics[width=7cm]{figuresDraft/SPFDisg_ab_ashocks.png} 
-	\smallskip
-	\includegraphics[width=7cm]{figuresDraft/SPFVar_ab_ashocks.png}  
+	\includegraphics[width=0.6\textwidth,totalheight=\0.4\textheight]{figuresDraft/Inf_ashocks_nmp.png}  
+	\includegraphics[[width=0.6\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFFE_ashocks_nmp.png}  \\
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFDisg_ab_ashocks_nmp.png} 
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFVar_ab_ashocks_nmp.png}  
 \end{figure}
-
 \end{frame}
-
 
 \begin{frame}{Monetary policy shocks: 1984-2019}
 
 \begin{figure}
-	\includegraphics[width=7cm]{figuresDraft/Inf_ashocks_nmp.png}  
-	
-	\includegraphics[width=7cm]{figuresDraft/SPFFE_ashocks_nmp.png}  \\
-	\smallskip 
-	\includegraphics[width=7cm]{figuresDratf/SPFDisg_ab_ashocks_nmp.png} 
-	\smallskip 
-	\includegraphics[width=7cm]{figuresDraft/SPFVar_ab_ashocks_nmp.png}  
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/Inf_ashocks.png} 
+	\smallskip
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFFE_ashocks.png} \\
+	\smallskip
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFDisg_ab_ashocks.png} 
+	\smallskip
+	\includegraphics[width=0.5\textwidth,totalheight=\0.4\textheight]{figuresDraft/SPFVar_ab_ashocks.png}  
 \end{figure}
 
 \end{frame}
-
 
 
 \bibliographystyle{apalike}

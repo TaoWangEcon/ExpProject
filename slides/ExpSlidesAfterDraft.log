@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  2 JUL 2019 15:23
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  3 JUL 2019 09:52
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -785,10 +785,12 @@ Package caption Info: Hyperref support is turned off
 (caption)             because hyperref has stopped early.
 Package caption Info: threeparttable package is loaded.
 )
-(/usr/local/texlive/2014/texmf-dist/tex/latex/caption/subcaption.sty
-Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
-\c@subfigure=\count162
-\c@subtable=\count163
+(/usr/local/texlive/2014/texmf-dist/tex/latex/natbib/natbib.sty
+Package: natbib 2010/09/13 8.31b (PWD, AO)
+\bibhang=\skip57
+\bibsep=\skip58
+LaTeX Info: Redefining \cite on input line 694.
+\c@NAT@ctr=\count162
 )
 (/usr/local/texlive/2014/texmf-dist/tex/latex/beamer/themes/theme/beamerthemeMa
 lmoe.sty
@@ -804,32 +806,25 @@ Package: beamercolorthemewhale 2010/06/17  (rcs-revision d02a7cf4d8ae)
 ))
 
 Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
-(hyperref)                removing `\\' on input line 44.
+(hyperref)                removing `\\' on input line 45.
 
-(./ExpSlidesAfterDraft.aux
-
-LaTeX Warning: Label `RevEfficiency' multiply defined.
-
-
-LaTeX Warning: Label `WeakRevEfficiency' multiply defined.
-
-)
+(./ExpSlidesAfterDraft.aux)
 \openout1 = `ExpSlidesAfterDraft.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 73.
-LaTeX Font Info:    ... okay on input line 73.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 74.
+LaTeX Font Info:    ... okay on input line 74.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -867,16 +862,16 @@ LaTeX Font Info:    ... okay on input line 73.
 
 (/usr/local/texlive/2014/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count164
+\scratchcounter=\count163
 \scratchdimen=\dimen208
 \scratchbox=\box59
-\nofMPsegments=\count165
-\nofMParguments=\count166
+\nofMPsegments=\count164
+\nofMParguments=\count165
 \everyMPshowfont=\toks57
-\MPscratchCnt=\count167
+\MPscratchCnt=\count166
 \MPscratchDim=\dimen209
-\MPnumerator=\count168
-\makeMPintoPDFobject=\count169
+\MPnumerator=\count167
+\makeMPintoPDFobject=\count168
 \everyMPtoPDFconversion=\toks58
 ) (/usr/local/texlive/2014/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
@@ -895,7 +890,7 @@ e
 ))
 ABD: EveryShipout initializing macros
 \AtBeginShipoutBox=\box60
-Package hyperref Info: Link coloring OFF on input line 73.
+Package hyperref Info: Link coloring OFF on input line 74.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
@@ -903,68 +898,68 @@ Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 (/usr/local/texlive/2014/texmf-dist/tex/generic/oberdiek/gettitlestring.sty
 Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
-\c@section@level=\count170
+\c@section@level=\count169
 )
-LaTeX Info: Redefining \ref on input line 73.
-LaTeX Info: Redefining \pageref on input line 73.
-LaTeX Info: Redefining \nameref on input line 73.
+LaTeX Info: Redefining \ref on input line 74.
+LaTeX Info: Redefining \pageref on input line 74.
+LaTeX Info: Redefining \nameref on input line 74.
 
 (./ExpSlidesAfterDraft.out) (./ExpSlidesAfterDraft.out)
 \@outlinefile=\write5
 \openout5 = `ExpSlidesAfterDraft.out'.
 
 LaTeX Font Info:    Overwriting symbol font `operators' in version `normal'
-(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 73.
+(Font)                  OT1/cmr/m/n --> OT1/cmss/m/n on input line 74.
 LaTeX Font Info:    Overwriting symbol font `operators' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 74.
 \symnumbers=\mathgroup6
 \sympureletters=\mathgroup7
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 73.
-LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 73.
+(Font)                  OT1/cmss/m/n --> OT1/cmr/m/n on input line 74.
+LaTeX Font Info:    Redeclaring math alphabet \mathbf on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `normal'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 73.
-LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 73.
+(Font)                  OT1/cmr/bx/n --> OT1/cmss/bx/n on input line 74.
+LaTeX Font Info:    Redeclaring math alphabet \mathsf on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `normal'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 73.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/m/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 73.
-LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 73.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/m/n on input line 74.
+LaTeX Font Info:    Redeclaring math alphabet \mathit on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `normal'
-(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 73.
+(Font)                  OT1/cmr/m/it --> OT1/cmss/m/it on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 73.
-LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 73.
+(Font)                  OT1/cmr/bx/it --> OT1/cmss/m/it on input line 74.
+LaTeX Font Info:    Redeclaring math alphabet \mathtt on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `normal'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 73.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 73.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/m/n on input line 74.
 LaTeX Font Info:    Overwriting symbol font `numbers' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 73.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 74.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 73.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathrm' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 73.
+(Font)                  OT1/cmss/bx/n --> OT1/cmr/bx/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathbf' in version `bold'
-(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 73.
+(Font)                  OT1/cmss/bx/n --> OT1/cmss/bx/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathsf' in version `bold'
-(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 73.
+(Font)                  OT1/cmss/m/n --> OT1/cmss/bx/n on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathit' in version `bold'
-(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 73.
+(Font)                  OT1/cmss/m/it --> OT1/cmss/bx/it on input line 74.
 LaTeX Font Info:    Overwriting math alphabet `\mathtt' in version `bold'
-(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 73.
-LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 73.
+(Font)                  OT1/cmtt/m/n --> OT1/cmtt/bx/n on input line 74.
+LaTeX Font Info:    Redeclaring symbol font `pureletters' on input line 74.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `normal'
 (Font)                  OT1/cmss/m/it --> OT1/mathkerncmss/m/sl on input line 7
-3.
+4.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/cmss/bx/it --> OT1/mathkerncmss/m/sl on input line 
-73.
+74.
 LaTeX Font Info:    Overwriting symbol font `pureletters' in version `bold'
 (Font)                  OT1/mathkerncmss/m/sl --> OT1/mathkerncmss/bx/sl on inp
-ut line 73.
+ut line 74.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/beamer/translator/dicts/translato
 r-basic-dictionary/translator-basic-dictionary-English.dict
@@ -990,7 +985,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 r-theorem-dictionary/translator-theorem-dictionary-English.dict
 Dictionary: translator-theorem-dictionary, Language: English 
 )
-LaTeX Info: Redefining \includegraphics on input line 73.
+LaTeX Info: Redefining \includegraphics on input line 74.
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: Incompatible package detected (regarding \caption).
 (caption)             \caption = macro:->\ifx \@captype \@undefined \@latex@err
@@ -1004,34 +999,18 @@ Package caption Warning: \caption will not be redefined since it's already
 (caption)                unknown to the caption package.
 See the caption package documentation for explanation.
 
-
-! Package caption Error: The `subcaption' package does not work correctly
-(caption)                in compatibility mode.
-
-See the caption package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.73 \begin{document}
-                     
-If you do not understand this error, please take a closer look
-at the documentation of the `caption' package, especially the
-section about errors.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
 Package caption Info: End \AtBeginDocument code.
 (./ExpSlidesAfterDraft.nav)
-Overfull \hbox (7.89073pt too wide) in paragraph at lines 73--73
+Overfull \hbox (106.41896pt too wide) in paragraph at lines 74--74
  [][][][]  
  []
 
 
 LaTeX Font Warning: Font shape `OT1/cmss/m/n' in size <4> not available
-(Font)              size <5> substituted on input line 78.
+(Font)              size <5> substituted on input line 79.
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
@@ -1039,888 +1018,916 @@ Overfull \hbox (7.89073pt too wide) has occurred while \output is active
 
 ]
 (./ExpSlidesAfterDraft.toc)
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [2
 
 ]
-LaTeX Font Info:    Try loading font information for U+msa on input line 110.
+LaTeX Font Info:    Try loading font information for U+msa on input line 111.
  (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 110.
+LaTeX Font Info:    Try loading font information for U+msb on input line 111.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 LaTeX Font Info:    Try loading font information for OT1+mathkerncmss on input 
-line 110.
+line 111.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
 File: ot1mathkerncmss.fd 2013/03/27 Fontinst v1.933 font definitions for OT1/ma
 thkerncmss.
 )
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [3
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [4
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [5
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [6
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [7
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [8
 
 ] (./ExpSlidesAfterDraft.toc)
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [9
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [10
 
 ]
-
-! LaTeX Error: File `figuresDraft/ir_indse' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.238 \end{frame}
-                 
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [11
 
-]
-
-! LaTeX Error: File `figuresDraft/ir_popse' not found.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.250 \end{frame}
-                 
-I could not locate the file with any of these extensions:
-.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPEG,.JBIG2,.JB2,.eps
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+] (./ExpSlidesAfterDraft.toc)
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [12
 
-] (./ExpSlidesAfterDraft.toc)
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [13
 
-]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+] (./ExpSlidesAfterDraft.toc)
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [14
 
-] <figuresDraft/ir_indseni.png, id=619, 1156.32pt x 722.7pt>
-File: figuresDraft/ir_indseni.png Graphic file (type png)
-
-<use figuresDraft/ir_indseni.png>
-Package pdftex.def Info: figuresDraft/ir_indseni.png used on input line 281.
-(pdftex.def)             Requested size: 284.52713pt x 179.252pt.
-
-Overfull \vbox (50.65144pt too high) detected at line 281
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [15
 
- <./figuresDraft/ir_indseni.png>]
-<figuresDraft/ir_popseni.png, id=656, 1156.32pt x 722.7pt>
-File: figuresDraft/ir_popseni.png Graphic file (type png)
+] <figuresDraft/ni_illustration.png, id=666, 867.24pt x 867.24pt>
+File: figuresDraft/ni_illustration.png Graphic file (type png)
 
-<use figuresDraft/ir_popseni.png>
-Package pdftex.def Info: figuresDraft/ir_popseni.png used on input line 293.
-(pdftex.def)             Requested size: 284.52713pt x 179.252pt.
+<use figuresDraft/ni_illustration.png>
+Package pdftex.def Info: figuresDraft/ni_illustration.png used on input line 26
+9.
+(pdftex.def)             Requested size: 307.2835pt x 167.29158pt.
 
-Overfull \vbox (50.65144pt too high) detected at line 293
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [16
 
- <./figuresDraft/ir_popseni.png>]
-<figuresDraft/ni_illustration.png, id=692, 867.24pt x 867.24pt>
-File: figuresDraft/ni_illustration.png Graphic file (type png)
+ <./figuresDraft/ni_illustration.png>]
+<figuresDraft/ir_indseni.png, id=706, 1156.32pt x 722.7pt>
+File: figuresDraft/ir_indseni.png Graphic file (type png)
 
-<use figuresDraft/ni_illustration.png>
-Package pdftex.def Info: figuresDraft/ni_illustration.png used on input line 32
-2.
-(pdftex.def)             Requested size: 227.62083pt x 227.62083pt.
+<use figuresDraft/ir_indseni.png>
+Package pdftex.def Info: figuresDraft/ir_indseni.png used on input line 282.
+(pdftex.def)             Requested size: 307.2879pt x 125.45985pt.
 
-Overfull \vbox (47.8808pt too high) detected at line 322
+Overfull \vbox (3.35927pt too high) detected at line 282
  []
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [17
 
- <./figuresDraft/ni_illustration.png>]
-<figuresDraft/rigidity.png, id=729, 433.62pt x 433.62pt>
-File: figuresDraft/rigidity.png Graphic file (type png)
+ <./figuresDraft/ir_indseni.png>]
+<figuresDraft/ir_popseni.png, id=745, 1156.32pt x 722.7pt>
+File: figuresDraft/ir_popseni.png Graphic file (type png)
 
-<use figuresDraft/rigidity.png>
-Package pdftex.def Info: figuresDraft/rigidity.png used on input line 332.
-(pdftex.def)             Requested size: 227.62082pt x 142.26135pt.
+<use figuresDraft/ir_popseni.png>
+Package pdftex.def Info: figuresDraft/ir_popseni.png used on input line 293.
+(pdftex.def)             Requested size: 307.2879pt x 125.45985pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \vbox (3.35927pt too high) detected at line 293
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [18
 
- <./figuresDraft/rigidity.png>]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+ <./figuresDraft/ir_popseni.png>]
+<figuresDraft/rigidity.png, id=783, 433.62pt x 433.62pt>
+File: figuresDraft/rigidity.png Graphic file (type png)
+
+<use figuresDraft/rigidity.png>
+Package pdftex.def Info: figuresDraft/rigidity.png used on input line 323.
+(pdftex.def)             Requested size: 227.62082pt x 142.26135pt.
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [19
 
-]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+ <./figuresDraft/rigidity.png>]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [20
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [21
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [22
 
-] <figuresDraft/Inf1yf_CPIAU_varSCEM.png, id=900, 932.98563pt x 678.535pt>
-File: figuresDraft/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
-
-<use figuresDraft/Inf1yf_CPIAU_varSCEM.png>
-Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSCEM.png used on input li
-ne 408.
-(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
-
-<figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png, id=901, 932.98563pt x 678.535pt>
-File: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png Graphic file (type png)
-
-<use figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png>
-Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png used on input
- line 408.
-(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
-
-<figuresDraft/Inf1yf_PCE_varSPFPCEQ.png, id=902, 932.98563pt x 678.535pt>
-File: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png Graphic file (type png)
-
-<use figuresDraft/Inf1yf_PCE_varSPFPCEQ.png>
-Package pdftex.def Info: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png used on input l
-ine 408.
-(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [23
 
- <./figuresDraft/Inf1yf_CPIAU_varSCEM.png> <./figuresDraft/Inf1yf_CPIAU_varSPFC
-PIQ.png> <./figuresDraft/Inf1yf_PCE_varSPFPCEQ.png>]
-<figuresDraft/SPFCPI_FE_varSPFCPIQ.png, id=941, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFCPI_FE_varSPFCPIQ.png Graphic file (type png)
+] <figuresDraft/Inf1yf_CPIAU_varSCEM.png, id=962, 932.98563pt x 678.535pt>
+File: figuresDraft/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
 
-<use figuresDraft/SPFCPI_FE_varSPFCPIQ.png>
-Package pdftex.def Info: figuresDraft/SPFCPI_FE_varSPFCPIQ.png used on input li
-ne 418.
+<use figuresDraft/Inf1yf_CPIAU_varSCEM.png>
+Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSCEM.png used on input li
+ne 399.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/SPFPCE_FE_varSPFPCEQ.png, id=942, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFPCE_FE_varSPFPCEQ.png Graphic file (type png)
+<figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png, id=963, 932.98563pt x 678.535pt>
+File: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png Graphic file (type png)
 
-<use figuresDraft/SPFPCE_FE_varSPFPCEQ.png>
-Package pdftex.def Info: figuresDraft/SPFPCE_FE_varSPFPCEQ.png used on input li
-ne 418.
+<use figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png>
+Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png used on input
+ line 399.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/SCE_FE_varSCEM.png, id=943, 932.98563pt x 678.535pt>
-File: figuresDraft/SCE_FE_varSCEM.png Graphic file (type png)
+<figuresDraft/Inf1yf_PCE_varSPFPCEQ.png, id=964, 932.98563pt x 678.535pt>
+File: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png Graphic file (type png)
 
-<use figuresDraft/SCE_FE_varSCEM.png>
-Package pdftex.def Info: figuresDraft/SCE_FE_varSCEM.png used on input line 418
-.
+<use figuresDraft/Inf1yf_PCE_varSPFPCEQ.png>
+Package pdftex.def Info: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png used on input l
+ine 399.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [24
 
- <./figuresDraft/SPFCPI_FE_varSPFCPIQ.png> <./figuresDraft/SPFPCE_FE_varSPFPCEQ
-.png> <./figuresDraft/SCE_FE_varSCEM.png>]
-<figuresDraft/CPI_disg_varSPFCPIQ.png, id=980, 932.98563pt x 678.535pt>
-File: figuresDraft/CPI_disg_varSPFCPIQ.png Graphic file (type png)
+ <./figuresDraft/Inf1yf_CPIAU_varSCEM.png> <./figuresDraft/Inf1yf_CPIAU_varSPFC
+PIQ.png> <./figuresDraft/Inf1yf_PCE_varSPFPCEQ.png>]
+<figuresDraft/SPFCPI_FE_varSPFCPIQ.png, id=1003, 932.98563pt x 678.535pt>
+File: figuresDraft/SPFCPI_FE_varSPFCPIQ.png Graphic file (type png)
 
-<use figuresDraft/CPI_disg_varSPFCPIQ.png>
-Package pdftex.def Info: figuresDraft/CPI_disg_varSPFCPIQ.png used on input lin
-e 429.
+<use figuresDraft/SPFCPI_FE_varSPFCPIQ.png>
+Package pdftex.def Info: figuresDraft/SPFCPI_FE_varSPFCPIQ.png used on input li
+ne 409.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/PCE_disg_varSPFPCEQ.png, id=981, 932.98563pt x 678.535pt>
-File: figuresDraft/PCE_disg_varSPFPCEQ.png Graphic file (type png)
+<figuresDraft/SPFPCE_FE_varSPFPCEQ.png, id=1004, 932.98563pt x 678.535pt>
+File: figuresDraft/SPFPCE_FE_varSPFPCEQ.png Graphic file (type png)
 
-<use figuresDraft/PCE_disg_varSPFPCEQ.png>
-Package pdftex.def Info: figuresDraft/PCE_disg_varSPFPCEQ.png used on input lin
-e 429.
+<use figuresDraft/SPFPCE_FE_varSPFPCEQ.png>
+Package pdftex.def Info: figuresDraft/SPFPCE_FE_varSPFPCEQ.png used on input li
+ne 409.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/Q9_disg_varSCEM.png, id=982, 932.98563pt x 678.535pt>
-File: figuresDraft/Q9_disg_varSCEM.png Graphic file (type png)
+<figuresDraft/SCE_FE_varSCEM.png, id=1005, 932.98563pt x 678.535pt>
+File: figuresDraft/SCE_FE_varSCEM.png Graphic file (type png)
 
-<use figuresDraft/Q9_disg_varSCEM.png>
-Package pdftex.def Info: figuresDraft/Q9_disg_varSCEM.png used on input line 42
-9.
+<use figuresDraft/SCE_FE_varSCEM.png>
+Package pdftex.def Info: figuresDraft/SCE_FE_varSCEM.png used on input line 409
+.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [25
 
- <./figuresDraft/CPI_disg_varSPFCPIQ.png> <./figuresDraft/PCE_disg_varSPFPCEQ.p
-ng> <./figuresDraft/Q9_disg_varSCEM.png>]
-<figuresDraft/IQRmeanCPIQ.png, id=1020, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRmeanCPIQ.png Graphic file (type png)
+ <./figuresDraft/SPFCPI_FE_varSPFCPIQ.png> <./figuresDraft/SPFPCE_FE_varSPFPCEQ
+.png> <./figuresDraft/SCE_FE_varSCEM.png>]
+<figuresDraft/CPI_disg_varSPFCPIQ.png, id=1045, 932.98563pt x 678.535pt>
+File: figuresDraft/CPI_disg_varSPFCPIQ.png Graphic file (type png)
 
-<use figuresDraft/IQRmeanCPIQ.png>
-Package pdftex.def Info: figuresDraft/IQRmeanCPIQ.png used on input line 441.
+<use figuresDraft/CPI_disg_varSPFCPIQ.png>
+Package pdftex.def Info: figuresDraft/CPI_disg_varSPFCPIQ.png used on input lin
+e 420.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/IQRmeanPCEQ.png, id=1021, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRmeanPCEQ.png Graphic file (type png)
+<figuresDraft/PCE_disg_varSPFPCEQ.png, id=1046, 932.98563pt x 678.535pt>
+File: figuresDraft/PCE_disg_varSPFPCEQ.png Graphic file (type png)
 
-<use figuresDraft/IQRmeanPCEQ.png>
-Package pdftex.def Info: figuresDraft/IQRmeanPCEQ.png used on input line 441.
+<use figuresDraft/PCE_disg_varSPFPCEQ.png>
+Package pdftex.def Info: figuresDraft/PCE_disg_varSPFPCEQ.png used on input lin
+e 420.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/IQRmeanSCEM.png, id=1022, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRmeanSCEM.png Graphic file (type png)
+<figuresDraft/Q9_disg_varSCEM.png, id=1047, 932.98563pt x 678.535pt>
+File: figuresDraft/Q9_disg_varSCEM.png Graphic file (type png)
 
-<use figuresDraft/IQRmeanSCEM.png>
-Package pdftex.def Info: figuresDraft/IQRmeanSCEM.png used on input line 441.
+<use figuresDraft/Q9_disg_varSCEM.png>
+Package pdftex.def Info: figuresDraft/Q9_disg_varSCEM.png used on input line 42
+0.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [26
 
- <./figuresDraft/IQRmeanCPIQ.png> <./figuresDraft/IQRmeanPCEQ.png> <./figuresDr
-aft/IQRmeanSCEM.png>]
-<figuresDraft/IQRvarCPIQ.png, id=1059, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRvarCPIQ.png Graphic file (type png)
+ <./figuresDraft/CPI_disg_varSPFCPIQ.png> <./figuresDraft/PCE_disg_varSPFPCEQ.p
+ng> <./figuresDraft/Q9_disg_varSCEM.png>]
+<figuresDraft/IQRmeanCPIQ.png, id=1085, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRmeanCPIQ.png Graphic file (type png)
 
-<use figuresDraft/IQRvarCPIQ.png>
-Package pdftex.def Info: figuresDraft/IQRvarCPIQ.png used on input line 453.
+<use figuresDraft/IQRmeanCPIQ.png>
+Package pdftex.def Info: figuresDraft/IQRmeanCPIQ.png used on input line 432.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/IQRvarPCEQ.png, id=1060, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRvarPCEQ.png Graphic file (type png)
+<figuresDraft/IQRmeanPCEQ.png, id=1086, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRmeanPCEQ.png Graphic file (type png)
 
-<use figuresDraft/IQRvarPCEQ.png>
-Package pdftex.def Info: figuresDraft/IQRvarPCEQ.png used on input line 453.
+<use figuresDraft/IQRmeanPCEQ.png>
+Package pdftex.def Info: figuresDraft/IQRmeanPCEQ.png used on input line 432.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/IQRvarSCEM.png, id=1061, 932.98563pt x 678.535pt>
-File: figuresDraft/IQRvarSCEM.png Graphic file (type png)
+<figuresDraft/IQRmeanSCEM.png, id=1087, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRmeanSCEM.png Graphic file (type png)
 
-<use figuresDraft/IQRvarSCEM.png>
-Package pdftex.def Info: figuresDraft/IQRvarSCEM.png used on input line 453.
+<use figuresDraft/IQRmeanSCEM.png>
+Package pdftex.def Info: figuresDraft/IQRmeanSCEM.png used on input line 432.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [27
 
- <./figuresDraft/IQRvarCPIQ.png> <./figuresDraft/IQRvarPCEQ.png> <./figuresDraf
-t/IQRvarSCEM.png>]
-<figuresDraft/PRCCPIVar1_hist.png, id=1098, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCCPIVar1_hist.png Graphic file (type png)
+ <./figuresDraft/IQRmeanCPIQ.png> <./figuresDraft/IQRmeanPCEQ.png> <./figuresDr
+aft/IQRmeanSCEM.png>]
+<figuresDraft/IQRvarCPIQ.png, id=1124, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRvarCPIQ.png Graphic file (type png)
 
-<use figuresDraft/PRCCPIVar1_hist.png>
-Package pdftex.def Info: figuresDraft/PRCCPIVar1_hist.png used on input line 46
-5.
+<use figuresDraft/IQRvarCPIQ.png>
+Package pdftex.def Info: figuresDraft/IQRvarCPIQ.png used on input line 444.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/PRCPCEVar1_hist.png, id=1099, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCPCEVar1_hist.png Graphic file (type png)
+<figuresDraft/IQRvarPCEQ.png, id=1125, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRvarPCEQ.png Graphic file (type png)
 
-<use figuresDraft/PRCPCEVar1_hist.png>
-Package pdftex.def Info: figuresDraft/PRCPCEVar1_hist.png used on input line 46
-5.
+<use figuresDraft/IQRvarPCEQ.png>
+Package pdftex.def Info: figuresDraft/IQRvarPCEQ.png used on input line 444.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/SCEvar_hist.png, id=1100, 932.98563pt x 678.535pt>
-File: figuresDraft/SCEvar_hist.png Graphic file (type png)
+<figuresDraft/IQRvarSCEM.png, id=1126, 932.98563pt x 678.535pt>
+File: figuresDraft/IQRvarSCEM.png Graphic file (type png)
 
-<use figuresDraft/SCEvar_hist.png>
-Package pdftex.def Info: figuresDraft/SCEvar_hist.png used on input line 465.
+<use figuresDraft/IQRvarSCEM.png>
+Package pdftex.def Info: figuresDraft/IQRvarSCEM.png used on input line 444.
 (pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [28
 
- <./figuresDraft/PRCCPIVar1_hist.png> <./figuresDraft/PRCPCEVar1_hist.png> <./f
-iguresDraft/SCEvar_hist.png>]
-<figuresDraft/PRCCPIMean01_rv_true_hist.png, id=1137, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCCPIMean01_rv_true_hist.png Graphic file (type png)
+ <./figuresDraft/IQRvarCPIQ.png> <./figuresDraft/IQRvarPCEQ.png> <./figuresDraf
+t/IQRvarSCEM.png>]
+<figuresDraft/PRCCPIVar1_hist.png, id=1165, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCCPIVar1_hist.png Graphic file (type png)
 
-<use figuresDraft/PRCCPIMean01_rv_true_hist.png>
-Package pdftex.def Info: figuresDraft/PRCCPIMean01_rv_true_hist.png used on inp
-ut line 473.
-(pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
+<use figuresDraft/PRCCPIVar1_hist.png>
+Package pdftex.def Info: figuresDraft/PRCCPIVar1_hist.png used on input line 45
+6.
+(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-<figuresDraft/PRCPCEMean01_rv_true_hist.png, id=1138, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCPCEMean01_rv_true_hist.png Graphic file (type png)
+<figuresDraft/PRCPCEVar1_hist.png, id=1166, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCPCEVar1_hist.png Graphic file (type png)
 
-<use figuresDraft/PRCPCEMean01_rv_true_hist.png>
-Package pdftex.def Info: figuresDraft/PRCPCEMean01_rv_true_hist.png used on inp
-ut line 473.
-(pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
+<use figuresDraft/PRCPCEVar1_hist.png>
+Package pdftex.def Info: figuresDraft/PRCPCEVar1_hist.png used on input line 45
+6.
+(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+<figuresDraft/SCEvar_hist.png, id=1167, 932.98563pt x 678.535pt>
+File: figuresDraft/SCEvar_hist.png Graphic file (type png)
+
+<use figuresDraft/SCEvar_hist.png>
+Package pdftex.def Info: figuresDraft/SCEvar_hist.png used on input line 456.
+(pdftex.def)             Requested size: 101.40622pt x 73.74866pt.
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [29
 
- <./figuresDraft/PRCCPIMean01_rv_true_hist.png> <./figuresDraft/PRCPCEMean01_rv
-_true_hist.png>]
-<figuresDraft/PRCCPIVar01_rv_true_hist.png, id=1173, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCCPIVar01_rv_true_hist.png Graphic file (type png)
+ <./figuresDraft/PRCCPIVar1_hist.png> <./figuresDraft/PRCPCEVar1_hist.png> <./f
+iguresDraft/SCEvar_hist.png>]
+<figuresDraft/PRCCPIMean01_rv_true_hist.png, id=1205, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCCPIMean01_rv_true_hist.png Graphic file (type png)
 
-<use figuresDraft/PRCCPIVar01_rv_true_hist.png>
-Package pdftex.def Info: figuresDraft/PRCCPIVar01_rv_true_hist.png used on inpu
-t line 481.
+<use figuresDraft/PRCCPIMean01_rv_true_hist.png>
+Package pdftex.def Info: figuresDraft/PRCCPIMean01_rv_true_hist.png used on inp
+ut line 464.
 (pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
 
-<figuresDraft/PRCPCEVar01_rv_true_hist.png, id=1174, 932.98563pt x 678.535pt>
-File: figuresDraft/PRCPCEVar01_rv_true_hist.png Graphic file (type png)
+<figuresDraft/PRCPCEMean01_rv_true_hist.png, id=1206, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCPCEMean01_rv_true_hist.png Graphic file (type png)
 
-<use figuresDraft/PRCPCEVar01_rv_true_hist.png>
-Package pdftex.def Info: figuresDraft/PRCPCEVar01_rv_true_hist.png used on inpu
-t line 481.
+<use figuresDraft/PRCPCEMean01_rv_true_hist.png>
+Package pdftex.def Info: figuresDraft/PRCPCEMean01_rv_true_hist.png used on inp
+ut line 464.
 (pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [30
 
- <./figuresDraft/PRCCPIVar01_rv_true_hist.png> <./figuresDraft/PRCPCEVar01_rv_t
-rue_hist.png>]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+ <./figuresDraft/PRCCPIMean01_rv_true_hist.png> <./figuresDraft/PRCPCEMean01_rv
+_true_hist.png>]
+<figuresDraft/PRCCPIVar01_rv_true_hist.png, id=1241, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCCPIVar01_rv_true_hist.png Graphic file (type png)
+
+<use figuresDraft/PRCCPIVar01_rv_true_hist.png>
+Package pdftex.def Info: figuresDraft/PRCCPIVar01_rv_true_hist.png used on inpu
+t line 472.
+(pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
+
+<figuresDraft/PRCPCEVar01_rv_true_hist.png, id=1242, 932.98563pt x 678.535pt>
+File: figuresDraft/PRCPCEVar01_rv_true_hist.png Graphic file (type png)
+
+<use figuresDraft/PRCPCEVar01_rv_true_hist.png>
+Package pdftex.def Info: figuresDraft/PRCPCEVar01_rv_true_hist.png used on inpu
+t line 472.
+(pdftex.def)             Requested size: 153.64493pt x 111.73601pt.
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [31
 
-] (./ExpSlidesAfterDraft.toc)
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+ <./figuresDraft/PRCCPIVar01_rv_true_hist.png> <./figuresDraft/PRCPCEVar01_rv_t
+rue_hist.png>]
+
+Package natbib Warning: Citation `engelberg2009comparing' on page 32 undefined 
+on input line 486.
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [32
 
-]
-Overfull \vbox (2.3115pt too high) detected at line 551
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+] (./ExpSlidesAfterDraft.toc)
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [33
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \vbox (2.96114pt too high) detected at line 542
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [34
 
-]pdfTeX warning (ext4): destination with the same identifier (name{RevEfficienc
-y}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.624 \end{frame}
-                 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [35
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [36
 
-]pdfTeX warning (ext4): destination with the same identifier (name{WeakRevEffic
-iency}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.708 \end{frame}
-                 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [37
 
-] (./ExpSlidesAfterDraft.toc)
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [38
 
-] <figuresDraft/inf_shocksQ.png, id=1510, 932.98563pt x 678.535pt>
-File: figuresDraft/inf_shocksQ.png Graphic file (type png)
-
-<use figuresDraft/inf_shocksQ.png>
-Package pdftex.def Info: figuresDraft/inf_shocksQ.png used on input line 719.
-(pdftex.def)             Requested size: 245.83282pt x 178.7859pt.
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+] (./ExpSlidesAfterDraft.toc)
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [39
 
- <./figuresDraft/inf_shocksQ.png>]
-<figuresDraft/RigidityJPEFigure2.png, id=1546, 964.60374pt x 551.05875pt>
-File: figuresDraft/RigidityJPEFigure2.png Graphic file (type png)
+] <figuresDraft/inf_shocksQ.png, id=1588, 932.98563pt x 678.535pt>
+File: figuresDraft/inf_shocksQ.png Graphic file (type png)
 
-<use figuresDraft/RigidityJPEFigure2.png>
-Package pdftex.def Info: figuresDraft/RigidityJPEFigure2.png used on input line
- 727.
-(pdftex.def)             Requested size: 276.559pt x 157.98671pt.
+<use figuresDraft/inf_shocksQ.png>
+Package pdftex.def Info: figuresDraft/inf_shocksQ.png used on input line 710.
+(pdftex.def)             Requested size: 245.83282pt x 178.7859pt.
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \vbox (5.54584pt too high) detected at line 710
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [40
 
- <./figuresDraft/RigidityJPEFigure2.png>]
-<figuresDraft/CPIAU_ashocks_nmp_before2007.png, id=1584, 932.98563pt x 678.535p
-t>
-File: figuresDraft/CPIAU_ashocks_nmp_before2007.png Graphic file (type png)
- <use figuresDraft/CPIAU_ashocks_nmp_before2007.png>
-Package pdftex.def Info: figuresDraft/CPIAU_ashocks_nmp_before2007.png used on 
-input line 739.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
+ <./figuresDraft/inf_shocksQ.png>]
+<figuresDraft/RigidityJPEFigure2.png, id=1625, 964.60374pt x 551.05875pt>
+File: figuresDraft/RigidityJPEFigure2.png Graphic file (type png)
 
-<figuresDraft/SPFFE_ashocks_nmp_before2007.png, id=1585, 932.98563pt x 678.535p
-t>
-File: figuresDraft/SPFFE_ashocks_nmp_before2007.png Graphic file (type png)
- <use figuresDraft/SPFFE_ashocks_nmp_before2007.png>
-Package pdftex.def Info: figuresDraft/SPFFE_ashocks_nmp_before2007.png used on 
-input line 739.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
+<use figuresDraft/RigidityJPEFigure2.png>
+Package pdftex.def Info: figuresDraft/RigidityJPEFigure2.png used on input line
+ 718.
+(pdftex.def)             Requested size: 276.559pt x 157.98671pt.
 
-<figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png, id=1586, 932.98563pt x 678
-.535pt>
-File: figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png Graphic file (type png
-)
- <use figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png>
-Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png use
-d on input line 739.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
-
-Overfull \vbox (7.34436pt too high) detected at line 739
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [41
 
- <./figuresDraft/CPIAU_ashocks_nmp_before2007.png> <./figuresDraft/SPFFE_ashock
-s_nmp_before2007.png> <./figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png>]
-<figuresDraft/CPIAU_ashocks_before2007.png, id=1624, 932.98563pt x 678.535pt>
-File: figuresDraft/CPIAU_ashocks_before2007.png Graphic file (type png)
+ <./figuresDraft/RigidityJPEFigure2.png>]
+<figuresDraft/CPIAU_ashocks_nmp_before2007.png, id=1662, 932.98563pt x 678.535p
+t>
+File: figuresDraft/CPIAU_ashocks_nmp_before2007.png Graphic file (type png)
+ <use figuresDraft/CPIAU_ashocks_nmp_before2007.png>
+Package pdftex.def Info: figuresDraft/CPIAU_ashocks_nmp_before2007.png used on 
+input line 730.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-<use figuresDraft/CPIAU_ashocks_before2007.png>
-Package pdftex.def Info: figuresDraft/CPIAU_ashocks_before2007.png used on inpu
-t line 752.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
+<figuresDraft/SPFFE_ashocks_nmp_before2007.png, id=1663, 932.98563pt x 678.535p
+t>
+File: figuresDraft/SPFFE_ashocks_nmp_before2007.png Graphic file (type png)
+ <use figuresDraft/SPFFE_ashocks_nmp_before2007.png>
+Package pdftex.def Info: figuresDraft/SPFFE_ashocks_nmp_before2007.png used on 
+input line 730.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-<figuresDraft/SPFFE_ashocks_before2007.png, id=1625, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFFE_ashocks_before2007.png Graphic file (type png)
+<figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png, id=1664, 932.98563pt x 678
+.535pt>
+File: figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png Graphic file (type png
+)
+ <use figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png>
+Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png use
+d on input line 730.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-<use figuresDraft/SPFFE_ashocks_before2007.png>
-Package pdftex.def Info: figuresDraft/SPFFE_ashocks_before2007.png used on inpu
-t line 752.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
-
-<figuresDraft/SPFDisg_ab_ashocks_before2007.png, id=1626, 932.98563pt x 678.535
-pt>
-File: figuresDraft/SPFDisg_ab_ashocks_before2007.png Graphic file (type png)
- <use figuresDraft/SPFDisg_ab_ashocks_before2007.png>
-Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks_before2007.png used on
- input line 752.
-(pdftex.def)             Requested size: 153.63702pt x 60.36147pt.
-
-Overfull \vbox (7.34436pt too high) detected at line 752
+Overfull \vbox (8.4087pt too high) detected at line 730
  []
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [42
 
- <./figuresDraft/CPIAU_ashocks_before2007.png> <./figuresDraft/SPFFE_ashocks_be
-fore2007.png> <./figuresDraft/SPFDisg_ab_ashocks_before2007.png>]
-<figuresDraft/Inf_ashocks.png, id=1664, 932.98563pt x 678.535pt>
-File: figuresDraft/Inf_ashocks.png Graphic file (type png)
+ <./figuresDraft/CPIAU_ashocks_nmp_before2007.png> <./figuresDraft/SPFFE_ashock
+s_nmp_before2007.png> <./figuresDraft/SPFDisg_ab_ashocks_nmp_before2007.png>]
+<figuresDraft/CPIAU_ashocks_before2007.png, id=1704, 932.98563pt x 678.535pt>
+File: figuresDraft/CPIAU_ashocks_before2007.png Graphic file (type png)
 
-<use figuresDraft/Inf_ashocks.png>
-Package pdftex.def Info: figuresDraft/Inf_ashocks.png used on input line 767.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
+<use figuresDraft/CPIAU_ashocks_before2007.png>
+Package pdftex.def Info: figuresDraft/CPIAU_ashocks_before2007.png used on inpu
+t line 742.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-<figuresDraft/SPFFE_ashocks.png, id=1665, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFFE_ashocks.png Graphic file (type png)
+<figuresDraft/SPFFE_ashocks_before2007.png, id=1705, 932.98563pt x 678.535pt>
+File: figuresDraft/SPFFE_ashocks_before2007.png Graphic file (type png)
 
-<use figuresDraft/SPFFE_ashocks.png>
-Package pdftex.def Info: figuresDraft/SPFFE_ashocks.png used on input line 767.
+<use figuresDraft/SPFFE_ashocks_before2007.png>
+Package pdftex.def Info: figuresDraft/SPFFE_ashocks_before2007.png used on inpu
+t line 742.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
+<figuresDraft/SPFDisg_ab_ashocks_before2007.png, id=1706, 932.98563pt x 678.535
+pt>
+File: figuresDraft/SPFDisg_ab_ashocks_before2007.png Graphic file (type png)
+ <use figuresDraft/SPFDisg_ab_ashocks_before2007.png>
+Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks_before2007.png used on
+ input line 742.
+(pdftex.def)             Requested size: 153.63702pt x 58.54959pt.
 
-Overfull \hbox (91.04869pt too wide) in paragraph at lines 767--767
- [][] 
- []
-
-<figuresDraft/SPFDisg_ab_ashocks.png, id=1666, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFDisg_ab_ashocks.png Graphic file (type png)
-
-<use figuresDraft/SPFDisg_ab_ashocks.png>
-Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks.png used on input line
- 767.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
-
-<figuresDraft/SPFVar_ab_ashocks.png, id=1667, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFVar_ab_ashocks.png Graphic file (type png)
-
-<use figuresDraft/SPFVar_ab_ashocks.png>
-Package pdftex.def Info: figuresDraft/SPFVar_ab_ashocks.png used on input line 
-767.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
-
-Overfull \hbox (91.04869pt too wide) in paragraph at lines 767--767
- [][][] 
+Overfull \vbox (8.4087pt too high) detected at line 742
  []
 
 
-Overfull \vbox (130.5536pt too high) detected at line 767
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [43
 
- <./figuresDraft/Inf_ashocks.png> <./figuresDraft/SPFFE_ashocks.png> <./figures
-Draft/SPFDisg_ab_ashocks.png> <./figuresDraft/SPFVar_ab_ashocks.png>]
-<figuresDraft/Inf_ashocks_nmp.png, id=1708, 932.98563pt x 678.535pt>
+ <./figuresDraft/CPIAU_ashocks_before2007.png> <./figuresDraft/SPFFE_ashocks_be
+fore2007.png> <./figuresDraft/SPFDisg_ab_ashocks_before2007.png>]
+<figuresDraft/Inf_ashocks_nmp.png, id=1746, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.753 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
 File: figuresDraft/Inf_ashocks_nmp.png Graphic file (type png)
-
 <use figuresDraft/Inf_ashocks_nmp.png>
-Package pdftex.def Info: figuresDraft/Inf_ashocks_nmp.png used on input line 78
-2.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
-
-<figuresDraft/SPFFE_ashocks_nmp.png, id=1709, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFFE_ashocks_nmp.png Graphic file (type png)
-
-<use figuresDraft/SPFFE_ashocks_nmp.png>
-Package pdftex.def Info: figuresDraft/SPFFE_ashocks_nmp.png used on input line 
-782.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
+Package pdftex.def Info: figuresDraft/Inf_ashocks_nmp.png used on input line 75
+3.
+(pdftex.def)             Requested size: 184.37297pt x 83.63635pt.
 
 
-LaTeX Warning: File `figuresDratf/SPFDisg_ab_ashocks_nmp.png' not found on inpu
-t line 782.
+! Package xkeyval Error: `[width' undefined in families `Gin'.
 
-
-! Package pdftex.def Error: File `figuresDratf/SPFDisg_ab_ashocks_nmp.png' not 
-found.
-
-See the pdftex.def package documentation for explanation.
+See the xkeyval package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.782 \end{frame}
+l.753 \end{frame}
                  
-Using draft setting for this image.
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-<figuresDraft/SPFVar_ab_ashocks_nmp.png, id=1710, 932.98563pt x 678.535pt>
-File: figuresDraft/SPFVar_ab_ashocks_nmp.png Graphic file (type png)
+<figuresDraft/SPFFE_ashocks_nmp.png, id=1747, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.753 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.753 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFFE_ashocks_nmp.png Graphic file (type png)
+<use figuresDraft/SPFFE_ashocks_nmp.png>
+Package pdftex.def Info: figuresDraft/SPFFE_ashocks_nmp.png used on input line 
+753.
+(pdftex.def)             Requested size: 114.99998pt x 83.64415pt.
+
+<figuresDraft/SPFDisg_ab_ashocks_nmp.png, id=1748, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.753 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFDisg_ab_ashocks_nmp.png Graphic file (type png)
+<use figuresDraft/SPFDisg_ab_ashocks_nmp.png>
+Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks_nmp.png used on input 
+line 753.
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
+
+<figuresDraft/SPFVar_ab_ashocks_nmp.png, id=1749, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.753 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFVar_ab_ashocks_nmp.png Graphic file (type png)
 <use figuresDraft/SPFVar_ab_ashocks_nmp.png>
 Package pdftex.def Info: figuresDraft/SPFVar_ab_ashocks_nmp.png used on input l
-ine 782.
-(pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
+ine 753.
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
 
-Overfull \hbox (91.04869pt too wide) in paragraph at lines 782--782
- [][][] 
- []
-
-
-Overfull \vbox (315.13385pt too high) detected at line 782
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [44
 
  <./figuresDraft/Inf_ashocks_nmp.png> <./figuresDraft/SPFFE_ashocks_nmp.png> <.
-/figuresDraft/SPFVar_ab_ashocks_nmp.png>] (./ExpSlidesAfterDraft.bbl
-Underfull \vbox (badness 10000) has occurred while \output is active []
+/figuresDraft/SPFDisg_ab_ashocks_nmp.png> <./figuresDraft/SPFVar_ab_ashocks_nmp
+.png>] <figuresDraft/Inf_ashocks.png, id=1789, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.767 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/Inf_ashocks.png Graphic file (type png)
+<use figuresDraft/Inf_ashocks.png>
+Package pdftex.def Info: figuresDraft/Inf_ashocks.png used on input line 767.
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
+
+<figuresDraft/SPFFE_ashocks.png, id=1790, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.767 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFFE_ashocks.png Graphic file (type png)
+<use figuresDraft/SPFFE_ashocks.png>
+Package pdftex.def Info: figuresDraft/SPFFE_ashocks.png used on input line 767.
+
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
+
+<figuresDraft/SPFDisg_ab_ashocks.png, id=1791, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.767 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFDisg_ab_ashocks.png Graphic file (type png)
+<use figuresDraft/SPFDisg_ab_ashocks.png>
+Package pdftex.def Info: figuresDraft/SPFDisg_ab_ashocks.png used on input line
+ 767.
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
+
+<figuresDraft/SPFVar_ab_ashocks.png, id=1792, 932.98563pt x 678.535pt>
+! Undefined control sequence.
+\Gin@@eheight ->\0
+                  .4\textheight 
+l.767 \end{frame}
+                 
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
+
+File: figuresDraft/SPFVar_ab_ashocks.png Graphic file (type png)
+<use figuresDraft/SPFVar_ab_ashocks.png>
+Package pdftex.def Info: figuresDraft/SPFVar_ab_ashocks.png used on input line 
+767.
+(pdftex.def)             Requested size: 153.63702pt x 83.63635pt.
+
+Overfull \vbox (1.03264pt too high) detected at line 767
+ []
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [45
 
- </usr/local/texlive/2014/texmf-dist/tex/latex/beamer/art/beamericonarticle.pdf
->]
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+ <./figuresDraft/Inf_ashocks.png> <./figuresDraft/SPFFE_ashocks.png> <./figures
+Draft/SPFDisg_ab_ashocks.png> <./figuresDraft/SPFVar_ab_ashocks.png>]
+(./ExpSlidesAfterDraft.bbl
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[46]
+[46
+
+])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[47])
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+[47]
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [48]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[49]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+[49
+
+]
+Overfull \hbox (28.71602pt too wide) in alignment at lines 818--818
+ [][][] []
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [50
 
 ]
-Overfull \hbox (28.71602pt too wide) in alignment at lines 834--834
- [][][] []
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [51
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (24.32555pt too wide) in alignment at lines 856--856
+ [][][] []
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [52
 
 ]
-Overfull \hbox (24.32555pt too wide) in alignment at lines 872--872
+Overfull \hbox (6.04268pt too wide) in alignment at lines 875--875
  [][][] []
  []
 
 
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [53
 
 ]
-Overfull \hbox (6.04268pt too wide) in alignment at lines 891--891
- [][][] []
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [54
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (4.61433pt too wide) in alignment at lines 915--915
+ [][][] []
+ []
+
+
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [55
 
 ]
-Overfull \hbox (4.61433pt too wide) in alignment at lines 931--931
- [][][] []
- []
-
-
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [56
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [57
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [58
 
 ]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
+Overfull \hbox (106.41896pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [59
-
-]
-Overfull \hbox (7.89073pt too wide) has occurred while \output is active
- [][][][]  
- []
-
-[60
 
 ]
 \tf@nav=\write6
@@ -1932,53 +1939,51 @@ Overfull \hbox (7.89073pt too wide) has occurred while \output is active
 \tf@snm=\write8
 \openout8 = `ExpSlidesAfterDraft.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1018.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 1018.
- (./ExpSlidesAfterDraft.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1018.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1018.
+
+
+Package natbib Warning: There were undefined citations.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1002.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1002.
+(./ExpSlidesAfterDraft.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1002.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1002.
 
 Package rerunfilecheck Info: File `ExpSlidesAfterDraft.out' has not changed.
-(rerunfilecheck)             Checksum: DC0DB7E5E983B27275B227DE73D8F6D1;601.
+(rerunfilecheck)             Checksum: 88FE390DD86F0AC7778A474ECB372520;697.
 
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.0pt have occurred.
 
-
-LaTeX Warning: There were multiply-defined labels.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1018.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1002.
  ) 
 Here is how much of TeX's memory you used:
- 19203 strings out of 493117
- 368868 string characters out of 6135433
- 459789 words of memory out of 5000000
- 21995 multiletter control sequences out of 15000+600000
- 15596 words of font info for 57 fonts, out of 8000000 for 9000
+ 19426 strings out of 493117
+ 370259 string characters out of 6135433
+ 464312 words of memory out of 5000000
+ 22243 multiletter control sequences out of 15000+600000
+ 12985 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 57i,21n,96p,419b,790s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 57i,21n,96p,419b,734s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
 ></usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></
-usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></us
-r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/
-local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/l
-ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/lo
-cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/loc
-al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/loc
-al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/loca
-l/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local
-/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/t
-exlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/tex
-live/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texl
-ive/2014/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/local/
-texlive/2014/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
-Output written on ExpSlidesAfterDraft.pdf (60 pages, 5100876 bytes).
+</usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></
+usr/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></us
+r/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr
+/local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/
+local/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/lo
+cal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
+al/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local
+/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/symbols/msam10.pfb></usr/l
+ocal/texlive/2014/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
+Output written on ExpSlidesAfterDraft.pdf (59 pages, 5185526 bytes).
 PDF statistics:
- 2370 PDF objects out of 2487 (max. 8388607)
- 2171 compressed objects within 22 object streams
- 155 named destinations out of 1000 (max. 500000)
- 328 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2379 PDF objects out of 2487 (max. 8388607)
+ 2184 compressed objects within 22 object streams
+ 142 named destinations out of 1000 (max. 500000)
+ 341 words of extra memory for PDF output out of 10000 (max. 10000000)
 
