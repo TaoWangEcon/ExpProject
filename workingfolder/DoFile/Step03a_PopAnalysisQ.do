@@ -67,10 +67,10 @@ sort year quarter month
 *** Computing some measures **
 ******************************
 
-gen SCE_FE = Q9_mean - Inf1yf_CPICore
+gen SCE_FE = Q9_mean - Inf1yf_CPIAU
 label var SCE_FE "1-yr-ahead forecast error"
 
-gen SPFCPI_FE = CPI1y - Inf1yf_CPIAU
+gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
 
 gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
@@ -278,49 +278,55 @@ graph export "${sum_graph_folder}/IQRvarPCEQ", as(png) replace
 
 
 
+** generate absolute values of FE for plotting
+
+foreach var in SPFCPI SPFPCE{
+gen `var'_abFE = abs(`var'_FE)
+label var `var'_abFE "Absolute Val of Average Forecast Error"
+}
+
 
 ** temporarily change the name for plotting 
 
 label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+label var Inf1yf_CPICore "Realized Core CPI Inflation"
 label var SPFCPI_FE "Average Forecast Error"
-label var CPI_disg "Disagreements"
+label var CPI_disg "Disagreement"
 label var PRCCPIVar1mean "Average Uncertainty(RHS)"
 label var Inf1yf_PCE "Realized PCE Inflation"
 label var SPFPCE_FE "Average Forecast Error"
-label var PCE_disg "Disagreements"
+label var PCE_disg "Disagreement"
 label var PRCPCEVar1mean "Average Uncertainty(RHS)"
 
 
 
-
-foreach var in Inf1yf_CPIAU SPFCPI_FE CPI_disg{
+foreach var in Inf1yf_CPICore SPFCPI_abFE CPI_disg{
 pwcorr `var' PRCCPIVar1mean, star(0.05)
 local rho: display %4.2f r(rho) 
 twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
 	   if PRCCPIVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation(SPF CPI)",size(med)) xtitle("Time") ytitle("") ///
+	   title("SPF(CPI)",size(large)) xtitle("Time") ytitle("") ///
 	   legend(size(large) col(1)) ///
 	   caption("{superscript:Corr Coeff= `rho'}", ///
 	   justification(left) position(11) size(vlarge))
 graph export "${sum_graph_folder}/`var'_varSPFCPIQ", as(png) replace
 }
 
-
-foreach var in Inf1yf_PCE SPFPCE_FE PCE_disg{
+foreach var in Inf1yf_PCE SPFPCE_abFE PCE_disg{
 pwcorr `var' PRCPCEVar1mean, star(0.05)
 local rho: display %4.2f r(rho) 
 twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
        (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
 	   if PRCPCEVar1mean!=., ///
-	   title("1-yr-ahead Expected Inflation(SPF PCE)",size(med)) xtitle("Time") ytitle("") ///
-	   legend(size(large)) ///
+	   title("SPF(PCE)",size(large)) xtitle("Time") ytitle("") ///
+	   legend(size(large) col(1)) ///
 	   caption("{superscript:Corr Coeff= `rho'}", ///
 	   justification(left) position(11) size(vlarge))
 graph export "${sum_graph_folder}/`var'_varSPFPCEQ", as(png) replace
 }
-*/
 
+*/
 
 ********************************************************************
 ** Drop the inflation measures temporarily used for plotting ********

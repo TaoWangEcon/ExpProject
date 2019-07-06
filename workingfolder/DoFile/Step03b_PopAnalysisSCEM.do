@@ -67,16 +67,14 @@ sort year quarter month
 *** Computing some measures **
 ******************************
 
-gen SCE_FE = Q9_mean - Inf1yf_CPICore
+gen SCE_FE = Q9_mean - Inf1yf_CPIAU
 label var SCE_FE "1-yr-ahead forecast error"
-
-gen SPFCPI_FE = CPI1y - Inf1yf_CPIAU
+gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
 gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 gen SPFPCE_FE = PCE1y - Inf1yf_PCE
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
-
 
 
 *****************************
@@ -221,51 +219,61 @@ twoway (tsline Inf1yf_CPIAU,ytitle(" ",axis(1))lp("shortdash") lwidth(thick)) //
 graph export "${sum_graph_folder}/true_varSCEM", as(png) replace 
 
 
-
-
-
+********************************************
 ** These are the charts for paper draft 
+********************************************
+
+
+** generate absolute values of FE for plotting
+
+foreach var in SCE{
+gen `var'_abFE = abs(`var'_FE)
+label var `var'_abFE "Absolute Val of Average Forecast Error"
+}
+
 
 label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
 label var SCE_FE "Average Forecast Error"
-label var Q9_disg "Disagreements"
+label var Q9_disg "Disagreement"
 label var Q9_var "Average Uncertainty(RHS)"
 
-foreach var in Inf1yf_CPIAU SCE_FE Q9_disg{
+foreach var in Inf1yf_CPIAU SCE_abFE Q9_disg{
 pwcorr `var' Q9_var, star(0.05)
 local rho: display %4.2f r(rho) 
 twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
        (tsline Q9_var, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
 	   if Q9_var!=., ///
-	   title("1-yr-ahead Expected Inflation(SCE)",size(med)) xtitle("Time") ytitle("") ///
-	   legend(size(small)) ///
+	   title("SCE",size(large)) xtitle("Time") ytitle("") ///
+	   legend(size(large) col(1)) ///
 	   caption("{superscript:Corr Coeff= `rho'}", ///
 	   justification(left) position(11) size(large))
 graph export "${sum_graph_folder}/`var'_varSCEM", as(png) replace
 }
 
 
+
 twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
        (tsline Q9_varp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 	   (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
 	   if Q9_varp50!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   title("SCE") xtitle("Time") ///
 	   legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
 	          label(3 "50 percentile of uncertainty") col(1)) 
 graph export "${sum_graph_folder}/IQRvarSCEM", as(png) replace 
-*/
+
 
 
 twoway (tsline Q9_meanp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
        (tsline Q9_meanp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 	   (tsline Q9_meanp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
 	   if Q9_varp50!=. , /// 
-	   title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+	   title("SCE") xtitle("Time") ///
 	   legend(label(1 "25 percentile of forecast") label(2 "75 percentile of forecast") ///
 	          label(3 "50 percentile of forecast") col(1)) 
 graph export "${sum_graph_folder}/IQRmeanSCEM", as(png) replace 
+*/
 
-ddd
+
 ***************************
 ***  Population Moments *** 
 ***************************

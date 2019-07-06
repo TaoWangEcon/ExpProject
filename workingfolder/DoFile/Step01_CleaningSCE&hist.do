@@ -1,3 +1,11 @@
+****************************************************
+***   This do files cleans SCE individual density **
+***   forecasts and moments. It exclude the top and *
+***   bottom 5 percentiles of mean and uncertainty. *
+***   It also plots histograms of mean forecast and *
+***   uncertainty. **********************************
+*****************************************************
+
 
 clear
 global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"

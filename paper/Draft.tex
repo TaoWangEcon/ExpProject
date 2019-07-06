@@ -479,11 +479,11 @@ footskip=.25in]{geometry}
 	
 	Although the sheer magnitudes of the differences between professionals' moments and those of households are so big that a direct comparison of the two seems redundant, their respective within-agent-type correlation serves a ready checking device of some statistical consistency. Figure \ref{UnceratitnyOtherMoments} plots the population uncertainty against realized inflation,  forecast errors and disagreements in the first, second and third rows, respectively. 
 	
-	It is widely documented in literature \footnote{The list literature showing positive inflation and uncertainty is long. For example \citet{ball1990inflation}. } and resonated by anecdotal narratives that high inflation is typically associated with high inflation uncertainty. However, the observable correlation of realized inflation and the directly estimated average uncertainty from both  forecasters and households are, if any, negative during the period between 2007-2019. In particular, the correlation coefficients are -0.1, -0.05 and -0.24 for SPF's  CPI forecast, SPF's PCE forecast and SCE's CPI expectation. This may suggest that during a period of persistently low inflation, the conventional positive redux of inflation and uncertainty is not a good description of the relation of the two. 
+	It is widely documented in literature \footnote{The list literature showing positive inflation and uncertainty is long. For example \citet{ball1990inflation}. } and resonated by anecdotal narratives that high inflation is typically associated with high inflation uncertainty. However, the observable correlation of realized inflation and the directly estimated average uncertainty from both professionals and households are at most weakly positive during the period between 2007-2019. In particular, the correlation coefficients  0.14, -0.05 and -0.24 for SPF's CPI forecast, SPF's PCE forecast and SCE's CPI expectation. This may suggest that during a period of persistently low and stable inflation, the conventional positive redux of inflation and uncertainty is not a good description of the relation of the two. 
 	
-	The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationship between forecast error and uncertainty. Although according to our benchmark framework in \ref{theory}, there is no mathematical correlation between the forecast errors and uncertainty as the former depends on the realized shocks and the later depends on the volatility of the shock, it is worth checking if in the data a greater ex ante uncertainty implies bigger ex post forecast errors. The correlation coefficients of the two are 0.13, 0.06 and 040 for SPF CPI forecasts, SPF PCE forecasts and SCE households forecasts, respectively. Compared to professional forecasts, households forecasts exhibit such a positive correlation. 
+	The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationship between size of the forecast error and uncertainty. Although according to our benchmark framework in \ref{theory}, there is no mathematical correlation between the size of the forecast errors and uncertainty as the former depends on the realized shocks and the later depends on the volatility of the shock, it is worth checking if in the data a greater ex ante uncertainty implies bigger ex post forecast errors. The correlation coefficients of the two are -0.19, -0.35 and 0.27 for SPF CPI forecasts, SPF PCE forecasts and SCE's forecasts, respectively. The two indicators turn out to be negatively correlated for professional forecasts. Only households forecasts exhibit such a positive correlation.   
 	
-	The last row of Figure \ref{UnceratitnyOtherMoments} explores the relationship between disagreement and uncertainty. Many empirical literatures in macroeconomics use disagreements and uncertainty as if they are similar concepts. Partly this confusion in practice is due to the difficulty of finding appropriate measures of uncertainty in the first place. But as we have presented in \ref{theory}, the two are distinct concepts. The empirical pattern of the two,  as shown in the plots, also confirms that the two are different objects. The correlation coefficients of the two turn out to be negative, -0.29 and -0.46 for SPF forecasts. In stark contrast, households seem to bear a strong correlation of 0.62 between the two moments.  
+	The last row of Figure \ref{UnceratitnyOtherMoments} examines the relationship between disagreement and uncertainty. Many empirical literatures in macroeconomics use disagreements and uncertainty as if they are similar concepts. Such a confusion in practice is partly due to the difficulty of finding appropriate measures of uncertainty in the first place. But as we have presented in \ref{theory}, the two are concepts with distinct statistical definitions. The empirical pattern of the two,  as shown in the plots, also confirms that the two are different objects. The correlation coefficients of the two turn out to be negative, -0.29 and -0.46 for SPF forecasts. In stark contrast, households seem to bear a strong correlation of 0.43 between the two moments.  
 	
 	Overall, professional forecasters' moments exhibit patterns more consistency from a statistical point of view.  In contrast, the positive correlation across households' ex ante uncertainty, ex post forecast errors, and cross-section disagreements cannot be easily reconciled by the framework we set up in Section \ref{theory}. 
 	
@@ -504,7 +504,7 @@ footskip=.25in]{geometry}
 			\centering
 			\caption{Realized Inflation and Uncertainty}
 			\label{InfVar}
-			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_CPIAU_varSPFCPIQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_CPICore_varSPFCPIQ.png}
 			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_PCE_varSPFPCEQ.png}
 			\includegraphics[width=0.3\textwidth]{figures/Inf1yf_CPIAU_varSCEM.png}
 		\end{subfigure}
@@ -512,17 +512,17 @@ footskip=.25in]{geometry}
 		\vfill
 		\begin{subfigure}[b]{\textwidth}
 			\centering
-			\caption{Forecast Errors and Uncertainty}
+			\caption{Size of Forecast Errors and Uncertainty}
 			\label{FEVar}
-			\includegraphics[width=0.3\textwidth]{figures/SPFCPI_FE_varSPFCPIQ.png}
-			\includegraphics[width=0.3\textwidth]{figures/SPFPCE_FE_varSPFPCEQ.png}
-			\includegraphics[width=0.3\textwidth]{figures/SCE_FE_varSCEM.png}
+			\includegraphics[width=0.3\textwidth]{figures/SPFCPI_abFE_varSPFCPIQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/SPFPCE_abFE_varSPFPCEQ.png}
+			\includegraphics[width=0.3\textwidth]{figures/SCE_abFE_varSCEM.png}
 		\end{subfigure}
 	 \vspace{0.5em}
 		\vfill
 		\begin{subfigure}[b]{\textwidth}
 			\centering
-			\caption{Disagreements and Uncertainty}
+			\caption{Disagreement and Uncertainty}
 			\label{DisgVar}
 			\includegraphics[width=0.3\textwidth]{figures/CPI_disg_varSPFCPIQ.png}
 			\includegraphics[width=0.3\textwidth]{figures/PCE_disg_varSPFPCEQ.png}
@@ -530,7 +530,7 @@ footskip=.25in]{geometry}
 		\end{subfigure}
 		\\
 		\begin{flushleft}
-			{\footnotesize Note:  From left to right: SPF’s CPI, SPF’s PCE, and SCE’s CPI forecast. From top to the bottom, uncertainty (red dash) versus realized inflation (blue dot) with correlation coefficient of -0.10, -0.05 and -0.24, respectively; uncertainty (red dash) versus forecast errors (blue dot) with correlation coefficient of 0.13, 0.06, 0.40, respectively; uncertainty (red dash) versus  disagreements (blue dot) with correlation coefficient of -0.29, -0.46 and 0.62. }
+			{\footnotesize Note:  From left to right: SPF's  forecasts of core CPI, SPF's core PCE, and SCE's forecast of headline CPI. From top to the bottom, uncertainty (red dash) versus realized inflation (blue dot) with correlation coefficient of 0.14, -0.05 and -0.25, respectively; uncertainty (red dash) versus absolute value of forecast errors (blue dot) with correlation coefficient of -0.19, 0.35, 0.27, respectively; uncertainty (red dash) versus  disagreements (blue dot) with correlation coefficient of -0.29, -0.46 and 0.43.}
 		\end{flushleft}
 		\caption{Uncertainty and Other Moments}
 		\label{UnceratitnyOtherMoments}
@@ -871,7 +871,7 @@ footskip=.25in]{geometry}
 	
 	Similarly, the responses of disagreements to both monetary policy shocks in the bottom panel are not statistically significant throughout the 10 quarters.  
 	
-	How do we interpret the finding of non-response of forecasting errror and disagreements to monetary policy shocks in the context of rigidity models? Non-response of FE suggests that on average professional forecasters have incorporated the monetary policy changes in their forecasts. Non-response of disagreements could be due to that forecasters ``agree'' on the realization of monetary policy shocks. Although the benchmark theory of SE and NI do not differentiate shocks, the evidence here seems to suggest that the degree of rigidity depends on the nature of the shocks. 
+	How do we interpret the finding of non-response of forecasting error and disagreement to monetary policy shocks in the context of rigidity models? Non-response of FE suggests that on average professional forecasters have incorporated the monetary policy changes in their forecasts. Non-response of disagreements could be due to that forecasters ``agree'' on the realization of monetary policy shocks. Although the benchmark theory of SE and NI do not differentiate shocks, the evidence here seems to suggest that the degree of rigidity depends on the nature of the shocks. 
 	
 	Or there are other explanations.  First, overall the monetary policy shocks contribute only a small part of the variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetary policy shocks from low frequency data as all other papers addressing this issue. 
 	
@@ -963,7 +963,7 @@ footskip=.25in]{geometry}
 	
 	One of the major patterns arising here is that there is no notable difference in responses to oil price shock versus monetary policy shocks, as seen in professional forecasters.  Average forecast errors react to none of these shocks and neither do disagreements and uncertainty.  
 	
-	One interesting exception is the response of disagreements to oil price changes. Households' disagreements concerning inflation drop by 1 percentage point in the first period after an oil price shock and the response have a reasonably small standard error. The drop only lasts for 1 month and immediately return to zero since then. This suggests that households are digesting the shock in an efficient manner.  
+	One interesting exception is the response of disagreements to oil price changes. Households' disagreement concerning inflation drops by one percentage point in the first period after an oil price shock and the response have a reasonably small standard error. The drop only lasts for 1 month and immediately return to zero since then. This suggests that households are digesting the shock in an efficient manner.  
 	
 	Researchers have also conjectured (in spite of limited evidence) that salient items such as gasoline price plays an important role in affecting household inflation expectations. The evidence presented here seems to be consistent with such a prediction. 
 	
