@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  6 JUL 2019 16:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  8 JUL 2019 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -538,12 +538,12 @@ Package pdftex.def Info: figures/Inf1yf_CPICore_varSPFCPIQ.png used on input li
 ne 507.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/Inf1yf_PCE_varSPFPCEQ.png, id=350, 932.98563pt x 678.535pt>
-File: figures/Inf1yf_PCE_varSPFPCEQ.png Graphic file (type png)
+<figures/Inf1yf_PCECore_varSPFPCEQ.png, id=350, 932.98563pt x 678.535pt>
+File: figures/Inf1yf_PCECore_varSPFPCEQ.png Graphic file (type png)
 
-<use figures/Inf1yf_PCE_varSPFPCEQ.png>
-Package pdftex.def Info: figures/Inf1yf_PCE_varSPFPCEQ.png used on input line 5
-08.
+<use figures/Inf1yf_PCECore_varSPFPCEQ.png>
+Package pdftex.def Info: figures/Inf1yf_PCECore_varSPFPCEQ.png used on input li
+ne 508.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
 <figures/Inf1yf_CPIAU_varSCEM.png, id=351, 932.98563pt x 678.535pt>
@@ -577,20 +577,20 @@ File: figures/SCE_abFE_varSCEM.png Graphic file (type png)
 Package pdftex.def Info: figures/SCE_abFE_varSCEM.png used on input line 519.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/CPI_disg_varSPFCPIQ.png, id=355, 932.98563pt x 678.535pt>
-File: figures/CPI_disg_varSPFCPIQ.png Graphic file (type png)
+<figures/CORECPI_disg_varSPFCPIQ.png, id=355, 932.98563pt x 678.535pt>
+File: figures/CORECPI_disg_varSPFCPIQ.png Graphic file (type png)
 
-<use figures/CPI_disg_varSPFCPIQ.png>
-Package pdftex.def Info: figures/CPI_disg_varSPFCPIQ.png used on input line 527
-.
+<use figures/CORECPI_disg_varSPFCPIQ.png>
+Package pdftex.def Info: figures/CORECPI_disg_varSPFCPIQ.png used on input line
+ 527.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/PCE_disg_varSPFPCEQ.png, id=356, 932.98563pt x 678.535pt>
-File: figures/PCE_disg_varSPFPCEQ.png Graphic file (type png)
+<figures/COREPCE_disg_varSPFPCEQ.png, id=356, 932.98563pt x 678.535pt>
+File: figures/COREPCE_disg_varSPFPCEQ.png Graphic file (type png)
 
-<use figures/PCE_disg_varSPFPCEQ.png>
-Package pdftex.def Info: figures/PCE_disg_varSPFPCEQ.png used on input line 528
-.
+<use figures/COREPCE_disg_varSPFPCEQ.png>
+Package pdftex.def Info: figures/COREPCE_disg_varSPFPCEQ.png used on input line
+ 528.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
 <figures/Q9_disg_varSCEM.png, id=357, 932.98563pt x 678.535pt>
@@ -1012,28 +1012,28 @@ Package natbib Warning: There were undefined citations.
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1025.
 [26] [27 <./figures/ni_illustration.png>] [28 <./figures/ir_popseni.png>]
 [29 <./figures/rigidity.png>] [30 <./figures/Inf1yf_CPICore_varSPFCPIQ.png> <./
-figures/Inf1yf_PCE_varSPFPCEQ.png> <./figures/Inf1yf_CPIAU_varSCEM.png> <./figu
-res/SPFCPI_abFE_varSPFCPIQ.png> <./figures/SPFPCE_abFE_varSPFPCEQ.png> <./figur
-es/SCE_abFE_varSCEM.png> <./figures/CPI_disg_varSPFCPIQ.png> <./figures/PCE_dis
-g_varSPFPCEQ.png> <./figures/Q9_disg_varSCEM.png>] [31 <./figures/IQRmeanCPIQ.p
-ng> <./figures/IQRmeanPCEQ.png> <./figures/IQRmeanSCEM.png> <./figures/IQRvarCP
-IQ.png> <./figures/IQRvarPCEQ.png> <./figures/IQRvarSCEM.png>] [32 <./figures/P
-RCCPIMean1_hist.png> <./figures/PRCPCEMean1_hist.png> <./figures/SCEmean_hist.p
-ng> <./figures/PRCCPIVar1_hist.png> <./figures/PRCPCEVar1_hist.png> <./figures/
-SCEvar_hist.png>] [33 <./figures/PRCCPIMean01_rv_true_hist.png> <./figures/PRCP
-CEMean01_rv_true_hist.png> <./figures/PRCCPIVar01_rv_true_hist.png> <./figures/
-PRCPCEVar01_rv_true_hist.png> <./figures/inf_shocksQ.png>] [34] [35] [36]
-[37 <./figures/CPIAU_ashocks_nmp_before2007.png> <./figures/SPFFE_ashocks_nmp_b
-efore2007.png> <./figures/SPFDisg_ab_ashocks_nmp_before2007.png> <./figures/CPI
-AU_ashocks_before2007.png> <./figures/SPFFE_ashocks_before2007.png> <./figures/
-SPFDisg_ab_ashocks_before2007.png>] [38 <./figures/Inf_ashocks_nmp.png> <./figu
-res/SPFFE_ashocks_nmp.png> <./figures/SPFDisg_ab_ashocks_nmp.png> <./figures/SP
-FVar_ab_ashocks_nmp.png> <./figures/Inf_ashocks.png> <./figures/SPFFE_ashocks.p
-ng> <./figures/SPFDisg_ab_ashocks.png> <./figures/SPFVar_ab_ashocks.png>]
-[39 <./figures/CPIAU_ashocks_nmpM.png> <./figures/SCEFE_ashocks_nmpM.png> <./fi
-gures/SCEDisg_ab_ashocks_nmpM.png> <./figures/SCEVar_ab_ashocks_nmpM.png> <./fi
-gures/CPIAU_ashocksM.png> <./figures/SCEFE_ashocksM.png> <./figures/SCEDisg_ab_
-ashocksM.png> <./figures/SCEVar_ab_ashocksM.png>]
+figures/Inf1yf_PCECore_varSPFPCEQ.png> <./figures/Inf1yf_CPIAU_varSCEM.png> <./
+figures/SPFCPI_abFE_varSPFCPIQ.png> <./figures/SPFPCE_abFE_varSPFPCEQ.png> <./f
+igures/SCE_abFE_varSCEM.png> <./figures/CORECPI_disg_varSPFCPIQ.png> <./figures
+/COREPCE_disg_varSPFPCEQ.png> <./figures/Q9_disg_varSCEM.png>] [31 <./figures/I
+QRmeanCPIQ.png> <./figures/IQRmeanPCEQ.png> <./figures/IQRmeanSCEM.png> <./figu
+res/IQRvarCPIQ.png> <./figures/IQRvarPCEQ.png> <./figures/IQRvarSCEM.png>]
+[32 <./figures/PRCCPIMean1_hist.png> <./figures/PRCPCEMean1_hist.png> <./figure
+s/SCEmean_hist.png> <./figures/PRCCPIVar1_hist.png> <./figures/PRCPCEVar1_hist.
+png> <./figures/SCEvar_hist.png>] [33 <./figures/PRCCPIMean01_rv_true_hist.png>
+ <./figures/PRCPCEMean01_rv_true_hist.png> <./figures/PRCCPIVar01_rv_true_hist.
+png> <./figures/PRCPCEVar01_rv_true_hist.png> <./figures/inf_shocksQ.png>]
+[34] [35] [36] [37 <./figures/CPIAU_ashocks_nmp_before2007.png> <./figures/SPFF
+E_ashocks_nmp_before2007.png> <./figures/SPFDisg_ab_ashocks_nmp_before2007.png>
+ <./figures/CPIAU_ashocks_before2007.png> <./figures/SPFFE_ashocks_before2007.p
+ng> <./figures/SPFDisg_ab_ashocks_before2007.png>] [38 <./figures/Inf_ashocks_n
+mp.png> <./figures/SPFFE_ashocks_nmp.png> <./figures/SPFDisg_ab_ashocks_nmp.png
+> <./figures/SPFVar_ab_ashocks_nmp.png> <./figures/Inf_ashocks.png> <./figures/
+SPFFE_ashocks.png> <./figures/SPFDisg_ab_ashocks.png> <./figures/SPFVar_ab_asho
+cks.png>] [39 <./figures/CPIAU_ashocks_nmpM.png> <./figures/SCEFE_ashocks_nmpM.
+png> <./figures/SCEDisg_ab_ashocks_nmpM.png> <./figures/SCEVar_ab_ashocks_nmpM.
+png> <./figures/CPIAU_ashocksM.png> <./figures/SCEFE_ashocksM.png> <./figures/S
+CEDisg_ab_ashocksM.png> <./figures/SCEVar_ab_ashocksM.png>]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 1025.
  (./Draft.aux)
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1025.
@@ -1045,7 +1045,7 @@ Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1025.
  ) 
 Here is how much of TeX's memory you used:
  9103 strings out of 493117
- 142326 string characters out of 6135433
+ 142386 string characters out of 6135433
  315276 words of memory out of 5000000
  12238 multiletter control sequences out of 15000+600000
  11423 words of font info for 41 fonts, out of 8000000 for 9000
@@ -1069,7 +1069,7 @@ e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Draft.pdf (39 pages, 5524457 bytes).
+Output written on Draft.pdf (39 pages, 5522107 bytes).
 PDF statistics:
  793 PDF objects out of 1000 (max. 8388607)
  625 compressed objects within 7 object streams

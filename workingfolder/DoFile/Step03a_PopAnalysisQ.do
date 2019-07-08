@@ -71,14 +71,13 @@ gen SCE_FE = Q9_mean - Inf1yf_CPIAU
 label var SCE_FE "1-yr-ahead forecast error"
 
 gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
-label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
+label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
+
+gen SPFPCE_FE = PCE1y - Inf1yf_PCECore
+label var SPFPCE_FE "1-yr-ahead forecast error(SPF Core PCE)"
 
 gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
-
-gen SPFPCE_FE = PCE1y - Inf1yf_PCE
-label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
-
 
 ***************************
 ***  Population Moments *** 
@@ -113,7 +112,7 @@ eststo clear
 ***  Collapse monthly data to quarterly  **
 *******************************************
 
-local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCEPI Inf1yf_PCEPI
+local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCE Inf1yf_PCE Inf1y_PCECore Inf1yf_PCECore
 
 local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
@@ -231,6 +230,7 @@ twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
 	   legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
 graph export "${sum_graph_folder}/var_disgSPFPCEQ", as(png) replace 
 */
+
 /*
 *****************************************
 ** These are the charts for paper draft 
@@ -291,15 +291,19 @@ label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
 label var Inf1yf_CPICore "Realized Core CPI Inflation"
 label var SPFCPI_FE "Average Forecast Error"
 label var CPI_disg "Disagreement"
+label var CORECPI_disg "Disagreement"
+
 label var PRCCPIVar1mean "Average Uncertainty(RHS)"
 label var Inf1yf_PCE "Realized PCE Inflation"
+label var Inf1yf_PCECore "Realized Core PCE Inflation"
 label var SPFPCE_FE "Average Forecast Error"
 label var PCE_disg "Disagreement"
+label var COREPCE_disg "Disagreement"
+
 label var PRCPCEVar1mean "Average Uncertainty(RHS)"
 
 
-
-foreach var in Inf1yf_CPICore SPFCPI_abFE CPI_disg{
+foreach var in Inf1yf_CPICore SPFCPI_abFE CORECPI_disg{
 pwcorr `var' PRCCPIVar1mean, star(0.05)
 local rho: display %4.2f r(rho) 
 twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
@@ -312,7 +316,7 @@ twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 graph export "${sum_graph_folder}/`var'_varSPFCPIQ", as(png) replace
 }
 
-foreach var in Inf1yf_PCE SPFPCE_abFE PCE_disg{
+foreach var in Inf1yf_PCECore SPFPCE_abFE COREPCE_disg{
 pwcorr `var' PRCPCEVar1mean, star(0.05)
 local rho: display %4.2f r(rho) 
 twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
@@ -324,6 +328,7 @@ twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 	   justification(left) position(11) size(vlarge))
 graph export "${sum_graph_folder}/`var'_varSPFPCEQ", as(png) replace
 }
+
 */
 
 ********************************************************************

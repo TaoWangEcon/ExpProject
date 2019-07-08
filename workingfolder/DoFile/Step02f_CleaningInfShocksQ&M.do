@@ -165,7 +165,7 @@ tsset date
 
 eststo clear
 
-foreach Inf in CPIAU CPICore PCEPI{ 
+foreach Inf in CPIAU CPICore PCE PCECore{ 
    reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock
    predict `Inf'_uid_shock, residual
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
@@ -270,7 +270,7 @@ tsset date
 
 eststo clear
 
-foreach Inf in CPIAU CPICore PCEPI{ 
+foreach Inf in CPIAU CPICore PCE PCECore{ 
    reg Inf1y_`Inf' l(1/4).Inf1y_`Inf' l(0/1).pty_shock l(0/1).op_shock l(0/1).mp1ut_shock l(0/1).ED8ut_shock
    predict `Inf'_uid_shock, residual
    label var `Inf'_uid_shock "Unidentified shocks to inflation"
