@@ -243,7 +243,7 @@ label var Q48 "interesting/uninteresting of the questions in the survey(1/0)"
 *** Exclude outliers *****
 *************************
 
-local Moments Q9_mean Q9_var
+local Moments Q9_mean Q9_var Q9c_mean Q9c_var
 
 foreach var in `Moments'{
       egen `var'p5=pctile(`var'),p(5)
@@ -260,16 +260,21 @@ gen Q9_disg = Q9_sd^2
 label var Q9_disg "Disagreements of 1-yr-ahead expted inflation"
 
 
-foreach mom in mean var{
-     egen Q9_`mom'p75 =pctile(Q9_`mom'),p(75) by(year month)
-	 egen Q9_`mom'p25 =pctile(Q9_`mom'),p(25) by(year month)
-	 egen Q9_`mom'p50 =pctile(Q9_`mom'),p(50) by(year month)
-	 local lb: variable label Q9_`mom'
-	 label var Q9_`mom'p75 "`lb': 75 pctile"
-	 label var Q9_`mom'p25 "`lb': 25 pctile"
-	 label var Q9_`mom'p50 "`lb': 50 pctile"
-}
+egen Q9c_sd = sd(Q9c_mean), by(date)
+gen Q9c_disg = Q9c_sd^2
+label var Q9c_disg "Disagreement of 2-yr-ahead expted inflation"
 
+foreach var in Q9 Q9c{
+foreach mom in mean var{
+     egen `var'_`mom'p75 =pctile(`var'_`mom'),p(75) by(year month)
+	 egen `var'_`mom'p25 =pctile(`var'_`mom'),p(25) by(year month)
+	 egen `var'_`mom'p50 =pctile(`var'_`mom'),p(50) by(year month)
+	 local lb: variable label `var'_`mom'
+	 label var `var'_`mom'p75 "`lb': 75 pctile"
+	 label var `var'_`mom'p25 "`lb': 25 pctile"
+	 label var `var'_`mom'p50 "`lb': 50 pctile"
+}
+}
 
 save "${folder}/SCE/InfExpSCEProbIndM",replace 
 
@@ -283,7 +288,8 @@ gen SCE_var = .
 
 
 * Kernal density plot only 
-label var Q9_mean "1-yr-ahed forecast of inflation "
+label var Q9_mean "1-yr-ahead forecast of inflation "
+label var Q9c_mean "2-yr-ahead forecast of inflation"
 
  foreach var in SCE{
  foreach mom in mean{
@@ -297,7 +303,8 @@ label var Q9_mean "1-yr-ahed forecast of inflation "
 }
 
 * Kernal density plot only 
-label var Q9_var "1-yr-ahed uncertainty of inflation"
+label var Q9_var "1-yr-ahead uncertainty of inflation"
+label var Q9c_var "2-yr-ahead uncertainty of inflation"
 
 foreach mom in var{
 foreach var in SCE{
@@ -316,8 +323,9 @@ foreach var in SCE{
 *************************
 
 
-local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg
-local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75
+local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg Q9c_mean Q9c_var Q9c_iqr Q9c_cent50 Q9c_disg
+local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75 ///
+                 Q9c_meanp25 Q9c_meanp50 Q9c_meanp75 Q9c_varp25 Q9c_varp50 Q9c_varp75
 
 
 collapse (mean) `Moments' `MomentsMom', by(date year month)
@@ -328,6 +336,13 @@ label var Q9_iqr "Average 25/75 IQR of 1-yr-ahead Expected Inflation(%)"
 label var Q9_cent50 "Average Median of 1-yr-ahead Expected Inflation(%)"
 label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
 
+
+
+label var Q9c_mean "Average 2-yr-ahead Expected Inflation(%)"
+label var Q9c_var "Average Uncertainty of 2-yr-ahead Expected Inflation"
+label var Q9c_iqr "Average 25/75 IQR of 2-yr-ahead Expected Inflation(%)"
+label var Q9c_cent50 "Average Median of 2-yr-ahead Expected Inflation(%)"
+label var Q9c_disg "Disagreements of 2-yr-ahead Expected Inflation"
 
 save "${folder}/SCE/InfExpSCEProbPopM",replace 
 
