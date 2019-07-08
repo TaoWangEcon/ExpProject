@@ -70,14 +70,12 @@ sort year quarter month
 gen SCE_FE = Q9_mean - Inf1yf_CPIAU
 label var SCE_FE "1-yr-ahead forecast error"
 
-gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
+gen SPFCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 
-gen SPFPCE_FE = PCE1y - Inf1yf_PCECore
+gen SPFPCE_FE = COREPCE1y - Inf1yf_PCECore
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF Core PCE)"
 
-gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
-label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 
 ***************************
 ***  Population Moments *** 
@@ -115,7 +113,7 @@ eststo clear
 local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCE Inf1yf_PCE Inf1y_PCECore Inf1yf_PCECore
 
 local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
-                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
+                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
 				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
 				
 local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
@@ -363,16 +361,16 @@ rename Q9_var SCE_Var
 rename Q9_disg SCE_Disg
 rename SCE_FE SCE_FE
 
-rename CPI1y SPFCPI_Mean
-rename PCE1y SPFPCE_Mean
-rename COREPCE1y SPFCPCE_Mean
-rename CORECPI1y SPFCCPI_Mean
+rename CPI1y SPFCPINC_Mean
+rename PCE1y SPFPCENC_Mean
+rename COREPCE1y SPFPCE_Mean
+rename CORECPI1y SPFCPI_Mean
 
 
-rename CPI_disg SPFCPI_Disg
-rename PCE_disg SPFPCE_Disg 
-rename CORECPI_disg SPFCCPI_Disg
-rename COREPCE_disg SPFCPCE_Disg
+rename CPI_disg SPFCPINC_Disg
+rename PCE_disg SPFPCENC_Disg 
+rename CORECPI_disg SPFCPI_Disg
+rename COREPCE_disg SPFPCE_Disg
 
 rename PRCPCEVar1mean SPFPCE_Var
 rename PRCCPIVar1mean SPFCPI_Var
@@ -533,7 +531,7 @@ foreach mom in FE{
  }
 }
 esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
-*/
+
 
 ***************************************************
 *** Revision Efficiency Test Using Mean Revision **
@@ -590,8 +588,6 @@ foreach var in SPFCPI SPFPCE{
 
 esttab using "${sum_table_folder}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(btestpv N r2) sfmt(%8.3f %8.3f %8.3f) replace
 */
-
-
 
 
 save "${folder}/InfExpQ.dta",replace 

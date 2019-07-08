@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SPFirf_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}28 Jun 2019, 20:32:52
+ {txt}opened on:  {res} 8 Jul 2019, 15:58:49
 {txt}
 {com}. 
 . 
@@ -25,9 +25,9 @@ long, now double to accommodate using data's values)
 
 {col 5}Result{col 38}# of obs.
 {col 5}{hline 41}
-{col 5}not matched{col 30}{res}             146
+{col 5}not matched{col 30}{res}             147
 {txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             146{txt}  (_merge==2)
+{col 9}from using{col 30}{res}             147{txt}  (_merge==2)
 
 {col 5}matched{col 30}{res}             140{txt}  (_merge==3)
 {col 5}{hline 41}
@@ -36,7 +36,7 @@ long, now double to accommodate using data's values)
 {res}{txt}
 {com}. 
 . drop if month==. 
-{txt}(146 observations deleted)
+{txt}(147 observations deleted)
 
 {com}. drop if quarter ==.
 {txt}(0 observations deleted)
@@ -68,11 +68,12 @@ long, now double to accommodate using data's values)
 >                 
 > graph export "${c -(}sum_graph_folder{c )-}/inf_shocksQ", as(png) replace
 > 
+> 
 > ** First-run of inflation 
 > 
 > eststo clear
 > foreach sk in pty pty_max op mp1ut ED4ut ED8ut{c -(}
->   foreach Inf in CPIAU CPICore PCEPI{c -(} 
+>   foreach Inf in CPIAU CPICore PCE PCECore{c -(} 
 >    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
 >    eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
 >  {c )-}
@@ -83,7 +84,7 @@ long, now double to accommodate using data's values)
 > 
 > eststo clear
 > foreach sk in pty pty_max op mp1ut ED4ut ED8ut{c -(}
->   foreach Inf in CPIAU CPICore PCEPI{c -(} 
+>   foreach Inf in CPIAU CPICore PCE PCECore{c -(} 
 >    var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
 >    set seed 123456
 >    irf create irf1, set(irf,replace) step(10) bsp
@@ -95,124 +96,98 @@ long, now double to accommodate using data's values)
 . 
 . 
 . 
-. 
-. 
-. ***********************************************
-. ** IRF of inflation (MP shocks at one time) **
-. ***********************************************
-. 
-. label var CPIAU "CPI Inflation"
-{txt}
-{com}. label var PCEPI "PCE Inflation"
-{txt}
-{com}. 
-. eststo clear
-{txt}
-{com}. 
-. foreach Inf in CPIAU PCEPI{c -(} 
-{txt}  2{com}.    var Inf1y_`Inf', lags(1) ///
+. /*
+> 
+> 
+> ***********************************************
+> ** IRF of inflation (MP shocks at one time) **
+> ***********************************************
+> 
+> label var CPIAU "CPI Inflation"
+> label var PCE "PCE Inflation"
+> 
+> eststo clear
+> 
+> foreach Inf in CPIAU PCE CPICore PCECore{c -(} 
+>    var Inf1y_`Inf', lags(1/4) ///
 >                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 >                                          l(0/1).mp1ut_shock l(0/1).ED8ut_shock)   
-{txt}  3{com}.    set seed 123456
-{txt}  4{com}.    irf create `Inf', set(irf,replace) step(10) bsp replace 
-{txt}  5{com}.   
-. {c )-}
-{res}
-{txt}Vector autoregression
-
-{col 1}Sample:  {res}1994q2 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}       99
-{txt}Log likelihood = {res} -106.181{txt}{col 40}{col 52}AIC{col 68}= {res} 2.347091
-{txt}FPE{col 16}= {res} .6125685{txt}{col 52}HQIC{col 68}= {res} 2.453151
-{txt}Det(Sigma_ml){col 16}= {res} .5001706{txt}{col 52}SBIC{col 68}= {res} 2.609225
-
-{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-{col 1}{text}Inf1y_CPIAU     {col 18}{result}    10{col 26}{space 2} .745902{col 37}{space 1} 0.6276{col 47}  166.812{col 58} 0.0000
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} Inf1y_CPIAU{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}Inf1y_CPIAU  {txt}{c |}
-{space 1}Inf1y_CPIAU {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6158188{col 26}{space 2}  .072179{col 37}{space 1}    8.53{col 46}{space 3}0.000{col 54}{space 4} .4743506{col 67}{space 3} .7572871
-{txt}{space 12} {c |}
-{space 3}pty_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} -.155989{col 26}{space 2} .1009761{col 37}{space 1}   -1.54{col 46}{space 3}0.122{col 54}{space 4}-.3538986{col 67}{space 3} .0419206
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1370825{col 26}{space 2} .0944462{col 37}{space 1}   -1.45{col 46}{space 3}0.147{col 54}{space 4}-.3221937{col 67}{space 3} .0480286
-{txt}{space 12} {c |}
-{space 4}op_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .2979693{col 26}{space 2}  .083212{col 37}{space 1}    3.58{col 46}{space 3}0.000{col 54}{space 4} .1348767{col 67}{space 3} .4610618
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .1370603{col 26}{space 2} .0870384{col 37}{space 1}    1.57{col 46}{space 3}0.115{col 54}{space 4}-.0335318{col 67}{space 3} .3076524
-{txt}{space 12} {c |}
-{space 1}mp1ut_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .0809291{col 26}{space 2}  .089625{col 37}{space 1}    0.90{col 46}{space 3}0.367{col 54}{space 4}-.0947326{col 67}{space 3} .2565909
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1219477{col 26}{space 2} .0907605{col 37}{space 1}   -1.34{col 46}{space 3}0.179{col 54}{space 4}-.2998351{col 67}{space 3} .0559396
-{txt}{space 12} {c |}
-{space 1}ED8ut_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .1152293{col 26}{space 2} .0759385{col 37}{space 1}    1.52{col 46}{space 3}0.129{col 54}{space 4}-.0336074{col 67}{space 3} .2640659
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0767931{col 26}{space 2} .0800511{col 37}{space 1}   -0.96{col 46}{space 3}0.337{col 54}{space 4}-.2336905{col 67}{space 3} .0801043
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .5159298{col 26}{space 2} .1726599{col 37}{space 1}    2.99{col 46}{space 3}0.003{col 54}{space 4} .1775226{col 67}{space 3} .8543371
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-(file irf.irf created)
-(file irf.irf now active)
-irfname CPIAU not found in irf.irf
-........................................................................................................................................................................................................
-{res}{txt}(file irf.irf updated)
-{res}
-{txt}Vector autoregression
-
-{col 1}Sample:  {res}1994q2 - 2018q4 {txt}{col 52}No. of obs{col 68}= {res}       99
-{txt}Log likelihood = {res} -72.1903{txt}{col 40}{col 52}AIC{col 68}= {res}  1.66041
-{txt}FPE{col 16}= {res} .3082711{txt}{col 52}HQIC{col 68}= {res}  1.76647
-{txt}Det(Sigma_ml){col 16}= {res} .2517076{txt}{col 52}SBIC{col 68}= {res} 1.922543
-
-{col 1}{text}Equation        {col 18}  Parms{col 26}     RMSE {col 37}   R-sq  {col 47}   chi2   {col 58} P>chi2
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-{col 1}{text}Inf1y_PCEPI     {col 18}{result}    10{col 26}{space 2}  .52914{col 37}{space 1} 0.6824{col 47} 212.6869{col 58} 0.0000
-{col 1}{text}{hline 17}{hline 8}{hline 11}{hline 10}{hline 11}{hline 7}
-
-{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{col 1} Inf1y_PCEPI{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      z{col 46}   P>|z|{col 54}     [95% Con{col 67}f. Interval]
-{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}Inf1y_PCEPI  {txt}{c |}
-{space 1}Inf1y_PCEPI {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6367806{col 26}{space 2} .0672015{col 37}{space 1}    9.48{col 46}{space 3}0.000{col 54}{space 4}  .505068{col 67}{space 3} .7684931
-{txt}{space 12} {c |}
-{space 3}pty_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}-.0944758{col 26}{space 2} .0714516{col 37}{space 1}   -1.32{col 46}{space 3}0.186{col 54}{space 4}-.2345183{col 67}{space 3} .0455667
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.1338798{col 26}{space 2}  .067139{col 37}{space 1}   -1.99{col 46}{space 3}0.046{col 54}{space 4}  -.26547{col 67}{space 3}-.0022897
-{txt}{space 12} {c |}
-{space 4}op_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .2393975{col 26}{space 2} .0588644{col 37}{space 1}    4.07{col 46}{space 3}0.000{col 54}{space 4} .1240255{col 67}{space 3} .3547695
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2} .0795888{col 26}{space 2} .0623118{col 37}{space 1}    1.28{col 46}{space 3}0.202{col 54}{space 4}-.0425401{col 67}{space 3} .2017177
-{txt}{space 12} {c |}
-{space 1}mp1ut_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2}  .082254{col 26}{space 2} .0629718{col 37}{space 1}    1.31{col 46}{space 3}0.191{col 54}{space 4}-.0411686{col 67}{space 3} .2056765
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0384644{col 26}{space 2} .0644759{col 37}{space 1}   -0.60{col 46}{space 3}0.551{col 54}{space 4}-.1648347{col 67}{space 3}  .087906
-{txt}{space 12} {c |}
-{space 1}ED8ut_shock {c |}
-{space 9}--. {c |}{col 14}{res}{space 2} .0659886{col 26}{space 2} .0540302{col 37}{space 1}    1.22{col 46}{space 3}0.222{col 54}{space 4}-.0399087{col 67}{space 3} .1718859
-{txt}{space 9}L1. {c |}{col 14}{res}{space 2}-.0376113{col 26}{space 2} .0564782{col 37}{space 1}   -0.67{col 46}{space 3}0.505{col 54}{space 4}-.1483066{col 67}{space 3} .0730839
-{txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}  .425815{col 26}{space 2} .1273791{col 37}{space 1}    3.34{col 46}{space 3}0.001{col 54}{space 4} .1761566{col 67}{space 3} .6754735
-{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-(file irf.irf created)
-(file irf.irf now active)
-irfname PCEPI not found in irf.irf
-........................................................................................................................................................................................................
-{res}{txt}(file irf.irf updated)
-
-{com}. irf graph dm, impulse(mp1ut_shock ED8ut_shock) ///
+>    set seed 123456
+>    irf create `Inf', set(irf) step(10) bsp replace 
+>   
+> {c )-}
+> irf graph dm, impulse(mp1ut_shock ED8ut_shock) ///
 >                  byopts(title("Inflation") yrescale xrescale note("")) ///
 >                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(small)) ///
 >                                  xtitle("Quarters") 
-{res}{txt}
-{com}. graph export "${c -(}sum_graph_folder{c )-}/irf/Inf_ashocks", as(png) replace
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/irf/Inf_ashocks written in PNG format)
-
+> graph export "${c -(}sum_graph_folder{c )-}/irf/Inf_ashocks", as(png) replace
+> 
+> 
+> ***********************************************
+> ** IRF of inflation (all shocks exl MP at one time) **
+> ***********************************************
+> 
+> eststo clear
+> 
+> foreach Inf in CPIAU PCE CPICore PCECore{c -(} 
+>    var Inf1y_`Inf', lags(1/4) ///
+>                      exo(l(0/1).pty_shock l(0/1).op_shock)   
+>    set seed 123456
+>    irf create `Inf', set(irf) step(10) bsp replace 
+>  {c )-}
+>    irf graph dm, impulse(pty_shock op_shock) ///
+>                  byopts(title("Inflation") yrescale xrescale note("")) ///
+>                  legend(col(2) order(1 "95% CI" 2 "IRF") symx(*.5) size(small)) ///
+>                                  xtitle("Quarters") 
+>    graph export "${c -(}sum_graph_folder{c )-}/irf/Inf_ashocks_nmp", as(png) replace
+> 
+> 
+> ***********************************************************
+> ** IRF of SPF moments (all shocks exl MP at one time)    **
+> ***********************************************************
+> 
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>            capture var `var'_`mom', lags(1/4) ///
+>                      exo(l(0/1).pty_shock l(0/1).op_shock) 
+>    set seed 123456
+>    capture irf create `var', set(irf) step(10) bsp replace  
+> {c )-}
+>    capture irf graph dm, impulse(pty_shock op_shock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(small))  ///
+>                                                  xtitle("Quarters") 
+>    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ashocks_nmp", as(png) replace
+> {c )-}
+> 
+> */
+. ****************************************************************
+. ** IRF of SPF moments (all shocks(abs) exl MP at one time)    **
+. ****************************************************************
+. 
+. 
+. foreach mom in Disg Var{c -(}
+{txt}  2{com}.    foreach var in SPFCPI SPFPCE{c -(}
+{txt}  3{com}.        * shocks 
+.        capture var `var'_`mom', lags(1/4) ///
+>                      exo(l(0/1).pty_shock ///
+>                                          l(0/1).pty_abshock l(0/1).op_abshock)
+{txt}  4{com}.    set seed 123456
+{txt}  5{com}.    capture irf create `var', set(irf) step(10) bsp replace 
+{txt}  6{com}. {c )-}
+{txt}  7{com}.  
+.    capture irf graph dm, impulse(pty_abshock op_abshock) ///
+>                          byopts(title("`mom'") yrescale /// 
+>                                                  xrescale note("")) legend(col(2) /// 
+>                                                  order(1 "95% CI" 2 "IRF") symx(*.5) size(small))  ///
+>                                                  xtitle("Quarters") 
+{txt}  8{com}.    capture graph export "${c -(}sum_graph_folder{c )-}/irf/moments/SPF`mom'_ab_ashocks_nmp", as(png) replace
+{txt}  9{com}. {c )-}
+{txt}
 {com}. 
+. 
 . ddd
 {err}unrecognized command:  ddd
 {txt}{search r(199):r(199);}

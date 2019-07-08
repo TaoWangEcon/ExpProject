@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 8 Jul 2019, 15:16:24
+ {txt}opened on:  {res} 8 Jul 2019, 15:57:23
 {txt}
 {com}. 
 . ****************************************
@@ -164,24 +164,19 @@ float, now double to accommodate using data's values)
 {com}. label var SCE_FE "1-yr-ahead forecast error"
 {txt}
 {com}. 
-. gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
-{txt}(417 missing values generated)
-
-{com}. label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
-{txt}
-{com}. 
-. gen SPFPCE_FE = PCE1y - Inf1yf_PCECore
-{txt}(721 missing values generated)
-
-{com}. label var SPFPCE_FE "1-yr-ahead forecast error(SPF Core PCE)"
-{txt}
-{com}. 
-. gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
+. gen SPFCPI_FE = CORECPI1y - Inf1yf_CPICore
 {txt}(723 missing values generated)
 
 {com}. label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
 {txt}
 {com}. 
+. gen SPFPCE_FE = COREPCE1y - Inf1yf_PCECore
+{txt}(721 missing values generated)
+
+{com}. label var SPFPCE_FE "1-yr-ahead forecast error(SPF Core PCE)"
+{txt}
+{com}. 
+. 
 . ***************************
 . ***  Population Moments *** 
 . ***************************
@@ -614,7 +609,7 @@ COREPCE1y_ch {c |}
 {txt}
 {com}. 
 . local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
->                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
+>                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
 >                                 PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
 >                                 
 {txt}
@@ -744,6 +739,7 @@ COREPCE1y_ch {c |}
 >            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
 > graph export "${c -(}sum_graph_folder{c )-}/var_disgSPFPCEQ", as(png) replace 
 > */
+. 
 . /*
 > *****************************************
 > ** These are the charts for paper draft 
@@ -788,120 +784,410 @@ COREPCE1y_ch {c |}
 >                   label(3 "50 pctile of uncertainty") col(1)) 
 > graph export "${c -(}sum_graph_folder{c )-}/IQRvarPCEQ", as(png) replace 
 > 
-> */
-. 
-. ** generate absolute values of FE for plotting
-. 
-. foreach var in SPFCPI SPFPCE{c -(}
-{txt}  2{com}. gen `var'_abFE = abs(`var'_FE)
-{txt}  3{com}. label var `var'_abFE "Absolute Val of Average Forecast Error"
-{txt}  4{com}. {c )-}
-{txt}(140 missing values generated)
-(241 missing values generated)
-
-{com}. 
-. 
-. ** temporarily change the name for plotting 
-. 
-. label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
-{txt}
-{com}. label var Inf1yf_CPICore "Realized Core CPI Inflation"
-{txt}
-{com}. label var SPFCPI_FE "Average Forecast Error"
-{txt}
-{com}. label var CPI_disg "Disagreement"
-{txt}
-{com}. label var CORECPI_disg "Disagreement"
-{txt}
-{com}. 
-. label var PRCCPIVar1mean "Average Uncertainty(RHS)"
-{txt}
-{com}. label var Inf1yf_PCE "Realized PCE Inflation"
-{txt}
-{com}. label var Inf1yf_PCECore "Realized Core PCE Inflation"
-{txt}
-{com}. label var SPFPCE_FE "Average Forecast Error"
-{txt}
-{com}. label var PCE_disg "Disagreement"
-{txt}
-{com}. label var COREPCE_disg "Disagreement"
-{txt}
-{com}. 
-. label var PRCPCEVar1mean "Average Uncertainty(RHS)"
-{txt}
-{com}. 
-. 
-. foreach var in Inf1yf_CPICore SPFCPI_abFE CORECPI_disg{c -(}
-{txt}  2{com}. pwcorr `var' PRCCPIVar1mean, star(0.05)
-{txt}  3{com}. local rho: display %4.2f r(rho) 
-{txt}  4{com}. twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+> 
+> 
+> ** generate absolute values of FE for plotting
+> 
+> foreach var in SPFCPI SPFPCE{c -(}
+> gen `var'_abFE = abs(`var'_FE)
+> label var `var'_abFE "Absolute Val of Average Forecast Error"
+> {c )-}
+> 
+> 
+> ** temporarily change the name for plotting 
+> 
+> label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+> label var Inf1yf_CPICore "Realized Core CPI Inflation"
+> label var SPFCPI_FE "Average Forecast Error"
+> label var CPI_disg "Disagreement"
+> label var CORECPI_disg "Disagreement"
+> 
+> label var PRCCPIVar1mean "Average Uncertainty(RHS)"
+> label var Inf1yf_PCE "Realized PCE Inflation"
+> label var Inf1yf_PCECore "Realized Core PCE Inflation"
+> label var SPFPCE_FE "Average Forecast Error"
+> label var PCE_disg "Disagreement"
+> label var COREPCE_disg "Disagreement"
+> 
+> label var PRCPCEVar1mean "Average Uncertainty(RHS)"
+> 
+> 
+> foreach var in Inf1yf_CPICore SPFCPI_abFE CORECPI_disg{c -(}
+> pwcorr `var' PRCCPIVar1mean, star(0.05)
+> local rho: display %4.2f r(rho) 
+> twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 >        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
 >            if PRCCPIVar1mean!=., ///
 >            title("SPF(CPI)",size(large)) xtitle("Time") ytitle("") ///
 >            legend(size(large) col(1)) ///
 >            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
 >            justification(left) position(11) size(vlarge))
-{txt}  5{com}. graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFCPIQ", as(png) replace
-{txt}  6{com}. {c )-}
-
-             {txt}{c |} Inf1yf.. PRCCPI..
-{hline 13}{c +}{hline 18}
-Inf1yf_CPI~e {c |} {res}  1.0000 
-{txt}PRCCPIVar1~n {c |} {res}  0.1371   1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/Inf1yf_CPICore_varSPFCPIQ written in PNG format)
-
-             {c |} SPFC~bFE PRCCPI..
-{hline 13}{c +}{hline 18}
- SPFCPI_abFE {c |} {res}  1.0000 
-{txt}PRCCPIVar1~n {c |} {res} -0.1898   1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/SPFCPI_abFE_varSPFCPIQ written in PNG format)
-
-             {c |} CORECP~g PRCCPI..
-{hline 13}{c +}{hline 18}
-CORECPI_disg {c |} {res}  1.0000 
-{txt}PRCCPIVar1~n {c |} {res} -0.3130*  1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/CORECPI_disg_varSPFCPIQ written in PNG format)
-
-{com}. 
-. foreach var in Inf1yf_PCECore SPFPCE_abFE COREPCE_disg{c -(}
-{txt}  2{com}. pwcorr `var' PRCPCEVar1mean, star(0.05)
-{txt}  3{com}. local rho: display %4.2f r(rho) 
-{txt}  4{com}. twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+> graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFCPIQ", as(png) replace
+> {c )-}
+> 
+> foreach var in Inf1yf_PCECore SPFPCE_abFE COREPCE_disg{c -(}
+> pwcorr `var' PRCPCEVar1mean, star(0.05)
+> local rho: display %4.2f r(rho) 
+> twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
 >        (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
 >            if PRCPCEVar1mean!=., ///
 >            title("SPF(PCE)",size(large)) xtitle("Time") ytitle("") ///
 >            legend(size(large) col(1)) ///
 >            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
 >            justification(left) position(11) size(vlarge))
-{txt}  5{com}. graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFPCEQ", as(png) replace
-{txt}  6{com}. {c )-}
-
-             {txt}{c |} Inf1yf.. PRCPCE..
-{hline 13}{c +}{hline 18}
-Inf1yf_PCE~e {c |} {res}  1.0000 
-{txt}PRCPCEVar1~n {c |} {res}  0.1206   1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/Inf1yf_PCECore_varSPFPCEQ written in PNG format)
-
-             {c |} SPFP~bFE PRCPCE..
-{hline 13}{c +}{hline 18}
- SPFPCE_abFE {c |} {res}  1.0000 
-{txt}PRCPCEVar1~n {c |} {res} -0.1784   1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/SPFPCE_abFE_varSPFPCEQ written in PNG format)
-
-             {c |} COREPC~g PRCPCE..
-{hline 13}{c +}{hline 18}
-COREPCE_disg {c |} {res}  1.0000 
-{txt}PRCPCEVar1~n {c |} {res} -0.3672*  1.0000 
-{txt}(file /Users/Myworld/Dropbox/ExpProject/workingfolder/graphs/pop/COREPCE_disg_varSPFPCEQ written in PNG format)
-
-{com}. ddd
-{err}unrecognized command:  ddd
-{txt}{search r(199):r(199);}
-
-end of do-file
-
-{search r(199):r(199);}
-
-{com}. clear
-
+> graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFPCEQ", as(png) replace
+> {c )-}
+> 
+> */
 . 
+. ********************************************************************
+. ** Drop the inflation measures temporarily used for plotting ********
+. *********************************************************************
+. 
+. 
+. foreach var in `Infbf'{c -(}
+{txt}  2{com}.   drop `var'
+{txt}  3{com}. {c )-}
+{txt}
+{com}. 
+. ********************************
+. ***  Autoregression Quarterly **
+. *******************************
+. 
+. tsset date 
+{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948q1 to 2019q2
+{txt}{col 17}delta:  {res}1 quarter
+{txt}
+{com}. 
+. eststo clear
+{txt}
+{com}. 
+. gen InfExp1y = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExpFE1y = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExpVar1y=.
+{txt}(287 missing values generated)
+
+{com}. gen InfExpDisg1y = .
+{txt}(287 missing values generated)
+
+{com}. 
+. *****************************************
+. ****  Renaming so that more consistent **
+. *****************************************
+. 
+. 
+. rename Q9_mean SCE_Mean
+{res}{txt}
+{com}. rename Q9_var SCE_Var
+{res}{txt}
+{com}. rename Q9_disg SCE_Disg
+{res}{txt}
+{com}. rename SCE_FE SCE_FE
+{res}{txt}  (all {it:newnames}=={it:oldnames})
+
+{com}. 
+. rename CPI1y SPFCPINC_Mean
+{res}{txt}
+{com}. rename PCE1y SPFPCENC_Mean
+{res}{txt}
+{com}. rename COREPCE1y SPFPCE_Mean
+{res}{txt}
+{com}. rename CORECPI1y SPFCPI_Mean
+{res}{txt}
+{com}. 
+. 
+. rename CPI_disg SPFCPINC_Disg
+{res}{txt}
+{com}. rename PCE_disg SPFPCENC_Disg 
+{res}{txt}
+{com}. rename CORECPI_disg SPFCPI_Disg
+{res}{txt}
+{com}. rename COREPCE_disg SPFPCE_Disg
+{res}{txt}
+{com}. 
+. rename PRCPCEVar1mean SPFPCE_Var
+{res}{txt}
+{com}. rename PRCCPIVar1mean SPFCPI_Var
+{res}{txt}
+{com}. 
+. rename SPFCPI_FE SPFCPI_FE
+{res}{txt}  (all {it:newnames}=={it:oldnames})
+
+{com}. rename SPFPCE_FE SPFPCE_FE
+{res}{txt}  (all {it:newnames}=={it:oldnames})
+
+{com}. 
+. rename PRCPCEMean_rv SPFPCE_Mean_rv
+{res}{txt}
+{com}. rename PRCCPIMean_rv SPFCPI_Mean_rv
+{res}{txt}
+{com}. 
+. rename PRCPCEVar_rv SPFPCE_Var_rv
+{res}{txt}
+{com}. rename PRCCPIVar_rv SPFCPI_Var_rv
+{res}{txt}
+{com}. 
+. **********************************
+. rename PRCCPIMeanl1 SPFCPI_Meanl1
+{res}{txt}
+{com}. rename PRCCPIVarl1 SPFCPI_Varl1
+{res}{txt}
+{com}. 
+. rename PRCCPIMeanf0 SPFCPI_Meanf0
+{res}{txt}
+{com}. rename PRCCPIVarf0 SPFCPI_Varf0
+{res}{txt}
+{com}. 
+. rename PRCPCEMeanl1 SPFPCE_Meanl1
+{res}{txt}
+{com}. rename PRCPCEVarl1 SPFPCE_Varl1
+{res}{txt}
+{com}. 
+. rename PRCPCEMeanf0 SPFPCE_Meanf0
+{res}{txt}
+{com}. rename PRCPCEVarf0 SPFPCE_Varf0
+{res}{txt}
+{com}. 
+. ********************************
+. gen InfExp_Mean = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Var = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_FE = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Disg = . 
+{txt}(287 missing values generated)
+
+{com}. 
+. gen InfExp_Mean_ch = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Var_ch = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_FE_ch = .
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Disg_ch = .
+{txt}(287 missing values generated)
+
+{com}. 
+. gen InfExp_Mean_rv =.
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Var_rv =.
+{txt}(287 missing values generated)
+
+{com}. 
+. gen InfExp_Meanl1 =. 
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Varl1 =. 
+{txt}(287 missing values generated)
+
+{com}. 
+. gen InfExp_Meanf0 =. 
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Varf0 =. 
+{txt}(287 missing values generated)
+
+{com}.  
+. 
+. foreach mom in Mean Var{c -(}
+{txt}  2{com}.   foreach var in PRCCPI PRCPCE{c -(}
+{txt}  3{com}.     forval i =0/1{c -(}
+{txt}  4{com}.         local lb=substr("`var'",4,3)
+{txt}  5{com}.         rename `var'`mom'`i'p25 SPF`lb'`mom'`i'p25
+{txt}  6{com}.     rename `var'`mom'`i'p50 SPF`lb'`mom'`i'p50
+{txt}  7{com}.         rename `var'`mom'`i'p75 SPF`lb'`mom'`i'p75
+{txt}  8{com}.         {c )-}
+{txt}  9{com}.    {c )-}
+{txt} 10{com}. {c )-}
+{res}{txt}
+{com}. 
+. *****************************
+. 
+. gen InfExp_Mean0 =.
+{txt}(287 missing values generated)
+
+{com}. gen InfExp_Var0 =.
+{txt}(287 missing values generated)
+
+{com}. 
+. ******************************
+. 
+. /*
+> *******************************************************
+> **** Autoregression on the levels of population moments
+> ********************************************************
+> 
+> 
+> eststo clear 
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SCE SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     eststo `var'_`mom': reg InfExp_`mom' l(3/5).InfExp_`mom', vce(robust)
+>   {c )-} 
+> {c )-}
+> 
+> esttab using "${c -(}sum_table_folder{c )-}/autoregLvlQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> 
+> 
+> **********************************************************************
+> ******** Autoregression on the first difference of population moments
+>  **********************************************************************
+> 
+> eststo clear
+> foreach mom in Mean Var Disg FE{c -(}
+>    foreach var in SCE SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+>     eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
+>   {c )-}
+> {c )-}
+> esttab using "${c -(}sum_table_folder{c )-}/autoregDiffQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> 
+> 
+> ***************
+> *** SPF Only **
+> ***************
+> 
+> eststo clear
+> 
+> foreach mom in Mean Var{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>     replace InfExp_`mom' = `var'_`mom'
+>     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
+>         capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
+> 
+>         eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/2).InfExp_`mom' 
+>     eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/2).InfExp_`mom'_ch  
+>         capture eststo `var'_`mom'_rv: reg InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv 
+> 
+>   {c )-}
+> {c )-}
+> esttab using "${c -(}sum_table_folder{c )-}/autoregSPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
+> eststo clear
+> 
+> 
+> *******************************
+> *** Unbiasedness Test        **
+> *******************************
+> eststo clear
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>       ttest `var'_`mom'=0
+> {c )-}
+> {c )-}
+> 
+> 
+> gen const=1
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>       
+> {c )-}
+> {c )-}
+> 
+> 
+> 
+> **********************************************
+> *** Revision Efficiency Test Using FE       **
+> **********************************************
+> 
+> gen const=1
+> 
+> foreach mom in FE{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>    
+>    replace InfExp_Mean = `var'_Mean
+>    replace InfExp_`mom' = `var'_`mom'
+>    eststo `var'_`mom'_const: reg InfExp_`mom'
+>    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
+>    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom', robust
+>    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
+> 
+>  {c )-}
+> {c )-}
+> esttab using "${c -(}sum_table_folder{c )-}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
+> 
+> 
+> ***************************************************
+> *** Revision Efficiency Test Using Mean Revision **
+> ***************************************************
+> 
+> 
+> foreach mom in Var{c -(}
+>    foreach var in SPFCPI SPFPCE{c -(}
+>     ttest `var'_`mom'_rv =0
+>  {c )-}
+> {c )-}
+> 
+> eststo clear
+> 
+> foreach var in SPFCPI SPFPCE{c -(}
+>   foreach mom in Mean{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>          replace InfExp_`mom'l1 = `var'_`mom'l1
+>      replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>           scalar btestpv= r(p)
+>          estadd scalar btestpv
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>          scalar btestpv= r(p)
+>          estadd scalar btestpv
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>      test _b[InfExp_`mom']=1
+>          scalar btestpv= r(p)
+>          estadd scalar btestpv
+>  {c )-}
+> {c )-}
+> 
+> foreach var in SPFCPI SPFPCE{c -(}
+>   foreach mom in Var{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>      replace InfExp_`mom'l1 = `var'_`mom'l1
+>          replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar btestpv= r(p)
+>          estadd scalar btestpv
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar btestpv= r(p)
+>          estadd scalar btestpv
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar btestpv= r(p)
+>          estadd scalar btestpv
+>  {c )-}
+> {c )-}
+> 
+> esttab using "${c -(}sum_table_folder{c )-}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(btestpv N r2) sfmt(%8.3f %8.3f %8.3f) replace
+> */
+. 
+. 
+. save "${c -(}folder{c )-}/InfExpQ.dta",replace 
+{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData//InfExpQ.dta saved
+
+{com}. 
+. 
+. log close 
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res} 8 Jul 2019, 15:57:25
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

@@ -54,11 +54,12 @@ twoway (tsline pty_shock,lp(solid) lwidth(thick)) (tsline op_shock,lp(dash) lwid
 		
 graph export "${sum_graph_folder}/inf_shocksQ", as(png) replace
 
+
 ** First-run of inflation 
 
 eststo clear
 foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
-  foreach Inf in CPIAU CPICore PCEPI{ 
+  foreach Inf in CPIAU CPICore PCE PCECore{ 
    eststo `Inf'_`sk': reg Inf1y_`Inf' l(0/1).`sk'_shock, robust
    eststo `Inf'_uid: reg Inf1y_`Inf' l(0/1).`Inf'_uid_shock,robust 
  }
@@ -69,7 +70,7 @@ esttab using "${sum_table_folder}/IRFQ.csv", mtitles se r2 replace
 
 eststo clear
 foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
-  foreach Inf in CPIAU CPICore PCEPI{ 
+  foreach Inf in CPIAU CPICore PCE PCECore{ 
    var Inf1y_`Inf', lags(1/4) exo(l(0/1).`sk'_shock)
    set seed 123456
    irf create irf1, set(irf,replace) step(10) bsp
@@ -81,7 +82,6 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
 
 
 
-
 /*
 
 
@@ -90,11 +90,11 @@ foreach sk in pty pty_max op mp1ut ED4ut ED8ut{
 ***********************************************
 
 label var CPIAU "CPI Inflation"
-label var PCEPI "PCE Inflation"
+label var PCE "PCE Inflation"
 
 eststo clear
 
-foreach Inf in CPIAU PCEPI{ 
+foreach Inf in CPIAU PCE CPICore PCECore{ 
    var Inf1y_`Inf', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock ///
 					 l(0/1).mp1ut_shock l(0/1).ED8ut_shock)   
@@ -115,7 +115,7 @@ graph export "${sum_graph_folder}/irf/Inf_ashocks", as(png) replace
 
 eststo clear
 
-foreach Inf in CPIAU PCEPI{ 
+foreach Inf in CPIAU PCE CPICore PCECore{ 
    var Inf1y_`Inf', lags(1/4) ///
                      exo(l(0/1).pty_shock l(0/1).op_shock)   
    set seed 123456
@@ -249,27 +249,5 @@ foreach sk in op mp1ut{
 
 */
 
-/*
-****************************************************
-** IRF of SCE moments (all shocks at one time)    **
-****************************************************
-
-
-foreach mom in Mean Var Disg FE{
-   foreach var in SCE{
-       capture var `var'_`mom', lags(1/4) ///
-                     exo(l(0/1).pty_shock l(0/1).op_shock ///
-					 l(0/1).mp1ut_shock )
-   set seed 123456
-   capture irf create `var', set(`mom') step(10) bsp replace 
-}
-   capture irf graph dm, impulse(pty_shock op_shock mp1ut_shock) ///
-                         byopts(title("`mom'") yrescale /// 
-						 xrescale note("")) legend(col(2) /// 
-						 order(1 "95% CI" 2 "IRF") symx(*.5) size(small))  ///
-						 xtitle("Quarters") 
-   capture graph export "${sum_graph_folder}/irf/moments/SCE`mom'_ashocks", as(png) replace
-}
-*/
 
 log close 
