@@ -811,4 +811,4124 @@ end of do-file
 
 {com}. clear
 
+. use "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/LRVar.dta"
+
+. clear
+
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. clear
+
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. hist HOMPX1Q2
+{txt}(bin={res}44{txt}, start={res}1{txt}, width={res}.77272727{txt})
+{res}
+{com}. count HOMPX1Q2 if HOMPX1Q2!=
+{err}varlist not allowed
+{txt}{search r(101):r(101);}
+
+{com}. count HOMPX1Q2 if HOMPX1Q2!=.
+{err}varlist not allowed
+{txt}{search r(101):r(101);}
+
+{com}. count if HOMPX1Q2!=.
+{res}26876
+
+{com}. count if DATEPR!=.
+{res}31007
+
+{com}. clear
+
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. clear
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. drop YYYYQ 
+{txt}
+{com}. 
+. 
+. foreach var in CASEID-EGRADE{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}corresponding {it:oldnames} and {it:newnames} mismatch
+{p 4 4 2}
+You specified or implied 51 {it:oldnames}
+and 1 {it:newnames};
+{p_end}
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. clear
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}CASEID not allowed
+{txt}{search r(101):r(101);}
+
+end of do-file
+
+{search r(101):r(101);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. clear
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable label `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}YYYY ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. clear
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable label `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}YYYY ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. clear
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable label `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}YYYY ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable label `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}YYYY ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. drop YYYY YYYYQ
+{txt}
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL5{col 21}HTL4{col 31}INVAMT{col 41}BIRTHY
+{col 1}YYYYMM{col 11}YTL4{col 21}HTL3{col 31}INVQFM{col 41}REGION
+{col 1}ID{col 11}YTL3{col 21}HOMEVAL{col 31}STL10{col 41}SEX
+{col 1}IDPREV{col 11}HOMEOWN{col 21}HOMPX1Q1{col 31}STL90{col 41}MARRY
+{col 1}DATEPR{col 11}HOMEAMT{col 21}HOMPX1Q2{col 31}STL50{col 41}NUMKID
+{col 1}INCOME{col 11}HOMEQFM{col 21}HOMPX1{col 31}STL5{col 41}NUMADT
+{col 1}INCQFM{col 11}HTL10{col 21}HOMPX5Q1{col 31}STL4{col 41}EDUC
+{col 1}YTL10{col 11}HTL90{col 21}HOMPX5Q2{col 31}STL3{col 41}ECLGRD
+{col 1}YTL90{col 11}HTL50{col 21}HOMPX5{col 31}AGE{col 41}EHSGRD
+{col 1}YTL50{col 11}HTL5{col 21}INVEST{col 31}BIRTHM{col 41}EGRADE
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. rename `var' `var'_PV
+{txt}  3{com}. local lb: variable label `var'  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{err}ID ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. 
+. gen ID_match = ID 
+{err}ID ambiguous abbreviation
+{txt}{search r(111):r(111);}
+
+end of do-file
+
+{search r(111):r(111);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. 
+. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. save michigan_data_PV,replace
+{txt}(note: file michigan_data_PV.dta not found)
+file michigan_data_PV.dta saved
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match use)
+{res}{err}use:  invalid {it:resulttype}
+{p 4 4 2}
+results, specified in options {bf:assert()} and {bf:keep()},
+are the integers 1 through 5, or
+{bf:master} (equivalent to 1),
+{bf:using} (2),
+{bf:match} (3),
+{bf:match_update} (4), or
+{bf:match_conflict} (5).  The last two arise only when
+option {cmd:update} is specified.
+{p_end}
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{err}{p 0 4 2}
+variable{err}s{err} ID_match
+date_match
+do not uniquely identify observations in the
+master data
+{p_end}
+{txt}{search r(459):r(459);}
+
+end of do-file
+
+{search r(459):r(459);}
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. 
+. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{err}{p 0 4 2}
+variable{err}s{err} ID_match
+date_match
+do not uniquely identify observations in the
+master data
+{p_end}
+{txt}{search r(459):r(459);}
+
+end of do-file
+
+{search r(459):r(459);}
+
+{com}. count if IDPREV!=.
+{res}31007
+
+{com}. count if DATEPR!=.
+{res}31007
+
+{com}. count if DATEPR!=. &  IDPREV!=.
+{res}31007
+
+{com}. duplicates report DATEPR IDPREV
+
+{p 0 4}{txt}Duplicates in terms of {res} DATEPR IDPREV{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. drop if CASEID==.
+{txt}(0 observations deleted)
+
+{com}. drop if YYYYMM==.
+{txt}(0 observations deleted)
+
+{com}. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/OtherData/MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match
+{err}force option required with {cmd}duplicates drop {it}varlist{rm}
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. save michigan_data_panel,replace 
+{txt}(note: file michigan_data_panel.dta not found)
+file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen date_str=string(YYYYMM) 
+{txt}
+{com}. gen dateM = monthly(date_str,"YYYYMM")
+{txt}(84658 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen date_str=string(YYYYMM) 
+{txt}
+{com}. gen dateM = monthly(date_str,"YM")
+{txt}(84658 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen month = floor(YYYYMM/YYYY)
+{txt}(53656 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}(53656 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}(53656 missing values generated)
+
+{com}. gen date_str=string(YYYY) + "M" + string(month)
+{txt}
+{com}. gen dateM = monthly(date_str)
+{err}invalid syntax
+{txt}{search r(198):r(198);}
+
+end of do-file
+
+{search r(198):r(198);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}(53656 missing values generated)
+
+{com}. gen date_str=string(YYYY) + "M" + string(month)
+{txt}
+{com}. gen dateM = monthly(date_str,"YM")
+{txt}(53656 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}(53656 missing values generated)
+
+{com}. gen date_str=string(YYYY) + "M" + string(month)
+{txt}
+{com}. gen dateM = monthly(date_str,"YYYYMM")
+{txt}(84658 missing values generated)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match using)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}          54,889
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}          53,656{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}(53656 missing values generated)
+
+{com}. gen date_str=string(YYYY) + "m" + string(month)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(84658 missing values generated)
+
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. count 
+{res}84658
+
+{com}. count if BIRTHY=BIRTHY_PV
+{err}=exp not allowed
+{txt}{search r(101):r(101);}
+
+{com}.  count if BIRTHY==BIRTHY_PV
+{res}29268
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}INCOME{col 21}YTL3{col 31}HTL5{col 41}HOMPX5Q1{col 51}STL90{col 61}BIRTHY{col 71}ECLGRD
+{col 1}YYYYMM{col 11}INCQFM{col 21}HOMEOWN{col 31}HTL4{col 41}HOMPX5Q2{col 51}STL50{col 61}REGION{col 71}EHSGRD
+{col 1}YYYYQ{col 11}YTL10{col 21}HOMEAMT{col 31}HTL3{col 41}HOMPX5{col 51}STL5{col 61}SEX{col 71}EGRADE
+{col 1}YYYY{col 11}YTL90{col 21}HOMEQFM{col 31}HOMEVAL{col 41}INVEST{col 51}STL4{col 61}MARRY
+{col 1}ID{col 11}YTL50{col 21}HTL10{col 31}HOMPX1Q1{col 41}INVAMT{col 51}STL3{col 61}NUMKID
+{col 1}IDPREV{col 11}YTL5{col 21}HTL90{col 31}HOMPX1Q2{col 41}INVQFM{col 51}AGE{col 61}NUMADT
+{col 1}DATEPR{col 11}YTL4{col 21}HTL50{col 31}HOMPX1{col 41}STL10{col 51}BIRTHM{col 61}EDUC
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(month)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. count 
+{res}31002
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen month = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(month)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY month 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. count if HOMEQFM !=.
+{res}23253
+
+{com}. hist HOMEQFM
+{txt}(bin={res}43{txt}, start={res}1{txt}, width={res}.02325581{txt})
+{res}
+{com}. hist HOMEAMT
+{txt}(bin={res}44{txt}, start={res}1000{txt}, width={res}227249.98{txt})
+{res}
+{com}. count if HOMEAMT!=.
+{res}31002
+
+{com}. count if HOMEAMT_PV!=.
+{res}29769
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. ** homevalue increase
+. 
+. gen HOMEAMT_chg = (HOMEAMT-HOMEAMT_PV)*100/HOMEAMT_PV
+{txt}(1233 missing values generated)
+
+{com}. label var HOMEAMT_chg "Increase in Market Value of House"
+{txt}
+{com}. 
+. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. 
+. ** winsorization
+. 
+. foreach var in HOMEAMT HOMEAMT_PV{c -(}
+{txt}  2{com}. gen `var'p1 = pctile(`var'),p(1) 
+{txt}  3{com}. gen `var'p99 = pctile(`var'),p(99)
+{txt}  4{com}. replace  `var'=. if `var'>`var'p99 | `var'<`var'p1
+{txt}  5{com}. {c )-}
+{err}unknown function pctile()
+{txt}{search r(133):r(133);}
+
+end of do-file
+
+{search r(133):r(133);}
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. 
+. ** winsorization
+. 
+. foreach var in HOMEAMT HOMEAMT_PV{c -(}
+{txt}  2{com}. egen `var'p1 = pctile(`var'),p(1) 
+{txt}  3{com}. egen `var'p99 = pctile(`var'),p(99)
+{txt}  4{com}. replace  `var'=. if `var'>`var'p99 | `var'<`var'p1
+{txt}  5{com}. {c )-}
+{txt}(273 real changes made, 273 to missing)
+(262 real changes made, 262 to missing)
+
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. hist HOMEAMT
+{txt}(bin={res}44{txt}, start={res}20000{txt}, width={res}226818.14{txt})
+{res}
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. 
+. /*
+> ** winsorization
+> 
+> foreach var in HOMEAMT HOMEAMT_PV{c -(}
+> egen `var'p1 = pctile(`var'),p(1) 
+> egen `var'p99 = pctile(`var'),p(99)
+> replace  `var'=. if `var'>`var'p99 | `var'<`var'p1
+> {c )-}
+> */
+. 
+. ** homevalue increase
+. 
+. gen HOMEAMT_chg = (HOMEAMT-HOMEAMT_PV)*100/HOMEAMT_PV
+{txt}(1233 missing values generated)
+
+{com}. label var HOMEAMT_chg "Increase in Market Value of House"
+{txt}
+{com}. 
+. hist HOMEAMT_chg
+{txt}(bin={res}44{txt}, start={res}-99.989998{txt}, width={res}22727.268{txt})
+{res}{txt}
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. 
+. 
+. ** winsorization
+. 
+. foreach var in HOMEAMT HOMEAMT_PV{c -(}
+{txt}  2{com}. egen `var'p1 = pctile(`var'),p(2) 
+{txt}  3{com}. egen `var'p99 = pctile(`var'),p(98)
+{txt}  4{com}. replace  `var'=. if `var'>`var'p99 | `var'<`var'p1
+{txt}  5{com}. {c )-}
+{txt}(606 real changes made, 606 to missing)
+(562 real changes made, 562 to missing)
+
+{com}. 
+. 
+. ** homevalue increase
+. 
+. gen HOMEAMT_chg = (HOMEAMT-HOMEAMT_PV)*100/HOMEAMT_PV
+{txt}(2033 missing values generated)
+
+{com}. label var HOMEAMT_chg "Increase in Market Value of House"
+{txt}
+{com}. 
+. hist HOMEAMT_chg if HOMEAMT_chg!=.
+{txt}(bin={res}44{txt}, start={res}-99.650002{txt}, width={res}649.34259{txt})
+{res}{txt}
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. tabstat HOMEAMT, st(p1 p10 p90 p99)
+
+{txt}{ralign 12:variable} {...}
+{c |}        p1       p10       p90       p99
+{hline 13}{c +}{hline 40}
+{ralign 12:HOMEAMT} {...}
+{c |}{...}
+ {res}    45000    100000   9999998   9999998
+{txt}{hline 13}{c BT}{hline 40}
+
+{com}. tabstat HOMEAMT_chg, st(p1 p10 p90 p99)
+
+{txt}{ralign 12:variable} {...}
+{c |}        p1       p10       p90       p99
+{hline 13}{c +}{hline 40}
+{ralign 12:HOMEAMT_chg} {...}
+{c |}{...}
+ {res}   -99.13 -30.90909  25.92593  8990.907
+{txt}{hline 13}{c BT}{hline 40}
+
+{com}. count if HOMEOWN==HOMEOWN_PV
+{res}28702
+
+{com}. do "/Users/Myworld/Dropbox/ViaX/camp/Jojo/Step1_MichiganIndPanel.do"
+{txt}
+{com}. set more off
+{txt}
+{com}. clear 
+{txt}
+{com}. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta",clear
+{txt}(Surveys of Consumers)
+
+{com}. 
+. ds
+{txt}{col 1}CASEID{col 11}YTL50{col 21}HTL4{col 31}INVQFM{col 41}SEX
+{col 1}YYYYMM{col 11}YTL5{col 21}HTL3{col 31}STL10{col 41}MARRY
+{col 1}YYYYQ{col 11}YTL4{col 21}HOMEVAL{col 31}STL90{col 41}NUMKID
+{col 1}YYYY{col 11}YTL3{col 21}HOMPX1Q1{col 31}STL50{col 41}NUMADT
+{col 1}ID{col 11}HOMEOWN{col 21}HOMPX1Q2{col 31}STL5{col 41}EDUC
+{col 1}IDPREV{col 11}HOMEAMT{col 21}HOMPX1{col 31}STL4{col 41}ECLGRD
+{col 1}DATEPR{col 11}HOMEQFM{col 21}HOMPX5Q1{col 31}STL3{col 41}EHSGRD
+{col 1}INCOME{col 11}HTL10{col 21}HOMPX5Q2{col 31}AGE{col 41}EGRADE
+{col 1}INCQFM{col 11}HTL90{col 21}HOMPX5{col 31}BIRTHM
+{col 1}YTL10{col 11}HTL50{col 21}INVEST{col 31}BIRTHY
+{col 1}YTL90{col 11}HTL5{col 21}INVAMT{col 31}REGION
+
+{com}. local varlist `r(varlist)'
+{txt}
+{com}. 
+. foreach var in `varlist'{c -(}
+{txt}  2{com}. local lb: variable label `var'
+{txt}  3{com}. rename `var' `var'_PV  
+{txt}  4{com}. label var `var'_PV "Previous answer: `lb'"
+{txt}  5{com}. {c )-}
+{res}{txt}
+{com}. 
+. gen ID_match = ID_PV 
+{txt}
+{com}. gen date_match = YYYYMM_PV
+{txt}
+{com}. 
+. drop if ID_match ==.
+{txt}(0 observations deleted)
+
+{com}. drop if date_match ==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}83425             0
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. save michigan_data_PV,replace
+{txt}file michigan_data_PV.dta saved
+
+{com}. 
+. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 
+. gen ID_match = IDPREV 
+{txt}(52418 missing values generated)
+
+{com}. gen date_match = DATEPR 
+{txt}(52418 missing values generated)
+
+{com}. drop if ID_match==.
+{txt}(52418 observations deleted)
+
+{com}. drop if date_match==.
+{txt}(0 observations deleted)
+
+{com}. duplicates report ID_match date_match
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}{hline 10}{c TT}{hline 27}
+   copies {c |} observations       surplus
+{hline 10}{c +}{hline 27}
+        1 {c |}        {res}30997             0
+        {txt}2 {c |}           {res}10             5
+{txt}{hline 10}{c BT}{hline 27}
+
+{com}. sort ID_match date_match
+{txt}
+{com}. duplicates drop ID_match date_match,force 
+
+{p 0 4}{txt}Duplicates in terms of {res} ID_match date_match{p_end}
+
+{txt}(5 observations deleted)
+
+{com}. 
+. merge 1:1 ID_match date_match using "michigan_data_PV.dta",keep(master match)
+{res}{txt}(label EGRADE already defined)
+(label EHSGRD already defined)
+(label ECLGRD already defined)
+(label EDUC already defined)
+(label NUMKID already defined)
+(label MARRY already defined)
+(label SEX already defined)
+(label REGION already defined)
+(label BIRTHM already defined)
+(label AGE already defined)
+(label STL3 already defined)
+(label STL4 already defined)
+(label STL5 already defined)
+(label STL50 already defined)
+(label STL90 already defined)
+(label STL10 already defined)
+(label INVQFM already defined)
+(label INVEST already defined)
+(label HOMPX5 already defined)
+(label HOMPX5Q2 already defined)
+(label HOMPX5Q1 already defined)
+(label HOMPX1 already defined)
+(label HOMPX1Q2 already defined)
+(label HOMPX1Q1 already defined)
+(label HOMEVAL already defined)
+(label HTL3 already defined)
+(label HTL4 already defined)
+(label HTL5 already defined)
+(label HTL50 already defined)
+(label HTL90 already defined)
+(label HTL10 already defined)
+(label HOMEQFM already defined)
+(label HOMEOWN already defined)
+(label YTL3 already defined)
+(label YTL4 already defined)
+(label YTL5 already defined)
+(label YTL50 already defined)
+(label YTL90 already defined)
+(label YTL10 already defined)
+(label INCQFM already defined)
+
+{col 5}Result{col 38}# of obs.
+{col 5}{hline 41}
+{col 5}not matched{col 30}{res}           1,233
+{txt}{col 9}from master{col 30}{res}           1,233{txt}  (_merge==1)
+{col 9}from using{col 30}{res}               0{txt}  (_merge==2)
+
+{col 5}matched{col 30}{res}          29,769{txt}  (_merge==3)
+{col 5}{hline 41}
+
+{com}. rename _merge prv_merge
+{res}{txt}
+{com}. 
+. ** time 
+. 
+. gen mm = YYYYMM-YYYY*100
+{txt}
+{com}. gen date_str=string(YYYY) + "m" + string(mm)
+{txt}
+{com}. gen date = monthly(date_str,"YYYYMM")
+{txt}(31002 missing values generated)
+
+{com}. order date YYYY mm 
+{txt}
+{com}. drop date_str
+{txt}
+{com}. 
+. 
+. 
+. 
+. ** winsorization
+. 
+. foreach var in HOMEAMT HOMEAMT_PV{c -(}
+{txt}  2{com}. egen `var'p1 = pctile(`var'),p(2) 
+{txt}  3{com}. egen `var'p99 = pctile(`var'),p(98)
+{txt}  4{com}. replace  `var'=. if `var'>`var'p99 | `var'<`var'p1
+{txt}  5{com}. {c )-}
+{txt}(606 real changes made, 606 to missing)
+(562 real changes made, 562 to missing)
+
+{com}. 
+. 
+. ** homevalue increase
+. 
+. gen HOMEAMT_chg = (HOMEAMT-HOMEAMT_PV)*100/HOMEAMT_PV if HOMEOWN==HOMEOWN_PV
+{txt}(3028 missing values generated)
+
+{com}. label var HOMEAMT_chg "Increase in Market Value of House"
+{txt}
+{com}. 
+. hist HOMEAMT_chg if HOMEAMT_chg!=.
+{txt}(bin={res}44{txt}, start={res}-99.650002{txt}, width={res}649.34259{txt})
+{res}{txt}
+{com}. 
+. save michigan_data_panel,replace 
+{txt}file michigan_data_panel.dta saved
+
+{com}. 
+{txt}end of do-file
+
+{com}. clear
+
+. do "/var/folders/k3/fzq0vzzx2b56ypvhsddgs7hr0000gn/T//SD08861.000000"
+{txt}
+{com}. rm "michigan_data_PV.dta"
+{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. clear
+
 . 

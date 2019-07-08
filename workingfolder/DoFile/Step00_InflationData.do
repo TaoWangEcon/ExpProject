@@ -46,10 +46,30 @@ format date2 %tm
 drop date_str date
 rename date2 date 
 order date year month 
-label var PCEPI "PCE: chain-type price idx"
+rename PCEPI PCE
+label var PCE "PCE index: chain-type (sesonally adjusted)"
 save PCEIdx.dta,replace
 clear
 
+
+clear
+import excel "${mainfolder}/${otherdatafolder}/PCEPILFE.xls", sheet("FRED Graph") cellrange(A11:B736) firstrow
+
+rename observation_date date
+gen month=month(date)
+gen year = year(date)
+gen date_str=string(year)+"m"+string(month)
+gen date2=monthly(date_str,"YM")
+format date2 %tm
+drop date_str date
+rename date2 date 
+order date year month 
+rename PCEPILFE PCECore
+label var PCECore "PCE index: chain-type exl food and energe(sesonally adjusted)"
+save CPCEIdx.dta,replace
+clear
+
+** merge information 
 
 use "${mainfolder}/${otherdatafolder}/CPICPICore.dta",clear 
 
@@ -57,10 +77,14 @@ merge 1:1 date using "${mainfolder}/${otherdatafolder}/PCEIdx.dta"
 
 rename _merge PCEPI_merge
 
+merge 1:1 date using "${mainfolder}/${otherdatafolder}/CPCEIdx.dta"
+
+rename _merge CPCEPI_merge 
+
 tsset date
 
 
-foreach var in  CPIAU CPICore PCEPI{
+foreach var in  CPIAU CPICore PCE PCECore{
    
    ** computing yoy inflation and foreward inflation
    gen Inf1y_`var' = (`var'- l12.`var')*100/l12.`var'
@@ -76,8 +100,7 @@ foreach var in  CPIAU CPICore PCEPI{
 *********************************
 
 
-tsline Inf1y_CPIAU Inf1y_CPICore Inf1y_PCEPI, title("Annual Inflation of the U.S.") legend(label(1 "Headline CPI") label(2 "Core CPI") label(3 "PCE"))
+tsline Inf1y_CPIAU Inf1y_CPICore Inf1y_PCE Inf1y_PCECore, title("Annual Inflation of the U.S.") legend(label(1 "Headline CPI") label(2 "Core CPI") label(3 "PCE") label(4 "Core PCE"))
 graph export "${mainfolder}/${otherdatafolder}/Inflation", as(png) replace 
-
 
 save InfM,replace 

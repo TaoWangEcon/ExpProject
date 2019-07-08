@@ -79,7 +79,7 @@ from scipy.optimize import minimize
 #
 # The existing SVAR package in *statsmodels* only handles cases with direct zero restrictions on $B$ matrices. Therefore I write my own codes using long-run restrictions here.  
 
-# + {"code_folding": [12]}
+# + {"code_folding": [0, 12]}
 ## loading technology shock data
 ts_data = pd.read_excel('../OtherData/Emp.xls',sheet_name='data')
 ts_data2 = pd.read_excel('../OtherData/EmpSaQ.xls',sheet_name='data')
@@ -142,7 +142,7 @@ LRVar_dt['year'] = LRVar_dt.index.year
 LRVar_dt['quarter'] = LRVar_dt.index.quarter
 LRVar_dt.to_stata('../OtherData/LRVar.dta')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # period filter 
 start_t='1948-01-01'
 end_t = '2019-03-30'   # the same period as in Gali (1991)
@@ -449,7 +449,7 @@ plt.plot(sirf_errband_rs[0][:,0,0],label='lb')
 plt.plot(sirf_errband_rs[1][:,0,0],label='ub')
 plt.legend(loc=0)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## IR plot parameters prepared 
 
 ## svar_ma to impulse respulse parameters
