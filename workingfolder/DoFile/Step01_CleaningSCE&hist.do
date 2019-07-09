@@ -283,11 +283,18 @@ save "${folder}/SCE/InfExpSCEProbIndM",replace
 ** Maybe replaced by kernel desntiy **
 ***************************************
 
+* for forecasting
+
 gen SCE_mean = .
 gen SCE_var = .
 
+* for nowcasting
+gen SCE_mean1 = . 
+gen SCE_var1 = .   
 
+/*
 * Kernal density plot only 
+
 label var Q9_mean "1-yr-ahead forecast of inflation "
 label var Q9c_mean "2-yr-ahead forecast of inflation"
 
@@ -303,6 +310,8 @@ label var Q9c_mean "2-yr-ahead forecast of inflation"
 }
 
 * Kernal density plot only 
+
+
 label var Q9_var "1-yr-ahead uncertainty of inflation"
 label var Q9c_var "2-yr-ahead uncertainty of inflation"
 
@@ -318,6 +327,38 @@ foreach var in SCE{
 }
 
 
+** both 1-yr and 2-yr
+
+ foreach var in SCE{
+ foreach mom in mean{
+    replace `var'_`mom' = Q9_`mom'
+	replace `var'_`mom'1 = Q9c_`mom'
+	local lb: variable label Q9_`mom'
+    twoway (kdensity `var'_`mom',lcolor(red) lwidth(thick) ) ///
+	       (kdensity `var'_`mom'1,lcolor(black) lpattern(dash) lwidth(thick)), ///
+	       by(year,title("Distribution of Mean Forecast",size(med)) note("")) xtitle("Mean forecast") ///
+		   ytitle("Fraction of population") ///
+		   legend(label(1 "1-year-ahead") label(2 "2-year-ahead") col(1))
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_hist", as(png) replace 
+}
+}
+
+foreach mom in var{
+foreach var in SCE{
+    replace `var'_`mom' = Q9_`mom'
+    replace `var'_`mom'1 = Q9c_`mom'
+	local lb: variable label Q9_`mom'
+	
+    twoway (kdensity `var'_`mom',lcolor(blue) lwidth(thick)) ///
+	       (kdensity `var'_`mom'1,lcolor(orange) lpattern(dash) lwidth(thick)), ///
+	       by(year,title("Distribution of Uncertainty",size(med)) note("")) xtitle("Uncertainty") ///
+		   ytitle("Fraction of population") ///
+		   legend(label(1 "1-year-ahead") label(2 "2-year-ahead")  col(1))
+	graph export "${sum_graph_folder}/hist/`var'`mom'01_hist", as(png) replace 
+}
+}
+
+*/
 *************************
 *** Population SCE ******
 *************************

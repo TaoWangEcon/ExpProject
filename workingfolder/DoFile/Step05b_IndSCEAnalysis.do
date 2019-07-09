@@ -53,6 +53,8 @@ label var SCE_FE "1-yr-ahead forecast error(SCE)"
 rename Q9_mean SCE_Mean
 rename Q9_var SCE_Var
 
+rename Q9c_mean SCE_Mean1
+rename Q9c_var SCE_Var1
 
 *******************************
 **  Generate Variables       **
@@ -72,6 +74,9 @@ gen InfExp_FE_ch = .
 gen InfExp_Mean0 = .
 gen InfExp_Var0 = .
 
+
+gen InfExp_Mean_rv = .
+gen InfExp_Var_rv = .
 
 ************************************************
 ** Auto Regression of the Individual Moments  **
@@ -162,66 +167,56 @@ foreach var in SCE{
 }
 
 esttab using "${sum_table_folder}/ind/ChEfficiencySCEIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
-ddd
 
 
-** Does not work for SCE 
+
+** Almost works for SCE. 
+** Use 2-year inflation forecast 10 months ago and 1-year forecast now
+
 ***************************************************
 *** Revision Efficiency Test Using Mean Revision **
 ***************************************************
 
-/*
-foreach mom in Var{
-   foreach var in SPFCPI SPFPCE{
-    ttest `var'_`mom'_rv =0
- }
-}
-*/
 
-/*
+***********************************************************
+** Create some deviation measures from population median **
+***********************************************************
+eststo clear
+
+
+foreach mom in Mean{
+  foreach var in SCE{
+  gen `var'_dv = `var'_Mean-`var'_Mean_ct50
+  label var `var'_dv "Deviation from median forecast"
+  }
+}
+
 eststo clear
 
 foreach var in SCE{
   foreach mom in Mean{
-     replace InfExp_`mom' = `var'_`mom'
-	 replace InfExp_`mom'0 = `var'_`mom'0
-     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
-	 test _b[l1.InfExp_`mom']=1
-	  scalar pvtest= r(p)
-	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
-	 test _b[l1.InfExp_`mom']=1
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
-     test _b[l1.InfExp_`mom']=1
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+     replace InfExp_`mom'_rv =  `var'_`mom' - l10.`var'_`mom'1
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date)
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv `var'_`mom'_ct50, vce(cluster date)
+	 *eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv `var'_`mom'_ct50, vce(cluster date)
+	 *eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv `var'_`mom'_ct50, vce(cluster date)
  }
 }
-
 
 foreach var in SCE{
   foreach mom in Var{
-     replace InfExp_`mom' = `var'_`mom'
-	 replace InfExp_`mom'0 = `var'_`mom'0
-     eststo `var'`mom'rvlv1: reg InfExp_`mom'0 l1.InfExp_`mom'
-	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv2: reg InfExp_`mom'0 l(1/2).InfExp_`mom'
-	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
-	 eststo `var'`mom'rvlv3: reg InfExp_`mom'0 l(1/3).InfExp_`mom'
-	 test _b[_cons]=0
-	 scalar pvtest= r(p)
-	 estadd scalar pvtest
+     replace InfExp_`mom'_rv =  `var'_`mom' - l10.`var'_`mom'1
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date) 
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv, vce(cluster date) 
+	 *eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv, vce(cluster date) 
+	 *eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv, vce(cluster date)
  }
 }
 
-esttab using "${sum_table_folder}/ind/RVEfficiencySPFIndQ.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
-*/
+esttab using "${sum_table_folder}/ind/RVEfficiencySCEIndQ.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+
+
+
 /*
 ******************************************************
 ** Response  Estimates using individual moments     **

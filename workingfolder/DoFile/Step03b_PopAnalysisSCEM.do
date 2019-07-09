@@ -69,11 +69,10 @@ sort year quarter month
 
 gen SCE_FE = Q9_mean - Inf1yf_CPIAU
 label var SCE_FE "1-yr-ahead forecast error"
-gen SPFCPI_FE = CPI1y - Inf1yf_CPICore
+
+gen SPFCPI_FE = CORECPI1y - Inf1yf_CPICore
 label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
-gen SPFCCPI_FE = CORECPI1y - Inf1yf_CPICore
-label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
-gen SPFPCE_FE = PCE1y - Inf1yf_PCE
+gen SPFPCE_FE = COREPCE1y - Inf1yf_PCECore
 label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
 
 
@@ -280,12 +279,13 @@ graph export "${sum_graph_folder}/IQRmeanSCEM", as(png) replace
 tsset date
 
 estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y ///
+                Q9c_mean Q9c_var Q9c_disg Q9c_iqr  /// 
                 CPI_disg PCE_disg CORECPI_disg COREPCE_disg PRCCPIVar1mean PRCPCEVar1mean, ///
 			    st(mean var median) columns(statistics)
 esttab . using "${sum_table_folder}/pop_sum_stats.csv", cells("mean(fmt(a3)) var(fmt(a3)) median(fmt(a3))") replace
 
 eststo clear
-foreach var in Q9_mean Q9_var Q9_disg CPI1y PCE1y CORECPI1y COREPCE1y{
+foreach var in Q9_mean Q9_var Q9_disg Q9c_mean Q9c_var Q9c_disg CPI1y PCE1y CORECPI1y COREPCE1y{
 gen `var'_ch = `var'-l1.`var'
 label var `var'_ch "m to m+1 change of `var'"
 eststo: reg `var' l(1/5).`var'
@@ -296,6 +296,7 @@ corrgram `var', lags(5)
 }
 esttab using "${sum_table_folder}/autoreg.csv", se r2 replace
 eststo clear
+
 */
 
 ****************************************
@@ -303,12 +304,13 @@ eststo clear
 ****************************************
 
 *******************************************
-***  Collapse monthly data to quarterly  **
+***  Collapse monthly data to monthly  **
 *******************************************
 
 local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
-                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
-				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
+              Q9c_mean Q9c_var Q9c_disg Q9c_iqr ///
+              COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
+		      PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
 				
 local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
                 PRCCPIMeanl1  PRCCPIVarl1 PRCCPIMeanf0  PRCCPIVarf0 ///	
@@ -350,6 +352,11 @@ rename Q9_mean SCE_Mean
 rename Q9_var SCE_Var
 rename Q9_disg SCE_Disg
 rename SCE_FE SCE_FE
+
+
+rename Q9c_mean SCE_Mean1
+rename Q9c_var SCE_Var1
+rename Q9c_disg SCE_Disg1
 
 rename CPI1y SPFCPI_Mean
 rename PCE1y SPFPCE_Mean

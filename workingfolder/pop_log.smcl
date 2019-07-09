@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res} 8 Jul 2019, 15:57:23
+ {txt}opened on:  {res} 9 Jul 2019, 16:28:26
 {txt}
 {com}. 
 . ****************************************
@@ -167,15 +167,211 @@ float, now double to accommodate using data's values)
 . gen SPFCPI_FE = CORECPI1y - Inf1yf_CPICore
 {txt}(723 missing values generated)
 
-{com}. label var SPFCPI_FE "1-yr-ahead forecast error(SPF Core CPI)"
+{com}. label var SPFCPI_FE "1-yr-ahead forecast error(SPF CPI)"
 {txt}
-{com}. 
-. gen SPFPCE_FE = COREPCE1y - Inf1yf_PCECore
+{com}. gen SPFPCE_FE = COREPCE1y - Inf1yf_PCECore
 {txt}(721 missing values generated)
 
-{com}. label var SPFPCE_FE "1-yr-ahead forecast error(SPF Core PCE)"
+{com}. label var SPFPCE_FE "1-yr-ahead forecast error(SPF PCE)"
 {txt}
 {com}. 
+. 
+. *****************************
+. ****    Summary Charts ******
+. *****************************
+. 
+. 
+. /*
+> **************************
+> ** Single series charts **
+> **************************
+> 
+> foreach var in Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg ///
+>                CPI1y PCE1y CORECPI1y COREPCE1y ///
+>                            CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
+>                            CPI_ct50 PCE_ct50 CORECPI_ct50 COREPCE_ct50{c -(}
+> local var_lb: var label `var'
+> tsline `var' if `var'!=.,title("`var_lb'") xtitle("Time") ytitle("")
+> graph export "${c -(}sum_graph_folder{c )-}/`var'", as(png) replace 
+> {c )-}
+> 
+> 
+> 
+> ***************************
+> ** Multiple series charts**
+> ***************************
+> 
+> drop if CPI1y ==. | PCE1y==.
+> 
+> twoway (tsline Q9_mean)  (tsline Q9_cent50,lp("dash")) ///
+>                          (tsline InfExpMichMed, lp("dot-dash")) ///
+>                                                  (tsline CPI1y, lp("shortdash")), ///
+>                                                  title("1-yr-ahead Expected Inflation") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(label(1 "Mean Expectation(SCE)") label(2 "Median Expectation(SCE)") ///
+>                                                         label(3 "Median Expectation(Michigan)") label(4 "Mean Expectation(SPF)"))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_med", as(png) replace
+> 
+> twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
+>        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_mean!=., ///
+>            title("1-yr-ahead Expected Inflation (SCE)") xtitle("Time") ///
+>            legend(label(1 "Average Expectation") label(2 "Average Uncertainty(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_var", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline Q9_mean, ytitle(" ",axis(1))) ///
+>        (tsline Q9_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_mean!=., ///
+>            title("1-yr-ahead Expected Inflation") xtitle("Time") ///
+>            legend(label(1 "Average Expectation") label(2 "Disagreements(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_disg", as(png) replace 
+> 
+> 
+> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+>        (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if CORECPI_disg!=., ///
+>            title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/disg_disg", as(png) replace 
+> 
+> 
+> twoway (tsline Q9_var, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_var!=., ///
+>            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
+>            legend(label(1 "Uncertainty (SCE)")  /// 
+>                   label(2 "Uncertainty (SPF CPI)(RHS)")) 
+>                           
+> graph export "${c -(}sum_graph_folder{c )-}/var_var", as(png) replace 
+> 
+> 
+> 
+> 
+> twoway (tsline CORECPI_disg, ytitle(" ",axis(1))) ///
+>        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_disg!=., ///
+>            title("1-yr-ahead Expected Inflation(SPF)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disg2", as(png) replace 
+> 
+> 
+> twoway (tsline Q9_mean) (tsline CORECPI1y,lp("longdash")) ///
+>        (tsline Inf1yf_PCEPI,lp("dash")) ///
+>        (tsline Inf1yf_CPIAU,lp("shortdash")) ///
+>            (tsline Inf1yf_CPICore,lp("dash_dot")) ///
+>            if Q9_mean!=., ///
+>            title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
+>            legend(label(1 "Mean Forecast(SCE)") label(2 "Mean Forecast(SPF)") label(3 "Realized Inflation(PCE)") ///
+>                   label(4 "Realized Inflation(Headline CPI)") label(5 "Realized Inflation(Core CPI)"))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_true", as(png) replace
+> 
+> 
+> twoway (tsline Q9_mean)  (tsline Inf1y_PCEPI,lp("dash")) ///
+>        (tsline Inf1y_CPIAU,lp("shortdash")) ///
+>            (tsline Inf1y_CPICore,lp("dash_dot")) ///
+>            if Q9_mean!=., ///
+>            title("1-yr-ahead Expected Inflation") xtitle("Time") ytitle("") ///
+>            legend(label(1 "Mean Expectation") label(2 "Past Inflation(PCE)") ///
+>                   label(3 "Past Inflation(Headline CPI)") label(4 "Past Inflation(Core CPI)"))
+> graph export "${c -(}sum_graph_folder{c )-}/mean_past", as(png) replace
+> 
+> 
+> twoway (tsline SCE_FE,ytitle("",axis(1)))  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
+>        (tsline SPFPCE_FE, yaxis(2) lp("dash_dot"))  ///  
+>                          if SPFPCE_FE!=., ///
+>                                                  title("1-yr-ahead Forecast Errors") ///
+>                                                  xtitle("Time") ytitle("") ///
+>                                                  legend(label(1 "SCE") label(2 "SPF CPI(RHS)") ///
+>                                                  label(3 "SPF PCE(RHS)"))
+> graph export "${c -(}sum_graph_folder{c )-}/fe_fe", as(png) replace
+> 
+> 
+> 
+> 
+> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
+>        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_disg!=., ///
+>            title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+>            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/var_disgSCEM", as(png) replace 
+> 
+> 
+> twoway (tsline SCE_FE, ytitle(" ",axis(1))) ///
+>        (tsline Q9_var,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
+>            if Q9_var!=., ///
+>            title("1-yr-ahead Expected Inflation(SCE)") xtitle("Time") ///
+>            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)")) 
+> graph export "${c -(}sum_graph_folder{c )-}/fe_varSCEM", as(png) replace
+> 
+> pwcorr Inf1yf_CPIAU Q9_var, star(0.05)
+> local rho: display %4.2f r(rho) 
+> twoway (tsline Inf1yf_CPIAU,ytitle(" ",axis(1))lp("shortdash") lwidth(thick)) ///
+>        (tsline Q9_var, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+>            if Q9_var!=., ///
+>            title("1-yr-ahead Expected Inflation(SCE)",size(large)) xtitle("Time") ytitle("") ///
+>            legend(label(1 "Headline CPI Inflation") ///
+>                   label(2 "Average Uncertainty(RHS)") size(sml)) ///
+>            caption("{c -(}superscript:Corr Coeff: `rho'{c )-}", ///
+>            justification(left) position(11) size(large))
+> graph export "${c -(}sum_graph_folder{c )-}/true_varSCEM", as(png) replace 
+> 
+> 
+> ********************************************
+> ** These are the charts for paper draft 
+> ********************************************
+> 
+> 
+> ** generate absolute values of FE for plotting
+> 
+> foreach var in SCE{c -(}
+> gen `var'_abFE = abs(`var'_FE)
+> label var `var'_abFE "Absolute Val of Average Forecast Error"
+> {c )-}
+> 
+> 
+> label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
+> label var SCE_FE "Average Forecast Error"
+> label var Q9_disg "Disagreement"
+> label var Q9_var "Average Uncertainty(RHS)"
+> 
+> foreach var in Inf1yf_CPIAU SCE_abFE Q9_disg{c -(}
+> pwcorr `var' Q9_var, star(0.05)
+> local rho: display %4.2f r(rho) 
+> twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>        (tsline Q9_var, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
+>            if Q9_var!=., ///
+>            title("SCE",size(large)) xtitle("Time") ytitle("") ///
+>            legend(size(large) col(1)) ///
+>            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
+>            justification(left) position(11) size(large))
+> graph export "${c -(}sum_graph_folder{c )-}/`var'_varSCEM", as(png) replace
+> {c )-}
+> 
+> 
+> 
+> twoway (tsline Q9_varp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>        (tsline Q9_varp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>            (tsline Q9_varp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
+>            if Q9_varp50!=. , /// 
+>            title("SCE") xtitle("Time") ///
+>            legend(label(1 "25 percentile of uncertainty") label(2 "75 percentile of uncertainty") ///
+>                   label(3 "50 percentile of uncertainty") col(1)) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRvarSCEM", as(png) replace 
+> 
+> 
+> 
+> twoway (tsline Q9_meanp25, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>        (tsline Q9_meanp75, ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
+>            (tsline Q9_meanp50, ytitle(" ",axis(1)) lp("solid") lwidth(thick)) ///
+>            if Q9_varp50!=. , /// 
+>            title("SCE") xtitle("Time") ///
+>            legend(label(1 "25 percentile of forecast") label(2 "75 percentile of forecast") ///
+>                   label(3 "50 percentile of forecast") col(1)) 
+> graph export "${c -(}sum_graph_folder{c )-}/IQRmeanSCEM", as(png) replace 
+> */
+. 
 . 
 . ***************************
 . ***  Population Moments *** 
@@ -186,11 +382,12 @@ float, now double to accommodate using data's values)
 {txt}
 {com}. 
 . estpost tabstat Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y ///
+>                 Q9c_mean Q9c_var Q9c_disg Q9c_iqr  /// 
 >                 CPI_disg PCE_disg CORECPI_disg COREPCE_disg PRCCPIVar1mean PRCPCEVar1mean, ///
 >                             st(mean var median) columns(statistics)
 
 {txt}Summary statistics: mean variance p50
-     for variables: Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg PRCCPIVar1mean PRCPCEVar1mean
+     for variables: Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y COREPCE1y Q9c_mean Q9c_var Q9c_disg Q9c_iqr CPI_disg PCE_disg CORECPI_disg COREPCE_disg PRCCPIVar1mean PRCPCEVar1mean
 
 {space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(varia~)}{space 1}{space 1}{ralign 9:e(p50)}{space 1}
 {space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
@@ -202,6 +399,10 @@ float, now double to accommodate using data's values)
 {space 0}{space 0}{ralign 12:PCE1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.847065}}}{space 1}{space 1}{ralign 9:{res:{sf:  .052896}}}{space 1}{space 1}{ralign 9:{res:{sf:   1.8534}}}{space 1}
 {space 0}{space 0}{ralign 12:CORECPI1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.971262}}}{space 1}{space 1}{ralign 9:{res:{sf:  .088121}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.004349}}}{space 1}
 {space 0}{space 0}{ralign 12:COREPCE1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.754005}}}{space 1}{space 1}{ralign 9:{res:{sf:   .06366}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.775755}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_mean}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  3.34314}}}{space 1}{space 1}{ralign 9:{res:{sf: .0531438}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.271985}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_var}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 10.12813}}}{space 1}{space 1}{ralign 9:{res:{sf:   .35732}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.15025}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 6.913683}}}{space 1}{space 1}{ralign 9:{res:{sf: .2498055}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.872466}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_iqr}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 4.158789}}}{space 1}{space 1}{ralign 9:{res:{sf: .0302297}}}{space 1}{space 1}{ralign 9:{res:{sf:  4.17732}}}{space 1}
 {space 0}{space 0}{ralign 12:CPI_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .5022143}}}{space 1}{space 1}{ralign 9:{res:{sf: .5895967}}}{space 1}{space 1}{ralign 9:{res:{sf: .2933465}}}{space 1}
 {space 0}{space 0}{ralign 12:PCE_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .3472125}}}{space 1}{space 1}{ralign 9:{res:{sf: .0503315}}}{space 1}{space 1}{ralign 9:{res:{sf: .2818246}}}{space 1}
 {space 0}{space 0}{ralign 12:CORECPI_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .192936}}}{space 1}{space 1}{ralign 9:{res:{sf: .0294365}}}{space 1}{space 1}{ralign 9:{res:{sf:  .107817}}}{space 1}
@@ -215,7 +416,7 @@ float, now double to accommodate using data's values)
 {com}. 
 . eststo clear
 {txt}
-{com}. foreach var in Q9_mean Q9_var Q9_disg CPI1y PCE1y CORECPI1y COREPCE1y{c -(}
+{com}. foreach var in Q9_mean Q9_var Q9_disg Q9c_mean Q9c_var Q9c_disg CPI1y PCE1y CORECPI1y COREPCE1y{c -(}
 {txt}  2{com}. gen `var'_ch = `var'-l1.`var'
 {txt}  3{com}. label var `var'_ch "m to m+1 change of `var'"
 {txt}  4{com}. eststo: reg `var' l(1/5).`var'
@@ -380,6 +581,162 @@ float, now double to accommodate using data's values)
 {txt}3     {res}{col 9} 0.5291{col 18} 0.3202{col 27} 55.853{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}      
 {txt}4     {res}{col 9} 0.4848{col 18} 0.2361{col 27} 69.834{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}       
 {txt}5     {res}{col 9} 0.4666{col 18} 0.2056{col 27} 83.058{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}       
+{txt}(806 missing values generated)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      48
+{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}   46.24
+    {txt}   Model {char |} {res} 1.57807996     5  .315615992           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res}  .28665686    42  .006825163           {txt}R-squared     = {res} 0.8463
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8280
+    {txt}   Total {char |} {res} 1.86473682    47  .039675252           {txt}Root MSE      = {res} .08261
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    Q9c_mean{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}Q9c_mean {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .6094827{col 26}{space 2} .1485411{col 37}{space 1}    4.10{col 46}{space 3}0.000{col 54}{space 4} .3097147{col 67}{space 3} .9092507
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .6203888{col 26}{space 2} .1689014{col 37}{space 1}    3.67{col 46}{space 3}0.001{col 54}{space 4} .2795319{col 67}{space 3} .9612456
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.3227985{col 26}{space 2} .1859787{col 37}{space 1}   -1.74{col 46}{space 3}0.090{col 54}{space 4}-.6981187{col 67}{space 3} .0525218
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.2893928{col 26}{space 2} .1619767{col 37}{space 1}   -1.79{col 46}{space 3}0.081{col 54}{space 4} -.616275{col 67}{space 3} .0374893
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .2476447{col 26}{space 2} .1364869{col 37}{space 1}    1.81{col 46}{space 3}0.077{col 54}{space 4}-.0277969{col 67}{space 3} .5230863
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}  .435681{col 26}{space 2} .1969761{col 37}{space 1}    2.21{col 46}{space 3}0.032{col 54}{space 4}  .038167{col 67}{space 3} .8331949
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est7{txt} stored)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      47
+{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    3.25
+    {txt}   Model {char |} {res} .126638016     5  .025327603           {txt}Prob > F      = {res} 0.0146
+    {txt}Residual {char |} {res} .319759408    41   .00779901           {txt}R-squared     = {res} 0.2837
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1963
+    {txt}   Total {char |} {res} .446397424    46  .009704292           {txt}Root MSE      = {res} .08831
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} Q9c_mean_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 1}Q9c_mean_ch {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.2835619{col 26}{space 2} .1560087{col 37}{space 1}   -1.82{col 46}{space 3}0.076{col 54}{space 4}-.5986278{col 67}{space 3}  .031504
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3612598{col 26}{space 2} .1550446{col 37}{space 1}    2.33{col 46}{space 3}0.025{col 54}{space 4} .0481409{col 67}{space 3} .6743787
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0318925{col 26}{space 2} .1653043{col 37}{space 1}   -0.19{col 46}{space 3}0.848{col 54}{space 4}-.3657313{col 67}{space 3} .3019464
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.3192836{col 26}{space 2} .1497281{col 37}{space 1}   -2.13{col 46}{space 3}0.039{col 54}{space 4}-.6216656{col 67}{space 3}-.0169016
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} -.048447{col 26}{space 2} .1513503{col 37}{space 1}   -0.32{col 46}{space 3}0.751{col 54}{space 4}-.3541052{col 67}{space 3} .2572112
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0130971{col 26}{space 2} .0134336{col 37}{space 1}   -0.97{col 46}{space 3}0.335{col 54}{space 4}-.0402269{col 67}{space 3} .0140326
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est8{txt} stored)
+
+{col 43}-1       0       1 -1       0       1
+ LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
+{hline 79}
+1     {res}{col 9} 0.8881{col 18} 0.8881{col 27} 44.209{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} 
+{txt}2     {res}{col 9} 0.8515{col 18} 0.3388{col 27} 85.655{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c LT}{hline 1}{hline 1}      
+{txt}3     {res}{col 9} 0.7292{col 18}-0.2787{col 27} 116.66{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}      {hline 1}{hline 1}{c RT}        
+{txt}4     {res}{col 9} 0.6314{col 18}-0.1206{col 27} 140.37{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.5513{col 18} 0.2476{col 27} 158.83{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
+{txt}(806 missing values generated)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      48
+{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}   16.43
+    {txt}   Model {char |} {res}   11.13718     5    2.227436           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 5.69229802    42  .135530905           {txt}R-squared     = {res} 0.6618
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.6215
+    {txt}   Total {char |} {res}  16.829478    47     .358074           {txt}Root MSE      = {res} .36815
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}     Q9c_var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 5}Q9c_var {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .6603696{col 26}{space 2} .1514437{col 37}{space 1}    4.36{col 46}{space 3}0.000{col 54}{space 4} .3547438{col 67}{space 3} .9659953
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .4574665{col 26}{space 2}   .17355{col 37}{space 1}    2.64{col 46}{space 3}0.012{col 54}{space 4} .1072284{col 67}{space 3} .8077047
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.3676736{col 26}{space 2}   .17835{col 37}{space 1}   -2.06{col 46}{space 3}0.045{col 54}{space 4}-.7275984{col 67}{space 3}-.0077488
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1817463{col 26}{space 2} .1720542{col 37}{space 1}   -1.06{col 46}{space 3}0.297{col 54}{space 4}-.5289656{col 67}{space 3} .1654731
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1642105{col 26}{space 2} .1384788{col 37}{space 1}    1.19{col 46}{space 3}0.242{col 54}{space 4} -.115251{col 67}{space 3} .4436719
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 2.691564{col 26}{space 2} 1.215018{col 37}{space 1}    2.22{col 46}{space 3}0.032{col 54}{space 4} .2395579{col 67}{space 3}  5.14357
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est9{txt} stored)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      47
+{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    2.11
+    {txt}   Model {char |} {res} 1.60432949     5  .320865898           {txt}Prob > F      = {res} 0.0831
+    {txt}Residual {char |} {res} 6.22362405    41  .151795708           {txt}R-squared     = {res} 0.2049
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1080
+    {txt}   Total {char |} {res} 7.82795354    46  .170172903           {txt}Root MSE      = {res} .38961
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}  Q9c_var_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 2}Q9c_var_ch {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.2253403{col 26}{space 2} .1548339{col 37}{space 1}   -1.46{col 46}{space 3}0.153{col 54}{space 4}-.5380337{col 67}{space 3}  .087353
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2244263{col 26}{space 2} .1495077{col 37}{space 1}    1.50{col 46}{space 3}0.141{col 54}{space 4}-.0775105{col 67}{space 3} .5263632
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1579914{col 26}{space 2}   .14347{col 37}{space 1}   -1.10{col 46}{space 3}0.277{col 54}{space 4} -.447735{col 67}{space 3} .1317522
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} -.272119{col 26}{space 2} .1386942{col 37}{space 1}   -1.96{col 46}{space 3}0.057{col 54}{space 4}-.5522176{col 67}{space 3} .0079796
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0576424{col 26}{space 2} .1421967{col 37}{space 1}   -0.41{col 46}{space 3}0.687{col 54}{space 4}-.3448145{col 67}{space 3} .2295297
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0310579{col 26}{space 2}  .057082{col 37}{space 1}   -0.54{col 46}{space 3}0.589{col 54}{space 4}-.1463373{col 67}{space 3} .0842216
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est10{txt} stored)
+
+{col 43}-1       0       1 -1       0       1
+ LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
+{hline 79}
+1     {res}{col 9} 0.7385{col 18} 0.7386{col 27} 30.576{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   
+{txt}2     {res}{col 9} 0.5618{col 18} 0.0500{col 27} 48.615{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c |}        
+{txt}3     {res}{col 9} 0.2786{col 18}-0.3376{col 27} 53.141{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}      {col 63}      {hline 1}{hline 1}{c RT}        
+{txt}4     {res}{col 9} 0.1045{col 18}-0.0514{col 27} 53.791{col 36}0.0000{col 44}        {c |}        {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.0162{col 18} 0.1642{col 27} 53.807{col 36}0.0000{col 44}        {c |}        {col 63}        {c LT}{hline 1}       
+{txt}(806 missing values generated)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      48
+{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}    8.05
+    {txt}   Model {char |} {res} 4.78513191     5  .957026381           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res}  4.9919565    42  .118856107           {txt}R-squared     = {res} 0.4894
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4286
+    {txt}   Total {char |} {res} 9.77708841    47  .208023158           {txt}Root MSE      = {res} .34476
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1}    Q9c_disg{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 4}Q9c_disg {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2} .2666682{col 26}{space 2} .1525731{col 37}{space 1}    1.75{col 46}{space 3}0.088{col 54}{space 4}-.0412368{col 67}{space 3} .5745732
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3395789{col 26}{space 2} .1592099{col 37}{space 1}    2.13{col 46}{space 3}0.039{col 54}{space 4} .0182804{col 67}{space 3} .6608775
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0398924{col 26}{space 2} .1653047{col 37}{space 1}    0.24{col 46}{space 3}0.810{col 54}{space 4} -.293706{col 67}{space 3} .3734908
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0710827{col 26}{space 2} .1505176{col 37}{space 1}    0.47{col 46}{space 3}0.639{col 54}{space 4}-.2326741{col 67}{space 3} .3748394
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0981454{col 26}{space 2} .1466076{col 37}{space 1}    0.67{col 46}{space 3}0.507{col 54}{space 4}-.1977207{col 67}{space 3} .3940114
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} 1.213721{col 26}{space 2} .9073774{col 37}{space 1}    1.34{col 46}{space 3}0.188{col 54}{space 4}-.6174409{col 67}{space 3} 3.044883
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est11{txt} stored)
+
+      Source {c |}       SS       df       MS              Number of obs ={res}      47
+{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    4.67
+    {txt}   Model {char |} {res} 2.92878147     5  .585756295           {txt}Prob > F      = {res} 0.0018
+    {txt}Residual {char |} {res} 5.13884669    41  .125337724           {txt}R-squared     = {res} 0.3630
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2853
+    {txt}   Total {char |} {res} 8.06762816    46  .175383221           {txt}Root MSE      = {res} .35403
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 1} Q9c_disg_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 1}Q9c_disg_ch {c |}
+{space 9}L1. {c |}{col 14}{res}{space 2}-.6988488{col 26}{space 2} .1549184{col 37}{space 1}   -4.51{col 46}{space 3}0.000{col 54}{space 4}-1.011713{col 67}{space 3}-.3859847
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.3035373{col 26}{space 2} .1872567{col 37}{space 1}   -1.62{col 46}{space 3}0.113{col 54}{space 4}-.6817099{col 67}{space 3} .0746353
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2635206{col 26}{space 2} .1900258{col 37}{space 1}   -1.39{col 46}{space 3}0.173{col 54}{space 4}-.6472855{col 67}{space 3} .1202443
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1348615{col 26}{space 2} .1881781{col 37}{space 1}   -0.72{col 46}{space 3}0.478{col 54}{space 4}-.5148949{col 67}{space 3} .2451719
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0231641{col 26}{space 2} .1501516{col 37}{space 1}   -0.15{col 46}{space 3}0.878{col 54}{space 4}-.3264013{col 67}{space 3} .2800731
+{txt}{space 12} {c |}
+{space 7}_cons {c |}{col 14}{res}{space 2} -.070959{col 26}{space 2} .0539229{col 37}{space 1}   -1.32{col 46}{space 3}0.196{col 54}{space 4}-.1798586{col 67}{space 3} .0379406
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{res}{txt}({res}est12{txt} stored)
+
+{col 43}-1       0       1 -1       0       1
+ LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
+{hline 79}
+1     {res}{col 9} 0.5705{col 18} 0.5863{col 27} 18.243{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
+{txt}2     {res}{col 9} 0.6310{col 18} 0.5088{col 27} 40.998{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
+{txt}3     {res}{col 9} 0.4603{col 18} 0.0887{col 27} 53.349{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
+{txt}4     {res}{col 9} 0.4525{col 18} 0.1098{col 27} 65.527{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.3904{col 18} 0.0981{col 27} 74.781{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
 {txt}(406 missing values generated)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     448
@@ -401,7 +758,7 @@ float, now double to accommodate using data's values)
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .0847356{col 26}{space 2} .0226366{col 37}{space 1}    3.74{col 46}{space 3}0.000{col 54}{space 4} .0402469{col 67}{space 3} .1292244
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est7{txt} stored)
+{res}{txt}({res}est13{txt} stored)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     447
 {txt}{hline 13}{char +}{hline 30}           F(  5,   441) ={res}    0.17
@@ -422,7 +779,7 @@ float, now double to accommodate using data's values)
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}-.0130176{col 26}{space 2} .0081879{col 37}{space 1}   -1.59{col 46}{space 3}0.113{col 54}{space 4}-.0291098{col 67}{space 3} .0030746
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est8{txt} stored)
+{res}{txt}({res}est14{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
@@ -453,7 +810,7 @@ float, now double to accommodate using data's values)
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .1706981{col 26}{space 2} .0582263{col 37}{space 1}    2.93{col 46}{space 3}0.004{col 54}{space 4}  .055552{col 67}{space 3} .2858442
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est9{txt} stored)
+{res}{txt}({res}est15{txt} stored)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     141
 {txt}{hline 13}{char +}{hline 30}           F(  5,   135) ={res}    1.14
@@ -474,7 +831,7 @@ float, now double to accommodate using data's values)
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}-.0005257{col 26}{space 2} .0068803{col 37}{space 1}   -0.08{col 46}{space 3}0.939{col 54}{space 4}-.0141328{col 67}{space 3} .0130814
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est10{txt} stored)
+{res}{txt}({res}est16{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
@@ -505,7 +862,7 @@ float, now double to accommodate using data's values)
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .1030815{col 26}{space 2} .0498584{col 37}{space 1}    2.07{col 46}{space 3}0.041{col 54}{space 4} .0044834{col 67}{space 3} .2016796
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est11{txt} stored)
+{res}{txt}({res}est17{txt} stored)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     141
 {txt}{hline 13}{char +}{hline 30}           F(  5,   135) ={res}    0.54
@@ -526,7 +883,7 @@ CORECPI1y_ch {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}-.0002331{col 26}{space 2}  .007248{col 37}{space 1}   -0.03{col 46}{space 3}0.974{col 54}{space 4}-.0145674{col 67}{space 3} .0141013
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est12{txt} stored)
+{res}{txt}({res}est18{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
@@ -557,7 +914,7 @@ CORECPI1y_ch {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2} .1076461{col 26}{space 2} .0456941{col 37}{space 1}    2.36{col 46}{space 3}0.020{col 54}{space 4} .0172833{col 67}{space 3} .1980089
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est13{txt} stored)
+{res}{txt}({res}est19{txt} stored)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     141
 {txt}{hline 13}{char +}{hline 30}           F(  5,   135) ={res}    1.02
@@ -578,7 +935,7 @@ COREPCE1y_ch {c |}
 {txt}{space 12} {c |}
 {space 7}_cons {c |}{col 14}{res}{space 2}-.0005609{col 26}{space 2} .0063184{col 37}{space 1}   -0.09{col 46}{space 3}0.929{col 54}{space 4}-.0130567{col 67}{space 3} .0119349
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{res}{txt}({res}est14{txt} stored)
+{res}{txt}({res}est20{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
@@ -594,600 +951,37 @@ COREPCE1y_ch {c |}
 
 {com}. eststo clear
 {txt}
-{com}. */
-. 
-. 
-. ****************************************
-. **** Quarterly Level Analysis  ******
-. ****************************************
-. 
-. *******************************************
-. ***  Collapse monthly data to quarterly  **
-. *******************************************
-. 
-. local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCE Inf1yf_PCE Inf1y_PCECore Inf1yf_PCECore
+{com}. ddd
+{err}unrecognized command:  ddd
+{txt}{search r(199):r(199);}
+
+end of do-file
+
+{search r(199):r(199);}
+
+{com}. clear
+
+. do "/Users/Myworld/Dropbox/ExpProject/workingfolder/DoFile/Step05b_IndSCEAnalysis.do"
+{txt}
+{com}. clear
+{txt}
+{com}. global mainfolder "/Users/Myworld/Dropbox/ExpProject/workingfolder"
+{txt}
+{com}. global folder "${c -(}mainfolder{c )-}/SurveyData/"
+{txt}
+{com}. global sum_graph_folder "${c -(}mainfolder{c )-}/graphs/ind"
+{txt}
+{com}. global sum_table_folder "${c -(}mainfolder{c )-}/tables"
 {txt}
 {com}. 
-. local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
->                 COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
->                                 PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
->                                 
+. cd ${c -(}folder{c )-}
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
 {txt}
-{com}. local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
->                 PRCCPIMeanl1  PRCCPIVarl1 PRCCPIMeanf0  PRCCPIVarf0 /// 
->                                 PRCPCEMeanl1  PRCPCEVarl1 PRCPCEMeanf0  PRCPCEVarf0
+{com}. pwd
+{res}/Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData
 {txt}
-{com}.                                 
-.                                 
-. local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 /// 
->               PRCCPIVar0p25 PRCCPIVar1p25 PRCPCEVar0p25 PRCPCEVar1p25 ///
->                           PRCCPIMean0p50 PRCCPIMean1p50 PRCPCEMean0p50 PRCPCEMean1p50 /// 
->               PRCCPIVar0p50 PRCCPIVar1p50 PRCPCEVar0p50 PRCPCEVar1p50 ///
->                           PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
->               PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75 ///
->                           PRCCPIMean0p10 PRCCPIMean1p10 PRCPCEMean0p10 PRCPCEMean1p10 /// 
->               PRCCPIVar0p10 PRCCPIVar1p10 PRCPCEVar0p10 PRCPCEVar1p10 ///
->                           PRCCPIMean0p90 PRCCPIMean1p90 PRCPCEMean0p90 PRCPCEMean1p90 /// 
->               PRCCPIVar0p90 PRCCPIVar1p90 PRCPCEVar0p90 PRCPCEVar1p90 
+{com}. set more off 
 {txt}
-{com}. 
-. 
-. collapse (mean) `Moments' `MomentsMom' `MomentsRv' `Infbf', ///
->                                 by(year quarter) 
-{txt}
-{com}. 
-. gen date2=string(year)+"Q"+string(quarter)
-{txt}
-{com}. gen date3= quarterly(date2,"YQ")
-{txt}(1 missing value generated)
-
-{com}. format date3 %tq 
-{txt}
-{com}. drop date2 
-{txt}
-{com}. rename date3 date
-{res}{txt}
-{com}. 
-. tsset date
-{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948q1 to 2019q2
-{txt}{col 17}delta:  {res}1 quarter
-{txt}
-{com}. sort year quarter  
-{txt}
-{com}. 
-. order date year quarter 
-{txt}
-{com}. 
-. /*
-> ********************************************************
-> *** Multiple series charts Quarterly (Moments Only)  ***
-> ********************************************************
-> drop if CPI1y ==. | PCE1y==.
-> 
-> 
-> twoway (tsline Q9_mean) (tsline InfExpMichMed, lp("dash_dot")) ///
->        (tsline CPI1y, lp("shortdash")) (tsline PCE1y, lp("dash")), ///
->                                                  title("1-yr-ahead Expected Inflation") ///
->                                                  xtitle("Time") ytitle("") ///
->                                                  legend(label(1 "Mean Expectation(SCE)") ///
->                                                         label(2 "Median Expectation(Michigan)") ///
->                                                                 label(3 "Mean Expectation CPI (SPF)") ///
->                                                                 label(4 "Mean Expectation PCE (SPF)") col(1))
-> graph export "${c -(}sum_graph_folder{c )-}/mean_medQ", as(png) replace
-> 
-> 
-> twoway (tsline Q9_disg, ytitle(" ",axis(1))) ///
->        (tsline CORECPI_disg,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if CORECPI_disg!=., ///
->            title("Disagreements in 1-yr-ahead Inflation") xtitle("Time") ///
->            legend(label(1 "Disagreements (SCE)") label(2 "Disagreements(SPF)(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/disg_disgQ", as(png) replace 
-> 
-> 
-> twoway (tsline Q9_var, ytitle(" ",axis(1)) lp("solid") ) ///
->        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("shortdash")) ///
->            (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("dash_dot")) ///
->            if Q9_var!=., ///
->            title("Uncertainty in 1-yr-ahead Inflation") xtitle("Time") ///
->            legend(label(1 "Uncertainty (SCE)")  /// 
->                   label(2 "Uncertainty (SPF CPI)(RHS)") ///
->                           label(3 "Uncertainty (SPF PCE)(RHS)") col(1)) 
->                           
-> graph export "${c -(}sum_graph_folder{c )-}/var_varQ", as(png) replace 
-> 
-> 
-> twoway (tsline SCE_FE)  (tsline SPFCPI_FE, yaxis(2) lp("dash")) ///
->         (tsline SPFPCE_FE, yaxis(2) lp("dash_dot")) ///
->                          if SPFCPI_FE!=., ///
->                                                  title("1-yr-ahead Forecast Errors") ///
->                                                  xtitle("Time") ytitle("") ///
->                                                  legend(col(1) label(1 "SCE") label(2 "SPF CPI (RHS)") ///
->                                                                 label(3 "SPF PCE(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/fe_feQ", as(png) replace
-> 
-> 
-> 
-> twoway (tsline SPFCPI_FE, ytitle(" ",axis(1))) ///
->        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if PRCCPIVar1mean!=., ///
->            title("1-yr-ahead Expected Inflation (SPF CPI)") xtitle("Time") ///
->            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/fe_varSPFSPIQ", as(png) replace 
-> 
-> 
-> twoway (tsline SPFPCE_FE, ytitle(" ",axis(1))) ///
->        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if PRCPCEVar1mean!=., ///
->            title("1-yr-ahead Expected Inflation (SPF PCE)") xtitle("Time") ///
->            legend(label(1 "Average Forecast Error") label(2 "Average Uncertainty(RHS)"))
-> graph export "${c -(}sum_graph_folder{c )-}/fe_varSPFPCEQ", as(png) replace 
-> 
-> 
-> 
-> twoway (tsline CPI_disg, ytitle(" ",axis(1))) ///
->        (tsline PRCCPIVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if PRCCPIVar1mean!=., ///
->            title("1-yr-ahead Expected Inflation(SPF CPI)") xtitle("Time") ///
->            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-> graph export "${c -(}sum_graph_folder{c )-}/var_disgSPFCPIQ", as(png) replace 
-> 
-> 
-> twoway (tsline PCE_disg, ytitle(" ",axis(1))) ///
->        (tsline PRCPCEVar1mean,yaxis(2) ytitle("",axis(2)) lp("dash")) ///
->            if PRCPCEVar1mean!=., ///
->            title("1-yr-ahead Expected Inflation(SPF PCE)") xtitle("Time") ///
->            legend(label(1 "Disagreements") label(2 "Average Uncertainty(RHS)")) 
-> graph export "${c -(}sum_graph_folder{c )-}/var_disgSPFPCEQ", as(png) replace 
-> */
-. 
-. /*
-> *****************************************
-> ** These are the charts for paper draft 
-> ****************************************
-> 
-> twoway (tsline PRCCPIMean1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
->        (tsline PRCCPIMean1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
->            (tsline PRCCPIMean1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
->            if PRCCPIVar1p25!=. , /// 
->            title("SPF(CPI)",size(large)) xtitle("Time") ///
->            legend(label(1 "25 pctile of forecast") label(2 "75 pctile of forecast") ///
->                   label(3 "50 pctile of forecast") col(1)) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRmeanCPIQ", as(png) replace 
-> 
-> 
-> twoway (tsline PRCPCEMean1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
->        (tsline PRCPCEMean1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
->            (tsline PRCPCEMean1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
->            if PRCPCEVar1p25!=. , /// 
->            title("SPF(PCE)",size(large)) xtitle("Time") ///
->            legend(label(1 "25 pctile of forecast") label(2 "75 pctile of forecast") ///
->                   label(3 "50 pctile of forecast") col(1)) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRmeanPCEQ", as(png) replace 
-> 
-> 
-> twoway (tsline PRCCPIVar1p25, ytitle(" ",axis(1))  lwidth(thick) lp("shortdash")) ///
->        (tsline PRCCPIVar1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
->            (tsline PRCCPIVar1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
->            if PRCCPIVar1p25!=. , /// 
->            title("SPF(CPI)",size(large)) xtitle("Time") ///
->            legend(label(1 "25 pctile of uncertainty") label(2 "75 pctile of uncertainty") ///
->                   label(3 "50 pctile of uncertainty") col(1)) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRvarCPIQ", as(png) replace 
-> 
-> 
-> twoway (tsline PRCPCEVar1p25, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
->        (tsline PRCPCEVar1p75, ytitle(" ",axis(1)) lwidth(thick) lp("shortdash")) ///
->            (tsline PRCPCEVar1p50, ytitle(" ",axis(1)) lwidth(thick) lp("solid")) ///
->            if PRCPCEVar1p25!=. , ///
->            title("SPF(PCE)",size(large)) xtitle("Time") ///
->            legend(label(1 "25 pctile of uncertainty") label(2 "75 pctile of uncertainty") ///
->                   label(3 "50 pctile of uncertainty") col(1)) 
-> graph export "${c -(}sum_graph_folder{c )-}/IQRvarPCEQ", as(png) replace 
-> 
-> 
-> 
-> ** generate absolute values of FE for plotting
-> 
-> foreach var in SPFCPI SPFPCE{c -(}
-> gen `var'_abFE = abs(`var'_FE)
-> label var `var'_abFE "Absolute Val of Average Forecast Error"
-> {c )-}
-> 
-> 
-> ** temporarily change the name for plotting 
-> 
-> label var Inf1yf_CPIAU "Realized Headline CPI Inflation"
-> label var Inf1yf_CPICore "Realized Core CPI Inflation"
-> label var SPFCPI_FE "Average Forecast Error"
-> label var CPI_disg "Disagreement"
-> label var CORECPI_disg "Disagreement"
-> 
-> label var PRCCPIVar1mean "Average Uncertainty(RHS)"
-> label var Inf1yf_PCE "Realized PCE Inflation"
-> label var Inf1yf_PCECore "Realized Core PCE Inflation"
-> label var SPFPCE_FE "Average Forecast Error"
-> label var PCE_disg "Disagreement"
-> label var COREPCE_disg "Disagreement"
-> 
-> label var PRCPCEVar1mean "Average Uncertainty(RHS)"
-> 
-> 
-> foreach var in Inf1yf_CPICore SPFCPI_abFE CORECPI_disg{c -(}
-> pwcorr `var' PRCCPIVar1mean, star(0.05)
-> local rho: display %4.2f r(rho) 
-> twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
->        (tsline PRCCPIVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
->            if PRCCPIVar1mean!=., ///
->            title("SPF(CPI)",size(large)) xtitle("Time") ytitle("") ///
->            legend(size(large) col(1)) ///
->            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
->            justification(left) position(11) size(vlarge))
-> graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFCPIQ", as(png) replace
-> {c )-}
-> 
-> foreach var in Inf1yf_PCECore SPFPCE_abFE COREPCE_disg{c -(}
-> pwcorr `var' PRCPCEVar1mean, star(0.05)
-> local rho: display %4.2f r(rho) 
-> twoway (tsline `var',ytitle(" ",axis(1)) lp("shortdash") lwidth(thick)) ///
->        (tsline PRCPCEVar1mean, yaxis(2) ytitle("",axis(2)) lp("longdash") lwidth(thick)) ///
->            if PRCPCEVar1mean!=., ///
->            title("SPF(PCE)",size(large)) xtitle("Time") ytitle("") ///
->            legend(size(large) col(1)) ///
->            caption("{c -(}superscript:Corr Coeff= `rho'{c )-}", ///
->            justification(left) position(11) size(vlarge))
-> graph export "${c -(}sum_graph_folder{c )-}/`var'_varSPFPCEQ", as(png) replace
-> {c )-}
-> 
-> */
-. 
-. ********************************************************************
-. ** Drop the inflation measures temporarily used for plotting ********
-. *********************************************************************
-. 
-. 
-. foreach var in `Infbf'{c -(}
-{txt}  2{com}.   drop `var'
-{txt}  3{com}. {c )-}
-{txt}
-{com}. 
-. ********************************
-. ***  Autoregression Quarterly **
-. *******************************
-. 
-. tsset date 
-{res}{txt}{col 9}time variable:  {res}{col 25}date, 1948q1 to 2019q2
-{txt}{col 17}delta:  {res}1 quarter
-{txt}
-{com}. 
-. eststo clear
-{txt}
-{com}. 
-. gen InfExp1y = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExpFE1y = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExpVar1y=.
-{txt}(287 missing values generated)
-
-{com}. gen InfExpDisg1y = .
-{txt}(287 missing values generated)
-
-{com}. 
-. *****************************************
-. ****  Renaming so that more consistent **
-. *****************************************
-. 
-. 
-. rename Q9_mean SCE_Mean
-{res}{txt}
-{com}. rename Q9_var SCE_Var
-{res}{txt}
-{com}. rename Q9_disg SCE_Disg
-{res}{txt}
-{com}. rename SCE_FE SCE_FE
-{res}{txt}  (all {it:newnames}=={it:oldnames})
-
-{com}. 
-. rename CPI1y SPFCPINC_Mean
-{res}{txt}
-{com}. rename PCE1y SPFPCENC_Mean
-{res}{txt}
-{com}. rename COREPCE1y SPFPCE_Mean
-{res}{txt}
-{com}. rename CORECPI1y SPFCPI_Mean
-{res}{txt}
-{com}. 
-. 
-. rename CPI_disg SPFCPINC_Disg
-{res}{txt}
-{com}. rename PCE_disg SPFPCENC_Disg 
-{res}{txt}
-{com}. rename CORECPI_disg SPFCPI_Disg
-{res}{txt}
-{com}. rename COREPCE_disg SPFPCE_Disg
-{res}{txt}
-{com}. 
-. rename PRCPCEVar1mean SPFPCE_Var
-{res}{txt}
-{com}. rename PRCCPIVar1mean SPFCPI_Var
-{res}{txt}
-{com}. 
-. rename SPFCPI_FE SPFCPI_FE
-{res}{txt}  (all {it:newnames}=={it:oldnames})
-
-{com}. rename SPFPCE_FE SPFPCE_FE
-{res}{txt}  (all {it:newnames}=={it:oldnames})
-
-{com}. 
-. rename PRCPCEMean_rv SPFPCE_Mean_rv
-{res}{txt}
-{com}. rename PRCCPIMean_rv SPFCPI_Mean_rv
-{res}{txt}
-{com}. 
-. rename PRCPCEVar_rv SPFPCE_Var_rv
-{res}{txt}
-{com}. rename PRCCPIVar_rv SPFCPI_Var_rv
-{res}{txt}
-{com}. 
-. **********************************
-. rename PRCCPIMeanl1 SPFCPI_Meanl1
-{res}{txt}
-{com}. rename PRCCPIVarl1 SPFCPI_Varl1
-{res}{txt}
-{com}. 
-. rename PRCCPIMeanf0 SPFCPI_Meanf0
-{res}{txt}
-{com}. rename PRCCPIVarf0 SPFCPI_Varf0
-{res}{txt}
-{com}. 
-. rename PRCPCEMeanl1 SPFPCE_Meanl1
-{res}{txt}
-{com}. rename PRCPCEVarl1 SPFPCE_Varl1
-{res}{txt}
-{com}. 
-. rename PRCPCEMeanf0 SPFPCE_Meanf0
-{res}{txt}
-{com}. rename PRCPCEVarf0 SPFPCE_Varf0
-{res}{txt}
-{com}. 
-. ********************************
-. gen InfExp_Mean = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Var = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_FE = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Disg = . 
-{txt}(287 missing values generated)
-
-{com}. 
-. gen InfExp_Mean_ch = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Var_ch = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_FE_ch = .
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Disg_ch = .
-{txt}(287 missing values generated)
-
-{com}. 
-. gen InfExp_Mean_rv =.
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Var_rv =.
-{txt}(287 missing values generated)
-
-{com}. 
-. gen InfExp_Meanl1 =. 
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Varl1 =. 
-{txt}(287 missing values generated)
-
-{com}. 
-. gen InfExp_Meanf0 =. 
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Varf0 =. 
-{txt}(287 missing values generated)
-
-{com}.  
-. 
-. foreach mom in Mean Var{c -(}
-{txt}  2{com}.   foreach var in PRCCPI PRCPCE{c -(}
-{txt}  3{com}.     forval i =0/1{c -(}
-{txt}  4{com}.         local lb=substr("`var'",4,3)
-{txt}  5{com}.         rename `var'`mom'`i'p25 SPF`lb'`mom'`i'p25
-{txt}  6{com}.     rename `var'`mom'`i'p50 SPF`lb'`mom'`i'p50
-{txt}  7{com}.         rename `var'`mom'`i'p75 SPF`lb'`mom'`i'p75
-{txt}  8{com}.         {c )-}
-{txt}  9{com}.    {c )-}
-{txt} 10{com}. {c )-}
-{res}{txt}
-{com}. 
-. *****************************
-. 
-. gen InfExp_Mean0 =.
-{txt}(287 missing values generated)
-
-{com}. gen InfExp_Var0 =.
-{txt}(287 missing values generated)
-
-{com}. 
-. ******************************
-. 
-. /*
-> *******************************************************
-> **** Autoregression on the levels of population moments
-> ********************************************************
-> 
-> 
-> eststo clear 
-> foreach mom in Mean Var Disg FE{c -(}
->    foreach var in SCE SPFCPI SPFPCE{c -(}
->     replace InfExp_`mom' = `var'_`mom'
->     eststo `var'_`mom': reg InfExp_`mom' l(3/5).InfExp_`mom', vce(robust)
->   {c )-} 
-> {c )-}
-> 
-> esttab using "${c -(}sum_table_folder{c )-}/autoregLvlQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-> 
-> 
-> **********************************************************************
-> ******** Autoregression on the first difference of population moments
->  **********************************************************************
-> 
-> eststo clear
-> foreach mom in Mean Var Disg FE{c -(}
->    foreach var in SCE SPFCPI SPFPCE{c -(}
->     replace InfExp_`mom' = `var'_`mom'
->     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
->     eststo `var'_`mom': reg InfExp_`mom'_ch l(1/4).InfExp_`mom'_ch, vce(robust)
->   {c )-}
-> {c )-}
-> esttab using "${c -(}sum_table_folder{c )-}/autoregDiffQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-> 
-> 
-> ***************
-> *** SPF Only **
-> ***************
-> 
-> eststo clear
-> 
-> foreach mom in Mean Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->     replace InfExp_`mom' = `var'_`mom'
->     replace InfExp_`mom'_ch = InfExp_`mom'-l1.InfExp_`mom'
->         capture replace InfExp_`mom'_rv = `var'_`mom'_rv  /// caputure because FE and Disg has to rev
-> 
->         eststo `var'_`mom'lvl: reg InfExp_`mom' l(1/2).InfExp_`mom' 
->     eststo `var'_`mom'diff: reg InfExp_`mom'_ch l(1/2).InfExp_`mom'_ch  
->         capture eststo `var'_`mom'_rv: reg InfExp_`mom'_rv l(1/2).InfExp_`mom'_rv 
-> 
->   {c )-}
-> {c )-}
-> esttab using "${c -(}sum_table_folder{c )-}/autoregSPFQ.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2) replace
-> eststo clear
-> 
-> 
-> *******************************
-> *** Unbiasedness Test        **
-> *******************************
-> eststo clear
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->       ttest `var'_`mom'=0
-> {c )-}
-> {c )-}
-> 
-> 
-> gen const=1
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->       
-> {c )-}
-> {c )-}
-> 
-> 
-> 
-> **********************************************
-> *** Revision Efficiency Test Using FE       **
-> **********************************************
-> 
-> gen const=1
-> 
-> foreach mom in FE{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->    
->    replace InfExp_Mean = `var'_Mean
->    replace InfExp_`mom' = `var'_`mom'
->    eststo `var'_`mom'_const: reg InfExp_`mom'
->    eststo `var'_`mom'_lag4: reg  InfExp_`mom' l(4).InfExp_Mean, robust
->    eststo `var'_`mom'_arlag4: reg InfExp_`mom' l(4).InfExp_`mom', robust
->    eststo `var'_`mom'_arlag13: reg  InfExp_`mom' l(1/3).InfExp_`mom', robust
-> 
->  {c )-}
-> {c )-}
-> esttab using "${c -(}sum_table_folder{c )-}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
-> 
-> 
-> ***************************************************
-> *** Revision Efficiency Test Using Mean Revision **
-> ***************************************************
-> 
-> 
-> foreach mom in Var{c -(}
->    foreach var in SPFCPI SPFPCE{c -(}
->     ttest `var'_`mom'_rv =0
->  {c )-}
-> {c )-}
-> 
-> eststo clear
-> 
-> foreach var in SPFCPI SPFPCE{c -(}
->   foreach mom in Mean{c -(}
->      replace InfExp_`mom' = `var'_`mom'
->          replace InfExp_`mom'l1 = `var'_`mom'l1
->      replace InfExp_`mom'f0 = `var'_`mom'f0
->      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
->          test _b[InfExp_`mom']=1
->           scalar btestpv= r(p)
->          estadd scalar btestpv
->          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
->          test _b[InfExp_`mom']=1
->          scalar btestpv= r(p)
->          estadd scalar btestpv
->          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
->      test _b[InfExp_`mom']=1
->          scalar btestpv= r(p)
->          estadd scalar btestpv
->  {c )-}
-> {c )-}
-> 
-> foreach var in SPFCPI SPFPCE{c -(}
->   foreach mom in Var{c -(}
->      replace InfExp_`mom' = `var'_`mom'
->      replace InfExp_`mom'l1 = `var'_`mom'l1
->          replace InfExp_`mom'f0 = `var'_`mom'f0
->      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
->          test _b[_cons]=0
->          scalar btestpv= r(p)
->          estadd scalar btestpv
->          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
->          test _b[_cons]=0
->          scalar btestpv= r(p)
->          estadd scalar btestpv
->          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
->          test _b[_cons]=0
->          scalar btestpv= r(p)
->          estadd scalar btestpv
->  {c )-}
-> {c )-}
-> 
-> esttab using "${c -(}sum_table_folder{c )-}/RVEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(btestpv N r2) sfmt(%8.3f %8.3f %8.3f) replace
-> */
-. 
-. 
-. save "${c -(}folder{c )-}/InfExpQ.dta",replace 
-{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData//InfExpQ.dta saved
-
-{com}. 
-. 
-. log close 
-      {txt}name:  {res}<unnamed>
-       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
-  {txt}log type:  {res}smcl
- {txt}closed on:  {res} 8 Jul 2019, 15:57:25
-{txt}{.-}
+{com}. capture log close
 {smcl}
-{txt}{sf}{ul off}
+{com}{sf}{ul off}
