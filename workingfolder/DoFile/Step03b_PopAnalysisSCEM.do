@@ -309,7 +309,7 @@ eststo clear
 
 local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
               Q9c_mean Q9c_var Q9c_disg Q9c_iqr ///
-              COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFCCPI_FE SPFPCE_FE ///
+              COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
 		      PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
 				
 local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
@@ -322,7 +322,9 @@ local MomentsMom PRCCPIMean0p25 PRCCPIMean1p25 PRCPCEMean0p25 PRCPCEMean1p25 ///
 			  PRCCPIMean0p50 PRCCPIMean1p50 PRCPCEMean0p50 PRCPCEMean1p50 /// 
               PRCCPIVar0p50 PRCCPIVar1p50 PRCPCEVar0p50 PRCPCEVar1p50 ///
 			  PRCCPIMean0p75 PRCCPIMean1p75 PRCPCEMean0p75 PRCPCEMean1p75 /// 
-              PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75
+              PRCCPIVar0p75 PRCCPIVar1p75 PRCPCEVar0p75 PRCPCEVar1p75  ///
+			  Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75 ///
+			  Q9c_meanp25 Q9c_meanp50 Q9c_meanp75 Q9c_varp25 Q9c_varp50 Q9c_varp75
 
 
 collapse (mean) `Moments' `MomentsMom' `MomentsRv', ///
@@ -427,7 +429,7 @@ foreach mom in Mean Var{
    }
 }
 
-
+/*
 *******************************************************
 **** Autoregression on the levels of population moments
 ********************************************************
@@ -515,11 +517,44 @@ foreach mom in FE{
  }
 }
 esttab using "${sum_table_folder}/FEEfficiencySCEM.csv", mtitles drop(_cons) se(%8.3f) scalars(N r2 ar2)  replace
+*/
+
+***************************************************
+*** Revision Efficiency Test Using Mean Revision **
+***************************************************
+
+
+tsset date
+
+eststo clear
+
+foreach var in SCE{
+  foreach mom in Mean{
+     replace InfExp_`mom'_rv =  `var'_`mom' - l12.`var'_`mom'1
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date)
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv, robust
+	 eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv, robust
+	 eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/6).InfExp_`mom'_rv, robust
+ }
+}
+
+foreach var in SCE{
+  foreach mom in Var{
+     replace InfExp_`mom'_rv =  `var'_`mom' - l12.`var'_`mom'1
+	 eststo `var'`mom'rvlv0: reg InfExp_`mom'_rv, vce(cluster date) 
+     eststo `var'`mom'rvlv1: reg InfExp_`mom'_rv l1.InfExp_`mom'_rv, robust
+	 eststo `var'`mom'rvlv2: reg  InfExp_`mom'_rv l(1/3).InfExp_`mom'_rv, robust
+	 eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/6).InfExp_`mom'_rv, robust
+ }
+}
+
+esttab using "${sum_table_folder}/RVEfficiencySCEM.csv", mtitles b(%8.3f) se(%8.3f) scalars(N r2) sfmt(%8.3f %8.3f %8.3f) replace
+
 
 /*
-**********************************************
-*** Revision Efficiency Test Using Mean Revision **
-**********************************************
+*******************************************************************
+*** Revision Efficiency Test Using Mean Revision Fuhrer's Approach**
+********************************************************************
 
 foreach mom in Var{
    foreach var in SCE{

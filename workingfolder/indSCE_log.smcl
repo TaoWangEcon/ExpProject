@@ -726,4 +726,7 @@ end of do-file
 
 {com}. clear
 
-. 
+. use "/Users/Myworld/Dropbox/ViaX/camp/Jojo/michigan_data_panel.dta"
+{txt}(Surveys of Consumers)
+
+{com}. 

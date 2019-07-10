@@ -533,9 +533,10 @@ foreach mom in FE{
 esttab using "${sum_table_folder}/FEEfficiencySPFQ.csv", mtitles se(%8.3f) scalars(N r2)  replace
 
 
-***************************************************
-*** Revision Efficiency Test Using Mean Revision **
-***************************************************
+
+*********************************************************************
+*** Revision Efficiency Test Using Mean Revision Fuhrer's approach **
+*********************************************************************
 
 
 foreach mom in Var{
