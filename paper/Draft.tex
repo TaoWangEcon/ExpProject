@@ -59,7 +59,7 @@ footskip=.25in]{geometry}
 	
 	An agent $i$ is forming expectations about a stochastic variable $y^i_{t+h}$. The superscript $i$ can be dropped if it is an aggregate (i.e. inflation) variable instead of individual-specific  (i.e. household income or house value). This paper focuses on forecasting of aggregate variables, in particular, inflation. So we can simply denote the variable as $y_{t+h}$.  \footnote{Only in the context of aggregate variable, it make sense to study the population moments such as average expectations and disagreements. Studying expectations of idiosyncratic variables requires individual panel data, as well as the idiosyncratic realizations of the variable. }
 	
-	Denote $ f_{i,t+h|t}$ as agent i's $h$-period-ahead density forecast. $ f_{i,t+h|t}$ is the conditional density of $y_{i,t+h}$ given the information set $I_{i,t}$ available at time $t$. 
+	Denote $ f_{t+h|t}$ as agent i's $h$-period-ahead density forecast. $ f_{i,t+h|t}$ is the conditional density of $y_{t+h}$ given the information set $I_{i,t}$ available at time $t$. 
 	
 	$$f_{i,t+h|t} \equiv f_{i,t}(y_{t+h}|I_{i,t})$$
 	
@@ -74,13 +74,13 @@ footskip=.25in]{geometry}
 	
 	$$\sigma^2_{i,t+h|t} \equiv Var_{i,t}( y_{t+h} )$$
 	
-	Individual forecast error $FE_{i,t+h|t}$ is the difference of ex post realized value of $y_{t+h}$ and individual forecast at time $t$. 
+	Individual forecast error $FE_{i,t+h|t}$ is the difference of individual forecast at time $t$ and ex post realized value of $y_{t+h}$.  
 	
 	$$FE_{i,t+h|t} = y_{i,t+h|t} - y_{t+h}$$
 	
 	The population analogs of individual mean forecast, uncertainty and forecast errors are simply the average of the individual moments taken across agents. Denote them as $\bar y_{t+h|t}$, $\bar \sigma^2_{t+h|t}$, and $\overline{FE}_{t+h|t}$, respectively. Hereafter, they are termed as the population mean forecast, population uncertainty and population forecast error, respectively. In addition, disagreement is defined as the cross-sectional variance of mean forecasts of individual agents.  Denote it as $\overline{Var}_{t+h|t}(y_{i,t+h|t}) $. To simplify notation, let us directly call it $\overline{Disg}_{t+h|t}$.  
 	
-	To abuse the language, I refer to the 3 individual indicators and 4 population indicators as moments and they are  listed in Table \ref{MomSum} 
+	To abuse the word moment in a way not completely complying with its statistical definition, I refer to the 3 individual indicators and 4 population indicators defined above as moments and they are  listed in Table \ref{MomSum}.
 	
 	\begin{table}[ht]
 		\centering
@@ -121,13 +121,13 @@ footskip=.25in]{geometry}
 	
 	I use superscript of $*$ to denote all the moments according to FIRE. It is easy to see that the forecast error is orthogonal to information available till time $t$. This provides the a well known null hypothesis of FIRE.
 	
-	The second implication from FIRE here is that forecast errors of non-overlapping horizon are not correlated. (Equation \ref{NoSerialCorrFE}). For instance, forecast error at time $t$ and that at time $t+h$ or further are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors.  These FE-based restrictions of FIRE provide the foundations for the tests used in Table \ref{NullTest}. 
+	The second implication from FIRE here is that forecast errors of non-overlapping horizon are not correlated. (Equation \ref{NoSerialCorrFE}). For instance, forecast error at time $t$ and that at time $t+h$ or further are not serially correlated. This is not the case within $h$ periods as the realized shocks in overlapping periods enter both forecast errors.  These FE-based restrictions of FIRE provide the foundations for the tests used in Section \ref{NullTest}. 
 	
 	\begin{eqnarray}\label{NoSerialCorrFE}
 		Cov(\overline{FE}^{*}_{t+h|t}, \overline{FE}^{*}_{t+s+h|t+s}) = 0 \quad \forall s \geq h
 	\end{eqnarray}
 	
-	Concerning uncertainty, the first simple implication by FIRE is that all individual shares the same degree of uncertainty. The uncertainty about future $y$ simply comes from uncertainty about unrealized shocks between $t$ and $t+h$. With the same model in mind (Equation \ref{AR_process}) and the same information $y_t$, everyone's uncertainty is equal to the weighted sum of the future volatility before its realization. (Equation \ref{VarREIndPop}). In FIRE, there are neither disagreements about mean, nor disagreements about the uncertainty \footnote{This is the same to \citet{jurado2015measuring}'s terminology.} 
+	Concerning uncertainty, the first simple implication by FIRE is that all individual shares the same degree of uncertainty. The uncertainty about future $y$ simply comes from uncertainty about unrealized shocks between $t$ and $t+h$. With the same model in mind (Equation \ref{AR_process}) and the same information $y_t$, everyone's uncertainty is equal to the weighted sum of the future volatility before its realization. (Equation \ref{VarREIndPop}). In FIRE, there are neither disagreements about mean, nor disagreements about the uncertainty \footnote{This is the same to \citet{jurado2015measuring}'s terminology.}. 
 	
 	\begin{eqnarray}\label{VarREIndPop}
 		\bar \sigma^{*2}_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}
@@ -338,7 +338,7 @@ footskip=.25in]{geometry}
 		\end{aligned}
 	\end{eqnarray}
 	
-	This directly gives the revision in uncertainty from time $t-1$ to $t$. The newly arrived information, although noisy, still brings about information gains, thus leading to an unambiguously drop on uncertainty. But due to the signal is not perfect, i.e. $\Sigma^v \neq 0$, there is inefficiency in reducing uncertainty compared to FIRE. 
+	This directly gives the revision in uncertainty from time $t-1$ to $t$. The newly arrived information, although noisy, still brings about information gains, thus leading to an unambiguously drop in uncertainty. But due to the signal is not perfect, i.e. $\Sigma^v \neq 0$, there is inefficiency in reducing uncertainty compared to FIRE. 
 	
 	\begin{eqnarray}\label{VarNIRv}
 		\Sigma^y_{i,t|t} - \Sigma^y_{i,t|t-1} = - \Sigma^y_{i,t|t-1} H'(H \Sigma^y_{i,t-1} H' +\Sigma^v) H \Sigma^y_{i,t|t-1} <0
@@ -358,15 +358,15 @@ footskip=.25in]{geometry}
 	
 	From the top left figure, the agent's nowcasting $y_{t+k|t+k}$, namely her best real-time guess based on prior and the realized signal at each period roughly tracks the $y_{t+k}$ and responds partially to signals in each period. Correspondingly, her forecasting of $y$ at $t+10$ also centers around the true value. 
 	
-	FIRE implies agent learns realized $y$ in each period perfectly. Thus the nowcasting remains zero throughout the whole horizon. Nowcasting uncertainty picks up in the realization of shock and gradually declines as more and more information signals are realized. This comes from the information gains from Kalman filtering. 
+	FIRE implies agent learns realized $y$ in each period perfectly. Thus the nowcasting remains zero throughout the whole horizon. Nowcasting uncertainty picks up in the realization of shock and gradually declines as more and more signals are learnt. This comes from the information gains from Kalman filtering. 
 	
-	In the first sight, the sharp rise in nowcasting uncertainty at the beginning of the period being only humbly reflected in the forecasting uncertainty seems counterintuitive. Actually this is due to nowcasting uncertainty is discounted by the factor of $\rho^2(h-k)$.  (Equation \ref{VarNIEq}). It is also interesting that for the particular configurations of the noisiness of the signals, the drop in forecasting uncertainty from NI is not as inefficient as one may have expected compared to FIRE.  This has important quantitative implications for NI models. In particular, the nosiness of the signals needs to be consistent with the degree of rigidity. I will return this point in the next section.  
+	In the first sight, the sharp rise in nowcasting uncertainty at the beginning of the period being only humbly reflected in the forecasting uncertainty seems counterintuitive. Actually this is due to nowcasting uncertainty is discounted by the factor of $\rho^{2(h-k)}$.  (Equation \ref{VarNIEq}). It is also interesting that for the particular configurations of the noisiness of the signals, the drop in forecasting uncertainty from NI is not as inefficient as one may have expected compared to FIRE.  This has important quantitative implications for NI models. In particular, the nosiness of the signals needs to be consistent with the degree of rigidity. I will return this point in the next section.  
 	
 	\begin{figure}[ht]
 		\centering
 		\includegraphics[width=13cm]{figures/ni_illustration.png}  \\
 		\begin{flushleft}
-		{\footnotesize Note: the top two figures plot the nowcasting of $y_{t+k}$  at time $t+k$ and forecasting of $y_{t+h}$ at time $t+k$  based on a Kalman filtering together with FIRE after a one-time shock of one unit at time $t$. The nowcasting and forecasting uncertainty are correspondingly plotted in the bottom. Both private signal and public signal have the conditional variance equal to long-run variance of y, i.e.  $\sigma_\epsilon = \sigma_\xi = \sigma_y$. The plotted signals are are a pair of particular draw from their respective conditional distribution. }
+		{\footnotesize Note: the top two figures plot the nowcasting of $y_{t+k}$  at time $t+k$ and forecasting of $y_{t+h}$ at time $t+k$ through Kalman filtering and through FIRE after a one-time shock of size of one unit at time $t$. The nowcasting and forecasting uncertainty are correspondingly plotted in the bottom. Both private signal and public signal have the conditional variance equal to long-run variance of y, i.e.  $\sigma_\epsilon = \sigma_\xi = \sigma_y$. The plotted signals are are a pair of particular draw from their respective conditional distribution. }
 		\end{flushleft}
 		\caption{Nowcasting and Forecasting in Noisy Information}
 		\label{IllustrateNI}
@@ -385,9 +385,9 @@ footskip=.25in]{geometry}
 	\subsubsection{Summary of predictions from noisy information}
 	
 	\begin{itemize}
-		\item Individual and population expectation adjusts in each period, but only partially adjusts to new information. 
+		\item Individual and population expectation adjust in each period, but only partially adjusts to new information. 
 		\item  Individual and population uncertainty unambiguously drop each period as one approaches the period of realization.  
-		\item  Population disagreements rise in each period as time approaches the period of realization. Disagreements will never be zero. 
+		\item  Population disagreement rises in each period as time approaches the period of realization. Disagreements will never be zero. 
 	\end{itemize}
 	
 	
@@ -395,7 +395,7 @@ footskip=.25in]{geometry}
 	
 	Taking stock, both SE and NI predict rigidity in incorporating the arrival of new information. In the former context, the rigidity comes from the simple non-updating of the most realization of the variable. In the latter case, the rigidity comes from a partial reaction to new information due to the nosiness of the signals.  In addition to forecast and disagreements, the rigidity is also reflected in the dynamics of uncertainty.  Uncertainty in SE does not resolve as rapidly as in FIRE because the newly realized shocks do not get updated by some of the agents. While in NI, the drop in uncertainty is dampened because there is additional uncertainty associated with the real-time realization of the variable.  
 	
-	Figure \ref{ir_pop} illustrates the impulse response of population moments to a hypothetical one-time shock of size one unit at time $t$ according to different theories. Still, I maintain the assumption in \ref{IllustrateNI} that the standard deviation of private and public signals are both equal to one unconditional standard deviation of $y$.  And the $\lambda$ is set to be $0.75$, implying on average an update interval of four quarters.  
+	Figure \ref{ir_pop} illustrates the impulse response of population moments to a hypothetical one-time shock of size one unit at time $t$ according to different theories. Still, I maintain the assumption in Figure \ref{IllustrateNI} that the standard deviation of private and public signals are both equal to one unconditional standard deviation of $y$.  And the $\lambda$ is set to be $0.75$, implying on average an update interval of four quarters.  
 	
 	
 	Both FE and disagreements from SE and NI exhibit sluggish adjustment following the shock as we have anticipated. Both pick up in the time of the shock and gradually declines over the horizon as the forecaster approaches terminate date $t+10$. The difference is that in NI, both the forecast and forecast errors move up and downs around the smooth version of the SE since signals are not perfect. 
@@ -419,7 +419,7 @@ footskip=.25in]{geometry}
 	
 	In order to understand why the rigidity seen from uncertainty is de facto much lower in NI that in SE for a sensible values of the noisiness of signals , I plot the implied rigidity from two models in Figure \ref{rigidity} for three different values of nosiness of signals in NI while fixing rigidity in SE to be $1-\lambda =0.75$. In particular, the noisiness range from $0.1$, $1$ and $10$ times of the long-run variance of $y$. 
 	
-	As it is made clear by the Figure, one notable difference between the two models is that SE's rigidity is exogenously fixed while NI's rigidity is endogenously determined by the horizon thus time varying. In particular, the implied rigidity from NI in the time of the shock, given there is substantial information gain from Kalman filtering in the same period, is quite low. For a noisiness of both signals as 10 times as high of the unconditional standard deviation of $y$, the rigidity only reaches the fixed rigidity in SE till the 8-th period. But since by that time, the initial information provided by the shock at time $t$ has been mostly absorbed by NI agent, so in fact the uncertainty revision in NI is quite efficient compared to SE models.  This echoes our earlier observation in Figure \ref{IllustrateNI}. 
+	As it is made clear by the Figure \ref{rigidity}, one notable difference between the two models is that SE's rigidity is exogenously fixed while NI's rigidity is endogenously determined by the horizon thus time varying. In particular, the implied rigidity from NI in the time of the shock, given there is substantial information gain from Kalman filtering in the same period, is quite low. For a noisiness of both signals as 10 times as high of the unconditional standard deviation of $y$, the rigidity only reaches the fixed rigidity in SE till the 8-th period. But since by that time, the initial information provided by the shock at time $t$ has been mostly absorbed by NI agent, so in fact the uncertainty revision in NI is quite efficient compared to SE models.  This echoes our earlier observation in Figure \ref{IllustrateNI}. 
 	
 	
 	\begin{figure}[ht]
@@ -438,7 +438,7 @@ footskip=.25in]{geometry}
 	
 	\subsection{Data}
 	
-	The focus of this paper naturally restricts my options of the survey data to use compared to other empirical literature of testing theories of expectation formation.  The surveys who have elicited density forecasts of macroeconomic variables for a sufficiently long period has been rare. Rarer, for the purpose of the paper, is the data structure that allows for comparing the revisions across vintages that have a fixed terminate date of realization, either in individual level or aggregate level. 
+	The focus of this paper naturally restricts my options of the survey data to use compared to other empirical literature of testing theories of expectation formation.  The surveys that have elicited density forecasts of macroeconomic variables for a sufficiently long period are rare. Rarer, for the purpose of the paper, is the data structure that allows for comparing the revisions across vintages that have a fixed terminate date of realization, either in individual level or aggregate level. 
 	
 	Survey of Professional Forecasters(SPF) meet both criteria thanks to the density forecasts of a number of macroeconomic variables, including core CPI and core PCE inflation they have started eliciting since 2007, as well as a longer series of GDP deflator dating back to 1968. This paper focus on the first two, for which both forecast for current-year inflation, basically nowcast, and one-year-ahead forecast are based on densities. This make it possible to directly test the implications about the revisions in uncertainty across different vintages of forecasts.   
 	
@@ -481,7 +481,7 @@ footskip=.25in]{geometry}
 	
 	It is widely documented in literature \footnote{The list literature showing positive inflation and uncertainty is long. For example \citet{ball1990inflation}. } and resonated by anecdotal narratives that high inflation is typically associated with high inflation uncertainty. However, the observable correlation of realized inflation and the directly estimated average uncertainty from both professionals and households are at most weakly positive during the period between 2007-2019. In particular, the correlation coefficients  0.14, 0.12 and -0.24 for SPF's CPI forecast, SPF's PCE forecast and SCE's CPI expectation. This may suggest that during a period of persistently low and stable inflation, the conventional positive redux of inflation and uncertainty is not a good description of the relation of the two. 
 	
-	The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationship between size of the forecast error and uncertainty. Although according to our benchmark framework in \ref{theory}, there is no mathematical correlation between the size of the forecast errors and uncertainty as the former depends on the realized shocks and the later depends on the volatility of the shock, it is worth checking if in the data a greater ex ante uncertainty implies bigger ex post forecast errors. The correlation coefficients of the two are -0.19, -0.18 and 0.27 for SPF CPI forecasts, SPF PCE forecasts and SCE's forecasts, respectively. The two indicators turn out to be negatively correlated for professional forecasts. Only households forecasts exhibit such a positive correlation.   
+	The middle row of Figure \ref{UnceratitnyOtherMoments} looks into the relationship between size of the forecast error and uncertainty. Although according to our benchmark framework in Section \ref{theory}, there is no mathematical correlation between the size of the forecast errors and uncertainty as the former depends on the realized shocks and the later depends on the volatility of the shock, it is worth checking if in the data a greater ex ante uncertainty implies bigger ex post forecast errors. The correlation coefficients of the two are -0.19, -0.18 and 0.27 for SPF CPI forecasts, SPF PCE forecasts and SCE's forecasts, respectively. The two indicators turn out to be negatively correlated for professional forecasts. Only households forecasts exhibit such a positive correlation.   
 	
 	The last row of Figure \ref{UnceratitnyOtherMoments} examines the relationship between disagreement and uncertainty. Many empirical literatures in macroeconomics use disagreements and uncertainty as if they are similar concepts. Such a confusion in practice is partly due to the difficulty of finding appropriate measures of uncertainty in the first place. But as we have presented in \ref{theory}, the two are concepts with distinct statistical definitions. The empirical pattern of the two,  as shown in the plots, also confirms that the two are different objects. The correlation coefficients of the two turn out to be negative, -0.31 and -0.37 for SPF forecasts. In stark contrast, households seem to bear a strong correlation of 0.43 between the two moments.  
 	
@@ -606,7 +606,7 @@ footskip=.25in]{geometry}
 	
 	\subsection{Test of null hypothesis of rational expectation}\label{NullTest}
 	
-	This section first reproduces a number of statistical tests of FIRE used seen existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests relying on uncertainty in Table \ref{RevEfficiency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It is an extension of what \citet{fuhrer2018intrinsic} does to mean forecast to uncertainty.  
+	This section first reproduces a number of statistical tests of FIRE used seen existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests relying on uncertainty in Table \ref{RevEfficiency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It is an extension of revision tests on mean forecasts by \citet{fuhrer2018intrinsic} to uncertainty.  
 	
 	The first set of tests, hereafter, referred to as FE-based tests, utilize the moment restrictions on forecast errors. In plain words, the null hypotheses of the three tests are the following. First, since the forecasts are on average unbiased according to FIRE, forecast errors across agents should converge to zero in a large sample. Second, forecast errors of non-overlapping forecasting horizon are not serially correlated (Equation \ref{NoSerialCorrFE} ).  Third, forecast errors cannot be predicted by any information available at the time of the forecast, including the mean forecast itself and other variables that are in the agent's information set. This follows from Equation \ref{NoPastInfFE}. In addition, I include what is called weak version of the FE-based test which explores the serial correlation of forecast errors in overlapping periods,  i.e. 1-year-ahead forecasts within one year. The forecast errors are correlated to the extent of the realized shocks in the overlapping periods. So the positive serial correlation does not directly violates FIRE. But the correlation of overlapping forecast errors still contain the useful information about the size of the realized shocks. 
 	
