@@ -30,7 +30,7 @@ footskip=.25in]{geometry}
 	\maketitle
 	
 	\begin{abstract}
-		Surveys on density forecasts of macroeconomic variable that are not availables until recently provide one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion in uncertainty about future inflation as well as other stylized facts across economists and households.  Second,  utilizing the panel data of individual uncertainty, I provide additional test results and estimates that are not consistent with the benchmark prediction of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theories of expectation rigidity and additional evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific rigidity using uncertainty as the next step of the analysis.  
+		Surveys on density forecasts of macroeconomic variable that are not available until recently provide one additional moment restriction, uncertainty, for testing and exploring the implications of various theories on expectation formation. This paper first documents the persistent dispersion in uncertainty about future inflation as well as other stylized facts across economists and households.  Second,  utilizing the panel data of individual uncertainty, I provide additional test results and estimates that are not consistent with the benchmark prediction of full-information rational expectation (FIRE). Finally, using externally identified shocks to inflation, I show the dynamic responses of forecasting moments to shocks are broadly consistent with theories of expectation rigidity and additional evidence for shock-dependent nature of the rigidity.  This sets the stage for estimating shock-specific rigidity using uncertainty as the next step of the analysis.  
 		
 	\end{abstract}
 	
@@ -49,7 +49,7 @@ footskip=.25in]{geometry}
 	
 	Second, the literature that has been originally developed under the theme of forecast efficiency provides a framework analyzing the dynamics of uncertainty useful for the purpose of this paper. The focus of the forecasting efficiency literature is evaluating forecasters' performance and improving forecasting methodology, but it can be adapted to test the theories of expectation formation of different types of agents. This is especially relevant to this paper as I focus on the uncertainty. 
 	
-	Third, \citet{manski2004measuring} and many other papers have advocated long for eliciting probabilistic questions measuring subjective uncertainty in economic surveys. Although the initial suspicion concerning to people's ability in understanding, using and answering probabilistic questions is understandable, \citet{bertrand2001people} and other work have all shown that this is actually less of a concern. \citet{armantier2017overview} have a thorough discussion on designing, experimenting and implementing the consumer expectation surveys to insure the quality of the responses. Broadly speaking, the advocators have argued that going beyond the revealed preference approach, availability to survey data provides economists with direct information on agents' expectations and helps avoids imposing arbitrary assumption.  This insight holds for not only point forecast, but also and even more importantly, for uncertainty.
+	Third, \citet{manski2004measuring},\citet{delavande2011measuring} and many other papers have advocated long for eliciting probabilistic questions measuring subjective uncertainty in economic surveys. Although the initial suspicion concerning to people's ability in understanding, using and answering probabilistic questions is understandable, \citet{bertrand2001people} and other work have shown respondents’ consistent ability and willingness to assign a probability (or “percent chance”) to future events. \citet{armantier2017overview} have a thorough discussion on designing, experimenting and implementing the consumer expectation surveys to insure the quality of the responses\footnote{Other literature includes \citet{van2008rethinking},\citet{delavande2014probabilistic}. etc.}. Broadly speaking, the advocators have argued that going beyond the revealed preference approach, availability to survey data provides economists with direct information on agents' expectations and helps avoids imposing arbitrary assumption.  This insight holds for not only point forecast, but also and even more importantly, for uncertainty.
 	
 	The paper is organized as followed. Section \ref{theory} first sets up a common framework in which testable various theories can be compared. Also, I derive the testable predictions from these theories for individual and population uncertainty as well as other moments. Section \ref{empirical} discusses the survey data used for this paper and presents both the stylized patterns and time series regressions that test the implications of these theories.   Section \ref{ShockBased} includes results from estimating the impulse response of forecast moments to externally identified shocks.  Section \ref{Conclusion} concludes the paper and discusses the plan for the next step. 
 	
@@ -473,7 +473,7 @@ footskip=.25in]{geometry}
 		\end{tabularx}
 	\end{table}
 	
-	Throughout the paper, I use three measures of inflation: headline CPI, core CPI and core PCE . Depending on the specific variable of forecast in the survey series, the realization of the corresponding inflation is used to compute moments such as forecast errors. Specifically, SPF has density forecasts for both core CPI and core PCE \footnote{SPF also  has density forecasts for GDP deflator(for GNP prior to 1992:Q1) going back to 1968. Since the ranges of the values as we as the definition have not been consistent over time. I do not use it in this paper.}. For SCE, as the households responders are asked about the overall inflation, It is the most appropriate to be interpreted as  headline CPI inflation. To simplify the expression, from now on, core CPI and core PCE are simply referred to as CPI and PCE, respectively. 
+	Throughout the paper, I use three measures of inflation: headline CPI, core CPI and core PCE . Depending on the specific variable of forecast in the survey series, the realization of the corresponding inflation is used to compute moments such as forecast errors. Specifically, SPF has density forecasts for both core CPI and core PCE \footnote{SPF also  has density forecasts for GDP deflator(for GNP prior to 1992:Q1) going back to 1968. Since the ranges of the values and the definition are not consistent over time, I do not use it in this paper.}. For SCE, as the households responders are asked about the overall inflation, It is the most appropriate to be interpreted as  headline CPI inflation. To simplify the expression, from now on, core CPI and core PCE are simply referred to as CPI and PCE, respectively. 
 
 	\subsection{Stylized facts}
 	
@@ -493,7 +493,7 @@ footskip=.25in]{geometry}
 	
 	Besides, in terms of the distribution of uncertainty, there are households/professional difference and similarity. Households' uncertainty is more skewed toward to the right (higher uncertainty), meaning there is a wide dispersion in the high values of uncertainty. This can be also seen in Figure \ref{Unceratitny_Histogram}, where I plot the kernel density estimated distribution of uncertainty by year on. What is common for both types of agents is that the dispersion in uncertainty is persistent over time and do not show much time-variation.  
 	
-	Another pattern worth discussing in Figure \ref{IQR_Unceratitny} is that there is a notable rise in the dispersion of professional forecasts in the recent 2-3 years, primarily driven by an increase of upper side of the forecast (i.e. 75 percentile forecast increases from 1\% to 2\%). \footnote{This should be interpreted with caution since the disagreements of SPF forecasts shown in bottom row of Figure \ref{UnceratitnyOtherMoments} actually exhibits a gradual decline. } This is consistent with the observation in the top left two graphs of Figure \ref{Unceratitny_Histogram} that the distribution of inflation forecasts in recent years have become flattened.
+	Another pattern worth discussing in Figure \ref{IQR_Unceratitny} is that there is a notable rise in the dispersion of professional forecasts in the recent 2-3 years, primarily driven by an increase of upper side of the forecast (i.e. 75 percentile forecast increases from 1\% to 2\%). \footnote{This should be interpreted with caution since the disagreements of SPF forecasts shown in bottom row of Figure \ref{UncertaintyOtherMoments} actually exhibits a gradual decline. } This is consistent with the observation in the top left two graphs of Figure \ref{Unceratitny_Histogram} that the distribution of inflation forecasts in recent years have become flattened.
 	
 	FIRE also predicts an unambiguous reduction in uncertainty as one approaches the date of realization, where the drop is exactly equal to the volatility of the realized shocks. Although quantitatively it is hard to check this, one can look if the distribution of the uncertainty revision concentrate in the negative range. Figure \ref{RevisionHist} plots the average revision in mean forecasts and uncertainty from 1-year-ahead forecast in year $t-1$ to the current-year nowcast in year $t$. The more negative range in which the revision lies, the more ``rational'' of the forecast. Looking from the histograms, uncertainty revision shows left-skewness relative to zero. This implies on average,  forecasters feel more certain for her nowcasts relative to her forecast made one year before.  Unfortunately, since SCE does not provide the data structure for this purpose, I cannot make a comparison between two types of agents. A formal test of revision equal to zero or being negative will be carried out in the Section \ref{NullTest}. 
 	
@@ -533,7 +533,7 @@ footskip=.25in]{geometry}
 			{\footnotesize Note:  From left to right: SPF's  forecasts of core CPI and core PCE, and SCE's forecast of headline CPI. From top to the bottom, uncertainty (red dash) versus realized inflation (blue dot) with correlation coefficient of 0.14, 0.12 and -0.25, respectively; uncertainty (red dash) versus absolute value of forecast errors (blue dot) with correlation coefficient of -0.19, -0.18, 0.27, respectively; uncertainty (red dash) versus  disagreements (blue dot) with correlation coefficient of -0.31, -0.37 and 0.43,repectively. Only the Pearson tests of correlation between disagreement and uncertainty are significant for all.}
 		\end{flushleft}
 		\caption{Uncertainty and Other Moments}
-		\label{UnceratitnyOtherMoments}
+		\label{UncertaintyOtherMoments}
 	\end{figure}
 	
 	
@@ -565,7 +565,7 @@ footskip=.25in]{geometry}
 	\begin{figure}[ht]
 		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
-		\caption{Revision in Mean Forecasts}
+		\caption{Mean Forecasts}
 		\includegraphics[width=7cm]{figures/PRCCPIMean1_hist.png} 
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEMean1_hist.png} 
@@ -574,7 +574,7 @@ footskip=.25in]{geometry}
 		\end{subfigure}
 	   \hfill 
 	  	\begin{subfigure}[b]{0.5\textwidth}
-	  	\caption{Revision in Uncertainty}
+	  	\caption{Uncertainty}
 		\includegraphics[width=7cm]{figures/PRCCPIVar1_hist.png}  
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEVar1_hist.png}  
@@ -589,12 +589,14 @@ footskip=.25in]{geometry}
 	\begin{figure}[ht]
 		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
+		\caption{Revision in Mean Forecasts}
 		\includegraphics[width=7cm]{figures/PRCCPIMean01_rv_true_hist.png} 
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEMean01_rv_true_hist.png} 
 		\end{subfigure}
 		   \hfill 
 		\begin{subfigure}[b]{0.5\textwidth}
+					\caption{Revision in Uncertainty}
 		\includegraphics[width=7cm]{figures/PRCCPIVar01_rv_true_hist.png}  
 		\smallskip
 		\includegraphics[width=7cm]{figures/PRCPCEVar01_rv_true_hist.png} 
@@ -606,7 +608,7 @@ footskip=.25in]{geometry}
 	
 	\subsection{Test of null hypothesis of rational expectation}\label{NullTest}
 	
-	This section first reproduces a number of statistical tests of FIRE used seen existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests relying on uncertainty in Table \ref{RevEfficiency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It is an extension of revision tests on mean forecasts by \citet{fuhrer2018intrinsic} to uncertainty.  
+	This section first reproduces a number of statistical tests of FIRE seen in existing literature in Table \ref{NullTestTable}, primarily following \citet{mankiw2003disagreement},  and then extends the tests relying on uncertainty in Table \ref{RevEfficiency} and \ref{WeakRevEfficiency}, in the spirit of forecasting efficiency by \citet{nordhaus1987forecasting}. It is an extension of revision tests on mean forecasts by \citet{fuhrer2018intrinsic} to uncertainty.  
 	
 	The first set of tests, hereafter, referred to as FE-based tests, utilize the moment restrictions on forecast errors. In plain words, the null hypotheses of the three tests are the following. First, since the forecasts are on average unbiased according to FIRE, forecast errors across agents should converge to zero in a large sample. Second, forecast errors of non-overlapping forecasting horizon are not serially correlated (Equation \ref{NoSerialCorrFE} ).  Third, forecast errors cannot be predicted by any information available at the time of the forecast, including the mean forecast itself and other variables that are in the agent's information set. This follows from Equation \ref{NoPastInfFE}. In addition, I include what is called weak version of the FE-based test which explores the serial correlation of forecast errors in overlapping periods,  i.e. 1-year-ahead forecasts within one year. The forecast errors are correlated to the extent of the realized shocks in the overlapping periods. So the positive serial correlation does not directly violates FIRE. But the correlation of overlapping forecast errors still contain the useful information about the size of the realized shocks. 
 	
@@ -614,7 +616,7 @@ footskip=.25in]{geometry}
 	
 	First,  all three forecast series easily reject the unbiasedness test at the significance level of $1\%$. There is upward bias across professional forecasters and households \footnote{\citet{coibion2018firms} finds the same upward bias for firms' managers.}, while unsurprisingly, the bias is almost 20 times of that for professional forecasters(2.2 versus 0.12) for headline CPI. 
 	
-	Second, the point forecast one year ago predicts the forecast errors for professionals in the significance level of 1\%. For headline CPI inflation, for instance, one percentage point inflation forecast corresponds to 0.3 percentage points of the forecast errors one year later. Thus test 2 in Table \ref{NullTestTable} easily rejects the second hypothesis test of FIRE that past information does not predict future forecast errors. 
+	Second, the point forecast one year ago predicts the forecast errors for professionals in the significance level of $1\%$. For headline CPI inflation, for instance, one percentage point inflation forecast corresponds to 0.3 percentage points of the forecast errors one year later. Thus test 2 in Table \ref{NullTestTable} easily rejects the second hypothesis test of FIRE that past information does not predict future forecast errors. 
 	
 	Third, forecast errors can be predicted by forecast errors one year ago with a significant coefficient of around $0.08$ for headline CPI and $0.05$ for PCE, as seen in test 3 of Table \ref{NullTestTable}. Errors of non-overlapping forecasting periods are correlated, against the null of FIRE. 
 	
@@ -759,8 +761,18 @@ footskip=.25in]{geometry}
 		\end{sidewaystable}
 	
 	
-	Table \ref{WeakRevEfficiency} presents the results with the revision replaced with change in mean forecasts and uncertainty, i.e. $y_{t|t-1}$ to $y_{t+1|t}$. The auto-correlation of change in mean forecast and uncertainty does not embed tests of null of FIRE (Equation \ref{VarREPop}). But if the individual forecasts and their uncertainty are persistent over different horizons, this implies that the agent does not react to the news and newly realized shocks enough. 
+	Table \ref{WeakRevEfficiency} presents the results with the revision replaced with change in mean forecasts and uncertainty, i.e. from $y_{t|t-1}$ to $y_{t+1|t}$. As we have discussed in Section \ref{theory}, the auto-correlation of change in mean forecast and uncertainty do not bear testable predictions from FIRE (Equation \ref{VarREPop}). But if the  forecasts and uncertainty are persistent in its first difference, it may imply that the agent does not react to the news and newly realized shocks sufficiently enough. In addition, the auto-correlation regressions of this kind is a useful characterization of the time series dynamics of forecasts. With the variable being the first difference, the panel structure of SCE and SPF allows for calculating changes in individual levels for a greater sample size, especially for households. Besides autoregression, I also report the constant estimate of the changes in the first column of each sub panel. 
 	
+    The most noticeable pattern for both professionals and households, and for both mean forecast and uncertainty is that past change predict future changes with universally negative coefficients across different horizons. Most of the negative coefficients are statistically significant in the 1\% level. For instance, one percentage point of increase in SPF's CPI forecast in the previous quarter predicts around 0.29 percentage points decreases in next quarter. This negative correlation are smaller in size but remain significant into further past, i.e. -0.24 for two quarters lag and -0.1 for three quarters lag. Data on SCE is monthly, so lags are included up to six months. The negative correlation between past and current changes are all negative and significant for households. The sizes of the correlation coefficients are comparable with professional forecasts when the monthly coefficients are converted to their quarterly average, i.e. -0.3 to -0.4. 
+    
+    Such an auto-correlation of change in mean forecast is very much reflected in the same regression for uncertainty, as reported in the bottom panel of Table \ref{WeakRevEfficiency}.  For SPF of CPI and PCE, respectively, one unit increase in uncertainty about 1-year-ahead inflation in previous quarter predicts around a 0.39 and 0.44 unit of the drop in next quarter. The effect holds up to two quarters for professionals and 5 months for households. 
+    
+    These evidences suggest that both mean forecast and uncertainty of individuals are mean-reverting. An essentially equivalent explanation is that both series are realizations of noisy signals around their respective long-run mean. This will lead to exactly negative correlation of first differences as we have seen. The mean-reverting patterns might also explain what is observed from Figure \ref{Unceratitny_Histogram}, according to which, there is no significant changes in the distribution across different years. 
+    
+    The second noticeable result lies in the constant regressions reported in the first column of each sub panel in Table \ref{WeakRevEfficiency}. It implies that households constantly lower their mean forecasts as well as uncertainty from month to month, while professional forecasts do not behave in such a way. In particular, the constant regression of change in mean forecast for SCE gives an estimated coefficient of -0.05 which is significant in the $5\%$ level. Individual households' 1-year-ahead inflation expectations keep being downward adjusted each month compared to their previous answer. What is more interesting is that their uncertainty about 1-year-ahead inflation also decrease each month.  The size of downward adjustment is  $-1.39$ unit and statistically significant in the level of $1\%.$. This negative significant constant coefficient remains throughout all auto-regressions, implying it is not driven by time-varying changes. 
+
+   The most natural explanation for this that repeatedly surveyed households have become more informative about inflation over time. Given the unconditional forecast errors of inflation by households are positive, a downward adjustment of inflation stands for a less-biased forecast.   \footnote{The possibility that the surveys' information set is influenced by the survey itself is a double-edged sword. One one hand, this poses a methodological challenge to the survey designers of expectations as to if surveys can objectively elicit the ``true’’ expectations held by the respondents. On the other hand, researchers can use survey as a meaningful intervention tool to identify the effect of factors such as information provision and attention. Recent examples of this type of research includes: \citet{coibion2018firms} for firms and \citet{coibion2019monetary} for households.}
+    
 	
 	\begin{sidewaystable}[ht]
 		\begin{adjustbox}{width={24cm},totalheight={14cm}}
@@ -827,12 +839,15 @@ footskip=.25in]{geometry}
 			\end{threeparttable}
 		\end{adjustbox}
 	\end{sidewaystable}
-	
+
+  In summary, the major additional insights that arise from the empirical tests of this section is that rigidity of incorporating new information in forming expectations imply noticeable inefficiency of revisions in forecasts and drop in uncertainty. 
+  
+  
 	\section{Shock-based Estimates of Expectation Rigidity }\label{ShockBased}
 	
 	\citet{coibion2012can} explores the implications of expectation rigidity models using externally identified shocks to inflation.  Unlike the time series regressions that test null hypotheses of FIRE in the previous section, this approach allows a more straightforward comparison between the empirical evidence from surveys and the theoretical predictions illustrated in Figure \ref{ir_pop}. The difficulty of this approach lies in identifying a shock $\omega_t$ that is a pure innovation to inflation at time $t$. 
 	
-	I use three types of shocks: technology(productivity) shock from \citet{gali1999technology}, oil price shock from \citet{hamilton1996happened} and monetary policy shocks from  \citet{laseen2011anticipated}. The first two are the same in \citet{coibion2012can}. \footnote{ Another shock in \citet{coibon2012can} is the news shock by \citet{barsky2011news}. This will be included in later version of the paper.} 
+	I use three types of shocks: technology(productivity) shock from \citet{gali1999technology}, oil price shock from \citet{hamilton1996happened} and monetary policy shocks from  \citet{laseen2011anticipated}. The first two are the same in \citet{coibion2012can}. \footnote{ \citet{coibion2012can} also uses the news shock by \citet{barsky2011news}. This will be included in later version of the paper.} 
 	
 	
 	(1) Technology shock is identified from a three-variate structural vector autoregression(SVAR) model  (output per capita, hours and inflation) by imposing a widely used long-run restriction that non-technology shocks have no long-run output impacts. Based on Bayes information criterion, I use the lag of 4 quarters as in \citet{coibion2012can} \footnote{A recent alternative to long-run restriction approach is the ``max-share approach'' developed by \citet{francis2014flexible}. It is shown to have better small-sample properties. In particular,  the approach defines technology shock as the variation of current period labor productivity (output per hour) that explains the maximum fraction of future labor productivity over an exogenously determined horizon. The results using this shock will be included in a later version of the paper. For the replication purpose now, I stay with \citet{gali1999technology}}. The sample period used to identify the shock is 1949-2019, while the period where it enters my analysis is the same to the period of survey data: 2007-2019 for SPF and 2013-2019 for SCE. 
@@ -847,7 +862,7 @@ footskip=.25in]{geometry}
 	
 	\begin{figure}[ht]
 		\centering
-		\includegraphics[width=0.7\textwidth]{figures/inf_shocksQ.png}
+		\includegraphics[width=0.8\textwidth,totalheight=0.6\textwidth]{figures/inf_shocksQ.png}
 			\begin{flushleft}
 			{\footnotesize Note: all the shocks are normalized by their sample standard deviation. Technology shock is idetified by long-run restriction of structural VAR with labor productivity, hours and inflation. Oil shock is defined as the max \{0, the largest increase of oil price over the past 12 months.\} }
 		\end{flushleft}
@@ -967,7 +982,7 @@ footskip=.25in]{geometry}
 	
 	Estimated in higher frequency, the response to target surprise is on average 0.25 percentage points and statistically significant in $10\%$ level. This confirms the wide practice of the literature that identifies monetary non-neutrality using high frequency data. In contrast, the inflation responses to path surprise are not significant. 
 	
-	As to the households forecast, the starkly wider confidence band across  shocks and moments seen in Figure \ref{SCE_IR} are not that surprising given the wide dispersion of the forecasts moments of a dramatically larger magnitude seen in Figure \ref{UnceratitnyOtherMoments}.  
+	As to the households forecast, the starkly wider confidence band across  shocks and moments seen in Figure \ref{SCE_IR} are not that surprising given the wide dispersion of the forecasts moments of a dramatically larger magnitude seen in Figure \ref{UncertaintyOtherMoments}.  
 	
 	One of the major patterns arising here is that there is no notable difference in responses to oil price shock versus monetary policy shocks, as seen in professional forecasters.  Average forecast errors react to none of these shocks and neither do disagreements and uncertainty.  
 	
