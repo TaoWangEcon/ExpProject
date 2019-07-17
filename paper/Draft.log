@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  17 JUL 2019 11:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.15 (TeX Live 2014) (preloaded format=pdflatex 2019.2.21)  17 JUL 2019 16:12
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -550,7 +550,7 @@ Overfull \hbox (4.61739pt too wide) in paragraph at lines 497--498
 ere are house-holds/professional
  []
 
-[16] <figures/Inf1yf_CPICore_varSPFCPIQ.png, id=378, 932.98563pt x 678.535pt>
+[16] <figures/Inf1yf_CPICore_varSPFCPIQ.png, id=381, 932.98563pt x 678.535pt>
 File: figures/Inf1yf_CPICore_varSPFCPIQ.png Graphic file (type png)
 
 <use figures/Inf1yf_CPICore_varSPFCPIQ.png>
@@ -558,7 +558,7 @@ Package pdftex.def Info: figures/Inf1yf_CPICore_varSPFCPIQ.png used on input li
 ne 510.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/Inf1yf_PCECore_varSPFPCEQ.png, id=379, 932.98563pt x 678.535pt>
+<figures/Inf1yf_PCECore_varSPFPCEQ.png, id=382, 932.98563pt x 678.535pt>
 File: figures/Inf1yf_PCECore_varSPFPCEQ.png Graphic file (type png)
 
 <use figures/Inf1yf_PCECore_varSPFPCEQ.png>
@@ -566,7 +566,7 @@ Package pdftex.def Info: figures/Inf1yf_PCECore_varSPFPCEQ.png used on input li
 ne 511.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/Inf1yf_CPIAU_varSCEM.png, id=380, 932.98563pt x 678.535pt>
+<figures/Inf1yf_CPIAU_varSCEM.png, id=383, 932.98563pt x 678.535pt>
 File: figures/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
 
 <use figures/Inf1yf_CPIAU_varSCEM.png>
@@ -574,7 +574,7 @@ Package pdftex.def Info: figures/Inf1yf_CPIAU_varSCEM.png used on input line 51
 2.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/SPFCPI_abFE_varSPFCPIQ.png, id=381, 932.98563pt x 678.535pt>
+<figures/SPFCPI_abFE_varSPFCPIQ.png, id=384, 932.98563pt x 678.535pt>
 File: figures/SPFCPI_abFE_varSPFCPIQ.png Graphic file (type png)
 
 <use figures/SPFCPI_abFE_varSPFCPIQ.png>
@@ -582,7 +582,7 @@ Package pdftex.def Info: figures/SPFCPI_abFE_varSPFCPIQ.png used on input line
 520.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/SPFPCE_abFE_varSPFPCEQ.png, id=382, 932.98563pt x 678.535pt>
+<figures/SPFPCE_abFE_varSPFPCEQ.png, id=385, 932.98563pt x 678.535pt>
 File: figures/SPFPCE_abFE_varSPFPCEQ.png Graphic file (type png)
 
 <use figures/SPFPCE_abFE_varSPFPCEQ.png>
@@ -590,14 +590,14 @@ Package pdftex.def Info: figures/SPFPCE_abFE_varSPFPCEQ.png used on input line
 521.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/SCE_abFE_varSCEM.png, id=383, 932.98563pt x 678.535pt>
+<figures/SCE_abFE_varSCEM.png, id=386, 932.98563pt x 678.535pt>
 File: figures/SCE_abFE_varSCEM.png Graphic file (type png)
 
 <use figures/SCE_abFE_varSCEM.png>
 Package pdftex.def Info: figures/SCE_abFE_varSCEM.png used on input line 522.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/CORECPI_disg_varSPFCPIQ.png, id=384, 932.98563pt x 678.535pt>
+<figures/CORECPI_disg_varSPFCPIQ.png, id=387, 932.98563pt x 678.535pt>
 File: figures/CORECPI_disg_varSPFCPIQ.png Graphic file (type png)
 
 <use figures/CORECPI_disg_varSPFCPIQ.png>
@@ -605,7 +605,7 @@ Package pdftex.def Info: figures/CORECPI_disg_varSPFCPIQ.png used on input line
  530.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/COREPCE_disg_varSPFPCEQ.png, id=385, 932.98563pt x 678.535pt>
+<figures/COREPCE_disg_varSPFPCEQ.png, id=388, 932.98563pt x 678.535pt>
 File: figures/COREPCE_disg_varSPFPCEQ.png Graphic file (type png)
 
 <use figures/COREPCE_disg_varSPFPCEQ.png>
@@ -613,49 +613,49 @@ Package pdftex.def Info: figures/COREPCE_disg_varSPFPCEQ.png used on input line
  531.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/Q9_disg_varSCEM.png, id=386, 932.98563pt x 678.535pt>
+<figures/Q9_disg_varSCEM.png, id=389, 932.98563pt x 678.535pt>
 File: figures/Q9_disg_varSCEM.png Graphic file (type png)
 
 <use figures/Q9_disg_varSCEM.png>
 Package pdftex.def Info: figures/Q9_disg_varSCEM.png used on input line 532.
 (pdftex.def)             Requested size: 131.55557pt x 95.67758pt.
 
-<figures/IQRmeanCPIQ.png, id=387, 932.98563pt x 678.535pt>
+<figures/IQRmeanCPIQ.png, id=390, 932.98563pt x 678.535pt>
 File: figures/IQRmeanCPIQ.png Graphic file (type png)
 
 <use figures/IQRmeanCPIQ.png>
 Package pdftex.def Info: figures/IQRmeanCPIQ.png used on input line 547.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/IQRmeanPCEQ.png, id=388, 932.98563pt x 678.535pt>
+<figures/IQRmeanPCEQ.png, id=391, 932.98563pt x 678.535pt>
 File: figures/IQRmeanPCEQ.png Graphic file (type png)
 
 <use figures/IQRmeanPCEQ.png>
 Package pdftex.def Info: figures/IQRmeanPCEQ.png used on input line 549.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/IQRmeanSCEM.png, id=389, 932.98563pt x 678.535pt>
+<figures/IQRmeanSCEM.png, id=392, 932.98563pt x 678.535pt>
 File: figures/IQRmeanSCEM.png Graphic file (type png)
 
 <use figures/IQRmeanSCEM.png>
 Package pdftex.def Info: figures/IQRmeanSCEM.png used on input line 551.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/IQRvarCPIQ.png, id=390, 932.98563pt x 678.535pt>
+<figures/IQRvarCPIQ.png, id=393, 932.98563pt x 678.535pt>
 File: figures/IQRvarCPIQ.png Graphic file (type png)
 
 <use figures/IQRvarCPIQ.png>
 Package pdftex.def Info: figures/IQRvarCPIQ.png used on input line 557.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/IQRvarPCEQ.png, id=391, 932.98563pt x 678.535pt>
+<figures/IQRvarPCEQ.png, id=394, 932.98563pt x 678.535pt>
 File: figures/IQRvarPCEQ.png Graphic file (type png)
 
 <use figures/IQRvarPCEQ.png>
 Package pdftex.def Info: figures/IQRvarPCEQ.png used on input line 559.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/IQRvarSCEM.png, id=392, 932.98563pt x 678.535pt>
+<figures/IQRvarSCEM.png, id=395, 932.98563pt x 678.535pt>
 File: figures/IQRvarSCEM.png Graphic file (type png)
 
 <use figures/IQRvarSCEM.png>
@@ -666,42 +666,42 @@ Overfull \hbox (2.61108pt too wide) in paragraph at lines 544--563
 [][]  [] 
  []
 
-<figures/PRCCPIMean1_hist.png, id=393, 932.98563pt x 678.535pt>
+<figures/PRCCPIMean1_hist.png, id=396, 932.98563pt x 678.535pt>
 File: figures/PRCCPIMean1_hist.png Graphic file (type png)
 
 <use figures/PRCCPIMean1_hist.png>
 Package pdftex.def Info: figures/PRCCPIMean1_hist.png used on input line 572.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCPCEMean1_hist.png, id=394, 932.98563pt x 678.535pt>
+<figures/PRCPCEMean1_hist.png, id=397, 932.98563pt x 678.535pt>
 File: figures/PRCPCEMean1_hist.png Graphic file (type png)
 
 <use figures/PRCPCEMean1_hist.png>
 Package pdftex.def Info: figures/PRCPCEMean1_hist.png used on input line 574.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SCEmean_hist.png, id=395, 932.98563pt x 678.535pt>
+<figures/SCEmean_hist.png, id=398, 932.98563pt x 678.535pt>
 File: figures/SCEmean_hist.png Graphic file (type png)
 
 <use figures/SCEmean_hist.png>
 Package pdftex.def Info: figures/SCEmean_hist.png used on input line 576.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCCPIVar1_hist.png, id=396, 932.98563pt x 678.535pt>
+<figures/PRCCPIVar1_hist.png, id=399, 932.98563pt x 678.535pt>
 File: figures/PRCCPIVar1_hist.png Graphic file (type png)
 
 <use figures/PRCCPIVar1_hist.png>
 Package pdftex.def Info: figures/PRCCPIVar1_hist.png used on input line 581.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCPCEVar1_hist.png, id=397, 932.98563pt x 678.535pt>
+<figures/PRCPCEVar1_hist.png, id=400, 932.98563pt x 678.535pt>
 File: figures/PRCPCEVar1_hist.png Graphic file (type png)
 
 <use figures/PRCPCEVar1_hist.png>
 Package pdftex.def Info: figures/PRCPCEVar1_hist.png used on input line 583.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SCEvar_hist.png, id=398, 932.98563pt x 678.535pt>
+<figures/SCEvar_hist.png, id=401, 932.98563pt x 678.535pt>
 File: figures/SCEvar_hist.png Graphic file (type png)
 
 <use figures/SCEvar_hist.png>
@@ -722,7 +722,7 @@ Overfull \hbox (2.61108pt too wide) in paragraph at lines 569--587
 [][]  [] 
  []
 
-<figures/PRCCPIMean01_rv_true_hist.png, id=399, 932.98563pt x 678.535pt>
+<figures/PRCCPIMean01_rv_true_hist.png, id=402, 932.98563pt x 678.535pt>
 File: figures/PRCCPIMean01_rv_true_hist.png Graphic file (type png)
 
 <use figures/PRCCPIMean01_rv_true_hist.png>
@@ -730,7 +730,7 @@ Package pdftex.def Info: figures/PRCCPIMean01_rv_true_hist.png used on input li
 ne 596.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCPCEMean01_rv_true_hist.png, id=400, 932.98563pt x 678.535pt>
+<figures/PRCPCEMean01_rv_true_hist.png, id=403, 932.98563pt x 678.535pt>
 File: figures/PRCPCEMean01_rv_true_hist.png Graphic file (type png)
 
 <use figures/PRCPCEMean01_rv_true_hist.png>
@@ -738,7 +738,7 @@ Package pdftex.def Info: figures/PRCPCEMean01_rv_true_hist.png used on input li
 ne 598.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCCPIVar01_rv_true_hist.png, id=401, 932.98563pt x 678.535pt>
+<figures/PRCCPIVar01_rv_true_hist.png, id=404, 932.98563pt x 678.535pt>
 File: figures/PRCCPIVar01_rv_true_hist.png Graphic file (type png)
 
 <use figures/PRCCPIVar01_rv_true_hist.png>
@@ -746,7 +746,7 @@ Package pdftex.def Info: figures/PRCCPIVar01_rv_true_hist.png used on input lin
 e 603.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/PRCPCEVar01_rv_true_hist.png, id=402, 932.98563pt x 678.535pt>
+<figures/PRCPCEVar01_rv_true_hist.png, id=405, 932.98563pt x 678.535pt>
 File: figures/PRCPCEVar01_rv_true_hist.png Graphic file (type png)
 
 <use figures/PRCPCEVar01_rv_true_hist.png>
@@ -780,7 +780,7 @@ Overfull \hbox (11.25977pt too wide) in paragraph at lines 843--844
 [] 
  []
 
-[20] <figures/inf_shocksQ.png, id=509, 932.98563pt x 678.535pt>
+[20] <figures/inf_shocksQ.png, id=514, 932.98563pt x 678.535pt>
 File: figures/inf_shocksQ.png Graphic file (type png)
 
 <use figures/inf_shocksQ.png>
@@ -818,7 +818,7 @@ Package hyperref Warning: Token not allowed in a PDF string (PDFDocEncoding):
 (hyperref)                removing `\new@ifnextchar' on input line 876.
 
 [21] [22]
-<figures/CPIAU_ashocks_nmp_before2007.png, id=553, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocks_nmp_before2007.png, id=557, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocks_nmp_before2007.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmp_before2007.png>
@@ -826,7 +826,7 @@ Package pdftex.def Info: figures/CPIAU_ashocks_nmp_before2007.png used on input
  line 909.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFFE_ashocks_nmp_before2007.png, id=554, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks_nmp_before2007.png, id=558, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks_nmp_before2007.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_nmp_before2007.png>
@@ -834,7 +834,7 @@ Package pdftex.def Info: figures/SPFFE_ashocks_nmp_before2007.png used on input
  line 911.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks_nmp_before2007.png, id=555, 932.98563pt x 678.535pt
+<figures/SPFDisg_ab_ashocks_nmp_before2007.png, id=559, 932.98563pt x 678.535pt
 >
 File: figures/SPFDisg_ab_ashocks_nmp_before2007.png Graphic file (type png)
  <use figures/SPFDisg_ab_ashocks_nmp_before2007.png>
@@ -842,7 +842,7 @@ Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp_before2007.png used on
 input line 913.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/CPIAU_ashocks_before2007.png, id=556, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocks_before2007.png, id=560, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocks_before2007.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_before2007.png>
@@ -850,7 +850,7 @@ Package pdftex.def Info: figures/CPIAU_ashocks_before2007.png used on input lin
 e 919.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFFE_ashocks_before2007.png, id=557, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks_before2007.png, id=561, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks_before2007.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_before2007.png>
@@ -858,7 +858,7 @@ Package pdftex.def Info: figures/SPFFE_ashocks_before2007.png used on input lin
 e 921.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks_before2007.png, id=558, 932.98563pt x 678.535pt>
+<figures/SPFDisg_ab_ashocks_before2007.png, id=562, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks_before2007.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_before2007.png>
@@ -880,21 +880,21 @@ Overfull \hbox (16.97205pt too wide) in paragraph at lines 906--925
 [][]    [] 
  []
 
-[23] [24] <figures/Inf_ashocks_nmp.png, id=589, 932.98563pt x 678.535pt>
+[23] [24] <figures/Inf_ashocks_nmp.png, id=592, 932.98563pt x 678.535pt>
 File: figures/Inf_ashocks_nmp.png Graphic file (type png)
 
 <use figures/Inf_ashocks_nmp.png>
 Package pdftex.def Info: figures/Inf_ashocks_nmp.png used on input line 954.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFFE_ashocks_nmp.png, id=590, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks_nmp.png, id=593, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks_nmp.png>
 Package pdftex.def Info: figures/SPFFE_ashocks_nmp.png used on input line 956.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks_nmp.png, id=591, 932.98563pt x 678.535pt>
+<figures/SPFDisg_ab_ashocks_nmp.png, id=594, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks_nmp.png>
@@ -902,7 +902,7 @@ Package pdftex.def Info: figures/SPFDisg_ab_ashocks_nmp.png used on input line
 958.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFVar_ab_ashocks_nmp.png, id=592, 932.98563pt x 678.535pt>
+<figures/SPFVar_ab_ashocks_nmp.png, id=595, 932.98563pt x 678.535pt>
 File: figures/SPFVar_ab_ashocks_nmp.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks_nmp.png>
@@ -910,21 +910,21 @@ Package pdftex.def Info: figures/SPFVar_ab_ashocks_nmp.png used on input line 9
 60.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/Inf_ashocks.png, id=593, 932.98563pt x 678.535pt>
+<figures/Inf_ashocks.png, id=596, 932.98563pt x 678.535pt>
 File: figures/Inf_ashocks.png Graphic file (type png)
 
 <use figures/Inf_ashocks.png>
 Package pdftex.def Info: figures/Inf_ashocks.png used on input line 966.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFFE_ashocks.png, id=594, 932.98563pt x 678.535pt>
+<figures/SPFFE_ashocks.png, id=597, 932.98563pt x 678.535pt>
 File: figures/SPFFE_ashocks.png Graphic file (type png)
 
 <use figures/SPFFE_ashocks.png>
 Package pdftex.def Info: figures/SPFFE_ashocks.png used on input line 968.
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFDisg_ab_ashocks.png, id=595, 932.98563pt x 678.535pt>
+<figures/SPFDisg_ab_ashocks.png, id=598, 932.98563pt x 678.535pt>
 File: figures/SPFDisg_ab_ashocks.png Graphic file (type png)
 
 <use figures/SPFDisg_ab_ashocks.png>
@@ -932,7 +932,7 @@ Package pdftex.def Info: figures/SPFDisg_ab_ashocks.png used on input line 970.
 
 (pdftex.def)             Requested size: 199.16928pt x 144.84682pt.
 
-<figures/SPFVar_ab_ashocks.png, id=596, 932.98563pt x 678.535pt>
+<figures/SPFVar_ab_ashocks.png, id=599, 932.98563pt x 678.535pt>
 File: figures/SPFVar_ab_ashocks.png Graphic file (type png)
 
 <use figures/SPFVar_ab_ashocks.png>
@@ -958,7 +958,7 @@ Overfull \hbox (16.97205pt too wide) in paragraph at lines 951--974
 [][]    [] 
  []
 
-<figures/CPIAU_ashocks_nmpM.png, id=603, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocks_nmpM.png, id=606, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocks_nmpM.png>
@@ -966,7 +966,7 @@ Package pdftex.def Info: figures/CPIAU_ashocks_nmpM.png used on input line 1003
 .
 (pdftex.def)             Requested size: 128.02611pt x 99.58089pt.
 
-<figures/SCEFE_ashocks_nmpM.png, id=604, 932.98563pt x 678.535pt>
+<figures/SCEFE_ashocks_nmpM.png, id=607, 932.98563pt x 678.535pt>
 File: figures/SCEFE_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocks_nmpM.png>
@@ -974,7 +974,7 @@ Package pdftex.def Info: figures/SCEFE_ashocks_nmpM.png used on input line 1005
 .
 (pdftex.def)             Requested size: 128.02611pt x 99.58089pt.
 
-<figures/SCEDisg_ab_ashocks_nmpM.png, id=605, 932.98563pt x 678.535pt>
+<figures/SCEDisg_ab_ashocks_nmpM.png, id=608, 932.98563pt x 678.535pt>
 File: figures/SCEDisg_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocks_nmpM.png>
@@ -982,7 +982,7 @@ Package pdftex.def Info: figures/SCEDisg_ab_ashocks_nmpM.png used on input line
  1007.
 (pdftex.def)             Requested size: 128.02611pt x 99.58089pt.
 
-<figures/SCEVar_ab_ashocks_nmpM.png, id=606, 932.98563pt x 678.535pt>
+<figures/SCEVar_ab_ashocks_nmpM.png, id=609, 932.98563pt x 678.535pt>
 File: figures/SCEVar_ab_ashocks_nmpM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocks_nmpM.png>
@@ -990,21 +990,21 @@ Package pdftex.def Info: figures/SCEVar_ab_ashocks_nmpM.png used on input line
 1009.
 (pdftex.def)             Requested size: 128.02611pt x 99.58089pt.
 
-<figures/CPIAU_ashocksM.png, id=607, 932.98563pt x 678.535pt>
+<figures/CPIAU_ashocksM.png, id=610, 932.98563pt x 678.535pt>
 File: figures/CPIAU_ashocksM.png Graphic file (type png)
 
 <use figures/CPIAU_ashocksM.png>
 Package pdftex.def Info: figures/CPIAU_ashocksM.png used on input line 1015.
 (pdftex.def)             Requested size: 256.06645pt x 99.58089pt.
 
-<figures/SCEFE_ashocksM.png, id=608, 932.98563pt x 678.535pt>
+<figures/SCEFE_ashocksM.png, id=611, 932.98563pt x 678.535pt>
 File: figures/SCEFE_ashocksM.png Graphic file (type png)
 
 <use figures/SCEFE_ashocksM.png>
 Package pdftex.def Info: figures/SCEFE_ashocksM.png used on input line 1017.
 (pdftex.def)             Requested size: 256.06645pt x 99.58089pt.
 
-<figures/SCEDisg_ab_ashocksM.png, id=609, 932.98563pt x 678.535pt>
+<figures/SCEDisg_ab_ashocksM.png, id=612, 932.98563pt x 678.535pt>
 File: figures/SCEDisg_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEDisg_ab_ashocksM.png>
@@ -1012,7 +1012,7 @@ Package pdftex.def Info: figures/SCEDisg_ab_ashocksM.png used on input line 101
 9.
 (pdftex.def)             Requested size: 256.06645pt x 99.58089pt.
 
-<figures/SCEVar_ab_ashocksM.png, id=610, 932.98563pt x 678.535pt>
+<figures/SCEVar_ab_ashocksM.png, id=613, 932.98563pt x 678.535pt>
 File: figures/SCEVar_ab_ashocksM.png Graphic file (type png)
 
 <use figures/SCEVar_ab_ashocksM.png>
@@ -1024,11 +1024,11 @@ Overfull \hbox (2.61107pt too wide) in paragraph at lines 1000--1023
 [][]  [] 
  []
 
-[25] (./Draft.bbl [26]
+[25] [26] (./Draft.bbl [27]
 Missing character: There is no â in font cmr12!
 Missing character: There is no € in font cmr12!
 Missing character: There is no ™ in font cmr12!
- [27] [28])
+ [28])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1051.
  [29] [30 <./figures/ni_illustration.png>]
 [31 <./figures/ir_popseni.png>] [32 <./figures/rigidity.png>] [33 <./figures/In
@@ -1069,10 +1069,10 @@ LaTeX Warning: There were undefined references.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 1051.
  ) 
 Here is how much of TeX's memory you used:
- 9138 strings out of 493117
- 143227 string characters out of 6135433
- 327551 words of memory out of 5000000
- 12259 multiletter control sequences out of 15000+600000
+ 9143 strings out of 493117
+ 143340 string characters out of 6135433
+ 328583 words of memory out of 5000000
+ 12262 multiletter control sequences out of 15000+600000
  11115 words of font info for 40 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  53i,20n,92p,1322b,561s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1094,10 +1094,10 @@ e/2014/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2
 texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2014/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2014/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Draft.pdf (43 pages, 5533441 bytes).
+Output written on Draft.pdf (43 pages, 5533917 bytes).
 PDF statistics:
- 852 PDF objects out of 1000 (max. 8388607)
- 680 compressed objects within 7 object streams
- 176 named destinations out of 1000 (max. 500000)
+ 857 PDF objects out of 1000 (max. 8388607)
+ 685 compressed objects within 7 object streams
+ 178 named destinations out of 1000 (max. 500000)
  408 words of extra memory for PDF output out of 10000 (max. 10000000)
 
