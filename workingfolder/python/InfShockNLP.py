@@ -215,7 +215,7 @@ location_set_sort = sorted(zip (location_ct,location_set), reverse=True )
 # the most common locations 
 location_set_sort[:30]
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ##organizations/companies
 
 organization_lst = []
@@ -237,7 +237,7 @@ print("There are " + str( len(organization_set) ) +" unique organizations")
 org_freq = nltk.FreqDist(organization_lst)
 list(org_freq.most_common(10))
 plt = org_freq.plot(20)
-# + {}
+# + {"code_folding": [0]}
 ## author 
 author_lst = []
 
@@ -247,7 +247,7 @@ for i in range(len(dt)):
         author_lst += authors
     author_lst = [author.strip("'") for author in author_lst]
     author_set =   set(author_lst)
-print("There are " + str( len(author_set) ) +" unique subjects")
+print("There are " + str( len(author_set) ) +" unique authors")
 
 author_freq = nltk.FreqDist(author_lst)
 list(author_freq.most_common(10))
@@ -301,6 +301,3 @@ toks.sort()
 
 # +
 # tokenize each articles
-# -
-
-
