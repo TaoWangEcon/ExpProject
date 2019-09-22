@@ -23,6 +23,7 @@
 #   - Auxiliary functions that compute the moments as well as the difference of data and model prediction, which will be used as inputs for GMM estimator. 
 
 from scipy.optimize import minimize
+import numpy as np
 
 
 # + {"code_folding": [0]}
@@ -62,30 +63,74 @@ def PrepMom(model_moments,data_moments):
 
 
 # + {"code_folding": [0]}
+## some parameters 
+rho = 0.95
+sigma = 0.1
+process_para = {'rho':rho,
+                'sigma':sigma}
+
+
+# + {"code_folding": [0]}
+## auxiliary functions 
+def hstepvar(h,sigma,rho):
+    return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
+
+
+# + {"code_folding": [0]}
 # a function that generates population moments according to FIRE 
 def FIREForecaster(real_time,horizon =10,process_para = process_para):
-    FIREFE = 0 
-    FIREDisg = 0
+    n = len(real_time)
+    FE = np.zeros(n) 
+    Disg =np.zeros(n)
     rho = process_para['rho']
     sigma = process_para['sigma']
-    FIREVar = sum([rho**i * sigma**2 for i in range(horizon)])
-    return {"FE":FIREFE,
-           "Disg":FIREDisg,
-           "Var":FIREVar}
+    infoset = real_time
+    nowcast = infoset
+    forecast = rho**horizon*nowcast
+    Var = hstepvar(horizon,sigma,rho)* np.ones(n)
+    return {"Forecast":forecast,
+            "FE":FE,
+           "Disg":Disg,
+           "Var":Var}
+
+
+# + {"code_folding": [0]}
+## test
+FIREtest = FIREForecaster(np.array([1,2]))
+FIREtest
+
+# + {"code_folding": [0]}
+## SE parameters
+
+SE_para ={'lambda':0.75}
 
 
 # + {"code_folding": [0]}
 # a function that generates population moments according to SE 
-def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = exp_para):
+def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE_para):
+    n = len(real_time)
     rho = process_para['rho']
     sigma = process_para['sigma']
-    lambda = exp_para['lambda']
-    SEFE = # a function of lambda, real-time and process_para 
-    SEDisg = 0 # same as above
-    SEVar = # same as above 
-    return {"FE":SEFE,
-           "Disg":SEDisg,
-           "Var":SEVar}
+    lbd = exp_para['lambda']
+    max_back = 10 # need to avoid magic numbers 
+    FE = 0 # a function of lambda, real-time and process_para 
+    Disg = 0 # same as above
+    Var = sum([ lbd*(1-lbd)**tau*hstepvar(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n)  
+    # same as above 
+    nowcast = sum([ lbd*(1-lbd)**tau*(rho**tau)*np.roll(real_time,tau) for tau in range(max_back)]) 
+    # the first tau needs to be burned
+    forecast = rho**horizon*nowcast
+    return {"Forecast":forecast, 
+            "FE":FE,
+            "Disg":Disg,
+            "Var":Var}
+
+
+# -
+
+## test 
+xxx = np.random.rand(10)
+SEForecaster(xxx,horizon=1)
 
 
 # + {"code_folding": [0]}
