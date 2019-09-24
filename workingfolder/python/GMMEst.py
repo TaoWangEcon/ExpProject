@@ -70,10 +70,15 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
+
+def hstepfe(h,sigma,rho):
+    return sum([rho**i*sigma*np.random.randn(h)[i] for i in range(h)])
+## This is not correct. 
+
 
 
 # + {"code_folding": [0]}
@@ -105,7 +110,7 @@ FIREtest
 SE_para ={'lambda':0.75}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # a function that generates population moments according to SE 
 def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE_para):
     n = len(real_time)
@@ -113,7 +118,7 @@ def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE
     sigma = process_para['sigma']
     lbd = exp_para['lambda']
     max_back = 10 # need to avoid magic numbers 
-    FE = 0 # a function of lambda, real-time and process_para 
+    FE = sum( [lbd*(1-lbd)**tau*hstepfe(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n) # a function of lambda, real-time and process_para 
     Disg = 0 # same as above
     Var = sum([ lbd*(1-lbd)**tau*hstepvar(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n)  
     # same as above 
@@ -126,8 +131,7 @@ def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE
             "Var":Var}
 
 
-# -
-
+# + {"code_folding": [0]}
 ## test 
 xxx = np.random.rand(10)
 SEForecaster(xxx,horizon=1)
