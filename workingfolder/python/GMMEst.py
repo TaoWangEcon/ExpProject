@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# ### GMM Estimation of Model Parameters
+# ## GMM Estimation of Model Parameters
 #
 # - This notebook includes functions that estimate the parameter of rigidity for different models
 # - It allows for flexible choices of moments to be used, forecast error, disagreement, and uncertainty, etc. 
@@ -21,6 +21,8 @@
 #   - A general function that implements the estimation using the minimum distance algorithm. 
 #   - Model-specific functions that take real-time data and process parameters as inputs and produces forecasts and moments as outputs. It is model-specific because different models of expectation formation bring about different forecasts. 
 #   - Auxiliary functions that compute the moments as well as the difference of data and model prediction, which will be used as inputs for GMM estimator. 
+
+# ### 1. Estimation Algorithms 
 
 from scipy.optimize import minimize
 import numpy as np
@@ -46,7 +48,7 @@ def Estimator(obj_func,para_guess,method='CG'):
     return parameter 
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [0, 1]}
 # a function that prepares moment conditions
 def PrepMom(model_moments,data_moments):
     """
@@ -79,7 +81,7 @@ def hstepvar(h,sigma,rho):
 
 np.random.seed(12345)
 def hstepfe(h,sigma,rho):
-    return sum([rho**i*(np.random.randn(1)*simga)*np.random.randn(h)[i] for i in range(h)])
+    return sum([rho**i*(np.random.randn(1)*sigma)*np.random.randn(h)[i] for i in range(h)])
 ## This is not correct. 
 
 
@@ -100,7 +102,7 @@ def ForecastPlot(test):
         plt.legend(loc=1)
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## AR1 series for testing 
 nobs = 100
 rho = process_para['rho']
@@ -108,7 +110,7 @@ sigma = process_para['sigma']
 xxx = AR1_simulator(rho,sigma,nobs)
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # a function that generates population moments according to FIRE 
 def FIREForecaster(real_time,horizon =10,process_para = process_para):
     n = len(real_time)
@@ -137,10 +139,12 @@ ForecastPlot(FIREtest)
 # + {"code_folding": [0]}
 ## SE parameters
 
-SE_para ={'lambda':0.75}
+SE_FE_para = {'lambda':1}
+SE_para = {'lambda':0.75}
+SE_para2 = {'lambda':0.25}
 
 
-# + {"code_folding": [0, 1]}
+# + {"code_folding": [0]}
 # a function that generates population moments according to SE 
 def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE_para):
     n = len(real_time)
@@ -162,6 +166,12 @@ def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE
 
 
 # + {"code_folding": [0]}
+## check SE collapses to FIRE when lambda=1
+
+FE_from_SE = SEForecaster(xxx,horizon=1,exp_para = SE_FE_para)
+ForecastPlot(FE_from_SE)
+
+# + {"code_folding": [0]}
 ## test 
 
 SEtest = SEForecaster(xxx,horizon=1)
@@ -173,13 +183,16 @@ ForecastPlot(SEtest)
 horizon = 1
 real_time = xxx 
 process_para = process_para
-data_moms_dct = SEtest
+
+## some fake data using a different lambda
+SEtest2 = SEForecaster(xxx2,horizon=1,exp_para = SE_para2)
+data_moms_dct = SEtest2
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [0, 2]}
 ## a function estimating SE model parameter only 
 
-def SE_EstObjfunc(lbd):
+def SE_EstObjfunc(lbd,moments = ['Forecast','Disg','Var']):
     """
     input
     -----
@@ -192,16 +205,16 @@ def SE_EstObjfunc(lbd):
 
     SE_para = {"lambda":lbd}
     SE_moms_dct = SEForecaster(real_time,horizon=horizon,process_para = process_para,exp_para = SE_para)
-    SE_moms = np.array([val for key,val in SE_moms_dct.items()] )
-    data_moms = np.array([val for key,val in data_moms_dct.items()] ) + np.random.rand(4,nobs)
+    SE_moms = np.array([SE_moms_dct[key] for key in moments] )
+    data_moms = np.array([data_moms_dct[key] for key in moments] )
     obj_func = PrepMom(SE_moms,data_moms)
     return obj_func 
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## invoke the estimation of SE 
 
-lbd_est = Estimator(SE_EstObjfunc,para_guess =0.8,method='CG')
+lbd_est = Estimator(SE_EstObjfunc,para_guess =0.5,method='CG')
 lbd_est
 
 
@@ -219,3 +232,39 @@ def NIForecaster(real_time,horizon =10,process_para = process_para,exp_para = ex
     return {"FE":NIFE,
            "Disg":NIDisg,
            "Var":NIVar}
+
+
+# -
+
+# ### 2. Estimating from Realized Data
+
+# +
+import pandas as pd
+
+## exapectation data 
+PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
+PopQ = PopQ[-PopQ.date.isnull()]
+
+dateQ = pd.to_datetime(PopQ['date'],format='%Y%m%d')
+
+dateQ_str = dateQ.dt.year.astype(int).astype(str) + \
+             "Q" + dateQ.dt.quarter.astype(int).astype(str)
+PopQ.index = pd.DatetimeIndex(dateQ_str)
+
+SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how='any')
+
+## exapectation data 
+
+
+# +
+## preparing for estimation 
+
+SPFCPI.columns = ['Forecast','FE','Disg','Var']
+data_moms_dct = dict(SPFCPI)
+# -
+
+## estimation 
+real_time = SPFCPI['Forecast']   ## this needs to be replaced with real-time data 
+lbd_est = Estimator(SE_EstObjfunc,para_guess =0.5,method='CG')
+
+lbd_est

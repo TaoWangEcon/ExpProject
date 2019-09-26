@@ -6,7 +6,7 @@
 #       extension: .py
 #       format_name: light
 #       format_version: '1.4'
-#       jupytext_version: 1.1.3
+#       jupytext_version: 1.2.3
 #   kernelspec:
 #     display_name: Python 3
 #     language: python
@@ -392,7 +392,7 @@ def SynDensityStat(bin,probs):
 ## testing the synthesized estimator function using an arbitrary example created above
 SynDensityStat(sim_bins2,sim_probs2)['variance']
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### loading probabilistic data  
 IndSPF=pd.read_stata('../SurveyData/SPF/individual/InfExpSPFProbIndQ.dta')   
 # SPF inflation quarterly 
