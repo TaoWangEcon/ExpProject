@@ -22,7 +22,7 @@
 #   - Model-specific functions that take real-time data and process parameters as inputs and produces forecasts and moments as outputs. It is model-specific because different models of expectation formation bring about different forecasts. 
 #   - Auxiliary functions that compute the moments as well as the difference of data and model prediction, which will be used as inputs for GMM estimator. 
 
-# ### 1. Estimation Algorithms 
+# ### 1. Estimation algorithms 
 
 from scipy.optimize import minimize
 import numpy as np
@@ -66,7 +66,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some parameters 
 rho = 0.95
 sigma = 0.1
@@ -74,7 +74,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -100,6 +100,15 @@ def ForecastPlot(test):
         plt.subplot(4,1,i+1)
         plt.plot(test[val],label=val)
         plt.legend(loc=1)
+        
+        
+def ForecastPlotDiag(test,data):
+    plt.figure(figsize=([3,13]))
+    for i,val in enumerate(test):
+        plt.subplot(4,1,i+1)
+        plt.plot(test[val],label='model:'+val)
+        plt.plot(np.array(data[val]),label='data:'+val)
+        plt.legend(loc=1)
 
 
 # + {"code_folding": [0]}
@@ -110,7 +119,7 @@ sigma = process_para['sigma']
 xxx = AR1_simulator(rho,sigma,nobs)
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # a function that generates population moments according to FIRE 
 def FIREForecaster(real_time,horizon =10,process_para = process_para):
     n = len(real_time)
@@ -133,7 +142,7 @@ def FIREForecaster(real_time,horizon =10,process_para = process_para):
 FIREtest = FIREForecaster(xxx,horizon=1)
 
 # + {"code_folding": [0]}
-# plot different moments
+# plot different moments for FIRE
 ForecastPlot(FIREtest)
 
 # + {"code_folding": [0]}
@@ -166,7 +175,7 @@ def SEForecaster(real_time,horizon =10,process_para = process_para,exp_para = SE
 
 
 # + {"code_folding": [0]}
-## check SE collapses to FIRE when lambda=1
+## check if SE collapses to FIRE when lambda=1
 
 FE_from_SE = SEForecaster(xxx,horizon=1,exp_para = SE_FE_para)
 ForecastPlot(FE_from_SE)
@@ -177,7 +186,7 @@ ForecastPlot(FE_from_SE)
 SEtest = SEForecaster(xxx,horizon=1)
 ForecastPlot(SEtest)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## prepare inputs for the estimation
 
 horizon = 1
@@ -185,11 +194,11 @@ real_time = xxx
 process_para = process_para
 
 ## some fake data using a different lambda
-SEtest2 = SEForecaster(xxx2,horizon=1,exp_para = SE_para2)
+SEtest2 = SEForecaster(xxx,horizon=1,exp_para = SE_para2)
 data_moms_dct = SEtest2
 
 
-# + {"code_folding": [0, 2]}
+# + {"code_folding": [2]}
 ## a function estimating SE model parameter only 
 
 def SE_EstObjfunc(lbd,moments = ['Forecast','Disg','Var']):
@@ -236,9 +245,9 @@ def NIForecaster(real_time,horizon =10,process_para = process_para,exp_para = ex
 
 # -
 
-# ### 2. Estimating from Realized Data
+# ### 2. Estimating using real-time inflation and expectation data
 
-# +
+# + {"code_folding": [8]}
 import pandas as pd
 
 ## exapectation data 
@@ -254,17 +263,45 @@ PopQ.index = pd.DatetimeIndex(dateQ_str)
 SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how='any')
 
 ## exapectation data 
-
-
-# +
-## preparing for estimation 
-
-SPFCPI.columns = ['Forecast','FE','Disg','Var']
-data_moms_dct = dict(SPFCPI)
+InfQ = pd.read_stata('../OtherData/InfShocksQClean.dta')
+InfQ = InfQ[-InfQ.date.isnull()]
+dateQ2 = pd.to_datetime(InfQ['date'],format='%Y%m%d')
+dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
+             "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
+InfQ.index = pd.DatetimeIndex(dateQ_str2)
 # -
 
-## estimation 
-real_time = SPFCPI['Forecast']   ## this needs to be replaced with real-time data 
-lbd_est = Estimator(SE_EstObjfunc,para_guess =0.5,method='CG')
 
+Comb = pd.concat([SPFCPI,InfQ['Inf1y_CPICore']], join='inner', axis=1)
+
+# + {"code_folding": []}
+# real time inflation 
+real_time = np.array(Comb['Inf1y_CPICore'])
+Comb['Inf1y_CPICore'].plot()
+
+# + {"code_folding": []}
+## preparing for estimation 
+
+exp_data = Comb[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
+exp_data.columns = ['Forecast','FE','Disg','Var']
+data_moms_dct = dict(exp_data)
+
+# + {"code_folding": []}
+## estimation 
+lbd_est = Estimator(SE_EstObjfunc,para_guess =0.2,method='CG')
+
+# +
 lbd_est
+
+## rough estimation that did not take care of following issues
+## quarterly survey of 1-year-ahead forecast
+## real-time data is yearly 
+
+# + {"code_folding": [0]}
+## compare the data with estimation
+
+SE_para_est = {"lambda":lbd_est}
+
+SE_est = SEForecaster(real_time,horizon=1,exp_para = SE_para_est)
+
+ForecastPlotDiag(SE_est,data_moms_dct)
