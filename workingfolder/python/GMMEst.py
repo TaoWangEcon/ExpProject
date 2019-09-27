@@ -74,7 +74,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -186,7 +186,7 @@ ForecastPlot(FE_from_SE)
 SEtest = SEForecaster(xxx,horizon=1)
 ForecastPlot(SEtest)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## prepare inputs for the estimation
 
 horizon = 1
@@ -213,7 +213,7 @@ def SE_EstObjfunc(lbd,moments = ['Forecast','Disg','Var']):
     """
 
     SE_para = {"lambda":lbd}
-    SE_moms_dct = SEForecaster(real_time,horizon=horizon,process_para = process_para,exp_para = SE_para)
+    SE_moms_dct = SEForecaster(real_time,horizon=1,process_para = process_para,exp_para = SE_para)
     SE_moms = np.array([SE_moms_dct[key] for key in moments] )
     data_moms = np.array([data_moms_dct[key] for key in moments] )
     obj_func = PrepMom(SE_moms,data_moms)
@@ -274,19 +274,19 @@ InfQ.index = pd.DatetimeIndex(dateQ_str2)
 
 Comb = pd.concat([SPFCPI,InfQ['Inf1y_CPICore']], join='inner', axis=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # real time inflation 
 real_time = np.array(Comb['Inf1y_CPICore'])
 Comb['Inf1y_CPICore'].plot()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## preparing for estimation 
 
 exp_data = Comb[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
 exp_data.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct = dict(exp_data)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## estimation 
 lbd_est = Estimator(SE_EstObjfunc,para_guess =0.2,method='CG')
 
