@@ -28,6 +28,7 @@ from scipy.optimize import minimize
 import numpy as np
 import matplotlib.pyplot as plt
 from statsmodels.tsa.arima_process import arma_generate_sample
+import pandas as pd
 
 
 # + {"code_folding": [0]}
@@ -66,7 +67,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## some parameters 
 rho = 0.95
 sigma = 0.1
@@ -245,11 +246,58 @@ def NIForecaster(real_time,horizon =10,process_para = process_para,exp_para = ex
 
 # -
 
-# ### 2. Estimating using real-time inflation and expectation data
+# ### 2. Preparing real-time data 
 
-# + {"code_folding": [8]}
-import pandas as pd
+# + {"code_folding": [0]}
+## CPI Core
+InfCPICMRT=pd.read_stata('../OtherData/InfCPICMRealTime.dta')  
+InfCPICMRT = InfCPICMRT[-InfCPICMRT.date.isnull()]
 
+## CPI 
+InfCPIMRT=pd.read_stata('../OtherData/InfCPIMRealTime.dta')  
+InfCPIMRT = InfCPIMRT[-InfCPIMRT.date.isnull()]
+
+# + {"code_folding": [0]}
+## dealing with dates 
+dateM_cpic = pd.to_datetime(InfCPICMRT['date'],format='%Y%m%d')
+dateM_cpi = pd.to_datetime(InfCPIMRT['date'],format='%Y%m%d')
+
+InfCPICMRT.index = pd.DatetimeIndex(dateM_cpic,freq='infer')
+InfCPIMRT.index = pd.DatetimeIndex(dateM_cpi,freq='infer')
+
+
+# + {"code_folding": [0]}
+## a function that turns vintage matrix to a one-dimension vector of real time data
+def GetRealTimeData(matrix):
+    periods = len(matrix)
+    real_time = np.zeros(periods)
+    for i in range(periods):
+        real_time[i] = matrix.iloc[i,i+1]
+    return real_time
+
+
+# + {"code_folding": [0]}
+## generate real-time series 
+matrix_cpic = InfCPICMRT.copy().drop(columns=['date','year','month'])
+matrix_cpi = InfCPIMRT.copy().drop(columns=['date','year','month'])
+
+real_time_cpic = pd.Series(GetRealTimeData(matrix_cpic) )
+real_time_cpi =  pd.Series(GetRealTimeData(matrix_cpi) ) 
+real_time_cpic.index =  InfCPICMRT.index #+ pd.DateOffset(months=1) 
+real_time_cpi.index = InfCPIMRT.index #+ pd.DateOffset(months=1)
+
+# + {"code_folding": [0]}
+## turn index into yearly inflation
+real_time_index =pd.concat([real_time_cpic,real_time_cpi], join='inner', axis=1)
+real_time_index.columns=['RTCPI','RTCPICore']
+real_time_inf = real_time_index.pct_change(periods=12)*100
+# -
+
+real_time_inf.tail()
+
+# ### 3. Estimating using real-time inflation and expectation data
+
+# + {"code_folding": [0, 6]}
 ## exapectation data 
 PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
 PopQ = PopQ[-PopQ.date.isnull()]
@@ -269,15 +317,24 @@ dateQ2 = pd.to_datetime(InfQ['date'],format='%Y%m%d')
 dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
              "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2)
-# -
 
 
-Comb = pd.concat([SPFCPI,InfQ['Inf1y_CPICore']], join='inner', axis=1)
+# + {"code_folding": [0]}
+## Combine expectation data and real-time data 
+
+Comb = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore']], join='inner', axis=1)
+
+# + {"code_folding": [0]}
+# How large is the difference between current vintage and real-time data
+rev = Comb['Inf1y_CPICore'] - Comb['RTCPI']
+hist_rv = plt.hist(rev,bins=20,color='orange')
 
 # + {"code_folding": [0]}
 # real time inflation 
-real_time = np.array(Comb['Inf1y_CPICore'])
-Comb['Inf1y_CPICore'].plot()
+real_time = np.array(Comb['RTCPI'])
+xx = plt.figure()
+Comb[['RTCPI','Inf1y_CPICore']].plot()
+plt.title('Current vintage and real-time Core CPI Inflation')
 
 # + {"code_folding": [0]}
 ## preparing for estimation 
@@ -286,11 +343,13 @@ exp_data = Comb[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
 exp_data.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct = dict(exp_data)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## estimation 
 lbd_est = Estimator(SE_EstObjfunc,para_guess =0.2,method='CG')
 
 # +
+## what is the estimated lambda?
+
 lbd_est
 
 ## rough estimation that did not take care of following issues
