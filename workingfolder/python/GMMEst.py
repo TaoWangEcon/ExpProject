@@ -27,7 +27,7 @@
 from scipy.optimize import minimize
 import numpy as np
 import matplotlib.pyplot as plt
-from statsmodels.tsa.arima_process import arma_generate_sample
+#from statsmodels.tsa.arima_process import arma_generate_sample
 import pandas as pd
 
 
@@ -102,7 +102,7 @@ def AR1_simulator(rho,sigma,nobs):
     xxx[0] = 0 
     for i in range(nobs):
         xxx[i+1] = rho*xxx[i] + shocks[i+1]
-        return xxx[1:]
+    return xxx[1:]
 
 
 # + {"code_folding": [0]}
@@ -112,16 +112,12 @@ sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
 
-# + {"code_folding": [0]}
-## expectation parameters 
-SE_para_default = {'lambda':0.5}
-
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create fake real-time data 
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [0, 1]}
+# + {"code_folding": [1, 8, 11]}
 ## RE class 
 class RationalExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = {},max_back =10):
@@ -129,6 +125,20 @@ class RationalExpectation:
         self.horizon = horizon
         self.process_para = process_para
         self.max_back = max_back
+    
+    def GetRealization(self,realized_series):
+        self.realized = realized_series
+        
+    def SimulateRealization(self):
+        n = len(self.real_time)
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        shocks = np.random.randn(n)*sigma
+        realized = np.zeros(n)
+        for i in range(n):
+            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
+        self.realized = realized        
         
     def REForecaster(self):
         ## parameters
@@ -143,23 +153,36 @@ class RationalExpectation:
         
         ## forecast moments 
         Disg =np.zeros(n)
-        FE = np.random.randn(n)*sigma  ## forecast errors depend on realized shocks 
         infoset = real_time
         nowcast = infoset
         forecast = rho**horizon*nowcast
         Var = hstepvar(horizon,sigma,rho)* np.ones(n)
+        FE = forecast - self.realized ## forecast errors depend on realized shocks 
         return {"Forecast":forecast,
                 "FE":FE,
                "Disg":Disg,
                "Var":Var}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a RE instance 
 FE_instance = RationalExpectation(real_time = xxx)
 
+# + {"code_folding": []}
+### simulate a realized series 
+FE_instance.SimulateRealization()
 
-# + {"code_folding": [0, 11, 32, 38]}
+# + {"code_folding": [0]}
+### forecster
+fe_moms = FE_instance.REForecaster()
+ForecastPlot(fe_moms)
+
+# + {"code_folding": []}
+## expectation parameters 
+SE_para_default = {'lambda':1}
+
+
+# + {"code_folding": [1, 52]}
 ## SE class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = SE_para_default,max_back =10):
@@ -170,6 +193,19 @@ class StickyExpectation:
         self.max_back = max_back
         self.data_moms_dct ={}
         self.para_est = {}
+    def GetRealization(self,realized_series):
+        self.realized = realized_series   
+    
+    def SimulateRealization(self):
+        n = len(self.real_time)
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        shocks = np.random.randn(n)*sigma
+        realized = np.zeros(n)
+        for i in range(n):
+            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            realized[i] = rho**self.horizon*self.real_time[i] +cum_shock
+        self.realized = realized
         
     def SEForecaster(self):
         ## parameters
@@ -185,12 +221,13 @@ class StickyExpectation:
         
         
         ## forecast moments 
-        FE = sum( [lbd*(1-lbd)**tau*hstepfe(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n) # a function of lambda, real-time and process_para 
+        #FE = sum( [lbd*(1-lbd)**tau*hstepfe(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n) # a function of lambda, real-time and process_para 
         Var = sum([ lbd*(1-lbd)**tau*hstepvar(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n)  
         # same as above 
         nowcast = sum([ lbd*(1-lbd)**tau*(rho**tau)*np.roll(real_time,tau) for tau in range(max_back)]) 
         # the first tau needs to be burned
         forecast = rho**horizon*nowcast
+        FE = forecast - self.realized
         Disg =  sum([ lbd*(1-lbd)**tau*(rho**(tau+horizon)*np.roll(real_time,tau)-forecast)**2 for tau in range(max_back)] )
         return {"Forecast":forecast, 
                 "FE":FE,
@@ -226,13 +263,20 @@ class StickyExpectation:
     def ParaEstimate(self,para_guess=0.2,method='CG'):
         self.para_est = Estimator(self.SE_EstObjfunc,para_guess=para_guess,method='CG')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xxx)
+# -
 
-# + {"code_folding": [0]}
+### simulate a realized series 
+SE_instance.SimulateRealization()
+
+# + {"code_folding": []}
 ### fake data moments 
 data_moms_dct2 = SE_instance.SEForecaster()
+# -
+
+ForecastPlot(data_moms_dct2)
 
 # + {"code_folding": [0]}
 ### feed the data moments
@@ -240,7 +284,7 @@ SE_instance.GetDataMoments(data_moms_dct2)
 
 # + {"code_folding": []}
 ### invokes the estimation 
-SE_instance.ParaEstimate(para_guess=0.4)
+SE_instance.ParaEstimate(para_guess=0.9)
 SE_instance.para_est
 # + {"code_folding": [0]}
 ## class of Noisy information 
@@ -264,4 +308,7 @@ def NoisyInformation(self,real_time,horizon=1,process_para = process_para, exp_p
         return {"FE":NIFE,
                 "Disg":NIDisg,
                 "Var":NIVar}
+
+# -
+
 
