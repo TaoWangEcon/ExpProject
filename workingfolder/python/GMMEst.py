@@ -179,10 +179,10 @@ ForecastPlot(fe_moms)
 
 # + {"code_folding": []}
 ## expectation parameters 
-SE_para_default = {'lambda':1}
+SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [1, 52]}
+# + {"code_folding": [0, 52]}
 ## SE class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = SE_para_default,max_back =10):
@@ -273,20 +273,21 @@ SE_instance.SimulateRealization()
 
 # + {"code_folding": []}
 ### fake data moments 
-data_moms_dct2 = SE_instance.SEForecaster()
+data_moms_dct_fake = SE_instance.SEForecaster()
 # -
 
-ForecastPlot(data_moms_dct2)
+ForecastPlot(data_moms_dct_fake)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### feed the data moments
-SE_instance.GetDataMoments(data_moms_dct2)
+SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
 ### invokes the estimation 
-SE_instance.ParaEstimate(para_guess=0.9)
+SE_instance.ParaEstimate()
 SE_instance.para_est
-# + {"code_folding": [0]}
+# + {"code_folding": []}
+'''
 ## class of Noisy information 
 
 def NoisyInformation(self,real_time,horizon=1,process_para = process_para, exp_para = NI_para_default):
@@ -308,7 +309,4 @@ def NoisyInformation(self,real_time,horizon=1,process_para = process_para, exp_p
         return {"FE":NIFE,
                 "Disg":NIDisg,
                 "Var":NIVar}
-
-# -
-
-
+'''

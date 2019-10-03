@@ -16,7 +16,7 @@
 # ## Do the Estimation with SCE and SPF data
 #
 
-# ### 1. Estimation algorithms 
+# ### 1. Importing Estimation algorithms 
 
 from scipy.optimize import minimize
 import numpy as np
@@ -34,17 +34,6 @@ rho = 0.95
 sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
-
-# + {"code_folding": [0]}
-## AR1 series for testing 
-nobs = 100
-rho = process_para['rho']
-sigma = process_para['sigma']
-xxx = AR1_simulator(rho,sigma,nobs)
-
-# + {"code_folding": []}
-# plot different moments for FIRE
-ForecastPlot(FIREtest)
 # -
 
 # ### 2. Preparing real-time data 
@@ -121,6 +110,16 @@ dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
 InfQ.index = pd.DatetimeIndex(dateQ_str2)
 
 
+
+# + {"code_folding": [0]}
+## Inflation data monthly
+InfM = pd.read_stata('../OtherData/InfShocksMClean.dta')
+InfM = InfM[-InfM.date.isnull()]
+dateM = pd.to_datetime(InfM['date'],format='%Y%m%d')
+#dateM_str = dateM .dt.year.astype(int).astype(str) + \
+#             "M" + dateM .dt.month.astype(int).astype(str)
+InfM.index = pd.DatetimeIndex(dateM,freq='infer')
+
 # + {"code_folding": [0]}
 ## expectation data from SCE
 
@@ -137,11 +136,11 @@ PopM.index = pd.DatetimeIndex(dateM)
 SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Combine expectation data and real-time data 
 
-SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore']], join='inner', axis=1)
-SCE_est = pd.concat([SCECPI,real_time_inf], join='inner', axis=1)
+SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
+SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
 # + {"code_folding": [0]}
 # How large is the difference between current vintage and real-time data
@@ -154,6 +153,13 @@ real_time = np.array(SPF_est['RTCPI'])
 xx = plt.figure()
 SPF_est[['RTCPI','Inf1y_CPICore']].plot()
 plt.title('Current vintage and real-time Core CPI Inflation')
+# -
+
+## realized 1-year-ahead inflation
+realized_CPIC = np.array(SPF_est['Inf1yf_CPICore'])
+realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
+SPF_est['Inf1yf_CPICore'].plot()
+plt.title('Realized 1-year-ahead Core CPI Inflation')
 
 # + {"code_folding": [0]}
 ## preparing for estimation 
@@ -166,18 +172,31 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 data_moms_dct = data_moms_dct_SPF
-lbd_est_SPF = Estimator(SE_EstObjfunc,para_guess =0.2,method='CG')
 
+SE_model = se(real_time = real_time)
+SE_model.GetRealization(realized_CPIC)
+SE_model.GetDataMoments(data_moms_dct)
+SE_model.ParaEstimate()
+
+lbd_est_SPF = SE_model.para_est
+
+# + {"code_folding": [0]}
 ## estimation for SCE
 real_time = np.array(SCE_est['RTCPI'])
 data_moms_dct = data_moms_dct_SCE
-lbd_est_SCE = Estimator(SE_EstObjfunc,para_guess =0.2,method='CG')
 
-# + {"code_folding": []}
+SE_model2 = se(real_time = realized_CPI)
+SE_model2.GetRealization(realized_CPI)
+SE_model2.GetDataMoments(data_moms_dct)
+SE_model2.ParaEstimate()
+
+lbd_est_SCE = SE_model2.para_est
+
+# + {"code_folding": [0]}
 ## what is the estimated lambda?
 print("SPF: "+str(lbd_est_SPF))
 print("SCE: "+str(lbd_est_SCE))
@@ -186,9 +205,20 @@ print("SCE: "+str(lbd_est_SCE))
 ## quarterly survey of 1-year-ahead forecast
 ## real-time data is yearly 
 
-# + {"code_folding": []}
-## compare the data with estimation
+# + {"code_folding": [0]}
+## compare the data with estimation for SPF
 
-SE_para_est = {"lambda":lbd_est_SCE}
-SE_est = SEForecaster(real_time,horizon=1,exp_para = SE_para_est)
-ForecastPlotDiag(SE_est,data_moms_dct)
+SE_para_est_SPF = {"lambda":lbd_est_SPF}
+
+SE_model.exp_para = SE_para_est_SPF
+SE_est = SE_model.SEForecaster()
+
+ForecastPlotDiag(SE_est,data_moms_dct_SPF)
+
+# + {"code_folding": [0]}
+## compare the data with estimation for SPF
+
+SE_para_est_SCE = {"lambda":lbd_est_SCE}
+SE_model2.exp_para = SE_para_est_SCE
+SE_est = SE_model2.SEForecaster()
+ForecastPlotDiag(SE_est,data_moms_dct_SCE)
