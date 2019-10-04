@@ -67,7 +67,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -79,21 +79,21 @@ def hstepfe(h,sigma,rho):
 
 
 def ForecastPlot(test):
-    plt.figure(figsize=([3,13]))
+    x = plt.figure(figsize=([3,13]))
     for i,val in enumerate(test):
         plt.subplot(4,1,i+1)
         plt.plot(test[val],label=val)
         plt.legend(loc=1)
-        
+    return x
         
 def ForecastPlotDiag(test,data):
-    plt.figure(figsize=([3,13]))
+    x = plt.figure(figsize=([3,13]))
     for i,val in enumerate(test):
         plt.subplot(4,1,i+1)
         plt.plot(test[val],label='model:'+ val)
         plt.plot(np.array(data[val]),label='data:'+ val)
         plt.legend(loc=1)
-        
+    return x
         
 ### AR1 simulator 
 def AR1_simulator(rho,sigma,nobs):
@@ -105,7 +105,7 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
@@ -182,7 +182,7 @@ ForecastPlot(fe_moms)
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [0, 52]}
+# + {"code_folding": [52]}
 ## SE class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = SE_para_default,max_back =10):

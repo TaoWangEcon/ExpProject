@@ -18,11 +18,15 @@
 
 # ### 1. Importing Estimation algorithms 
 
+# +
 from scipy.optimize import minimize
 import numpy as np
 import matplotlib.pyplot as plt
-from statsmodels.tsa.arima_process import arma_generate_sample
 import pandas as pd
+
+import statsmodels.api as sm
+from statsmodels.tsa.api import AR
+# -
 
 from GMMEst import RationalExpectation as re
 from GMMEst import StickyExpectation as se
@@ -101,15 +105,43 @@ PopQ.index = pd.DatetimeIndex(dateQ_str)
 
 SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how='any')
 
-## Inflation data 
+
+
+# + {"code_folding": [0]}
+## Inflation data quarterly 
 InfQ = pd.read_stata('../OtherData/InfShocksQClean.dta')
 InfQ = InfQ[-InfQ.date.isnull()]
 dateQ2 = pd.to_datetime(InfQ['date'],format='%Y%m%d')
 dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
              "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
-InfQ.index = pd.DatetimeIndex(dateQ_str2)
+InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
+
+# + {"code_folding": [0]}
+## process parameters estimation 
+# period filter 
+start_t='1995-01-01'
+end_t = '2019-03-30'   # the same period as in Gali (1991)
+
+### quarterly data 
+CPICQ = InfQ['Inf1y_CPICore'].copy().loc[start_t:end_t]
+Y = np.array(CPICQ[1:])
+X = np.array(CPICQ[:-1])
+
+ARmodel = AR(CPICQ)
+ar_rs = ARmodel.fit(1,trend='nc')
+rhoQ_est = ar_rs.params[0]
+sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 
 
+### quarterly data 
+CPIM = InfM['Inf1y_CPIAU'].copy().loc[start_t:end_t]
+Y = np.array(CPIM[1:])
+X = np.array(CPIM[:-1])
+
+ARmodel2 = AR(CPIM)
+ar_rs2 = ARmodel2.fit(1,trend='nc')
+rhoM_est = ar_rs2.params[0]
+sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
 
 # + {"code_folding": [0]}
 ## Inflation data monthly
@@ -136,7 +168,7 @@ PopM.index = pd.DatetimeIndex(dateM)
 SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
@@ -147,9 +179,11 @@ SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', a
 rev = SPF_est['Inf1y_CPICore'] - SPF_est['RTCPI']
 hist_rv = plt.hist(rev,bins=20,color='orange')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # real time inflation 
 real_time = np.array(SPF_est['RTCPI'])
+
+
 xx = plt.figure()
 SPF_est[['RTCPI','Inf1y_CPICore']].plot()
 plt.title('Current vintage and real-time Core CPI Inflation')
@@ -177,19 +211,30 @@ data_moms_dct_SCE = dict(exp_data_SCE)
 real_time = np.array(SPF_est['RTCPI'])
 data_moms_dct = data_moms_dct_SPF
 
-SE_model = se(real_time = real_time)
+
+process_paraQ_est = {'rho':rhoQ_est,
+                    'sigma':sigmaQ_est}
+
+SE_model = se(real_time = real_time,process_para=process_paraQ_est)
 SE_model.GetRealization(realized_CPIC)
 SE_model.GetDataMoments(data_moms_dct)
 SE_model.ParaEstimate()
 
 lbd_est_SPF = SE_model.para_est
+# -
+
+lbd_est_SPF
 
 # + {"code_folding": [0]}
 ## estimation for SCE
 real_time = np.array(SCE_est['RTCPI'])
 data_moms_dct = data_moms_dct_SCE
 
-SE_model2 = se(real_time = realized_CPI)
+
+process_paraM_est = {'rho':rhoM_est,
+                    'sigma':sigmaM_est}
+
+SE_model2 = se(real_time = realized_CPI,process_para = process_paraM_est)
 SE_model2.GetRealization(realized_CPI)
 SE_model2.GetDataMoments(data_moms_dct)
 SE_model2.ParaEstimate()
