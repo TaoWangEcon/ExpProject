@@ -27,7 +27,6 @@
 from scipy.optimize import minimize
 import numpy as np
 import matplotlib.pyplot as plt
-#from statsmodels.tsa.arima_process import arma_generate_sample
 import pandas as pd
 
 
@@ -67,7 +66,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -105,19 +104,19 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create fake real-time data 
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [1, 8, 11]}
+# + {"code_folding": [8, 11]}
 ## RE class 
 class RationalExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = {},max_back =10):
@@ -164,11 +163,11 @@ class RationalExpectation:
                "Var":Var}
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create a RE instance 
 FE_instance = RationalExpectation(real_time = xxx)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### simulate a realized series 
 FE_instance.SimulateRealization()
 
@@ -177,27 +176,29 @@ FE_instance.SimulateRealization()
 fe_moms = FE_instance.REForecaster()
 ForecastPlot(fe_moms)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## expectation parameters 
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [52]}
+# + {"code_folding": [0, 51]}
 ## SE class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = SE_para_default,max_back =10):
         self.real_time = real_time
+        self.n = len(real_time)
         self.horizon = horizon
         self.process_para = process_para
         self.exp_para = exp_para
         self.max_back = max_back
         self.data_moms_dct ={}
         self.para_est = {}
+        
     def GetRealization(self,realized_series):
         self.realized = realized_series   
     
     def SimulateRealization(self):
-        n = len(self.real_time)
+        n = self.n
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
         shocks = np.random.randn(n)*sigma
@@ -208,17 +209,14 @@ class StickyExpectation:
         self.realized = realized
         
     def SEForecaster(self):
-        ## parameters
-        n = len(self.real_time)
+        ## inputs 
+        real_time = self.real_time
+        n = len(real_time)
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
         lbd = self.exp_para['lambda']
-        
-        ## parameters
         max_back = self.max_back
-        real_time = self.real_time
-        horizon = self.horizon
-        
+        horizon = self.horizon      
         
         ## forecast moments 
         #FE = sum( [lbd*(1-lbd)**tau*hstepfe(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n) # a function of lambda, real-time and process_para 
@@ -263,20 +261,21 @@ class StickyExpectation:
     def ParaEstimate(self,para_guess=0.2,method='CG'):
         self.para_est = Estimator(self.SE_EstObjfunc,para_guess=para_guess,method='CG')
 
-# + {"code_folding": []}
+
+# + {"code_folding": [0]}
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xxx)
-# -
 
+# + {"code_folding": [0]}
 ### simulate a realized series 
 SE_instance.SimulateRealization()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### fake data moments 
 data_moms_dct_fake = SE_instance.SEForecaster()
 # -
 
-ForecastPlot(data_moms_dct_fake)
+plot = ForecastPlot(data_moms_dct_fake)
 
 # + {"code_folding": []}
 ### feed the data moments
@@ -287,26 +286,138 @@ SE_instance.GetDataMoments(data_moms_dct_fake)
 SE_instance.ParaEstimate()
 SE_instance.para_est
 # + {"code_folding": []}
-'''
+NI_para_default = {'sigma_pb':0.1,
+                  'sigma_pr':0.1}
+
+
+# + {"code_folding": [0]}
 ## class of Noisy information 
 
-def NoisyInformation(self,real_time,horizon=1,process_para = process_para, exp_para = NI_para_default):
-    def __init__(self):
+class NoisyInformation:
+    def __init__(self,real_time,horizon=1,process_para = process_para, exp_para = NI_para_default):
         self.real_time = real_time
+        self.n = len(real_time)
         self.horizon = horizon
         self.process_para = process_para
         self.exp_para = exp_para
-    # a function that generates population moments according to NI 
+        self.data_moms_dct ={}
+        self.para_est = {}
+        
+    def GetRealization(self,realized_series):
+        self.realized = realized_series   
     
-    def NIForecaster(real_time,horizon =10,process_para = process_para,exp_para = exp_para):
-        rho = process_para['rho']
-        sigma = process_para['sigma']
-        sigma_pr = exp_para['sigma_pr']
-        sigma_pb = exp_para['sigma_pb']
-        NIFE = # a function of lambda, real-time and process_para 
-        NIDisg = 0 # same as above
-        NIVar = # same as above 
-        return {"FE":NIFE,
-                "Disg":NIDisg,
-                "Var":NIVar}
-'''
+    def SimulateRealization(self):
+        n = self.n
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        shocks = np.random.randn(n)*sigma
+        realized = np.zeros(n)
+        for i in range(n):
+            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
+        self.realized = realized
+        
+    def SimulateSignals(self):
+        n = self.n
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        s_pb = self.real_time+sigma_pb*np.random.randn(n)
+        s_pr = self.real_time+sigma_pr*np.random.randn(n)
+        self.signals = np.asmatrix(np.array([s_pb,s_pr]))
+        
+    # a function that generates population moments according to NI     
+    def NIForecaster(self):
+        ## inputs 
+        real_time = self.real_time
+        n = self.n
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        sigma_v =np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        horizon = self.horizon      
+        s = self.signals
+        nb_s=len(self.signals) ## # of signals 
+        H = np.asmatrix ([[1,1]]).T
+        Pkalman = np.zeros([n,nb_s])
+        nowcast = np.zeros(n)
+        nowcast[0] = real_time[0]
+        nowvar = np.zeros(n)
+        nowvar[0]= sigma**2/(1-rho**2)
+        Var = np.zeros(n)
+     
+        ## forecast moments
+        infoset = s
+        
+        for t in range(n-1):
+            Pkalman[t+1] = nowcast[t]*H.T*np.linalg.inv(H*nowcast[t]*H.T+sigma_v)
+            nowcast[t+1] = (1-Pkalman[t+1]*H)*rho**(horizon)*nowcast[t]+ Pkalman[t+1,0]*s[0,t+1]
+            nowvar[t+1] = nowvar[t]-nowvar[t]*H.T*np.linalg.inv(H*nowvar[t]*H.T+sigma_v)*H*nowvar[t]
+            
+        forecast = rho**horizon*nowcast    
+        FE = forecast - self.realized  
+
+        for t in range(n):
+            Var[t] = rho**(2*horizon)*nowvar[t] + hstepvar(horizon,sigma,rho)
+              
+        Disg = rho**(2*horizon)*sigma_pr**2*np.ones(n)  #same as above
+
+        return {"Forecast":forecast,
+                "FE":FE,
+                "Disg":Disg,
+                "Var":Var}
+    ## a function estimating SE model parameter only 
+    def NI_EstObjfunc(self,sigmas,moments = ['Forecast','Disg','Var']):
+        """
+        input
+        -----
+        sigma: the parameters of NI model to be estimated. A vector of sigma_pb and sigma_pr
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        NI_para = {"sigma_pb":sigmas[0],
+                  "sigma_pr":sigmas[1]}
+        self.exp_para = NI_para  # give the new lambda
+        data_moms_dct = self.data_moms_dct
+        
+        NI_moms_dct = self.NIForecaster()
+        NI_moms = np.array([NI_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(NI_moms,data_moms)
+        return obj_func 
+    
+    ## feeds the instance with data moments dictionary 
+    def GetDataMoments(self,data_moms_dct):
+        self.data_moms_dct = data_moms_dct
+        
+    ## invoke the estimator 
+    def ParaEstimate(self,para_guess=np.array([0.2,0.2]),method='CG'):
+        self.para_est = Estimator(self.NI_EstObjfunc,para_guess=para_guess,method='CG')
+    
+
+
+# -
+ni_instance = NoisyInformation(real_time = xxx)
+
+
+ni_instance.SimulateRealization()
+ni_instance.SimulateSignals()
+ni_mom_dct = ni_instance.NIForecaster()
+
+plt.plot(ni_instance.signals.T)
+plt.plot(xxx,'r-')
+
+plt.plot(ni_mom_dct['Forecast'])
+plt.plot(ni_instance.realized)
+
+ni_plot = ForecastPlot(ni_mom_dct)
+
+fake_data_moms_dct = ni_mom_dct
+ni_instance.GetDataMoments(fake_data_moms_dct)
+
+ni_instance.ParaEstimate()
+params_est_NI = ni_instance.para_est
+
+params_est_NI
