@@ -116,7 +116,7 @@ process_para = {'rho':rho,
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [8, 11]}
+# + {"code_folding": [0, 8, 11]}
 ## RE class 
 class RationalExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = {},max_back =10):
@@ -174,7 +174,7 @@ FE_instance.SimulateRealization()
 # + {"code_folding": [0]}
 ### forecster
 fe_moms = FE_instance.REForecaster()
-ForecastPlot(fe_moms)
+#ForecastPlot(fe_moms)
 
 # + {"code_folding": [0]}
 ## expectation parameters 
@@ -273,24 +273,24 @@ SE_instance.SimulateRealization()
 # + {"code_folding": [0]}
 ### fake data moments 
 data_moms_dct_fake = SE_instance.SEForecaster()
-# -
-
-plot = ForecastPlot(data_moms_dct_fake)
 
 # + {"code_folding": []}
+#plot = ForecastPlot(data_moms_dct_fake)
+
+# + {"code_folding": [0]}
 ### feed the data moments
 SE_instance.GetDataMoments(data_moms_dct_fake)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### invokes the estimation 
 SE_instance.ParaEstimate()
 SE_instance.para_est
-# + {"code_folding": []}
-NI_para_default = {'sigma_pb':0.1,
+# + {"code_folding": [0]}
+NI_para_default = {'sigma_pb':0.2,
                   'sigma_pr':0.1}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## class of Noisy information 
 
 class NoisyInformation:
@@ -334,7 +334,7 @@ class NoisyInformation:
         sigma = self.process_para['sigma']
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        sigma_v =np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
         s = self.signals
         nb_s=len(self.signals) ## # of signals 
@@ -351,7 +351,7 @@ class NoisyInformation:
         
         for t in range(n-1):
             Pkalman[t+1] = nowcast[t]*H.T*np.linalg.inv(H*nowcast[t]*H.T+sigma_v)
-            nowcast[t+1] = (1-Pkalman[t+1]*H)*rho**(horizon)*nowcast[t]+ Pkalman[t+1,0]*s[0,t+1]
+            nowcast[t+1] = (1-Pkalman[t+1]*H)*rho*nowcast[t]+ Pkalman[t+1,0]*infoset[0,t+1]
             nowvar[t+1] = nowvar[t]-nowvar[t]*H.T*np.linalg.inv(H*nowvar[t]*H.T+sigma_v)*H*nowvar[t]
             
         forecast = rho**horizon*nowcast    
@@ -367,7 +367,7 @@ class NoisyInformation:
                 "Disg":Disg,
                 "Var":Var}
     ## a function estimating SE model parameter only 
-    def NI_EstObjfunc(self,sigmas,moments = ['Forecast','Disg','Var']):
+    def NI_EstObjfunc(self,sigmas,moments = ['Forecast','Disg']):
         """
         input
         -----
@@ -406,18 +406,43 @@ ni_instance.SimulateRealization()
 ni_instance.SimulateSignals()
 ni_mom_dct = ni_instance.NIForecaster()
 
-plt.plot(ni_instance.signals.T)
-plt.plot(xxx,'r-')
+# +
+#plt.plot(ni_instance.signals.T)
+#plt.plot(xxx,'r-')
 
-plt.plot(ni_mom_dct['Forecast'])
-plt.plot(ni_instance.realized)
+# +
+#plt.plot(ni_mom_dct['Forecast'],label='forecast')
+#plt.plot(ni_instance.realized,label='realized')
+#plt.legend(loc=1)
 
-ni_plot = ForecastPlot(ni_mom_dct)
+# +
+#ni_plot = ForecastPlot(ni_mom_dct)
+# -
 
 fake_data_moms_dct = ni_mom_dct
 ni_instance.GetDataMoments(fake_data_moms_dct)
 
-ni_instance.ParaEstimate()
+'''
+ni_instance.ParaEstimate(para_guess=np.array([0.01,0.01]))
 params_est_NI = ni_instance.para_est
 
-params_est_NI
+print(params_est_NI)
+'''
+
+# + {"code_folding": []}
+'''
+## estimate for many times 
+nb_sim = 100
+sim_para = np.zeros([1,2])
+
+for i in range(nb_sim):
+    ni_instance.SimulateRealization()
+    ni_instance.SimulateSignals()
+    ni_instance.GetDataMoments(fake_data_moms_dct)
+    ni_instance.ParaEstimate()
+    sim_para += ni_instance.para_est
+est_av = sim_para/nb_sim
+
+print(est_av)
+'''
+

@@ -269,7 +269,7 @@ SE_model2.exp_para = SE_para_est_SCE
 SE_est = SE_model2.SEForecaster()
 SCEPlot = ForecastPlotDiag(SE_est,data_moms_dct_SCE)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI estimation for SPF
 
 real_time = np.array(SPF_est['RTCPI'])
@@ -282,9 +282,14 @@ NI_model = ni(real_time = real_time,process_para = process_paraQ_est)
 NI_model.SimulateSignals()
 NI_model.GetRealization(realized_CPIC)
 NI_model.GetDataMoments(data_moms_dct)
-NI_model.ParaEstimate()
+NI_model.ParaEstimate(para_guess=np.array([0.01,0.01]))
 
 sigmas_est_SPF = NI_model.para_est
+# -
+
+plt.plot(NI_model.signals.T,'--')
+plt.plot(NI_model.real_time,'ro',label='real_time')
+plt.legend()
 
 # + {"code_folding": [0]}
 ## compare the data with estimation for SPF
@@ -297,7 +302,7 @@ NI_est = NI_model.NIForecaster()
 NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SPF)
 #sigmas_est_SPF
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI estimation for SCE
 
 real_time = np.array(SCE_est['RTCPI'])
@@ -310,11 +315,11 @@ NI_model2 = ni(real_time = real_time,process_para = process_paraM_est)
 NI_model2.SimulateSignals()
 NI_model2.GetRealization(realized_CPI)
 NI_model2.GetDataMoments(data_moms_dct)
-NI_model2.ParaEstimate()
+NI_model2.ParaEstimate(para_guess=np.array([0.01,0.01]))
 
 sigmas_est_SCE = NI_model.para_est
 
-# + {"code_folding": [0, 1]}
+# + {"code_folding": [1]}
 ## compare the data with estimation for SPF
 NI_para_est_SCE = {"sigma_pb":sigmas_est_SCE[0],
                   "sigma_pr":sigmas_est_SCE[1],}
