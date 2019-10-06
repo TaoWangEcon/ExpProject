@@ -181,10 +181,13 @@ fe_moms = FE_instance.REForecaster()
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [0, 51]}
+# + {"code_folding": [0, 55]}
 ## SE class 
 class StickyExpectation:
-    def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = SE_para_default,max_back =10):
+    def __init__(self,real_time,horizon=1,
+                 process_para = process_para,
+                 exp_para = SE_para_default,
+                 max_back =10):
         self.real_time = real_time
         self.n = len(real_time)
         self.horizon = horizon
@@ -193,6 +196,7 @@ class StickyExpectation:
         self.max_back = max_back
         self.data_moms_dct ={}
         self.para_est = {}
+        self.moments = ['Forecast','Disg','Var']
         
     def GetRealization(self,realized_series):
         self.realized = realized_series   
@@ -233,7 +237,7 @@ class StickyExpectation:
                 "Var":Var}
     
     ## a function estimating SE model parameter only 
-    def SE_EstObjfunc(self,lbd,moments = ['Forecast','Disg','Var']):
+    def SE_EstObjfunc(self,lbd):
         """
         input
         -----
@@ -243,6 +247,7 @@ class StickyExpectation:
         -----
         the objective function to minmize
         """
+        moments = self.moments
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
@@ -266,7 +271,7 @@ class StickyExpectation:
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xxx)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### simulate a realized series 
 SE_instance.SimulateRealization()
 
@@ -290,11 +295,14 @@ NI_para_default = {'sigma_pb':0.2,
                   'sigma_pr':0.1}
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0, 16, 19, 30, 80]}
 ## class of Noisy information 
 
 class NoisyInformation:
-    def __init__(self,real_time,horizon=1,process_para = process_para, exp_para = NI_para_default):
+    def __init__(self,real_time,
+                 horizon=1,
+                 process_para = process_para, 
+                 exp_para = NI_para_default):
         self.real_time = real_time
         self.n = len(real_time)
         self.horizon = horizon
@@ -302,6 +310,7 @@ class NoisyInformation:
         self.exp_para = exp_para
         self.data_moms_dct ={}
         self.para_est = {}
+        self.moments = ['Forecast','Disg','Var']
         
     def GetRealization(self,realized_series):
         self.realized = realized_series   
@@ -360,7 +369,7 @@ class NoisyInformation:
         for t in range(n):
             Var[t] = rho**(2*horizon)*nowvar[t] + hstepvar(horizon,sigma,rho)
               
-        Disg = rho**(2*horizon)*sigma_pr**2*np.ones(n)  #same as above
+        Disg = Pkalman[:,0]**2*rho**(2*horizon)*sigma_pr**2*np.ones(n)  #same as above
 
         return {"Forecast":forecast,
                 "FE":FE,
@@ -414,10 +423,9 @@ ni_mom_dct = ni_instance.NIForecaster()
 #plt.plot(ni_mom_dct['Forecast'],label='forecast')
 #plt.plot(ni_instance.realized,label='realized')
 #plt.legend(loc=1)
-
-# +
-#ni_plot = ForecastPlot(ni_mom_dct)
 # -
+
+ni_plot = ForecastPlot(ni_mom_dct)
 
 fake_data_moms_dct = ni_mom_dct
 ni_instance.GetDataMoments(fake_data_moms_dct)
@@ -425,7 +433,6 @@ ni_instance.GetDataMoments(fake_data_moms_dct)
 '''
 ni_instance.ParaEstimate(para_guess=np.array([0.01,0.01]))
 params_est_NI = ni_instance.para_est
-
 print(params_est_NI)
 '''
 
@@ -445,4 +452,3 @@ est_av = sim_para/nb_sim
 
 print(est_av)
 '''
-

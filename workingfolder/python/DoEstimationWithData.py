@@ -108,7 +108,7 @@ SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how
 
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Inflation data quarterly 
 InfQ = pd.read_stata('../OtherData/InfShocksQClean.dta')
 InfQ = InfQ[-InfQ.date.isnull()]
@@ -117,7 +117,7 @@ dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
              "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## process parameters estimation 
 # period filter 
 start_t='1995-01-01'
@@ -133,7 +133,7 @@ ar_rs = ARmodel.fit(1,trend='nc')
 rhoQ_est = ar_rs.params[0]
 sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Inflation data monthly
 InfM = pd.read_stata('../OtherData/InfShocksMClean.dta')
 InfM = InfM[-InfM.date.isnull()]
@@ -142,7 +142,7 @@ dateM = pd.to_datetime(InfM['date'],format='%Y%m%d')
 #             "M" + dateM .dt.month.astype(int).astype(str)
 InfM.index = pd.DatetimeIndex(dateM,freq='infer')
 
-# +
+# + {"code_folding": [0]}
 ### monthly data 
 CPIM = InfM['Inf1y_CPIAU'].copy().loc[start_t:end_t]
 Y = np.array(CPIM[1:])
@@ -269,7 +269,7 @@ SE_model2.exp_para = SE_para_est_SCE
 SE_est = SE_model2.SEForecaster()
 SCEPlot = ForecastPlotDiag(SE_est,data_moms_dct_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## NI estimation for SPF
 
 real_time = np.array(SPF_est['RTCPI'])
@@ -282,6 +282,7 @@ NI_model = ni(real_time = real_time,process_para = process_paraQ_est)
 NI_model.SimulateSignals()
 NI_model.GetRealization(realized_CPIC)
 NI_model.GetDataMoments(data_moms_dct)
+NI_model.moments = ['Forecast','Disg','Var']
 NI_model.ParaEstimate(para_guess=np.array([0.01,0.01]))
 
 sigmas_est_SPF = NI_model.para_est
@@ -302,7 +303,7 @@ NI_est = NI_model.NIForecaster()
 NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SPF)
 #sigmas_est_SPF
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## NI estimation for SCE
 
 real_time = np.array(SCE_est['RTCPI'])
@@ -315,21 +316,24 @@ NI_model2 = ni(real_time = real_time,process_para = process_paraM_est)
 NI_model2.SimulateSignals()
 NI_model2.GetRealization(realized_CPI)
 NI_model2.GetDataMoments(data_moms_dct)
+NI_model2.moments = ['Forecast','Disg','Var']
 NI_model2.ParaEstimate(para_guess=np.array([0.01,0.01]))
 
-sigmas_est_SCE = NI_model.para_est
+sigmas_est_SCE = NI_model2.para_est
 
-# + {"code_folding": [1]}
-## compare the data with estimation for SPF
+# + {"code_folding": [0, 2]}
+## compare the data with estimation for SCE
+
 NI_para_est_SCE = {"sigma_pb":sigmas_est_SCE[0],
                   "sigma_pr":sigmas_est_SCE[1],}
 
-NI_model.exp_para = NI_para_est_SCE
-NI_est = NI_model.NIForecaster()
+NI_model2.exp_para = NI_para_est_SCE
+NI_est = NI_model2.NIForecaster()
 
 NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SCE)
+
 #sigmas_est_SPF
 # -
 
-print(sigmas_est_SPF)
-print(sigmas_est_SCE)
+print(str(sigmas_est_SPF))
+print(str(sigmas_est_SCE))
