@@ -28,6 +28,8 @@ from scipy.optimize import minimize
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+import statsmodels.api as sm
+from statsmodels.tsa.api import AR
 
 
 # + {"code_folding": [0]}
@@ -66,7 +68,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -116,7 +118,7 @@ process_para = {'rho':rho,
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [0, 8, 11]}
+# + {"code_folding": [1, 8, 11, 22]}
 ## RE class 
 class RationalExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = {},max_back =10):
@@ -181,7 +183,7 @@ fe_moms = FE_instance.REForecaster()
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [0, 55]}
+# + {"code_folding": [1, 55]}
 ## SE class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,
@@ -452,4 +454,126 @@ for i in range(nb_sim):
 est_av = sim_para/nb_sim
 
 print(est_av)
+'''
+# -
+
+PL_para_default = SE_para_default
+
+
+# + {"code_folding": [2, 20, 31, 53, 77]}
+### Class of Paramter Learning(PL)
+
+class ParameterLearning:
+    def __init__(self,real_time,horizon=1,
+                 process_para = process_para,
+                 exp_para = PL_para_default,
+                 max_back =10):
+        self.real_time = real_time
+        self.n = len(real_time)
+        self.horizon = horizon
+        self.process_para = process_para
+        self.exp_para = exp_para
+        self.max_back = max_back
+        self.data_moms_dct ={}
+        self.para_est = {}
+        self.moments = ['Forecast','Disg','Var']
+        
+    def GetRealization(self,realized_series):
+        self.realized = realized_series   
+    
+    def SimulateRealization(self):
+        n = self.n
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        shocks = np.random.randn(n)*sigma
+        realized = np.zeros(n)
+        for i in range(n):
+            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            realized[i] = rho**self.horizon*self.real_time[i] +cum_shock
+        self.realized = realized
+    
+    def LearningParameters(self):
+        n = self.n
+        real_time = self.real_time
+        rhos = np.zeros(n)
+        sigmas = np.zeros(n)
+        
+        for i in range(n):
+            ## OLS parameter learning here
+            if i >=2:
+                x = real_time[0:i]
+                model = AR(x)
+                ar_rs = model.fit(1,trend='nc')
+                rhos[i] = ar_rs.params[0]
+                sigmas[i] = np.sqrt(sum(ar_rs.resid**2)/(len(x)-1))
+            else:
+                pass 
+        self.rhos = rhos
+        self.sigmas = sigmas
+        self.process_para_learned = {'rho':rhos,
+                                    'sigma':sigmas}
+    
+    
+    def PLForecaster(self):
+        ## parameters
+        n = len(self.real_time)
+        rhos = self.process_para_learned['rho']
+        sigmas =self.process_para_learned['sigma']
+        
+        ## parameters
+        max_back = self.max_back
+        real_time = self.real_time
+        horizon = self.horizon
+        
+        ## forecast moments 
+        Disg =np.zeros(n)
+        infoset = real_time
+        nowcast = infoset
+        forecast = np.multiply(rhos**horizon,nowcast)
+        Var = [hstepvar(horizon,sigmas[i],rhos[i]) for i in range(n)] # this does not include var parameter
+        FE = forecast - self.realized ## forecast errors depend on realized shocks 
+        return {"Forecast":forecast,
+                "FE":FE,
+               "Disg":Disg,
+               "Var":Var}
+    
+    ## a function estimating SE model parameter only 
+    def PL_EstObjfunc(self,lbd):
+        """
+        input
+        -----
+        lbd: the parameter of PL model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        PL_para = {"lambda":lbd}
+        self.exp_para = PL_para  # give the new lambda
+        data_moms_dct = self.data_moms_dct
+        
+        PL_moms_dct = self.PLForecaster()
+        PL_moms = np.array([PL_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(PL_moms,data_moms)
+        return obj_func 
+    
+    ## feeds the instance with data moments dictionary 
+    def GetDataMoments(self,data_moms_dct):
+        self.data_moms_dct = data_moms_dct
+        
+    ## invoke the estimator 
+    def ParaEstimate(self,para_guess=0.2,method='CG'):
+        self.para_est = Estimator(self.PL_EstObjfunc,para_guess=para_guess,method='CG')
+# -
+
+## try parameter learning 
+pl_instance = ParameterLearning(real_time = xxx)
+pl_instance.SimulateRealization()
+pl_instance.LearningParameters()
+pl_moms_dct = pl_instance.PLForecaster()
+
+'''
+pl_plot = ForecastPlot(pl_moms_dct)
 '''
