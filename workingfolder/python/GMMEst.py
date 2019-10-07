@@ -32,7 +32,7 @@ import statsmodels.api as sm
 from statsmodels.tsa.api import AR
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [1]}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,para_guess,method='CG'):
     """
@@ -46,7 +46,7 @@ def Estimator(obj_func,para_guess,method='CG'):
     - parameter: an array of estimated parameter
     """
     
-    parameter = minimize(obj_func,x0 = para_guess,method=method)['x']
+    parameter = minimize(obj_func,x0 = para_guess,method=method,options={'disp': True})['x']
     return parameter 
 
 
@@ -68,7 +68,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0, 1, 5, 10]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -119,7 +119,7 @@ xxx = AR1_simulator(rho,sigma,100)
 
 
 # + {"code_folding": [1, 8, 11, 22]}
-## RE class 
+## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,real_time,horizon=1,process_para = process_para,exp_para = {},max_back =10):
         self.real_time = real_time
@@ -183,8 +183,8 @@ fe_moms = FE_instance.REForecaster()
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [1, 55]}
-## SE class 
+# + {"code_folding": [0, 55]}
+## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,
                  process_para = process_para,
@@ -288,17 +288,18 @@ data_moms_dct_fake = SE_instance.SEForecaster()
 ### feed the data moments
 SE_instance.GetDataMoments(data_moms_dct_fake)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### invokes the estimation 
 SE_instance.ParaEstimate()
 SE_instance.para_est
 # + {"code_folding": []}
 NI_para_default = {'sigma_pb':0.2,
-                  'sigma_pr':0.1}
+                  'sigma_pr':0.1,
+                  'var_init':0.1}
 
 
-# + {"code_folding": [0, 16, 19, 30, 80]}
-## class of Noisy information 
+# + {"code_folding": [2, 17]}
+## Noisy Information(NI) class 
 
 class NoisyInformation:
     def __init__(self,real_time,
@@ -313,6 +314,7 @@ class NoisyInformation:
         self.data_moms_dct ={}
         self.para_est = {}
         self.moments = ['Forecast','Disg','Var']
+    
         
     def GetRealization(self,realized_series):
         self.realized = realized_series   
@@ -345,6 +347,7 @@ class NoisyInformation:
         sigma = self.process_para['sigma']
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
+        var_init = self.exp_para['var_init']
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
         s = self.signals
@@ -354,7 +357,7 @@ class NoisyInformation:
         nowcast = np.zeros(n)
         nowcast[0] = real_time[0]
         nowvar = np.zeros(n)
-        nowvar[0]= sigma**2/(1-rho**2)
+        nowvar[0]= var_init
         Var = np.zeros(n)
      
         ## forecast moments
@@ -377,8 +380,9 @@ class NoisyInformation:
                 "FE":FE,
                 "Disg":Disg,
                 "Var":Var}
+    
     ## a function estimating SE model parameter only 
-    def NI_EstObjfunc(self,sigmas,moments = ['Forecast','Disg']):
+    def NI_EstObjfunc(self,ni_paras,moments = ['Forecast','Disg']):
         """
         input
         -----
@@ -388,8 +392,9 @@ class NoisyInformation:
         -----
         the objective function to minmize
         """
-        NI_para = {"sigma_pb":sigmas[0],
-                  "sigma_pr":sigmas[1]}
+        NI_para = {"sigma_pb":ni_paras[0],
+                  "sigma_pr":ni_paras[1],
+                  'var_init':ni_paras[2]}
         self.exp_para = NI_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
         
@@ -404,7 +409,7 @@ class NoisyInformation:
         self.data_moms_dct = data_moms_dct
         
     ## invoke the estimator 
-    def ParaEstimate(self,para_guess=np.array([0.2,0.2]),method='CG'):
+    def ParaEstimate(self,para_guess=np.array([0.2,0.2,0.2]),method='CG'):
         self.para_est = Estimator(self.NI_EstObjfunc,para_guess=para_guess,method='CG')
     
 
@@ -434,7 +439,7 @@ fake_data_moms_dct = ni_mom_dct
 ni_instance.GetDataMoments(fake_data_moms_dct)
 
 '''
-ni_instance.ParaEstimate(para_guess=np.array([0.01,0.01]))
+ni_instance.ParaEstimate(para_guess=np.array([0.1,0.1,0.1]))
 params_est_NI = ni_instance.para_est
 print(params_est_NI)
 '''
@@ -457,11 +462,12 @@ print(est_av)
 '''
 # -
 
+## parameter learning estimator 
 PL_para_default = SE_para_default
 
 
 # + {"code_folding": [2, 20, 31, 53, 77]}
-### Class of Paramter Learning(PL)
+### Paramter Learning(PL) class 
 
 class ParameterLearning:
     def __init__(self,real_time,horizon=1,
