@@ -180,7 +180,7 @@ SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', a
 rev = SPF_est['Inf1y_CPICore'] - SPF_est['RTCPI']
 hist_rv = plt.hist(rev,bins=20,color='orange')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # real time inflation 
 real_time = np.array(SPF_est['RTCPI'])
 
@@ -269,7 +269,7 @@ SE_model2.exp_para = SE_para_est_SCE
 SE_est = SE_model2.SEForecaster()
 SCEPlot = ForecastPlotDiag(SE_est,data_moms_dct_SCE)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI estimation for SPF
 
 real_time = np.array(SPF_est['RTCPI'])
@@ -337,3 +337,54 @@ NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SCE)
 
 print(str(sigmas_est_SPF))
 print(str(sigmas_est_SCE))
+
+# + {"code_folding": [0]}
+### simulated method of moment estimation for SPF
+n_sim = 10
+real_time = np.array(SPF_est['RTCPI'])
+data_moms_dct = data_moms_dct_SPF
+
+NI_model_sim = ni(real_time = real_time,process_para = process_paraQ_est)
+NI_model_sim.moments = ['Forecast','Var']
+NI_model_sim.GetDataMoments(data_moms_dct)
+NI_model_sim.GetRealization(realized_CPIC)
+
+sim_para = np.zeros([1,2])
+for i in range(n_sim):
+    NI_model_sim.SimulateSignals()
+    NI_model_sim.ParaEstimate(para_guess=np.array([1,1]))
+    print(NI_model_sim.para_est)
+    sim_para += NI_model_sim.para_est
+    
+sigmas_est_SPF = sim_para/n_sim
+# -
+
+print(sigmas_est_SPF)
+
+# + {"code_folding": [0]}
+### simulated method of moment estimation for SCE
+
+n_sim = 10
+real_time = np.array(SCE_est['RTCPI'])
+data_moms_dct = data_moms_dct_SCE
+
+process_paraM_est = {'rho':rhoM_est,
+                    'sigma':sigmaM_est}
+
+NI_model_sim2 = ni(real_time = real_time,process_para = process_paraM_est)
+NI_model_sim2.GetDataMoments(data_moms_dct)
+NI_model_sim2.moments = ['Forecast','Disg','Var']
+
+sim_para = np.zeros([1,2])
+
+for i in range(n_sim):
+    NI_model_sim2.SimulateSignals()
+    NI_model_sim2.GetRealization(realized_CPI)
+    NI_model_sim2.ParaEstimate(para_guess=np.array([0.01,0.01]))
+    print(NI_model_sim2.para_est)
+    sim_para += NI_model_sim2.para_est
+    
+sigmas_est_SCE = sim_para/n_sim
+# -
+
+print(float(str(sigmas_est_SCE[0][1])))

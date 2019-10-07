@@ -290,7 +290,7 @@ SE_instance.GetDataMoments(data_moms_dct_fake)
 ### invokes the estimation 
 SE_instance.ParaEstimate()
 SE_instance.para_est
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 NI_para_default = {'sigma_pb':0.2,
                   'sigma_pr':0.1}
 
@@ -423,9 +423,10 @@ ni_mom_dct = ni_instance.NIForecaster()
 #plt.plot(ni_mom_dct['Forecast'],label='forecast')
 #plt.plot(ni_instance.realized,label='realized')
 #plt.legend(loc=1)
-# -
 
-ni_plot = ForecastPlot(ni_mom_dct)
+# +
+#ni_plot = ForecastPlot(ni_mom_dct)
+# -
 
 fake_data_moms_dct = ni_mom_dct
 ni_instance.GetDataMoments(fake_data_moms_dct)
