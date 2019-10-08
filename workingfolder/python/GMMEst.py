@@ -30,6 +30,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import statsmodels.api as sm
 from statsmodels.tsa.api import AR
+import copy as cp 
 
 
 # + {"code_folding": [1]}
@@ -68,7 +69,7 @@ def PrepMom(model_moments,data_moments):
     return diff
 
 
-# + {"code_folding": [0, 1, 5, 10]}
+# + {"code_folding": [1, 5]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -183,7 +184,7 @@ fe_moms = FE_instance.REForecaster()
 SE_para_default = {'lambda':0.8}
 
 
-# + {"code_folding": [0, 55]}
+# + {"code_folding": []}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,real_time,horizon=1,
@@ -214,7 +215,7 @@ class StickyExpectation:
             realized[i] = rho**self.horizon*self.real_time[i] +cum_shock
         self.realized = realized
         
-    def SEForecaster(self):
+    def Forecaster(self):
         ## inputs 
         real_time = self.real_time
         n = len(real_time)
@@ -233,10 +234,11 @@ class StickyExpectation:
         forecast = rho**horizon*nowcast
         FE = forecast - self.realized
         Disg =  sum([ lbd*(1-lbd)**tau*(rho**(tau+horizon)*np.roll(real_time,tau)-forecast)**2 for tau in range(max_back)] )
-        return {"Forecast":forecast, 
+        self.forecast_moments = {"Forecast":forecast, 
                 "FE":FE,
                 "Disg":Disg,
                 "Var":Var}
+        return self.forecast_moments
     
     ## a function estimating SE model parameter only 
     def SE_EstObjfunc(self,lbd):
@@ -254,7 +256,7 @@ class StickyExpectation:
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
         
-        SE_moms_dct = self.SEForecaster()
+        SE_moms_dct = self.Forecaster()
         SE_moms = np.array([SE_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
         obj_func = PrepMom(SE_moms,data_moms)
@@ -267,9 +269,28 @@ class StickyExpectation:
     ## invoke the estimator 
     def ParaEstimate(self,para_guess=0.2,method='CG'):
         self.para_est = Estimator(self.SE_EstObjfunc,para_guess=para_guess,method='CG')
+        
+    def ForecastPlot(self):
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments[val],label=val)
+            plt.legend(loc=1)
+            
+    def ForecastPlotDiag(self):
+        exp_para_est_dct = {'lambda':self.para_est[0]}
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments_est[val],label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),label='data:'+ val)
+            plt.legend(loc=1)
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xxx)
 
@@ -277,28 +298,31 @@ SE_instance = StickyExpectation(real_time = xxx)
 ### simulate a realized series 
 SE_instance.SimulateRealization()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### fake data moments 
-data_moms_dct_fake = SE_instance.SEForecaster()
+data_moms_dct_fake = SE_instance.Forecaster()
+
+# +
+#SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
-#plot = ForecastPlot(data_moms_dct_fake)
-
-# + {"code_folding": [0]}
 ### feed the data moments
-SE_instance.GetDataMoments(data_moms_dct_fake)
+#SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
 ### invokes the estimation 
-SE_instance.ParaEstimate()
-SE_instance.para_est
-# + {"code_folding": []}
+#SE_instance.ParaEstimate()
+#SE_instance.para_est
+# + {}
+#SE_instance.ForecastPlotDiag()
+
+# + {"code_folding": [0]}
 NI_para_default = {'sigma_pb':0.2,
                   'sigma_pr':0.1,
                   'var_init':0.1}
 
 
-# + {"code_folding": [2, 17]}
+# + {"code_folding": [2, 40, 64, 77]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -339,7 +363,7 @@ class NoisyInformation:
         self.signals = np.asmatrix(np.array([s_pb,s_pr]))
         
     # a function that generates population moments according to NI     
-    def NIForecaster(self):
+    def Forecaster(self):
         ## inputs 
         real_time = self.real_time
         n = self.n
@@ -376,10 +400,12 @@ class NoisyInformation:
               
         Disg = Pkalman[:,0]**2*rho**(2*horizon)*sigma_pr**2*np.ones(n)  #same as above
 
-        return {"Forecast":forecast,
+        self.forecast_moments = {"Forecast":forecast, 
                 "FE":FE,
                 "Disg":Disg,
                 "Var":Var}
+        
+        return self.forecast_moments
     
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,ni_paras,moments = ['Forecast','Disg']):
@@ -398,7 +424,7 @@ class NoisyInformation:
         self.exp_para = NI_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
         
-        NI_moms_dct = self.NIForecaster()
+        NI_moms_dct = self.Forecaster()
         NI_moms = np.array([NI_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
         obj_func = PrepMom(NI_moms,data_moms)
@@ -412,19 +438,36 @@ class NoisyInformation:
     def ParaEstimate(self,para_guess=np.array([0.2,0.2,0.2]),method='CG'):
         self.para_est = Estimator(self.NI_EstObjfunc,para_guess=para_guess,method='CG')
     
-
-
+    ## plot functions
+    def ForecastPlot(self):
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments[val],label=val)
+            plt.legend(loc=1)
+    
+    ## diagostic plots 
+    
+    def ForecastPlotDiag(self):
+        exp_para_est_dct = {'sigma_pb':self.para_est[0],
+                           'sigma_pr':self.para_est[1],
+                           'var_init':self.para_est[2]}
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments_est[val],label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),label='data:'+ val)
+            plt.legend(loc=1)
 # -
 ni_instance = NoisyInformation(real_time = xxx)
 
 
 ni_instance.SimulateRealization()
 ni_instance.SimulateSignals()
-ni_mom_dct = ni_instance.NIForecaster()
-
-# +
-#plt.plot(ni_instance.signals.T)
-#plt.plot(xxx,'r-')
+ni_mom_dct = ni_instance.Forecaster().copy()
 
 # +
 #plt.plot(ni_mom_dct['Forecast'],label='forecast')
@@ -433,16 +476,18 @@ ni_mom_dct = ni_instance.NIForecaster()
 
 # +
 #ni_plot = ForecastPlot(ni_mom_dct)
-# -
 
-fake_data_moms_dct = ni_mom_dct
-ni_instance.GetDataMoments(fake_data_moms_dct)
+# +
+#fake_data_moms_dct = ni_mom_dct
+#ni_instance.GetDataMoments(fake_data_moms_dct)
 
-'''
-ni_instance.ParaEstimate(para_guess=np.array([0.1,0.1,0.1]))
-params_est_NI = ni_instance.para_est
-print(params_est_NI)
-'''
+# +
+#ni_instance.ParaEstimate(para_guess=np.array([0.1,0.1,0.1]))
+#params_est_NI = ni_instance.para_est
+#print(params_est_NI)
+
+# +
+#ni_instance.ForecastPlotDiag()
 
 # + {"code_folding": []}
 '''
@@ -466,7 +511,7 @@ print(est_av)
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [2, 20, 31, 53, 77]}
+# + {"code_folding": [0, 3, 20, 31, 53]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
@@ -520,7 +565,7 @@ class ParameterLearning:
                                     'sigma':sigmas}
     
     
-    def PLForecaster(self):
+    def Forecaster(self):
         ## parameters
         n = len(self.real_time)
         rhos = self.process_para_learned['rho']
@@ -538,10 +583,11 @@ class ParameterLearning:
         forecast = np.multiply(rhos**horizon,nowcast)
         Var = [hstepvar(horizon,sigmas[i],rhos[i]) for i in range(n)] # this does not include var parameter
         FE = forecast - self.realized ## forecast errors depend on realized shocks 
-        return {"Forecast":forecast,
+        self.forecast_moments = {"Forecast":forecast, 
                 "FE":FE,
-               "Disg":Disg,
-               "Var":Var}
+                "Disg":Disg,
+                "Var":Var}
+        return self.forecast_moments
     
     ## a function estimating SE model parameter only 
     def PL_EstObjfunc(self,lbd):
@@ -559,7 +605,7 @@ class ParameterLearning:
         self.exp_para = PL_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
         
-        PL_moms_dct = self.PLForecaster()
+        PL_moms_dct = self.Forecaster()
         PL_moms = np.array([PL_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
         obj_func = PrepMom(PL_moms,data_moms)
@@ -572,14 +618,24 @@ class ParameterLearning:
     ## invoke the estimator 
     def ParaEstimate(self,para_guess=0.2,method='CG'):
         self.para_est = Estimator(self.PL_EstObjfunc,para_guess=para_guess,method='CG')
+        
+        
+    def ForecastPlot(self):
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments[val],label=val)
+            plt.legend(loc=1)
+
+# + {"code_folding": []}
+## try parameter learning 
+#pl_instance = ParameterLearning(real_time = xxx)
+#pl_instance.SimulateRealization()
+#pl_instance.LearningParameters()
+#pl_moms_dct = pl_instance.PLForecaster()
+
+# +
+#pl_instance.ForecastPlot()
 # -
 
-## try parameter learning 
-pl_instance = ParameterLearning(real_time = xxx)
-pl_instance.SimulateRealization()
-pl_instance.LearningParameters()
-pl_moms_dct = pl_instance.PLForecaster()
 
-'''
-pl_plot = ForecastPlot(pl_moms_dct)
-'''

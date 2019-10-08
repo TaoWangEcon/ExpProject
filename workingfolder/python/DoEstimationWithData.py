@@ -32,7 +32,7 @@ from GMMEst import RationalExpectation as re
 from GMMEst import StickyExpectation as se
 from GMMEst import NoisyInformation as ni
 from GMMEst import ParameterLearning as pl
-from GMMEst import ForecastPlot, ForecastPlotDiag, AR1_simulator
+from GMMEst import AR1_simulator
 
 # + {"code_folding": [0]}
 ## some parameters 
@@ -197,7 +197,7 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 SPF_est['Inf1yf_CPICore'].plot()
 plt.title('Realized 1-year-ahead Core CPI Inflation')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## preparing for estimation 
 
 exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
@@ -208,7 +208,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## SE estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 data_moms_dct = data_moms_dct_SPF
@@ -218,12 +218,11 @@ process_paraQ_est = {'rho':rhoQ_est,
                     'sigma':sigmaQ_est}
 
 SE_model = se(real_time = real_time,process_para=process_paraQ_est)
-SE_model.moments = ['Forecast','FE','Disg','Var']
+SE_model.moments = ['Forecast','Disg','Var']
 SE_model.GetRealization(realized_CPIC)
 SE_model.GetDataMoments(data_moms_dct)
 SE_model.ParaEstimate()
-
-# +
+# -
 
 lbd_est_SPF = SE_model.para_est
 lbd_est_SPF
@@ -253,24 +252,14 @@ print("SCE: "+str(lbd_est_SCE))
 ## rough estimation that did not take care of following issues
 ## quarterly survey of 1-year-ahead forecast
 ## real-time data is yearly 
+# -
 
-# + {"code_folding": [0]}
 ## compare the data with estimation for SPF
+SE_model.ForecastPlotDiag()
 
-SE_para_est_SPF = {"lambda":lbd_est_SPF}
-
-SE_model.exp_para = SE_para_est_SPF
-SE_est = SE_model.SEForecaster()
-
-SPFplot=ForecastPlotDiag(SE_est,data_moms_dct_SPF)
-
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## compare the data with estimation for SPF
-
-SE_para_est_SCE = {"lambda":lbd_est_SCE}
-SE_model2.exp_para = SE_para_est_SCE
-SE_est = SE_model2.SEForecaster()
-SCEPlot = ForecastPlotDiag(SE_est,data_moms_dct_SCE)
+SE_model2.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
 ## NI estimation for SPF
@@ -297,15 +286,7 @@ plt.legend()
 
 # + {"code_folding": []}
 ## compare the data with estimation for SPF
-NI_para_est_SPF = {'sigma_pb':sigmas_est_SPF[0],
-                  'sigma_pr':sigmas_est_SPF[1],
-                  'var_init':sigmas_est_SPF[2]}
-
-NI_model.exp_para = NI_para_est_SPF
-NI_est = NI_model.NIForecaster()
-
-NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SPF)
-sigmas_est_SPF
+NI_model.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
 ## NI estimation for SCE
@@ -331,16 +312,7 @@ sigmas_est_SCE
 # + {"code_folding": [0]}
 ## compare the data with estimation for SCE
 
-NI_para_est_SCE = {"sigma_pb":sigmas_est_SCE[0],
-                  "sigma_pr":sigmas_est_SCE[1],
-                  'var_init':sigmas_est_SCE[2]}
-
-NI_model2.exp_para = NI_para_est_SCE
-NI_est = NI_model2.NIForecaster()
-
-NIplot = ForecastPlotDiag(NI_est,data_moms_dct_SCE)
-
-#sigmas_est_SPF
+NI_model2.ForecastPlotDiag()
 # -
 
 print(str(sigmas_est_SPF))
