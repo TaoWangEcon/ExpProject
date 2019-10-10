@@ -34,7 +34,7 @@ import copy as cp
 from scipy.stats import bernoulli
 
 
-# + {"code_folding": [1, 3]}
+# + {"code_folding": [0, 1]}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -57,7 +57,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [1, 2]}
+# + {"code_folding": [0, 1]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 def PrepMom(model_moments,
             data_moments):
@@ -76,7 +76,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5]}
+# + {"code_folding": [0, 1, 5]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -121,12 +121,12 @@ sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create fake real-time data 
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [0, 27]}
+# + {"code_folding": [0, 2, 13, 16, 27]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -192,12 +192,12 @@ class RationalExpectation:
 #fe_moms = FE_instance.Forecaster()
 #ForecastPlot(fe_moms)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## expectation parameters 
-SE_para_default = {'lambda':0.8}
+SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 21, 25, 36, 61, 117, 139, 144, 151, 158]}
+# + {"code_folding": [0, 2, 21, 25, 36, 52, 71, 76, 82, 107, 111, 127, 134, 156, 161, 168, 175]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -237,22 +237,43 @@ class StickyExpectation:
     def Forecaster(self):
         ## inputs 
         real_time = self.real_time
+        history = self.history
         n = len(real_time)
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
         lbd = self.exp_para['lambda']
         max_back = self.max_back
         horizon = self.horizon      
+        n_burn = len(history) - n
+        n_history = n + n_burn  # of course equal to len(history)
+        
         
         ## forecast moments 
-        #FE = sum( [lbd*(1-lbd)**tau*hstepfe(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n) # a function of lambda, real-time and process_para 
-        Var = sum([ lbd*(1-lbd)**tau*hstepvar(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n)  
-        # same as above 
-        nowcast = sum([ lbd*(1-lbd)**tau*(rho**tau)*np.roll(real_time,tau) for tau in range(max_back)]) 
-        # the first tau needs to be burned
+        Var_array = np.empty(n)
+        for i in range(n):
+            Var_this_i = sum([lbd*(1-lbd)**tau*hstepvar(tau+horizon,sigma,rho) for tau in range(i + n_burn)])
+            Var_array[i] = Var_this_i
+        Var = Var_array
+        #Var = sum([ lbd*(1-lbd)**tau*hstepvar(horizon+tau,sigma,rho) for tau in range(max_back)] ) * np.ones(n)  
+        
+        # average forecast 
+        nowcast_array = np.empty(n)
+        for i in range(n):
+            nowcast_this_i = sum([lbd*(1-lbd)**tau*(rho**tau)*history[i+n_burn-tau] for tau in range(i+n_burn)])
+            nowcast_array[i] = nowcast_this_i
+        #nowcast= sum([ lbd*(1-lbd)**tau*(rho**tau)*np.roll(real_time,tau) for tau in range(max_back)])
+        nowcast = nowcast_array
         forecast = rho**horizon*nowcast
+        # forecast errors
         FE = forecast - self.realized
-        Disg =  sum([ lbd*(1-lbd)**tau*(rho**(tau+horizon)*np.roll(real_time,tau)-forecast)**2 for tau in range(max_back)] )
+        
+        ## diagreement 
+        Disg_array = np.empty(n)
+        for i in range(n):
+            Disg_this_i = sum([lbd*(1-lbd)**tau*(rho**(tau+horizon)*history[i+n_burn-tau] - forecast[i])**2 for tau in range(i+n_burn)])
+            Disg_array[i] = Disg_this_i
+        Disg = Disg_array
+        #Disg =  sum([ lbd*(1-lbd)**tau*(rho**(tau+horizon)*np.roll(real_time,tau)-forecast)**2 for tau in range(max_back)] )
         self.forecast_moments = {"Forecast":forecast, 
                 "FE":FE,
                 "Disg":Disg,
@@ -277,31 +298,28 @@ class StickyExpectation:
         ## simulation
         update_or_not = bernoulli.rvs(p = lbd,
                                       size=[n_sim,n_history])
-        most_recent = np.empty_like(update_or_not)
-        nowcasts_rough = np.empty_like(update_or_not)
-        Vars_rough = np.empty_like(update_or_not)
-        ## look for the most recent updates for each point of time  ## something is wrong so far.
-        for i in range(most_recent.shape[0]):
-            #print(i)
-            for j in range(most_recent.shape[1]):
-                #print(j)
+        most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
+        nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        
+        ## look back for the most recent last update for each point of time  
+        for i in range(n_sim):
+            for j in range(n_history):
                 if any([x for x in range(j) if update_or_not[i,j-x] == True]):
-                    most_recent[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                    most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                    nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
+                    Vars_to_burn[i,j] = hstepvar(most_recent_when[i,j]+horizon,sigma,rho)
                 else:
-                    #print(most_recent_for_ij)
-                    most_recent[i,j] = j
-                #print(history[j-most_recent[i,j]])
-                nowcasts_rough[i,j] = history[j-most_recent[i,j]]*(rho**most_recent[i,j])
-                #print(history[j-most_recent[i,j]]*(rho**most_recent[i,j]))
-                #nowcasts_rough = sum([np.multiply(xx_stack,np.roll(update_or_not,back)) for back in range(n_burn)]) 
-                Vars_rough[i,j] = hstepvar(most_recent[i,j]+horizon,rho,sigma)
-                
-        nowcasts = nowcasts_rough[:,n_burn:]
+                    most_recent_when[i,j] = j
+                    nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
+                    Vars_to_burn[i,j]= hstepvar((most_recent_when[i,j]+horizon),sigma,rho)
+        
+        ## burn initial forecasts since history is too short 
+        nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
         forecasts = rho**horizon*nowcasts
-        Vars = Vars_rough[:,n_burn:]
+        Vars = np.array( Vars_to_burn[:,n_burn:])
         
         ## compuate population moments
-        
         forecasts_mean = np.mean(forecasts,axis=0)
         forecasts_var = np.var(forecasts,axis=0)
         FEs_mean = forecasts_mean - self.realized
@@ -313,7 +331,6 @@ class StickyExpectation:
                 "Var":Vars_mean}
         return self.forecast_moments_sim
 
-    
     ## a function estimating SE model parameter only 
     def SE_EstObjfunc(self,lbd):
         """
@@ -368,27 +385,23 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": []}
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[10:]
+# + {"code_folding": [0]}
+## test of ForecasterbySim
+xx_history = AR1_simulator(rho,sigma,500)
+xx_real_time = xx_history[50:]
 
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xx_real_time,
                                 history = xx_history)
 SE_instance.SimulateRealization()
 
-# + {"code_folding": []}
 ### simulate a realized series 
 mom_dct =  SE_instance.Forecaster()
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
-# -
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
 
-mom_sim_dct
+mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 
-# +
-#mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
-
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### fake data moments 
 data_moms_dct_fake = SE_instance.Forecaster()
 
