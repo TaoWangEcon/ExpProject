@@ -219,7 +219,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## SE estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 history_Q = historyQ['RTCPICore']
@@ -271,11 +271,11 @@ print("SCE: "+str(lbd_est_SCE))
 ## quarterly survey of 1-year-ahead forecast
 ## real-time data is yearly 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## compare the data with estimation for SPF
 SE_model.ForecastPlotDiag()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## compare the data with estimation for SPF
 SE_model2.ForecastPlotDiag()
 
@@ -288,7 +288,10 @@ data_moms_dct = data_moms_dct_SPF
 process_paraQ_est = {'rho':rhoQ_est,
                     'sigma':sigmaQ_est}
 
-NI_model = ni(real_time = real_time,process_para = process_paraQ_est,moments = ['Forecast','FE','Disg'])
+NI_model = ni(real_time = real_time,
+              history = history_Q,
+              process_para = process_paraQ_est,
+              moments = ['Forecast','FE','Disg'])
 NI_model.SimulateSignals()
 NI_model.GetRealization(realized_CPIC)
 NI_model.GetDataMoments(data_moms_dct)
@@ -297,8 +300,8 @@ NI_model.ParaEstimate(para_guess = np.array([0.01,0.01,0.01]))
 sigmas_est_SPF = NI_model.para_est
 # -
 
-plt.plot(NI_model.signals.T,'--')
-plt.plot(NI_model.real_time,'ro',label='real_time')
+plt.plot(NI_model.signals_pb,'--',label='public signals')
+plt.plot(NI_model.history,'r*',label='history')
 plt.legend()
 
 # + {"code_folding": [0]}
@@ -314,7 +317,9 @@ data_moms_dct = data_moms_dct_SCE
 process_paraM_est = {'rho':rhoM_est,
                     'sigma':sigmaM_est}
 
-NI_model2 = ni(real_time = real_time,process_para = process_paraM_est)
+NI_model2 = ni(real_time = real_time,
+               history = history_M,
+               process_para = process_paraM_est)
 NI_model2.SimulateSignals()
 NI_model2.GetRealization(realized_CPI)
 NI_model2.GetDataMoments(data_moms_dct)

@@ -424,7 +424,7 @@ NI_para_default = {'sigma_pb':0.1,
                   'var_init':0.01}
 
 
-# + {"code_folding": [0, 3, 74, 98, 158, 183, 188, 194, 203]}
+# + {"code_folding": [74, 98, 158, 183, 188, 194, 203]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -720,7 +720,7 @@ print(est_av)
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [33, 55]}
+# + {"code_folding": [2, 33, 55]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
