@@ -76,7 +76,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0, 1, 5]}
+# + {"code_folding": [0, 5]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -126,7 +126,7 @@ process_para = {'rho':rho,
 xxx = AR1_simulator(rho,sigma,100)
 
 
-# + {"code_folding": [0, 2, 13, 16, 27]}
+# + {"code_folding": [2, 13, 27]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -150,7 +150,7 @@ class RationalExpectation:
         shocks = np.random.randn(n)*sigma
         realized = np.zeros(n)
         for i in range(n):
-            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
             realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.realized = realized        
         
@@ -197,7 +197,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 1, 2, 21, 25, 36, 52, 71, 76, 107, 111, 134, 156, 161, 168, 175]}
+# + {"code_folding": [1, 21, 36, 52, 71, 76, 132, 154, 159, 166, 173]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -230,7 +230,7 @@ class StickyExpectation:
         shocks = np.random.randn(n)*sigma
         realized = np.zeros(n)
         for i in range(n):
-            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
             realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.realized = realized
         
@@ -307,12 +307,10 @@ class StickyExpectation:
             for j in range(n_history):
                 if any([x for x in range(j) if update_or_not[i,j-x] == True]):
                     most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
-                    nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
-                    Vars_to_burn[i,j] = hstepvar(most_recent_when[i,j]+horizon,sigma,rho)
                 else:
                     most_recent_when[i,j] = j
-                    nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
-                    Vars_to_burn[i,j]= hstepvar((most_recent_when[i,j]+horizon),sigma,rho)
+                nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
+                Vars_to_burn[i,j]= hstepvar((most_recent_when[i,j]+horizon),sigma,rho)
         
         ## burn initial forecasts since history is too short 
         nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
@@ -385,27 +383,24 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": [0]}
-'''
+# + {"code_folding": [0, 5]}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[20:]
+xx_history = AR1_simulator(rho,sigma,500)
+xx_real_time = xx_history[50:]
 
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xx_real_time,
-                                history = xx_history,
-                               moments = ['Forecast','FE','Disg'])
+                                history = xx_history)
 SE_instance.SimulateRealization()
 
+'''
 ### simulate a realized series 
 mom_dct =  SE_instance.Forecaster()
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
-
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
 mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
-
 '''
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### fake data moments 
 data_moms_dct_fake = SE_instance.Forecaster()
 
@@ -420,26 +415,28 @@ data_moms_dct_fake = SE_instance.Forecaster()
 ### invokes the estimation 
 #SE_instance.ParaEstimate()
 #SE_instance.para_est
-# + {}
+# + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
-NI_para_default = {'sigma_pb':0.2,
+NI_para_default = {'sigma_pb':0.1,
                   'sigma_pr':0.1,
-                  'var_init':0.1}
+                  'var_init':0.01}
 
 
-# + {"code_folding": [43, 88]}
+# + {"code_folding": [0, 3, 74, 98, 158, 183, 188, 194, 203]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
     def __init__(self,
                  real_time,
+                 history,
                  horizon=1,
                  process_para = process_para, 
                  exp_para = NI_para_default,
                  moments = ['Forecast','Disg','Var']):
         self.real_time = real_time
+        self.history = history
         self.n = len(real_time)
         self.horizon = horizon
         self.process_para = process_para
@@ -447,8 +444,7 @@ class NoisyInformation:
         self.data_moms_dct ={}
         self.para_est = {}
         self.moments = moments
-    
-        
+            
     def GetRealization(self,
                        realized_series):
         self.realized = realized_series   
@@ -460,23 +456,29 @@ class NoisyInformation:
         shocks = np.random.randn(n)*sigma
         realized = np.zeros(n)
         for i in range(n):
-            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
             realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.realized = realized
         
     def SimulateSignals(self):
         n = self.n
+        n_history = len(self.history)
+        history = self.history
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        s_pb = self.real_time+sigma_pb*np.random.randn(n)
-        s_pr = self.real_time+sigma_pr*np.random.randn(n)
+        s_pb = self.history + sigma_pb*np.random.randn(n_history)
+        s_pr = self.history + sigma_pr*np.random.randn(n_history)
         self.signals = np.asmatrix(np.array([s_pb,s_pr]))
+        self.signals_pb = s_pb
         
     # a function that generates population moments according to NI     
     def Forecaster(self):
         ## inputs 
         real_time = self.real_time
+        history = self.history
         n = self.n
+        n_burn = len(history) - n
+        n_history = n + n_burn  # of course equal to len(history)
         rho  = self.process_para['rho']
         sigma = self.process_para['sigma']
         sigma_pb = self.exp_para['sigma_pb']
@@ -484,31 +486,35 @@ class NoisyInformation:
         var_init = self.exp_para['var_init']
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
-        s = self.signals
-        nb_s=len(self.signals) ## # of signals 
+        signals = self.signals
+        nb_s = len(self.signals) ## # of signals 
         H = np.asmatrix ([[1,1]]).T
-        Pkalman = np.zeros([n,nb_s])
-        nowcast = np.zeros(n)
-        nowcast[0] = real_time[0]
-        nowvar = np.zeros(n)
-        nowvar[0]= var_init
-        Var = np.zeros(n)
+        Pkalman = np.zeros([n_history,nb_s])
+        nowcast_to_burn = np.zeros(n_history)
+        nowcast_to_burn[0] = history[0]
+        nowvar_to_burn = np.zeros(n_history)
+        nowvar_to_burn[0] = var_init
+        Var_to_burn = np.zeros(n_history)
      
         ## forecast moments
-        infoset = s
+        infoset = signals
         
-        for t in range(n-1):
-            Pkalman[t+1] = nowcast[t]*H.T*np.linalg.inv(H*nowcast[t]*H.T+sigma_v)
-            nowcast[t+1] = (1-Pkalman[t+1]*H)*rho*nowcast[t]+ Pkalman[t+1,0]*infoset[0,t+1]
-            nowvar[t+1] = nowvar[t]-nowvar[t]*H.T*np.linalg.inv(H*nowvar[t]*H.T+sigma_v)*H*nowvar[t]
-            
-        forecast = rho**horizon*nowcast    
+        for t in range(n_history-1):
+            nowvar_to_burn[t+1] = nowvar_to_burn[t]-nowvar_to_burn[t]*H.T*np.linalg.inv(H*nowvar_to_burn[t]*H.T+sigma_v)*H*nowvar_to_burn[t]
+        
+        for t in range(n_history-1):
+            Pkalman[t+1] = nowvar_to_burn[t]*H.T*np.linalg.inv(H*nowvar_to_burn[t]*H.T+sigma_v)
+            nowcast_to_burn[t+1] = (1-Pkalman[t+1]*H)*nowcast_to_burn[t]+ Pkalman[t+1,0]*infoset[0,t+1]
+        nowcast = nowcast_to_burn[n_burn:]
+        forecast = rho**horizon*nowcast   
         FE = forecast - self.realized  
 
-        for t in range(n):
-            Var[t] = rho**(2*horizon)*nowvar[t] + hstepvar(horizon,sigma,rho)
-              
-        Disg = Pkalman[:,0]**2*rho**(2*horizon)*sigma_pr**2*np.ones(n)  #same as above
+        for t in range(n_history):
+            Var_to_burn[t] = rho**(2*horizon)*nowvar_to_burn[t] + hstepvar(horizon,sigma,rho)
+        Var = Var_to_burn[n_burn:]      
+        
+        Disg_to_burn = Pkalman[:,0]**2*rho**(2*horizon)*sigma_pr**2*np.ones(n_history)  #same as above
+        Disg = Disg_to_burn[n_burn:]
 
         self.forecast_moments = {"Forecast":forecast, 
                 "FE":FE,
@@ -516,6 +522,65 @@ class NoisyInformation:
                 "Var":Var}
         
         return self.forecast_moments
+    
+    def ForecasterbySim(self,
+                        n_sim = 100):
+        ## inputs 
+        real_time = self.real_time
+        history  = self.history 
+        n = len(real_time)
+        nb_s = len(self.signals)
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        var_init = self.exp_para['var_init']
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        horizon = self.horizon      
+        H = np.asmatrix ([[1,1]]).T
+        horizon = self.horizon 
+        n_burn = len(history) - n
+        n_history = n + n_burn  # of course equal to len(history)
+        s_pb = self.signals_pb
+    
+        ## simulation
+        s_pr_sim = history + sigma_pr * np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
+        
+        ## prepare n_sim x n_history matricies 
+        nowcasts_to_burn = np.matrix(np.empty((n_sim,n_history)))
+        nowcasts_to_burn[:,0] = history[0]
+        nowvar_to_burn = np.matrix(np.empty((n_sim,n_history)))
+        nowvar_to_burn[:,0] = var_init
+        Vars_to_burn = np.matrix(np.empty((n_sim,n_history)))
+        
+
+        for i in range(n_sim):
+            s_this_i = np.asmatrix(np.array([s_pb,s_pr_sim[i,:]])) # signals for this particular guy
+            Pkalman = np.matrix( np.empty((n_history,nb_s) ) )
+            for t in range(n_history-1):
+                Pkalman[t+1,:] = nowvar_to_burn[i,t]*H.T*np.linalg.inv(H*nowvar_to_burn[i,t]*H.T+sigma_v)
+                nowcasts_to_burn[i,t+1] = (1-Pkalman[t+1,:]*H)*rho*nowcasts_to_burn[i,t]+ Pkalman[t+1,:]*s_this_i[:,t+1]
+                nowvar_to_burn[i,t+1] = nowvar_to_burn[i,t] - nowvar_to_burn[i,t]*H.T*np.linalg.inv(H*nowvar_to_burn[i,t]*H.T+sigma_v)*H*nowvar_to_burn[i,t]
+            for t in range(n_history):
+                Vars_to_burn[i,t] = rho**(2*horizon)*nowvar_to_burn[i,t] + hstepvar(horizon,sigma,rho)
+                
+        ## burn initial n_burn forecasts since the history is too short 
+        nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
+        forecasts = rho**horizon*nowcasts
+        Vars = np.array( Vars_to_burn[:,n_burn:])
+        
+        ## compuate population moments
+        print(forecasts.shape)
+        forecasts_mean = np.mean(forecasts,axis=0)
+        forecasts_var = np.var(forecasts,axis=0)
+        FEs_mean = forecasts_mean - self.realized
+        Vars_mean = np.mean(Vars,axis = 0) ## need to change 
+        
+        self.forecast_moments_sim = {"Forecast":forecasts_mean, 
+                "FE":FEs_mean,
+                "Disg":forecasts_var,
+                "Var":Vars_mean}
+        return self.forecast_moments_sim
     
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,
@@ -562,7 +627,6 @@ class NoisyInformation:
             plt.legend(loc=1)
     
     ## diagostic plots 
-    
     def ForecastPlotDiag(self):
         exp_para_est_dct = {'sigma_pb':self.para_est[0],
                            'sigma_pr':self.para_est[1],
@@ -576,20 +640,50 @@ class NoisyInformation:
             plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
             plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
             plt.legend(loc=1)
-# -
-ni_instance = NoisyInformation(real_time = xxx)
+# + {"code_folding": [0]}
+## test NI class
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[20:]
+plt.plot(xx_history)
 
+
+# +
+ni_instance = NoisyInformation(horizon=3,
+                               real_time = xx_real_time,
+                               history = xx_history)
 
 ni_instance.SimulateRealization()
 ni_instance.SimulateSignals()
-ni_mom_dct = ni_instance.Forecaster().copy()
+# -
+
+'''
+plt.plot(ni_instance.history,'r*',label='history')
+plt.plot(ni_instance.signals_pb,'--',label='public')
+plt.plot(ni_instance.signals[1].T,'--',label='private')
+plt.legend(loc=3)
+'''
+
+# + {"code_folding": []}
+ni_mom_sim = ni_instance.ForecasterbySim(n_sim=100)
+ni_plot_sim = ForecastPlot(ni_mom_sim)
+# -
+
+#ni_instance.SimulateSignals()
+ni_mom_dct =  ni_instance.Forecaster()
+ni_instance.ForecastPlot()
+#ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,ni_mom_sim)
+
+# +
+#ni_instance.SimulateRealization()
+#ni_instance.SimulateSignals()
+#ni_mom_dct = ni_instance.Forecaster().copy()
 
 # +
 #plt.plot(ni_mom_dct['Forecast'],label='forecast')
 #plt.plot(ni_instance.realized,label='realized')
 #plt.legend(loc=1)
 
-# +
+# + {"code_folding": []}
 #ni_plot = ForecastPlot(ni_mom_dct)
 
 # +
@@ -626,7 +720,7 @@ print(est_av)
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [0, 22, 33, 55]}
+# + {"code_folding": [33, 55]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
@@ -656,7 +750,7 @@ class ParameterLearning:
         shocks = np.random.randn(n)*sigma
         realized = np.zeros(n)
         for i in range(n):
-            cum_shock = sum([rho**h*shocks[i+h] for h in range(self.horizon)])
+            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
             realized[i] = rho**self.horizon*self.real_time[i] +cum_shock
         self.realized = realized
     
