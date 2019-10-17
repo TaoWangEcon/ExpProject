@@ -309,7 +309,7 @@ for t in range(1,T):
     #PopVarSE[t] = sum( [λ*(1-λ)**t*IndVarRE[s] for s in range(t)])
 
 
-# + {"code_folding": [34]}
+# + {"code_folding": []}
 ## Noisy information(NI) 
 
 def NI(T,y,sigma_pb=1,sigma_pr=1):
@@ -355,7 +355,7 @@ def NI(T,y,sigma_pb=1,sigma_pr=1):
         PopExpNI[t+1]=ρ**(h-t)*((1-Pkalman[t+1]*H)*PopExpNI[t]+Pkalman[t+1,0]*s[0,t+1])
         #print('Kalman gain from public signal is '+ str(Pkalman[t+1,1]))
         #print('Kalman gain from private signal is '+str(Pkalman[t+1,0]))
-        PopDisgNI[t+1]=ρ**(2*(h-t))*(Pkalman[t+1,1]**2)*sigma_xi**2
+        PopDisgNI[t+1]=(1-Pkalman[t+1]*H)**2*PopDisgNI[t] +  ρ**(2*(h-t))*(Pkalman[t+1,1]**2)*sigma_xi**2
         RigidityNI[t+1] = ρ**(h-t)*(1-Pkalman[t+1]*H)
 
     ## individual forecast error
