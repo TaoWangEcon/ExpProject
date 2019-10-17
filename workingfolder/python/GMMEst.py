@@ -76,7 +76,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5]}
+# + {"code_folding": [0, 1, 5]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -197,7 +197,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 21, 36, 52, 71, 76, 107, 134, 156, 161, 168, 175]}
+# + {"code_folding": [0, 2, 21, 36, 52, 71, 76, 107, 134, 156, 161, 168, 175]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -424,7 +424,7 @@ mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 #SE_instance.ForecastPlotDiag()
 
 # + {"code_folding": []}
-NI_para_default = {'sigma_pb':0.00000001,
+NI_para_default = {'sigma_pb':0.1,
                   'sigma_pr':0.1,
                   'var_init':1}
 

@@ -34,7 +34,7 @@ import copy as cp
 from scipy.stats import bernoulli
 
 
-# + {"code_folding": [0, 1]}
+# + {"code_folding": []}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -43,7 +43,8 @@ def Estimator(obj_func,
     Inputs
     ------
     - moments: a function of the rigidity model parameter  
-    - method: method of optimization 
+    - method: method of optimization, i.e. 
+         -  'L-BFGS-B', bounds=((1e-10, None), (1e-10, None))
     
     Outputs
     -------
@@ -197,7 +198,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 21, 36, 52, 71, 76, 107, 134, 156, 161, 168, 175]}
+# + {"code_folding": [0, 2, 21, 25, 36, 52, 71, 76, 82, 131, 154, 183, 204, 226, 231, 238, 245, 252]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -307,6 +308,55 @@ class StickyExpectation:
             for j in range(n_history):
                 if any([x for x in range(j) if update_or_not[i,j-x] == True]):
                     most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                else:
+                    most_recent_when[i,j] = j
+                nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
+                Vars_to_burn[i,j]= hstepvar((most_recent_when[i,j]+horizon),sigma,rho)
+        
+        ## burn initial forecasts since history is too short 
+        nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
+        forecasts = rho**horizon*nowcasts
+        Vars = np.array( Vars_to_burn[:,n_burn:])
+        
+        ## compuate population moments
+        forecasts_mean = np.mean(forecasts,axis=0)
+        forecasts_var = np.var(forecasts,axis=0)
+        FEs_mean = forecasts_mean - self.realized
+        Vars_mean = np.mean(Vars,axis=0) ## need to change 
+        
+        self.forecast_moments_sim = {"Forecast":forecasts_mean, 
+                "FE":FEs_mean,
+                "Disg":forecasts_var,
+                "Var":Vars_mean}
+        return self.forecast_moments_sim
+    
+    def ForecasterbySim2(self,
+                        n_sim = 100):
+        ## inputs 
+        real_time = self.real_time
+        history  = self.history 
+        n = len(real_time)
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        lbd = self.exp_para['lambda']
+        max_back = self.max_back
+        horizon = self.horizon 
+        n_burn = len(history) - n
+        n_history = n + n_burn  # of course equal to len(history)
+    
+        
+        ## simulation
+        update_or_not = bernoulli.rvs(p = lbd,
+                                      size=[n_sim,n_history])
+        most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
+        nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        
+        ## look back for the most recent last update for each point of time  
+        for i in range(n_sim):
+            for j in range(n_history):
+                if any([x for x in range(j) if update_or_not[i,j-x] == True]):
+                    most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
                     nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
                     Vars_to_burn[i,j] = hstepvar(most_recent_when[i,j]+horizon,sigma,rho)
                 else:
@@ -332,7 +382,8 @@ class StickyExpectation:
         return self.forecast_moments_sim
 
     ## a function estimating SE model parameter only 
-    def SE_EstObjfunc(self,lbd):
+    def SE_EstObjfunc(self,
+                      lbd):
         """
         input
         -----
@@ -346,12 +397,32 @@ class StickyExpectation:
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
-        
-        SE_moms_dct = self.Forecaster()
+        SE_moms_dct = self.Forecaster().copy()
         SE_moms = np.array([SE_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
         obj_func = PrepMom(SE_moms,data_moms)
         return obj_func 
+    
+    def SE_EstObjfuncSim(self,
+                      lbd):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        data_moms_dct = self.data_moms_dct
+        SE_moms_dct = self.ForecasterbySim().copy()
+        SE_moms = np.array([SE_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(SE_moms,data_moms)
+        return obj_func
     
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
@@ -360,11 +431,18 @@ class StickyExpectation:
         
     ## invoke the estimator 
     def ParaEstimate(self,
-                     para_guess=0.2,
+                     para_guess = 0.2,
                      method='CG'):
         self.para_est = Estimator(self.SE_EstObjfunc,
                                   para_guess=para_guess,
-                                  method='CG')
+                                  method = method)
+        
+    def ParaEstimateSim(self,
+                     para_guess = 0.2,
+                     method='CG'):
+        self.para_est = Estimator(self.SE_EstObjfuncSim,
+                                  para_guess=para_guess,
+                                  method = method)
         
     def ForecastPlot(self):
         x = plt.figure(figsize=([3,13]))
@@ -386,7 +464,6 @@ class StickyExpectation:
             plt.legend(loc=1)
 
 # + {"code_folding": [0]}
-'''
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -397,6 +474,7 @@ SE_instance = StickyExpectation(real_time = xx_real_time,
                                moments = ['Forecast','FE','Disg'])
 SE_instance.SimulateRealization()
 
+'''
 ### simulate a realized series 
 mom_dct =  SE_instance.Forecaster()
 mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
@@ -407,29 +485,36 @@ mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 
 # + {"code_folding": []}
 ### fake data moments 
-#data_moms_dct_fake = SE_instance.Forecaster()
+data_moms_dct_fake = SE_instance.Forecaster()
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ### feed the data moments
-#SE_instance.GetDataMoments(data_moms_dct_fake)
+SE_instance.GetDataMoments(data_moms_dct_fake)
+# -
+
+moms_sim_dct = SE_instance.ForecasterbySim(n_sim =100)
+
+### invoke generalized estimation 
+SE_instance.ParaEstimate()
+SE_instance.para_est
+
+# +
+### invoke simulated estimation 
+#SE_instance.ParaEstimateSim()
 
 # + {"code_folding": []}
-### invokes the estimation 
-#SE_instance.ParaEstimate()
-#SE_instance.para_est
-# + {}
 #SE_instance.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
-NI_para_default = {'sigma_pb':0.5,
-                  'sigma_pr':0.5,
+NI_para_default = {'sigma_pb':0.1,
+                  'sigma_pr':0.1,
                   'var_init':1}
 
 
-# + {"code_folding": [0, 3, 21, 25, 31, 36, 47, 76, 104, 138, 168, 193, 198, 204, 213]}
+# + {"code_folding": [2, 3, 20, 24, 30, 35, 46, 75, 103, 137, 207, 216]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -450,7 +535,6 @@ class NoisyInformation:
         self.para_est = {}
         self.moments = moments
     
-        
     def GetRealization(self,
                        realized_series):
         self.realized = realized_series   
@@ -615,8 +699,10 @@ class NoisyInformation:
                   'var_init':ni_paras[2]}
         self.exp_para = NI_para  # give the new parameters 
         data_moms_dct = self.data_moms_dct
-        
-        NI_moms_dct = self.Forecaster()
+        if how =='GMM':
+            NI_moms_dct = self.Forecaster()
+        if how =='SMM':
+            NI_moms_dct = self.Forecaster(n_sim==200)
         NI_moms = np.array([NI_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
         obj_func = PrepMom(NI_moms,data_moms)
@@ -631,7 +717,9 @@ class NoisyInformation:
     def ParaEstimate(self,
                      para_guess=np.array([0.2,0.2,0.2]),
                      method='CG'):
-        self.para_est = Estimator(self.NI_EstObjfunc,para_guess=para_guess,method='CG')
+        self.para_est = Estimator(self.NI_EstObjfunc(),
+                                  para_guess = para_guess,
+                                  method = method)
     
     ## plot functions
     def ForecastPlot(self):
@@ -667,8 +755,8 @@ ni_instance = NoisyInformation(real_time = xx_real_time,
 
 # + {"code_folding": []}
 ## simulate signals
-#ni_instance.SimulateRealization()
-#ni_instance.SimulateSignals()
+ni_instance.SimulateRealization()
+ni_instance.SimulateSignals()
 
 # + {"code_folding": [0]}
 ## forecast by simulating
@@ -682,7 +770,7 @@ ni_mom_dct =  ni_instance.Forecaster()
 niplt = ForecastPlot(ni_mom_dct)
 
 # + {"code_folding": [0]}
-#ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
+ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
                                       ni_mom_sim,
                                      legends=['computed','simulated'])
 

@@ -197,7 +197,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [1, 21, 36, 52, 71, 76, 132, 154, 159, 166, 173]}
+# + {"code_folding": [21, 36, 52, 71, 76, 82, 132, 154, 159, 166, 173]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -383,9 +383,9 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": [0, 5]}
+# + {"code_folding": [5]}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,500)
+xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[50:]
 
 ### create a SE instance using fake real time data 
@@ -393,14 +393,13 @@ SE_instance = StickyExpectation(real_time = xx_real_time,
                                 history = xx_history)
 SE_instance.SimulateRealization()
 
-'''
+
 ### simulate a realized series 
 mom_dct =  SE_instance.Forecaster()
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
 mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
-'''
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### fake data moments 
 data_moms_dct_fake = SE_instance.Forecaster()
 
