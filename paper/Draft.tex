@@ -380,15 +380,15 @@ footskip=.25in]{geometry}
 		\label{IllustrateNI}
 	\end{figure}
 	
-	NI also predicts non-zero disagreement in the presence of private signals. The behavior of disagreement across agents come from the difference in realized private signals. Specifically, it is equal to the following. 
+	NI also predicts non-zero disagreement in the presence of private signals. The behavior of disagreement across agents come from the difference in the entire histories of realized private signals. Specifically, it is equal to the following. 
 	
 	\begin{eqnarray}
 		\begin{aligned}
-			\overline {Disg}_{t+h|t} = \rho^{2h} P^2_\xi \sigma^2_\xi  
+			\overline {Disg}_{t+h|t} =  (1-PH) \overline {Disg}_{t+h|t-1} + \rho^{2h} P^2_\xi \sigma^2_\xi 
 		\end{aligned}
 	\end{eqnarray}
 	
-	The implications for disagreement are straightforward. First, the disagreement decrease with the forecast horizon due to discounting. Second, the disagreement depends on noisiness private signals, but not on that of public signals and the variance of the true variable $y$. Third, similar to SE, the disagreements also increase with the rigidity parameter $P$ in this model.
+	The implications for disagreement are straightforward. First, the serial correlation between disagreement is proportional to the rigidity parameter $(1-PH)$ and, similar to SE, it increases with the rigidity parameter $P$ in this model. Second, the disagreement decrease with the forecast horizon due to discounting. Third, the disagreement depends on noisiness private signals, but not on that of public signals and the variance of the true variable $y$. 
 	
 	\subsubsection{Summary of predictions from noisy information}
 	

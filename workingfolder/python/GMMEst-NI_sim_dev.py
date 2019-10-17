@@ -95,12 +95,12 @@ def ForecastPlot(test):
         plt.legend(loc=1)
     return x
         
-def ForecastPlotDiag(test,data):
+def ForecastPlotDiag(test,data,legends=['model','data']):
     x = plt.figure(figsize=([3,13]))
     for i,val in enumerate(test):
         plt.subplot(4,1,i+1)
-        plt.plot(test[val],label='model:'+ val)
-        plt.plot(np.array(data[val]),label='data:'+ val)
+        plt.plot(test[val],label= legends[0]+ ': ' +val)
+        plt.plot(np.array(data[val]),label=legends[1] +': '+ val)
         plt.legend(loc=1)
     return x
         
@@ -423,13 +423,13 @@ mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 # + {}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": []}
-NI_para_default = {'sigma_pb':0.1,
-                  'sigma_pr':0.1,
+# + {"code_folding": [0]}
+NI_para_default = {'sigma_pb':0.5,
+                  'sigma_pr':0.5,
                   'var_init':1}
 
 
-# + {"code_folding": [2, 3, 21, 25, 31, 36, 47, 74, 78, 86]}
+# + {"code_folding": [0, 3, 21, 25, 31, 36, 47, 76, 104, 138, 168, 193, 198, 204, 213]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -492,14 +492,16 @@ class NoisyInformation:
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
         signals = self.signals
-        nb_s=len(self.signals) ## # of signals 
+        nb_s = len(self.signals) ## # of signals 
         H = np.asmatrix ([[1,1]]).T
         Pkalman = np.zeros([n_history,nb_s])
         nowcast_to_burn = np.zeros(n_history)
-        nowcast_to_burn[0] = real_time[0]
+        nowcast_to_burn[0] = history[0]
         nowvar_to_burn = np.zeros(n_history)
         nowvar_to_burn[0] = var_init
         Var_to_burn = np.zeros(n_history)
+        nowdisg_to_burn = np.zeros(n_history)
+        nowdisg_to_burn[0] = sigma_pr**2 
      
         ## forecast moments
         infoset = signals
@@ -511,6 +513,8 @@ class NoisyInformation:
         for t in range(n_history-1):
             Pkalman[t+1] = rho**2*nowcast_to_burn[t]*H.T*np.linalg.inv(H*rho**2*nowcast_to_burn[t]*H.T+sigma_v)
             nowcast_to_burn[t+1] = (1-Pkalman[t+1]*H)*rho*nowcast_to_burn[t]+ Pkalman[t+1,0]*infoset[0,t+1]
+            nowdisg_to_burn[t+1] = (1-Pkalman[t+1]*H*rho)**2*nowdisg_to_burn[t]+\
+            Pkalman[t+1,1]**2*sigma_pr**2
         
         nowcast = nowcast_to_burn[n_burn:]
         forecast = rho**horizon*nowcast    
@@ -520,8 +524,8 @@ class NoisyInformation:
             Var_to_burn[t] = rho**(2*horizon)*nowvar_to_burn[t] + hstepvar(horizon,sigma,rho)
         Var = Var_to_burn[n_burn:] 
         
-        Disg_to_burn = Pkalman[:,0]**2*rho**(2*horizon)*sigma_pr**2 #same as above
-        Disg = Disg_to_burn[n_burn:]
+        nowdisg = nowdisg_to_burn[n_burn:]
+        Disg = rho**(2*horizon)*nowdisg
 
         self.forecast_moments = {"Forecast":forecast,
                                  "FE":FE,
@@ -652,32 +656,35 @@ class NoisyInformation:
             plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
             plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
             plt.legend(loc=1)
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,200)
-xx_real_time = xx_history[50:]
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[20:]
 
 ni_instance = NoisyInformation(real_time = xx_real_time,
                                history = xx_history)
-# -
 
 
+# + {"code_folding": []}
 ## simulate signals
-ni_instance.SimulateRealization()
-ni_instance.SimulateSignals()
+#ni_instance.SimulateRealization()
+#ni_instance.SimulateSignals()
 
+# + {"code_folding": [0]}
 ## forecast by simulating
-ni_mom_sim = ni_instance.ForecasterbySim(n_sim=100)
+ni_mom_sim = ni_instance.ForecasterbySim(n_sim=500)
 ni_plot_sim = ForecastPlot(ni_mom_sim)
 
-# +
+# + {"code_folding": [0]}
 ## compare pop and simulated 
 
 ni_mom_dct =  ni_instance.Forecaster()
 niplt = ForecastPlot(ni_mom_dct)
-# -
 
-ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,ni_mom_sim)
+# + {"code_folding": [0]}
+#ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
+                                      ni_mom_sim,
+                                     legends=['computed','simulated'])
 
 # +
 #plt.plot(ni_instance.realized,label='Realized')
@@ -729,7 +736,7 @@ print(est_av)
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [2, 19, 33, 55]}
+# + {"code_folding": [2, 33, 55]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:

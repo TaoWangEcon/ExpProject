@@ -429,7 +429,7 @@ NI_para_default = {'sigma_pb':0.00000001,
                   'var_init':1}
 
 
-# + {"code_folding": [2, 3, 102, 147]}
+# + {"code_folding": [3, 47, 102]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:

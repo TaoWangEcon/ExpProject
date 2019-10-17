@@ -309,7 +309,7 @@ for t in range(1,T):
     #PopVarSE[t] = sum( [λ*(1-λ)**t*IndVarRE[s] for s in range(t)])
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [34]}
 ## Noisy information(NI) 
 
 def NI(T,y,sigma_pb=1,sigma_pr=1):
