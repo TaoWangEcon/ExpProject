@@ -236,7 +236,7 @@ SE_model = se(real_time = real_time,
 SE_model.moments = ['Forecast','FE','Disg']
 SE_model.GetRealization(realized_CPIC)
 SE_model.GetDataMoments(data_moms_dct)
-SE_model.ParaEstimate()
+SE_model.ParaEstimate(options={'disp':True})
 # -
 
 lbd_est_SPF = SE_model.para_est
@@ -258,7 +258,7 @@ SE_model2 = se(real_time = realized_CPI,
 SE_model2.moments = ['Forecast','FE','Disg']
 SE_model2.GetRealization(realized_CPI)
 SE_model2.GetDataMoments(data_moms_dct)
-SE_model2.ParaEstimate()
+SE_model2.ParaEstimate(options={'disp':True})
 
 lbd_est_SCE = SE_model2.para_est
 
@@ -415,5 +415,3 @@ sigmas_est_SCE = sim_para/n_sim
 # -
 
 print(sigmas_est_SCE)
-
-
