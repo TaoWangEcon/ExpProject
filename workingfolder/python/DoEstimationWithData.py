@@ -201,14 +201,14 @@ xx = plt.figure()
 SPF_est[['RTCPI','Inf1y_CPICore']].plot()
 plt.title('Current vintage and real-time Core CPI Inflation')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## realized 1-year-ahead inflation
 realized_CPIC = np.array(SPF_est['Inf1yf_CPICore'])
 realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 SPF_est['Inf1yf_CPICore'].plot()
 plt.title('Realized 1-year-ahead Core CPI Inflation')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## preparing for estimation 
 
 exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
@@ -219,7 +219,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## SE estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 history_Q = historyQ['RTCPICore']
@@ -242,7 +242,7 @@ SE_model.ParaEstimate(options={'disp':True})
 lbd_est_SPF = SE_model.para_est
 lbd_est_SPF
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## SE estimation for SCE
 real_time = np.array(SCE_est['RTCPI'])
 history_M = historyM['RTCPI']
@@ -276,7 +276,7 @@ print("SCE: "+str(lbd_est_SCE))
 SE_model.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
-## compare the data with estimation for SPF
+## compare the data with estimation for SCE
 SE_model2.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
@@ -291,24 +291,29 @@ process_paraQ_est = {'rho':rhoQ_est,
 NI_model = ni(real_time = real_time,
               history = history_Q,
               process_para = process_paraQ_est,
-              moments = ['Forecast','FE','Disg'])
+              moments = ['Forecast','FE','Disg','Var'])
 NI_model.SimulateSignals()
 NI_model.GetRealization(realized_CPIC)
 NI_model.GetDataMoments(data_moms_dct)
-NI_model.ParaEstimate(para_guess = np.array([0.01,0.01,0.01]))
+NI_model.ParaEstimate(method = 'L-BFGS-B',
+                      bounds = ((0,None),(0,None),(0,None)),
+                      para_guess = np.array([0.01,0.01,0.01]),
+                      options={'disp':True})
 
 sigmas_est_SPF = NI_model.para_est
 # -
+
+sigmas_est_SPF
 
 plt.plot(NI_model.signals_pb,'--',label='public signals')
 plt.plot(NI_model.history,'r*',label='history')
 plt.legend()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## compare the data with estimation for SPF
 NI_model.ForecastPlotDiag()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## NI estimation for SCE
 
 real_time = np.array(SCE_est['RTCPI'])
@@ -323,8 +328,10 @@ NI_model2 = ni(real_time = real_time,
 NI_model2.SimulateSignals()
 NI_model2.GetRealization(realized_CPI)
 NI_model2.GetDataMoments(data_moms_dct)
-NI_model2.moments = ['Forecast','FE','Disg']
-NI_model2.ParaEstimate(para_guess=np.array([0.01,0.01,0.01]))
+NI_model2.moments = ['Forecast','FE','Disg','Var']
+NI_model2.ParaEstimate(method = 'L-BFGS-B',
+                       bounds = ((0,None),(0,None),(0,None)),
+                       options={'disp':True})
 
 sigmas_est_SCE = NI_model2.para_est
 # -
@@ -340,7 +347,56 @@ NI_model2.ForecastPlotDiag()
 print(str(sigmas_est_SPF))
 print(str(sigmas_est_SCE))
 
+# + {"code_folding": [0, 8]}
+### Estimate of Parameter Learning for SPF
+
+real_time = np.array(SPF_est['RTCPI'])
+data_moms_dct = data_moms_dct_SPF
+
+process_paraQ_est = {'rho':rhoQ_est,
+                    'sigma':sigmaQ_est}
+
+PL_model = pl(real_time = real_time,
+              history = history_Q,
+              process_para = process_paraQ_est,
+              moments = ['Forecast','FE','Disg','Var'])
+
+PL_model.GetRealization(realized_CPIC)
+PL_model.LearnParameters()
+moms_pl_sim = PL_model.Forecaster()
+PL_model.GetDataMoments(data_moms_dct)
+
+# + {"code_folding": [0]}
+pl_plot = ForecastPlotDiag(moms_pl_sim,
+                           data_moms_dct,
+                           legends=['model','data'])
+
+# + {"code_folding": [0]}
+### Estimate of Parameter Learning for SCE
+
+real_time = np.array(SCE_est['RTCPI'])
+data_moms_dct2 = data_moms_dct_SCE
+
+process_paraM_est = {'rho':rhoM_est,
+                    'sigma':sigmaM_est}
+
+PL_model2 = pl(real_time = real_time,
+              history = history_M,
+              process_para = process_paraM_est,
+              moments = ['Forecast','FE','Disg','Var'])
+
+PL_model2.GetRealization(realized_CPI)
+PL_model2.LearnParameters()
+moms_pl_sim2 = PL_model2.Forecaster()
+PL_model2.GetDataMoments(data_moms_dct2)
+
+# + {"code_folding": [0]}
+pl_plot = ForecastPlotDiag(moms_pl_sim2,
+                           data_moms_dct2,
+                           legends=['model','data'])
+
 # + {"code_folding": []}
+'''
 ### simulated method of moment estimation for SPF
 n_sim = 10
 real_time = np.array(SPF_est['RTCPI'])
@@ -361,11 +417,13 @@ for i in range(n_sim):
     sim_para += NI_model_sim.para_est
     
 sigmas_est_SPF = sim_para/n_sim
-# -
-
-print(sigmas_est_SPF)
+'''
 
 # +
+#print(sigmas_est_SPF)
+# -
+
+'''
 NI_model_sim_est = {'sigma_pb':sigmas_est_SPF[0][0],
                 'sigma_pr':sigmas_est_SPF[0][1],
                 'var_init':sigmas_est_SPF[0][2]}
@@ -373,11 +431,13 @@ NI_model_sim_est = {'sigma_pb':sigmas_est_SPF[0][0],
 NI_model.exp_para = NI_model_sim_est
 NI_model.SimulateSignals()
 ni_sim_moms_dct = NI_model.Forecaster()
+'''
 
+# + {"code_folding": []}
+#NI_model.exp_para
 # -
 
-NI_model.exp_para
-
+'''
 plt.figure(figsize=([3,13]))
 for i,key in enumerate(ni_sim_moms_dct):
     plt.subplot(4,1,i+1)
@@ -385,8 +445,10 @@ for i,key in enumerate(ni_sim_moms_dct):
     plt.plot(ni_sim_moms_dct[key],label='Model')
     plt.plot(np.array(data_moms_dct_SPF[key]),label='Data')
     plt.legend(loc=1)
+'''
 
 # + {"code_folding": []}
+'''
 ### simulated method of moment estimation for SCE
 
 n_sim = 10
@@ -412,6 +474,7 @@ for i in range(n_sim):
     sim_para += NI_model_sim2.para_est
     
 sigmas_est_SCE = sim_para/n_sim
-# -
+'''
 
-print(sigmas_est_SCE)
+# +
+#print(sigmas_est_SCE)

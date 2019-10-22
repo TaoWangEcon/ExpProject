@@ -574,12 +574,18 @@ plt.savefig('figures/ir_popseni.png')
 # \end{split}
 # \end{eqnarray}
 #
-# We can stack the two signals into one vector $s_{i,t} = [s^{pb}_t,s^{pr}_{i,t}]'$ and $v_{i,t}= [\epsilon_t,\xi_{i,t}]'$. So in a compact form, it can be written as
+# We can stack the two signals into one vector $s_{i,t} = [s^{pb}_t,s^{pr}_{i,t}]'$ and $v_{i,t}= [\epsilon_t,\xi_{i,t}]' = G \times u_{i,t}$, where $u_{i,t}$ is 2 $\times$ 1 following joint standard normal and G is 2 $\times$ 2 defined as follows. 
+#
+# \begin{eqnarray}
+# G = [\begin{array} & \sigma_\epsilon, 0 \\ 0,\sigma_\xi \end{array}]
+# \end{eqnarray}
+#
+# So in a compact form, it can be written as
 #
 #
 # \begin{eqnarray}
 # \begin{split}
-# s_{i,t} = H y_{t} + v_{i,t} \\
+# s_{i,t} = H y_{t} + G u_{i,t} \\
 # \text{where } & H=[1,1]' \quad \\
 # \end{split}
 # \end{eqnarray}
@@ -612,10 +618,10 @@ plt.savefig('figures/ir_popseni.png')
 # \begin{eqnarray}
 # \begin{split}
 #  E_{i,t|t}(y_{t}) 
-#  & =  \underbrace{E_{i,t|t-1}(y_{t})}_{\text{prior}} + P \underbrace {(s_{i,t|t}-s_{i,t|t-1})}_{\text{innovations to signals}} \\
-# & = (1-PH) E_{i,t|t-1}(y_{t}) + Ps_{i,t} \\
-# & = (1-PH) E_{i,t|t-1}(y_{t}) + PH y_{i,t} + P v_{i,t} \\
-# \text{where the Kalman gain }  & P = [P_\epsilon,P_\xi]= \Sigma^y_{i,t|t-1} H(H'\Sigma^y_{i,t|t-1} H + \Sigma^v)^{-1} \\
+#  & =  \underbrace{E_{i,t|t-1}(y_{t})}_{\text{prior}} + P_t \underbrace {(s_{i,t|t}-s_{i,t|t-1})}_{\text{innovations to signals}} \\
+# & = (1-P_tH) E_{i,t|t-1}(y_{t}) + P_ts_{i,t} \\
+# & = (1-P_tH) E_{i,t|t-1}(y_{t}) + P_t H y_{i,t} + P_t v_{i,t} \\
+# \text{where the Kalman gain }  & P_t = [P_{\epsilon,t},P_{\xi,t}]= \Sigma^y_{i,t|t-1} H(H'\Sigma^y_{i,t|t-1} H + \Sigma^v)^{-1} \\
 # \text {where } & \Sigma^y_{i,t|t-1} \text{ is the variance of } y_t \text{ based on prior belief}\\
 # \text {and } & \Sigma^v = [ \begin{array} & \sigma^2_{\epsilon},  0 \\ 0, \sigma^2_\xi \end{array}]
 # \end{split}
