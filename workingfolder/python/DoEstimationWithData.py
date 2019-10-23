@@ -73,7 +73,7 @@ def GetRealTimeData(matrix):
     return real_time
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## generate real-time series 
 matrix_cpic = InfCPICMRT.copy().drop(columns=['date','year','month'])
 matrix_cpi = InfCPIMRT.copy().drop(columns=['date','year','month'])
@@ -83,7 +83,7 @@ real_time_cpi =  pd.Series(GetRealTimeData(matrix_cpi) )
 real_time_cpic.index =  InfCPICMRT.index #+ pd.DateOffset(months=1) 
 real_time_cpi.index = InfCPIMRT.index #+ pd.DateOffset(months=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## turn index into yearly inflation
 real_time_index =pd.concat([real_time_cpic,real_time_cpi], join='inner', axis=1)
 real_time_index.columns=['RTCPI','RTCPICore']
@@ -177,7 +177,7 @@ SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
 SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## hisotries data, the series ends at the same dates with real-time data but startes earlier 
 
 st_t_history = '2000-01-01'
@@ -187,7 +187,7 @@ ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 historyQ = real_time_inf.copy().loc[st_t_history:ed_t_SPF]
 historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # How large is the difference between current vintage and real-time data
 rev = SPF_est['Inf1y_CPICore'] - SPF_est['RTCPICore']
 
@@ -202,7 +202,7 @@ plt.ylabel('Density(0-1)',size=12)
 plt.xlabel('Current Vintage - Real-Time',size=12)
 plt.savefig('figures/hist_rev_realtime.png')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # real time inflation 
 real_time = np.array(SPF_est['RTCPI'])
 
@@ -256,7 +256,7 @@ SE_model.ParaEstimate(options={'disp':True})
 lbd_est_SPF = SE_model.para_est
 lbd_est_SPF
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Joint estimation for SPF
 
 real_time = np.array(SPF_est['RTCPI'])
@@ -279,7 +279,8 @@ SE_model.ParaEstimateJoint(options={'disp':True})
 
 SE_model.para_est_joint
 
-se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
+# +
+#se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
 
 # + {"code_folding": [0]}
 ## SE estimation for SCE

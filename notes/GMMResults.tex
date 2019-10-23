@@ -1,5 +1,9 @@
 \documentclass[]{article}
 \usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage[a4paper,bindingoffset=0.2in,%
+left=1.2in,right=1.2in,top=1.2in,bottom=1.2in,%
+footskip=.25in]{geometry}
 
 %opening
 \title{Note on GMM Estimation of Theories of Expectation Formation}
@@ -11,11 +15,35 @@
 
 \section{Generic Framework}
 
+For a given process of inflation and a particular theory of expectation formation, the GMM estimate of the vector of parameters $\Omega$ is defined as the following. 
+
+\begin{eqnarray}
+\widehat \Omega = \underset{\Omega }{argmin} (M_{\textrm{data} } - F(\Omega, Y)) W  (M_{\textrm{data} } - F(\Omega, Y))'
+\end{eqnarray}
+
+\begin{itemize}
+	\item  $\Omega$ is a vector of size of $k$, depending on the number of parameters to be estimated. 
+	\item $M_{data}$ is the moments computed from data, i.e. mean forecasts, average forecast errors, the average cross-sectional variance of forecasts (disagreement), average uncertainty, etc. Also the autocovariance of all the abovementioned.  
+	
+	\item $F$ is the moments that are generated from a certain theory of expectation formation and inflation process. It is a function of parameters $\Omega$ as well as the $Y$, the real-time data(including history) that is available to forecasters at each point of the time $t$. 
+	\item For instance, for $T$ periods, $Y$ includes $T$  sequences of real-time inflation data of different lengths that terminate at each point of the forecasting:  $t =0$, $t=1$... $t=T$ . 
+	\item  Both $M$ and $F$ is of the size  $m$, depending on the number of moments used for estimation. For instance, if we only estimate expectation formation using mean forecasts, disagreements and forecast errors while taking the inflation process as given, there are three moments, thus $m = 3$. If we include autocovariance of forecast errors, then $m=4$.  
+	
+	\item $W$ is the weighting matrix. For now, I stick to the identity matrix. 
+\end{itemize}
+
+The above procedure is specific to a pair of an assumed inflation process and a theory of expectation. It can be estimated only estimated for the theory of expectation formation with exogenous fed parameters of the inflation process using the entire history of inflation data, or we could jointly estimate the parameters of expectation formation and the inflation process. 
 
 \section{Estimation}
 \subsection{Real-Time Data}
 
-\begin{figure}
+When agents form their expectations of inflation at any point of the time, what is potentially available to them is the real-time inflation data, namely those released from the most update-to-date vintage of the inflation. In order to match as close as possible the information set available to the forecasting agents, we need to use real-time data for each particular point of time.  
+
+These real-time vintage inflation data since 1998 were obtained from the Real-Time Data Research Center hosted by the Federal Reserve Bank of Philadelphia. 
+
+To get an idea of how much of the differences there are between the real-time inflation and the most recent vintage in 2018, Figure \ref{real_time_rev} and \ref{ts_real_time_current_vintage} plot, respectively, the distributions of the revisions as well as the time series of the inflation. Although overall, there is no obvious skewness of the revisions, there have been indeed sizable revisions made for the real-time data. 
+
+\begin{figure}[ht]
 \includegraphics[width=\textwidth]{figures/hist_rev_realtime.png}
 \caption{Revisions of Current-vintage from Real-time Core CPI}
 \label{real_time_rev}
@@ -25,7 +53,7 @@
 \end{figure}
 
 
-\begin{figure}
+\begin{figure}[ht]
 	\includegraphics[width=\textwidth]{figures/ts_rev_realtime.png}
 	\caption{Current-vintage and Real-time Core CPI}
 	\label{ts_real_time_current_vintage}
