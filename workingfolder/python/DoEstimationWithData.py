@@ -256,6 +256,8 @@ SE_model.ParaEstimate(options={'disp':True})
 lbd_est_SPF = SE_model.para_est
 lbd_est_SPF
 
+SE_model.ForecastPlotDiag()
+
 # + {"code_folding": [0]}
 ## Joint estimation for SPF
 
@@ -294,7 +296,7 @@ para_est_SPF_holder = []
 
 ### loop starts from here for SPF 
 
-for moments_to_use in moments_choices:
+for i,moments_to_use in enumerate(moments_choices):
     print("moments used include "+ str(moments_to_use))
     real_time = np.array(SPF_est['RTCPI'])
     history_Q = historyQ['RTCPICore']
@@ -310,9 +312,12 @@ for moments_to_use in moments_choices:
     SE_model.ParaEstimate(method='CG',
                           options={'disp':True})
     para_est_SPF_holder.append(SE_model.para_est)
+    SE_model.ForecastPlotDiag()
+    plt.savefig('figures/spf_est_diag'+str(i)+'.png')
+    
 print(para_est_SPF_holder)
 
-# + {"code_folding": [2, 10]}
+# + {"code_folding": [0, 2]}
 ## loop estimation overdifferent choieces of moments
 
 moments_choices = [['Forecast'],
@@ -339,10 +344,12 @@ for moments_to_use in moments_choices:
     SE_model2.ParaEstimate(method='CG',
                            options={'disp':True})
     para_est_SCE_holder.append(SE_model2.para_est)
+    SE_model2.ForecastPlotDiag()
+    plt.savefig('figures/sce_est_diag'+str(i)+'.png')
 
 print(para_est_SCE_holder)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## tabulate the estimates 
 spf_est_para = pd.DataFrame(para_est_SPF_holder,columns=[r'SE: $\hat\lambda_{SPF}$(Q)'])
 #spf_est_df = pd.concat([spf_est_moms,spf_est_para], join='inner', axis=1)

@@ -125,7 +125,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [0, 2, 15, 18, 29, 52, 57, 65, 75, 90, 97, 98]}
+# + {"code_folding": [2, 15, 18, 29, 52, 57, 65, 75, 79, 90, 98, 99]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -217,6 +217,7 @@ class RationalExpectation:
                                   options = options)
     
     def ForecastPlot(self):
+        plt.style.use('ggplot')
         x = plt.figure(figsize=([3,13]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
@@ -229,11 +230,13 @@ class RationalExpectation:
         new_instance = cp.deepcopy(self)
         new_instance.process_para = re_process_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
+            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
 
@@ -270,7 +273,7 @@ RE_instance = RationalExpectation(real_time = xx_real_time,
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [1, 2, 27, 39, 57, 76, 142, 163, 184, 207, 212, 224, 247, 249, 254, 266]}
+# + {"code_folding": [2, 27, 39, 57, 76, 87, 142, 163, 184, 207, 212, 224, 236, 247, 251, 256, 270, 273, 282]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -519,7 +522,9 @@ class StickyExpectation:
                                   options = options)
         
     def ForecastPlot(self):
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
             plt.plot(self.forecast_moments[val],label=val)
@@ -530,11 +535,13 @@ class StickyExpectation:
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
+            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
             
     def ForecastPlotDiagJoint(self):
@@ -546,11 +553,13 @@ class StickyExpectation:
         new_instance.exp_para = exp_para_est_dct
         new_instance.process_para = process_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
+            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
 # + {"code_folding": [0]}
@@ -620,7 +629,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 3, 28, 34, 40, 51, 102, 109, 143, 177, 200, 206, 209, 227, 232, 244, 256, 264]}
+# + {"code_folding": [2, 3, 28, 34, 40, 51, 109, 143, 177, 200, 206, 209, 227, 232, 244, 266, 267, 276]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -878,7 +887,9 @@ class NoisyInformation:
     
     ## plot functions
     def ForecastPlot(self):
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
             plt.plot(self.forecast_moments[val],label=val)
@@ -892,11 +903,13 @@ class NoisyInformation:
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
+        plt.style.use('ggplot')
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
+            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 # + {"code_folding": []}
 ## test of ForecasterbySim
@@ -978,7 +991,7 @@ class NoisyInformation:
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [0, 24, 35, 61, 86, 115]}
+# + {"code_folding": [3, 24, 35, 61, 86]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
@@ -1095,7 +1108,8 @@ class ParameterLearning:
         self.para_est = Estimator(self.PL_EstObjfunc,para_guess=para_guess,method='CG')
         
     def ForecastPlot(self):
-        x = plt.figure(figsize=([3,13]))
+        m_ct = len(self.moments)
+        x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(self.moments):
             plt.subplot(4,1,i+1)
             plt.plot(self.forecast_moments[val],label=val)
