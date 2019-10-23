@@ -270,7 +270,7 @@ RE_instance = RationalExpectation(real_time = xx_real_time,
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [27, 39, 57, 76, 87, 114, 142, 163, 184, 207, 212, 224, 247, 249, 254, 266]}
+# + {"code_folding": [1, 2, 27, 39, 57, 76, 142, 163, 184, 207, 212, 224, 247, 249, 254, 266]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,

@@ -83,7 +83,7 @@ real_time_cpi =  pd.Series(GetRealTimeData(matrix_cpi) )
 real_time_cpic.index =  InfCPICMRT.index #+ pd.DateOffset(months=1) 
 real_time_cpi.index = InfCPIMRT.index #+ pd.DateOffset(months=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## turn index into yearly inflation
 real_time_index =pd.concat([real_time_cpic,real_time_cpi], join='inner', axis=1)
 real_time_index.columns=['RTCPI','RTCPICore']
@@ -282,6 +282,80 @@ SE_model.para_est_joint
 # +
 #se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
 
+# + {"code_folding": [0, 2, 11]}
+## loop estimation overdifferent choieces of moments for SPF
+
+moments_choices = [['Forecast'],
+                   ['FE'],
+                   ['Forecast','FE'],
+                   ['Forecast','FE','Disg']]
+
+para_est_SPF_holder = []
+
+### loop starts from here for SPF 
+
+for moments_to_use in moments_choices:
+    print("moments used include "+ str(moments_to_use))
+    real_time = np.array(SPF_est['RTCPI'])
+    history_Q = historyQ['RTCPICore']
+    data_moms_dct = data_moms_dct_SPF
+    process_paraQ_est = {'rho':rhoQ_est,
+                         'sigma':sigmaQ_est}
+    SE_model = se(real_time = real_time,
+                  history = history_Q,
+                  process_para = process_paraQ_est)
+    SE_model.moments = moments_to_use
+    SE_model.GetRealization(realized_CPIC)
+    SE_model.GetDataMoments(data_moms_dct)
+    SE_model.ParaEstimate(method='CG',
+                          options={'disp':True})
+    para_est_SPF_holder.append(SE_model.para_est)
+print(para_est_SPF_holder)
+
+# + {"code_folding": [2, 10]}
+## loop estimation overdifferent choieces of moments
+
+moments_choices = [['Forecast'],
+                   ['FE'],
+                   ['Forecast','FE'],
+                   ['Forecast','FE','Disg']]
+
+para_est_SCE_holder = []
+
+
+for moments_to_use in moments_choices:
+    print("moments used include "+ str(moments_to_use))
+    real_time = np.array(SCE_est['RTCPI'])
+    history_M = historyM['RTCPI']
+    data_moms_dct = data_moms_dct_SCE
+    process_paraM_est = {'rho':rhoM_est,
+                         'sigma':sigmaM_est}
+    SE_model2 = se(real_time = realized_CPI,
+                   history = history_M,
+                   process_para = process_paraM_est)
+    SE_model2.moments = moments_to_use
+    SE_model2.GetRealization(realized_CPI)
+    SE_model2.GetDataMoments(data_moms_dct)
+    SE_model2.ParaEstimate(method='CG',
+                           options={'disp':True})
+    para_est_SCE_holder.append(SE_model2.para_est)
+
+print(para_est_SCE_holder)
+
+# + {"code_folding": []}
+## tabulate the estimates 
+spf_est_para = pd.DataFrame(para_est_SPF_holder,columns=[r'SE: $\hat\lambda_{SPF}$(Q)'])
+#spf_est_df = pd.concat([spf_est_moms,spf_est_para], join='inner', axis=1)
+sce_est_para = pd.DataFrame(para_est_SCE_holder,columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
+#sce_est_df = pd.concat([sce_est_moms,sce_est_para], join='inner', axis=1)
+est_moms = pd.DataFrame(moments_choices)
+
+## combining SCE and SPF 
+se_est_df = pd.concat([est_moms,spf_est_para,sce_est_para], join='inner', axis=1)
+# -
+
+se_est_df
+
 # + {"code_folding": [0]}
 ## SE estimation for SCE
 real_time = np.array(SCE_est['RTCPI'])
@@ -295,12 +369,17 @@ process_paraM_est = {'rho':rhoM_est,
 SE_model2 = se(real_time = realized_CPI,
                history = history_M,
                process_para = process_paraM_est)
-SE_model2.moments = ['Forecast','FE','Disg']
+SE_model2.moments = ['Forecast']
 SE_model2.GetRealization(realized_CPI)
 SE_model2.GetDataMoments(data_moms_dct)
-SE_model2.ParaEstimate(options={'disp':True})
+SE_model2.ParaEstimate(method ='L-BFGS-B',
+                       options = {'disp':True})
+
 
 lbd_est_SCE = SE_model2.para_est
+# -
+
+lbd_est_SCE
 
 # + {"code_folding": [0]}
 ## what is the estimated lambda?
