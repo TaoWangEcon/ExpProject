@@ -171,7 +171,7 @@ PopM.index = pd.DatetimeIndex(dateM)
 SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
@@ -202,7 +202,7 @@ plt.ylabel('Density(0-1)',size=12)
 plt.xlabel('Current Vintage - Real-Time',size=12)
 plt.savefig('figures/hist_rev_realtime.png')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 # real time inflation 
 real_time = np.array(SPF_est['RTCPI'])
 
@@ -233,7 +233,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## SE estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 history_Q = historyQ['RTCPICore']
@@ -288,13 +288,15 @@ SE_model.para_est_joint
 se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
 
 
-# + {"code_folding": [2]}
-## loop estimation overdifferent choieces of moments for SPF
+# + {"code_folding": [0, 14]}
+## SE loop estimation overdifferent choieces of moments for SPF
 
+moments_choices_short = [['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
                    ['Forecast','FE'],
-                   ['Forecast','FE','Disg']]
+                   ['Forecast','FE','Disg'],
+                   ['Forecast','FE','Disg','Var']]
 
 para_est_SPF_holder = []
 para_est_SPF_joint_holder = []
@@ -319,15 +321,18 @@ for i,moments_to_use in enumerate(moments_choices):
     SE_model.ParaEstimate(method='CG',
                           options={'disp':True})
     para_est_SPF_holder.append(SE_model.para_est)
-    SE_model.ForecastPlotDiag()
+    SE_model.all_moments = ['Forecast','FE','Disg']
+    SE_model.ForecastPlotDiag(all_moms = True)
     plt.savefig('figures/spf_se_est_diag'+str(i)+'.png')
     
     # joint estimate
-    SE_model.ParaEstimateJoint(method='CG',
+    SE_model.ParaEstimateJoint(method='L-BFGS-B',
                                para_guess =(0.5,0.8,0.1),
+                               bounds = ((0,1),(0,1),(0,None)),
                                options={'disp':True})
     para_est_SPF_joint_holder.append(SE_model.para_est_joint)
-    SE_model.ForecastPlotDiagJoint()
+    SE_model.all_moments = ['Forecast','FE','Disg']
+    SE_model.ForecastPlotDiagJoint(all_moms = True)
     plt.savefig('figures/spf_se_est_joint_diag'+str(i)+'.png')
     
 print(para_est_SPF_holder)
@@ -344,19 +349,21 @@ spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
 
 spf_se_joint_est_para
 
-# + {"code_folding": [0, 2]}
-## loop estimation overdifferent choieces of moments for SCE
+# + {"code_folding": [0, 20]}
+## SE loop estimation over different choieces of moments for SCE
 
+moments_choices_short =[['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
                    ['Forecast','FE'],
-                   ['Forecast','FE','Disg']]
+                   ['Forecast','FE','Disg'],
+                   ['Forecast','FE','Disg','Var']]
 
 para_est_SCE_holder = []
-para_est_SCE_joint_holder
+para_est_SCE_joint_holder =[]
 
 
-for moments_to_use in moments_choices:
+for i,moments_to_use in enumerate(moments_choices):
     print("moments used include "+ str(moments_to_use))
     real_time = np.array(SCE_est['RTCPI'])
     history_M = historyM['RTCPI']
@@ -374,21 +381,25 @@ for moments_to_use in moments_choices:
     SE_model2.ParaEstimate(method='CG',
                            options={'disp':True})
     para_est_SCE_holder.append(SE_model2.para_est)
-    SE_model2.ForecastPlotDiag()
+    SE_model2.all_moments = ['Forecast','FE','Disg']
+    SE_model2.ForecastPlotDiag(all_moms = True)
     plt.savefig('figures/sce_se_est_diag'+str(i)+'.png')
     
     ## joint estimation
     
-    SE_model2.ParaEstimateJoint(method='CG',
+    SE_model2.ParaEstimateJoint(method='L-BFGS-B',
+                                para_guess =(0.5,0.8,0.1),
+                                bounds = ((0,1),(0,1),(0,None)),
                                 options={'disp':True})
     para_est_SCE_joint_holder.append(SE_model2.para_est_joint)
-    SE_model2.ForecastPlotDiag()
+    SE_model2.all_moments = ['Forecast','FE','Disg']
+    SE_model2.ForecastPlotDiag(all_moms = True)
     plt.savefig('figures/sce_se_est_joint_diag'+str(i)+'.png')
 
 print(para_est_SCE_holder)
 print(para_est_SCE_joint_holder)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 sce_se_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
 sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
@@ -397,22 +408,25 @@ sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
                                               r'SE: $\sigma$'])
 
 
-#sce_se_est_df = pd.concat([sce_se_est_moms,sce_se_joint_est_para], join='inner', axis=1)
 
 
-# +
+# + {"code_folding": [2]}
 est_moms = pd.DataFrame(moments_choices)
-
 ## combining SCE and SPF 
 se_est_df = pd.concat([est_moms,
                        spf_se_est_para,
                        spf_se_joint_est_para,
                        sce_se_est_para,
-                       sce_se_joint_est_para,], 
+                       sce_se_joint_est_para], 
                       join='inner', axis=1)
 # -
 
 se_est_df
+
+# + {"code_folding": [0]}
+se_est_df.to_excel('tables/SE_Est.xlsx',
+                   float_format='%.2f',
+                   index=False)
 
 # + {"code_folding": [0]}
 ## SE estimation for SCE
@@ -489,6 +503,152 @@ plt.legend()
 # + {"code_folding": [0]}
 ## compare the data with estimation for SPF
 NI_model.ForecastPlotDiag()
+
+# + {"code_folding": [0]}
+## NI loop estimation overdifferent choieces of moments for SPF
+
+moments_choices_short = [['Forecast']]
+moments_choices = [['Forecast'],
+                   ['FE'],
+                   ['Forecast','FE'],
+                   ['Forecast','FE','Disg'],
+                   ['Forecast','FE','Disg','Var']]
+
+para_est_SPF_holder = []
+para_est_SPF_joint_holder = []
+
+### loop starts from here for SPF 
+
+for i,moments_to_use in enumerate(moments_choices):
+    print("moments used include "+ str(moments_to_use))
+    real_time = np.array(SPF_est['RTCPI'])
+    history_Q = historyQ['RTCPICore']
+    data_moms_dct = data_moms_dct_SPF
+    process_paraQ_est = {'rho':rhoQ_est,
+                         'sigma':sigmaQ_est}
+    NI_model = ni(real_time = real_time,
+                  history = history_Q,
+                  process_para = process_paraQ_est)
+    NI_model.SimulateSignals()
+    NI_model.moments = moments_to_use
+    NI_model.GetRealization(realized_CPIC)
+    NI_model.GetDataMoments(data_moms_dct)
+    
+    # only expectation
+    NI_model.ParaEstimate(method='CG',
+                          options={'disp':True})
+    para_est_SPF_holder.append(NI_model.para_est)
+    NI_model.all_moments = ['Forecast','FE','Disg']
+    NI_model.ForecastPlotDiag(all_moms = True)
+    plt.savefig('figures/spf_ni_est_diag'+str(i)+'.png')
+    
+    # joint estimate
+    NI_model.ParaEstimateJoint(method='L-BFGS-B',
+                               para_guess =(0.5,0.5,0.1,0.8,0.1),
+                               bounds = ((0,None),(0,None),(0,None),(0,1),(0,None)),
+                               options={'disp':True})
+    para_est_SPF_joint_holder.append(NI_model.para_est_joint)
+    NI_model.all_moments = ['Forecast','FE','Disg']
+    #NI_model.ForecastPlotDiagJoint(all_moms = True)
+    #plt.savefig('figures/spf_ni_est_joint_diag'+str(i)+'.png')
+    
+print(para_est_SPF_holder)
+print(para_est_SPF_joint_holder)
+
+# + {"code_folding": [0]}
+## tabulate the estimates 
+spf_ni_est_para = pd.DataFrame(para_est_SPF_holder,
+                               columns=[r'NI: $\hat\sigma_{pb,SPF}$',
+                                        r'$\hat\sigma_{pr,SPF}$',
+                                        r'$Var$'])
+spf_ni_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
+                                     columns=[r'NI: $\hat\sigma_{pb,SPF}$',
+                                              r'$\hat\sigma_{pr,SPF}$',
+                                              r'$Var$',
+                                              r'NI: $\rho$',
+                                              r'NI: $\sigma$'])
+
+# + {"code_folding": [0]}
+## NI loop estimation overdifferent choieces of moments for SCE
+
+moments_choices_short = [['Forecast']]
+moments_choices = [['Forecast'],
+                   ['FE'],
+                   ['Forecast','FE'],
+                   ['Forecast','FE','Disg'],
+                   ['Forecast','FE','Disg','Var']]
+
+para_est_SCE_holder = []
+para_est_SCE_joint_holder = []
+
+### loop starts from here for SPF 
+
+for i,moments_to_use in enumerate(moments_choices):
+    print("moments used include "+ str(moments_to_use))
+    real_time = np.array(SCE_est['RTCPI'])
+    history_M = historyM['RTCPI']
+    data_moms_dct = data_moms_dct_SCE
+    process_paraM_est = {'rho':rhoM_est,
+                         'sigma':sigmaM_est}
+    NI_model2 = ni(real_time = real_time,
+                   history = history_M,
+                   process_para = process_paraM_est)
+    NI_model2.SimulateSignals()
+    NI_model2.moments = moments_to_use
+    NI_model2.GetRealization(realized_CPI)
+    NI_model2.GetDataMoments(data_moms_dct)
+    
+    # only expectation
+    NI_model2.ParaEstimate(method='CG',
+                          options={'disp':True})
+    para_est_SCE_holder.append(NI_model2.para_est)
+    NI_model2.all_moments = ['Forecast','FE','Disg']
+    NI_model2.ForecastPlotDiag(all_moms = True)
+    plt.savefig('figures/sce_ni_est_diag'+str(i)+'.png')
+    
+    # joint estimate
+    NI_model2.ParaEstimateJoint(method='L-BFGS-B',
+                               para_guess =(0.5,0.5,0.1,0.8,0.1),
+                               bounds = ((0,None),(0,None),(0,None),(0,1),(0,None)),
+                               options={'disp':True})
+    para_est_SCE_joint_holder.append(NI_model2.para_est_joint)
+    NI_model.all_moments = ['Forecast','FE','Disg']
+    #NI_model2.ForecastPlotDiagJoint(all_moms = True)
+    #plt.savefig('figures/sce_ni_est_joint_diag'+str(i)+'.png')
+    
+print(para_est_SPF_holder)
+print(para_est_SPF_joint_holder)
+
+# + {"code_folding": [0]}
+## tabulate the estimates 
+sce_ni_est_para = pd.DataFrame(para_est_SPF_holder,
+                               columns=[r'NI: $\hat\sigma_{pb,SCE}$',
+                                        r'$\hat\sigma_{pr,SCE}$',
+                                        r'$Var$'])
+sce_ni_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
+                                     columns=[r'NI: $\hat\sigma_{pb,SCE}$',
+                                              r'$\hat\sigma_{pr,SCE}$',
+                                              r'$Var$',
+                                              r'NI: $\rho$',
+                                              r'NI: $\sigma$'])
+
+
+
+# +
+est_moms = pd.DataFrame(moments_choices)
+
+## combining SCE and SPF 
+ni_est_df = pd.concat([est_moms,
+                       spf_ni_est_para,
+                       spf_ni_joint_est_para,
+                       sce_ni_est_para,
+                       sce_ni_joint_est_para], 
+                      join='inner', axis=1)
+# -
+
+ni_est_df.to_excel('tables/NI_Est.xlsx',
+                   float_format='%.2f',
+                   index=False)
 
 # + {"code_folding": [0]}
 ## NI estimation for SCE

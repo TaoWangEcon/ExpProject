@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  23 OCT 2019 15:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  24 OCT 2019 01:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -152,35 +152,122 @@ Package: subcaption 2018/05/01 v1.1-162 Sub-captions (AR)
 \c@subfigure=\count105
 \c@subtable=\count106
 )
+(/usr/local/texlive/2019/texmf-dist/tex/latex/adjustbox/adjustbox.sty
+Package: adjustbox 2019/01/04 v1.2 Adjusting TeX boxes (trim, clip, ...)
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+Package: xkeyval 2014/12/03 v2.7a package option processing (HA)
+
+(/usr/local/texlive/2019/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+(/usr/local/texlive/2019/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+\XKV@toks=\toks21
+\XKV@tempa@toks=\toks22
+)
+\XKV@depth=\count107
+File: xkeyval.tex 2014/12/03 v2.7a key=value parser (HA)
+))
+(/usr/local/texlive/2019/texmf-dist/tex/latex/adjustbox/adjcalc.sty
+Package: adjcalc 2012/05/16 v1.1 Provides advanced setlength with multiple back
+-ends (calc, etex, pgfmath)
+)
+(/usr/local/texlive/2019/texmf-dist/tex/latex/adjustbox/trimclip.sty
+Package: trimclip 2018/04/08 v1.1 Trim and clip general TeX material
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/collectbox/collectbox.sty
+Package: collectbox 2012/05/17 v0.4b Collect macro arguments as boxes
+\collectedbox=\box29
+)
+\tc@llx=\dimen129
+\tc@lly=\dimen130
+\tc@urx=\dimen131
+\tc@ury=\dimen132
+Package trimclip Info: Using driver 'tc-pdftex.def'.
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/adjustbox/tc-pdftex.def
+File: tc-pdftex.def 2019/01/04 v2.2 Clipping driver for pdftex
+))
+\adjbox@Width=\dimen133
+\adjbox@Height=\dimen134
+\adjbox@Depth=\dimen135
+\adjbox@Totalheight=\dimen136
+\adjbox@pwidth=\dimen137
+\adjbox@pheight=\dimen138
+\adjbox@pdepth=\dimen139
+\adjbox@ptotalheight=\dimen140
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/ifoddpage/ifoddpage.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count108
+)
+(/usr/local/texlive/2019/texmf-dist/tex/latex/varwidth/varwidth.sty
+Package: varwidth 2009/03/30 ver 0.92;  Variable-width minipages
+\@vwid@box=\box30
+\sift@deathcycles=\count109
+\@vwid@loff=\dimen141
+\@vwid@roff=\dimen142
+))
+(/usr/local/texlive/2019/texmf-dist/tex/latex/tools/tabularx.sty
+Package: tabularx 2016/02/03 v2.11b `tabularx' package (DPC)
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/tools/array.sty
+Package: array 2018/12/30 v2.4k Tabular extension package (FMi)
+\col@sep=\dimen143
+\ar@mcellbox=\box31
+\extrarowheight=\dimen144
+\NC@list=\toks23
+\extratabsurround=\skip46
+\backup@length=\skip47
+\ar@cellbox=\box32
+)
+\TX@col@width=\dimen145
+\TX@old@table=\dimen146
+\TX@old@col=\dimen147
+\TX@target=\dimen148
+\TX@delta=\dimen149
+\TX@cols=\count110
+\TX@ftn=\toks24
+)
+(/usr/local/texlive/2019/texmf-dist/tex/latex/graphics/rotating.sty
+Package: rotating 2016/08/11 v2.16d rotated objects in LaTeX
+
+(/usr/local/texlive/2019/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2014/09/29 v1.1c Standard LaTeX ifthen package (DPC)
+)
+\c@r@tfl@t=\count111
+\rotFPtop=\skip48
+\rotFPbot=\skip49
+\rot@float@box=\box33
+\rot@mess@toks=\toks25
+)
 (./GMMResults.aux)
 \openout1 = `GMMResults.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 14.
-LaTeX Font Info:    ... okay on input line 14.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 17.
+LaTeX Font Info:    ... okay on input line 17.
 
 (/usr/local/texlive/2019/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count107
-\scratchdimen=\dimen129
-\scratchbox=\box29
-\nofMPsegments=\count108
-\nofMParguments=\count109
-\everyMPshowfont=\toks21
-\MPscratchCnt=\count110
-\MPscratchDim=\dimen130
-\MPnumerator=\count111
-\makeMPintoPDFobject=\count112
-\everyMPtoPDFconversion=\toks22
+\scratchcounter=\count112
+\scratchdimen=\dimen150
+\scratchbox=\box34
+\nofMPsegments=\count113
+\nofMParguments=\count114
+\everyMPshowfont=\toks26
+\MPscratchCnt=\count115
+\MPscratchDim=\dimen151
+\MPnumerator=\count116
+\makeMPintoPDFobject=\count117
+\everyMPtoPDFconversion=\toks27
 ) (/usr/local/texlive/2019/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -237,14 +324,14 @@ e
 * layoutoffset:(h,v)=(0.0pt,0.0pt)
 * bindingoffset: 14.45377pt
 * modes: 
-* h-part:(L,W,R)=(86.72377pt, 409.60657pt, 86.72377pt)
+* h-part:(L,W,R)=(65.04256pt, 452.969pt, 65.04256pt)
 * v-part:(T,H,B)=(86.72377pt, 671.5993pt, 86.72377pt)
 * \paperwidth=597.50787pt
 * \paperheight=845.04684pt
-* \textwidth=409.60657pt
+* \textwidth=452.969pt
 * \textheight=671.5993pt
-* \oddsidemargin=28.90755pt
-* \evensidemargin=14.45378pt
+* \oddsidemargin=7.22633pt
+* \evensidemargin=-7.22743pt
 * \topmargin=-22.54622pt
 * \headheight=12.0pt
 * \headsep=25.0pt
@@ -264,145 +351,111 @@ e
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
 Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: rotating package is loaded.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 27.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 30.
 (/usr/local/texlive/2019/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 27.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 30.
 <figures/hist_rev_realtime.png, id=1, 505.89pt x 361.35pt>
 File: figures/hist_rev_realtime.png Graphic file (type png)
 <use figures/hist_rev_realtime.png>
-Package pdftex.def Info: figures/hist_rev_realtime.png  used on input line 50.
-(pdftex.def)             Requested size: 286.72334pt x 204.80272pt.
+Package pdftex.def Info: figures/hist_rev_realtime.png  used on input line 53.
+(pdftex.def)             Requested size: 317.0769pt x 226.4883pt.
+<figures/ts_rev_realtime.png, id=3, 722.7pt x 361.35pt>
+File: figures/ts_rev_realtime.png Graphic file (type png)
+<use figures/ts_rev_realtime.png>
+Package pdftex.def Info: figures/ts_rev_realtime.png  used on input line 64.
+(pdftex.def)             Requested size: 362.37657pt x 181.18733pt.
  [1
 
 {/usr/local/texlive/2019/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<figures/ts_rev_realtime.png, id=18, 722.7pt x 361.35pt>
-File: figures/ts_rev_realtime.png Graphic file (type png)
-<use figures/ts_rev_realtime.png>
-Package pdftex.def Info: figures/ts_rev_realtime.png  used on input line 61.
-(pdftex.def)             Requested size: 327.6865pt x 163.84108pt.
-<figures/spf_se_est_diag0.png, id=19, 216.81pt x 216.81pt>
+<figures/spf_se_est_diag0.png, id=19, 216.81pt x 650.43pt>
 File: figures/spf_se_est_diag0.png Graphic file (type png)
 <use figures/spf_se_est_diag0.png>
-Package pdftex.def Info: figures/spf_se_est_diag0.png  used on input line 80.
-(pdftex.def)             Requested size: 98.30782pt x 98.30795pt.
-<figures/spf_se_est_diag1.png, id=20, 216.81pt x 216.81pt>
+Package pdftex.def Info: figures/spf_se_est_diag0.png  used on input line 83.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_diag1.png, id=20, 216.81pt x 650.43pt>
 File: figures/spf_se_est_diag1.png Graphic file (type png)
 <use figures/spf_se_est_diag1.png>
-Package pdftex.def Info: figures/spf_se_est_diag1.png  used on input line 81.
-(pdftex.def)             Requested size: 98.30782pt x 98.30795pt.
-<figures/spf_se_est_diag2.png, id=21, 216.81pt x 433.62pt>
+Package pdftex.def Info: figures/spf_se_est_diag1.png  used on input line 84.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_diag2.png, id=21, 216.81pt x 650.43pt>
 File: figures/spf_se_est_diag2.png Graphic file (type png)
 <use figures/spf_se_est_diag2.png>
-Package pdftex.def Info: figures/spf_se_est_diag2.png  used on input line 82.
-(pdftex.def)             Requested size: 98.30782pt x 196.6159pt.
+Package pdftex.def Info: figures/spf_se_est_diag2.png  used on input line 85.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
 <figures/spf_se_est_diag3.png, id=22, 216.81pt x 650.43pt>
 File: figures/spf_se_est_diag3.png Graphic file (type png)
 <use figures/spf_se_est_diag3.png>
-Package pdftex.def Info: figures/spf_se_est_diag3.png  used on input line 83.
-(pdftex.def)             Requested size: 98.30782pt x 294.92386pt.
-<figures/spf_se_est_joint_diag0.png, id=23, 216.81pt x 216.81pt>
+Package pdftex.def Info: figures/spf_se_est_diag3.png  used on input line 86.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_diag4.png, id=23, 216.81pt x 650.43pt>
+File: figures/spf_se_est_diag4.png Graphic file (type png)
+<use figures/spf_se_est_diag4.png>
+Package pdftex.def Info: figures/spf_se_est_diag4.png  used on input line 87.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_joint_diag0.png, id=24, 216.81pt x 650.43pt>
 File: figures/spf_se_est_joint_diag0.png Graphic file (type png)
 <use figures/spf_se_est_joint_diag0.png>
 Package pdftex.def Info: figures/spf_se_est_joint_diag0.png  used on input line
- 91.
-(pdftex.def)             Requested size: 98.30782pt x 98.30795pt.
-<figures/spf_se_est_joint_diag1.png, id=24, 216.81pt x 216.81pt>
+ 95.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_joint_diag1.png, id=25, 216.81pt x 650.43pt>
 File: figures/spf_se_est_joint_diag1.png Graphic file (type png)
 <use figures/spf_se_est_joint_diag1.png>
 Package pdftex.def Info: figures/spf_se_est_joint_diag1.png  used on input line
- 92.
-(pdftex.def)             Requested size: 98.30782pt x 98.30795pt.
-<figures/spf_se_est_joint_diag2.png, id=25, 216.81pt x 433.62pt>
+ 96.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_joint_diag2.png, id=26, 216.81pt x 650.43pt>
 File: figures/spf_se_est_joint_diag2.png Graphic file (type png)
 <use figures/spf_se_est_joint_diag2.png>
 Package pdftex.def Info: figures/spf_se_est_joint_diag2.png  used on input line
- 93.
-(pdftex.def)             Requested size: 98.30782pt x 196.6159pt.
-<figures/spf_se_est_joint_diag3.png, id=26, 216.81pt x 650.43pt>
+ 97.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_joint_diag3.png, id=27, 216.81pt x 650.43pt>
 File: figures/spf_se_est_joint_diag3.png Graphic file (type png)
 <use figures/spf_se_est_joint_diag3.png>
 Package pdftex.def Info: figures/spf_se_est_joint_diag3.png  used on input line
- 94.
-(pdftex.def)             Requested size: 98.30782pt x 294.92386pt.
-
-
-LaTeX Warning: Float too large for page by 56.80397pt on input line 101.
-
-
-LaTeX Warning: File `figures/spf_ni_est_diag0.png' not found on input line 110.
-
-
-
-! Package pdftex.def Error: File `figures/spf_ni_est_diag0.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.110 ...\textwidth]{figures/spf_ni_est_diag0.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/spf_ni_est_diag1.png' not found on input line 111.
-
-
-
-! Package pdftex.def Error: File `figures/spf_ni_est_diag1.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.111 ...\textwidth]{figures/spf_ni_est_diag1.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/spf_ni_est_diag2.png' not found on input line 112.
-
-
-
-! Package pdftex.def Error: File `figures/spf_ni_est_diag2.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.112 ...\textwidth]{figures/spf_ni_est_diag2.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/spf_ni_est_diag3.png' not found on input line 113.
-
-
-
-! Package pdftex.def Error: File `figures/spf_ni_est_diag3.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.113 ...\textwidth]{figures/spf_ni_est_diag3.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+ 98.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_se_est_joint_diag4.png, id=28, 216.81pt x 650.43pt>
+File: figures/spf_se_est_joint_diag4.png Graphic file (type png)
+<use figures/spf_se_est_joint_diag4.png>
+Package pdftex.def Info: figures/spf_se_est_joint_diag4.png  used on input line
+ 99.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_ni_est_diag0.png, id=29, 216.81pt x 650.43pt>
+File: figures/spf_ni_est_diag0.png Graphic file (type png)
+<use figures/spf_ni_est_diag0.png>
+Package pdftex.def Info: figures/spf_ni_est_diag0.png  used on input line 115.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_ni_est_diag1.png, id=30, 216.81pt x 650.43pt>
+File: figures/spf_ni_est_diag1.png Graphic file (type png)
+<use figures/spf_ni_est_diag1.png>
+Package pdftex.def Info: figures/spf_ni_est_diag1.png  used on input line 116.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_ni_est_diag2.png, id=31, 216.81pt x 650.43pt>
+File: figures/spf_ni_est_diag2.png Graphic file (type png)
+<use figures/spf_ni_est_diag2.png>
+Package pdftex.def Info: figures/spf_ni_est_diag2.png  used on input line 117.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_ni_est_diag3.png, id=32, 216.81pt x 650.43pt>
+File: figures/spf_ni_est_diag3.png Graphic file (type png)
+<use figures/spf_ni_est_diag3.png>
+Package pdftex.def Info: figures/spf_ni_est_diag3.png  used on input line 118.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/spf_ni_est_diag4.png, id=33, 216.81pt x 650.43pt>
+File: figures/spf_ni_est_diag4.png Graphic file (type png)
+<use figures/spf_ni_est_diag4.png>
+Package pdftex.def Info: figures/spf_ni_est_diag4.png  used on input line 119.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
 
 
 LaTeX Warning: File `figures/spf_ni_est_joint_diag0.png' not found on input lin
-e 121.
+e 127.
 
 
 ! Package pdftex.def Error: File `figures/spf_ni_est_joint_diag0.png' not found
@@ -412,14 +465,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.121 ...idth]{figures/spf_ni_est_joint_diag0.png}
+l.127 ...idth]{figures/spf_ni_est_joint_diag0.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/spf_ni_est_joint_diag1.png' not found on input lin
-e 122.
+e 128.
 
 
 ! Package pdftex.def Error: File `figures/spf_ni_est_joint_diag1.png' not found
@@ -429,14 +482,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.122 ...idth]{figures/spf_ni_est_joint_diag1.png}
+l.128 ...idth]{figures/spf_ni_est_joint_diag1.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/spf_ni_est_joint_diag2.png' not found on input lin
-e 123.
+e 129.
 
 
 ! Package pdftex.def Error: File `figures/spf_ni_est_joint_diag2.png' not found
@@ -446,14 +499,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.123 ...idth]{figures/spf_ni_est_joint_diag2.png}
+l.129 ...idth]{figures/spf_ni_est_joint_diag2.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/spf_ni_est_joint_diag3.png' not found on input lin
-e 124.
+e 130.
 
 
 ! Package pdftex.def Error: File `figures/spf_ni_est_joint_diag3.png' not found
@@ -463,218 +516,111 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.124 ...idth]{figures/spf_ni_est_joint_diag3.png}
+l.130 ...idth]{figures/spf_ni_est_joint_diag3.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
-LaTeX Warning: File `figures/sce_se_est_diag0.png' not found on input line 141.
+LaTeX Warning: File `figures/spf_ni_est_joint_diag4.png' not found on input lin
+e 131.
 
 
-
-! Package pdftex.def Error: File `figures/sce_se_est_diag0.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.141 ...\textwidth]{figures/sce_se_est_diag0.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_diag1.png' not found on input line 142.
-
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_diag1.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.142 ...\textwidth]{figures/sce_se_est_diag1.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_diag2.png' not found on input line 143.
-
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_diag2.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.143 ...\textwidth]{figures/sce_se_est_diag2.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_diag3.png' not found on input line 144.
-
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_diag3.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.144 ...\textwidth]{figures/sce_se_est_diag3.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_joint_diag0.png' not found on input lin
-e 152.
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_joint_diag0.png' not found
+! Package pdftex.def Error: File `figures/spf_ni_est_joint_diag4.png' not found
 : using draft setting.
 
 See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.152 ...idth]{figures/sce_se_est_joint_diag0.png}
+l.131 ...idth]{figures/spf_ni_est_joint_diag4.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-
-LaTeX Warning: File `figures/sce_se_est_joint_diag1.png' not found on input lin
-e 153.
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_joint_diag1.png' not found
-: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.153 ...idth]{figures/sce_se_est_joint_diag1.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_joint_diag2.png' not found on input lin
-e 154.
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_joint_diag2.png' not found
-: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.154 ...idth]{figures/sce_se_est_joint_diag2.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_se_est_joint_diag3.png' not found on input lin
-e 155.
-
-
-! Package pdftex.def Error: File `figures/sce_se_est_joint_diag3.png' not found
-: using draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.155 ...idth]{figures/sce_se_est_joint_diag3.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_ni_est_diag0.png' not found on input line 171.
-
-
-
-! Package pdftex.def Error: File `figures/sce_ni_est_diag0.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.171 ...\textwidth]{figures/sce_ni_est_diag0.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_ni_est_diag1.png' not found on input line 172.
-
-
-
-! Package pdftex.def Error: File `figures/sce_ni_est_diag1.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.172 ...\textwidth]{figures/sce_ni_est_diag1.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_ni_est_diag2.png' not found on input line 173.
-
-
-
-! Package pdftex.def Error: File `figures/sce_ni_est_diag2.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.173 ...\textwidth]{figures/sce_ni_est_diag2.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `figures/sce_ni_est_diag3.png' not found on input line 174.
-
-
-
-! Package pdftex.def Error: File `figures/sce_ni_est_diag3.png' not found: usin
-g draft setting.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.174 ...\textwidth]{figures/sce_ni_est_diag3.png}
-                                                  
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
+<figures/sce_se_est_diag0.png, id=34, 216.81pt x 650.43pt>
+File: figures/sce_se_est_diag0.png Graphic file (type png)
+<use figures/sce_se_est_diag0.png>
+Package pdftex.def Info: figures/sce_se_est_diag0.png  used on input line 148.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_diag1.png, id=35, 216.81pt x 650.43pt>
+File: figures/sce_se_est_diag1.png Graphic file (type png)
+<use figures/sce_se_est_diag1.png>
+Package pdftex.def Info: figures/sce_se_est_diag1.png  used on input line 149.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_diag2.png, id=36, 216.81pt x 650.43pt>
+File: figures/sce_se_est_diag2.png Graphic file (type png)
+<use figures/sce_se_est_diag2.png>
+Package pdftex.def Info: figures/sce_se_est_diag2.png  used on input line 150.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_diag3.png, id=37, 216.81pt x 650.43pt>
+File: figures/sce_se_est_diag3.png Graphic file (type png)
+<use figures/sce_se_est_diag3.png>
+Package pdftex.def Info: figures/sce_se_est_diag3.png  used on input line 151.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_diag4.png, id=38, 216.81pt x 650.43pt>
+File: figures/sce_se_est_diag4.png Graphic file (type png)
+<use figures/sce_se_est_diag4.png>
+Package pdftex.def Info: figures/sce_se_est_diag4.png  used on input line 152.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_joint_diag0.png, id=39, 216.81pt x 650.43pt>
+File: figures/sce_se_est_joint_diag0.png Graphic file (type png)
+<use figures/sce_se_est_joint_diag0.png>
+Package pdftex.def Info: figures/sce_se_est_joint_diag0.png  used on input line
+ 160.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_joint_diag1.png, id=40, 216.81pt x 650.43pt>
+File: figures/sce_se_est_joint_diag1.png Graphic file (type png)
+<use figures/sce_se_est_joint_diag1.png>
+Package pdftex.def Info: figures/sce_se_est_joint_diag1.png  used on input line
+ 161.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_joint_diag2.png, id=41, 216.81pt x 650.43pt>
+File: figures/sce_se_est_joint_diag2.png Graphic file (type png)
+<use figures/sce_se_est_joint_diag2.png>
+Package pdftex.def Info: figures/sce_se_est_joint_diag2.png  used on input line
+ 162.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_joint_diag3.png, id=42, 216.81pt x 650.43pt>
+File: figures/sce_se_est_joint_diag3.png Graphic file (type png)
+<use figures/sce_se_est_joint_diag3.png>
+Package pdftex.def Info: figures/sce_se_est_joint_diag3.png  used on input line
+ 163.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_se_est_joint_diag4.png, id=43, 216.81pt x 650.43pt>
+File: figures/sce_se_est_joint_diag4.png Graphic file (type png)
+<use figures/sce_se_est_joint_diag4.png>
+Package pdftex.def Info: figures/sce_se_est_joint_diag4.png  used on input line
+ 164.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_ni_est_diag0.png, id=44, 216.81pt x 650.43pt>
+File: figures/sce_ni_est_diag0.png Graphic file (type png)
+<use figures/sce_ni_est_diag0.png>
+Package pdftex.def Info: figures/sce_ni_est_diag0.png  used on input line 180.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_ni_est_diag1.png, id=45, 216.81pt x 650.43pt>
+File: figures/sce_ni_est_diag1.png Graphic file (type png)
+<use figures/sce_ni_est_diag1.png>
+Package pdftex.def Info: figures/sce_ni_est_diag1.png  used on input line 181.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_ni_est_diag2.png, id=46, 216.81pt x 650.43pt>
+File: figures/sce_ni_est_diag2.png Graphic file (type png)
+<use figures/sce_ni_est_diag2.png>
+Package pdftex.def Info: figures/sce_ni_est_diag2.png  used on input line 182.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_ni_est_diag3.png, id=47, 216.81pt x 650.43pt>
+File: figures/sce_ni_est_diag3.png Graphic file (type png)
+<use figures/sce_ni_est_diag3.png>
+Package pdftex.def Info: figures/sce_ni_est_diag3.png  used on input line 183.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
+<figures/sce_ni_est_diag4.png, id=48, 216.81pt x 650.43pt>
+File: figures/sce_ni_est_diag4.png Graphic file (type png)
+<use figures/sce_ni_est_diag4.png>
+Package pdftex.def Info: figures/sce_ni_est_diag4.png  used on input line 184.
+(pdftex.def)             Requested size: 86.0652pt x 258.19235pt.
 
 LaTeX Warning: File `figures/sce_ni_est_joint_diag0.png' not found on input lin
-e 182.
+e 192.
 
 
 ! Package pdftex.def Error: File `figures/sce_ni_est_joint_diag0.png' not found
@@ -684,14 +630,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.182 ...idth]{figures/sce_ni_est_joint_diag0.png}
+l.192 ...idth]{figures/sce_ni_est_joint_diag0.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/sce_ni_est_joint_diag1.png' not found on input lin
-e 183.
+e 193.
 
 
 ! Package pdftex.def Error: File `figures/sce_ni_est_joint_diag1.png' not found
@@ -701,14 +647,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.183 ...idth]{figures/sce_ni_est_joint_diag1.png}
+l.193 ...idth]{figures/sce_ni_est_joint_diag1.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/sce_ni_est_joint_diag2.png' not found on input lin
-e 184.
+e 194.
 
 
 ! Package pdftex.def Error: File `figures/sce_ni_est_joint_diag2.png' not found
@@ -718,14 +664,14 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.184 ...idth]{figures/sce_ni_est_joint_diag2.png}
+l.194 ...idth]{figures/sce_ni_est_joint_diag2.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 
 LaTeX Warning: File `figures/sce_ni_est_joint_diag3.png' not found on input lin
-e 185.
+e 195.
 
 
 ! Package pdftex.def Error: File `figures/sce_ni_est_joint_diag3.png' not found
@@ -735,47 +681,79 @@ See the pdftex.def package documentation for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.185 ...idth]{figures/sce_ni_est_joint_diag3.png}
+l.195 ...idth]{figures/sce_ni_est_joint_diag3.png}
                                                   
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
-[2 <./figures/hist_rev_realtime.png> <./figures/ts_rev_realtime.png>] [3 <./fig
-ures/spf_se_est_diag0.png> <./figures/spf_se_est_diag1.png> <./figures/spf_se_e
-st_diag2.png> <./figures/spf_se_est_diag3.png> <./figures/spf_se_est_joint_diag
-0.png> <./figures/spf_se_est_joint_diag1.png> <./figures/spf_se_est_joint_diag2
-.png> <./figures/spf_se_est_joint_diag3.png>] [4] [5] [6] (./GMMResults.aux) ) 
+
+LaTeX Warning: File `figures/sce_ni_est_joint_diag4.png' not found on input lin
+e 196.
+
+
+! Package pdftex.def Error: File `figures/sce_ni_est_joint_diag4.png' not found
+: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.196 ...idth]{figures/sce_ni_est_joint_diag4.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \hbox (157.08224pt too wide) in paragraph at lines 229--243
+[][] 
+ []
+
+[2 <./figures/hist_rev_realtime.png>] [3] [4] [5 <./figures/ts_rev_realtime.png
+>] [6 <./figures/spf_se_est_diag0.png> <./figures/spf_se_est_diag1.png> <./figu
+res/spf_se_est_diag2.png> <./figures/spf_se_est_diag3.png> <./figures/spf_se_es
+t_diag4.png> <./figures/spf_se_est_joint_diag0.png> <./figures/spf_se_est_joint
+_diag1.png> <./figures/spf_se_est_joint_diag2.png> <./figures/spf_se_est_joint_
+diag3.png> <./figures/spf_se_est_joint_diag4.png>] [7 <./figures/spf_ni_est_dia
+g0.png> <./figures/spf_ni_est_diag1.png> <./figures/spf_ni_est_diag2.png> <./fi
+gures/spf_ni_est_diag3.png> <./figures/spf_ni_est_diag4.png>] [8 <./figures/sce
+_se_est_diag0.png> <./figures/sce_se_est_diag1.png> <./figures/sce_se_est_diag2
+.png> <./figures/sce_se_est_diag3.png> <./figures/sce_se_est_diag4.png> <./figu
+res/sce_se_est_joint_diag0.png> <./figures/sce_se_est_joint_diag1.png> <./figur
+es/sce_se_est_joint_diag2.png> <./figures/sce_se_est_joint_diag3.png> <./figure
+s/sce_se_est_joint_diag4.png>] [9 <./figures/sce_ni_est_diag0.png> <./figures/s
+ce_ni_est_diag1.png> <./figures/sce_ni_est_diag2.png> <./figures/sce_ni_est_dia
+g3.png> <./figures/sce_ni_est_diag4.png>] (./GMMResults.aux) ) 
 Here is how much of TeX's memory you used:
- 3810 strings out of 492616
- 58651 string characters out of 6129482
- 140873 words of memory out of 5000000
- 7662 multiletter control sequences out of 15000+600000
+ 5123 strings out of 492616
+ 81565 string characters out of 6129482
+ 173355 words of memory out of 5000000
+ 8921 multiletter control sequences out of 15000+600000
  9490 words of font info for 35 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 41i,9n,39p,477b,447s stack positions out of 5000i,500n,10000p,200000b,80000s
-<
-/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></
-usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></u
-sr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr
-/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/l
-ocal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/loc
-al/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local
-/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/t
-exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/tex
-live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texli
-ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/
-2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/201
-9/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2019/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2019/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on GMMResults.pdf (6 pages, 309757 bytes).
+ 41i,13n,77p,571b,530s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/local/texli
+ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texliv
+e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive
+/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/
+2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2
+019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/local/texlive/201
+9/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2019/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/local/texlive/2019/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2019/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2019/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2019/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/local/texlive/2019/texmf-dist/
+fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive/2019/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr9.pfb></usr/local/texlive/2019/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmtt10.pfb>
+Output written on GMMResults.pdf (9 pages, 842614 bytes).
 PDF statistics:
- 116 PDF objects out of 1000 (max. 8388607)
- 69 compressed objects within 1 object stream
+ 171 PDF objects out of 1000 (max. 8388607)
+ 77 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 161 words of extra memory for PDF output out of 10000 (max. 10000000)
 

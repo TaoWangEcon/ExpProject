@@ -2,10 +2,13 @@
 \usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage[a4paper,bindingoffset=0.2in,%
-left=1.2in,right=1.2in,top=1.2in,bottom=1.2in,%
+left=0.9in,right=0.9in,top=1.2in,bottom=1.2in,%
 footskip=.25in]{geometry}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage{adjustbox}
+\usepackage{tabularx}
+\usepackage{rotating}
 
 %opening
 \title{A Note on GMM Estimation of Theories of Expectation Formation}
@@ -75,12 +78,13 @@ From left to the right, the four columns of the figures are based on estimation
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\caption{Estimation of SE}
+		\caption{Estimation of SE for Professionals}
 		\label{SE_diag_SPF}
-		\includegraphics[width=0.24\textwidth]{figures/spf_se_est_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_se_est_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_se_est_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_se_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_se_est_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_se_est_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_se_est_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_se_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_se_est_diag4.png}
 	\end{subfigure}
 	\vspace{1em}
 	\vfill
@@ -88,14 +92,15 @@ From left to the right, the four columns of the figures are based on estimation
 		\centering
 		\caption{Joint Estimation of SE and Inflation Process}
 		\label{SE_diag_joint_SPF}
-	\includegraphics[width=0.24\textwidth]{figures/spf_se_est_joint_diag0.png}
-	\includegraphics[width=0.24\textwidth]{figures/spf_se_est_joint_diag1.png}
-	\includegraphics[width=0.24\textwidth]{figures/spf_se_est_joint_diag2.png}
-	\includegraphics[width=0.24\textwidth]{figures/spf_se_est_joint_diag3.png}
+	\includegraphics[width=0.19\textwidth]{figures/spf_se_est_joint_diag0.png}
+	\includegraphics[width=0.19\textwidth]{figures/spf_se_est_joint_diag1.png}
+	\includegraphics[width=0.19\textwidth]{figures/spf_se_est_joint_diag2.png}
+	\includegraphics[width=0.19\textwidth]{figures/spf_se_est_joint_diag3.png}
+	\includegraphics[width=0.19\textwidth]{figures/spf_se_est_joint_diag4.png}
 	\end{subfigure}
 	\\
 	\begin{flushleft}
-		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, respectively. }
+		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$/$\overline{Var}_t$,  respectively. }
 	\end{flushleft}
 	\caption{SE of Professionals: Esimated Model Moments and Data Moments}
 \end{figure}
@@ -105,12 +110,13 @@ From left to the right, the four columns of the figures are based on estimation
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\caption{Estimation of NI}
+		\caption{Estimation of NI for Professionals}
 		\label{NI_diag_SPF}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_diag4.png}
 	\end{subfigure}
 	\vspace{1em}
 	\vfill
@@ -118,14 +124,15 @@ From left to the right, the four columns of the figures are based on estimation
 		\centering
 		\caption{Joint Estimation of NI and Inflation Process}
 		\label{NI_diag_joint_SPF}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_joint_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_joint_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_joint_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/spf_ni_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_joint_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_joint_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_joint_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/spf_ni_est_joint_diag4.png}
 	\end{subfigure}
 	\\
 	\begin{flushleft}
-		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, respectively. }
+		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$/$\overline{Var}_t$,  respectively. }
 	\end{flushleft}
 	\caption{NI of Professionals: Esimated Model Moments and Data Moments}
 \end{figure}
@@ -136,12 +143,13 @@ From left to the right, the four columns of the figures are based on estimation
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\caption{Estimation of SE}
+		\caption{Estimation of SE for Households}
 		\label{SE_diag_SCE}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_diag4.png}
 	\end{subfigure}
 	\vspace{1em}
 	\vfill
@@ -149,14 +157,15 @@ From left to the right, the four columns of the figures are based on estimation
 		\centering
 		\caption{Joint Estimation of SE and Inflation Process}
 		\label{SE_diag_joint_SCE}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_joint_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_joint_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_joint_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_se_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_joint_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_joint_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_joint_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_se_est_joint_diag4.png}
 	\end{subfigure}
 	\\
 	\begin{flushleft}
-		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, respectively.}
+		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$/$\overline{Var}_t$,  respectively. }
 	\end{flushleft}
 	\caption{SE of Households: Esimated Model Moments and Data Moments}
 \end{figure}
@@ -166,12 +175,13 @@ From left to the right, the four columns of the figures are based on estimation
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
-		\caption{Estimation of NI}
+		\caption{Estimation of NI  for Households}
 		\label{NI_diag_SCE}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_diag4.png}
 	\end{subfigure}
 	\vspace{1em}
 	\vfill
@@ -179,18 +189,57 @@ From left to the right, the four columns of the figures are based on estimation
 		\centering
 		\caption{Joint Estimation of SE and Inflation Process}
 		\label{NI_diag_joint_SCE}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_joint_diag0.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_joint_diag1.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_joint_diag2.png}
-		\includegraphics[width=0.24\textwidth]{figures/sce_ni_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_joint_diag0.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_joint_diag1.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_joint_diag2.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_joint_diag3.png}
+		\includegraphics[width=0.19\textwidth]{figures/sce_ni_est_joint_diag4.png}
 	\end{subfigure}
 	\\
 	\begin{flushleft}
-		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, respectively. }
+		{\footnotesize Note: the upper panel estimates expectation formation only taking the process of inflation parameters as given. The bottom panel estimates the parameters of expectation formation and inflation process jointly. From left to the right, the moments used are $\overline y_{t|t}$, $\overline{FE}_{t}$, $\overline y_{t|t}$/$\overline{FE}_{t}$ and $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$, $\overline y_{t|t}$ / $\overline{FE}_{t}$/ $\overline{\textrm{Disg}_t}$/$\overline{Var}_t$,  respectively.  }
 	\end{flushleft}
 	\caption{NI of Households: Esimated Model Moments and Data Moments}
 \end{figure}
 
+	\begin{sidewaystable}
+	\caption{GMM Estimates of Parameters of SE and Inflation Process}
+	\label{GMM_Est_SE_Table}
+\begin{tabular}{llllllllllll}
+	\hline 
+	0        & 1  & 2    & 3   & SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$ & SE: $\sigma$ & SE: $\hat\lambda_{SCE}$(M) & SE: $\hat\lambda_{SCE}$(Q) & SE: $\rho$ & SE: $\sigma$ \\
+	\hline 
+	Forecast &    &      &     & 0.21                       & 0.01                       & 1          & 0.1          & 1.8                        & 1                          & 1          & 0.1          \\
+		\hline 
+	FE       &    &      &     & 0.18                       & 0.01                       & 1          & 0.1          & 1.74                       & 1                          & 1          & 0.1          \\
+		\hline 
+	Forecast & FE &      &     & 0.2                        & 0.01                       & 1          & 0.1          & 1.77                       & 1                          & 1          & 0.1          \\
+		\hline 
+	Forecast & FE & Disg &     & 0.23                       & 0.05                       & 1          & 0.1          & 0.02                       & 0.03                       & 0.98       & 0.1          \\
+		\hline 
+	Forecast & FE & Disg & Var & 0.26                       & 0.05                       & 1          & 0.07         & 0.01                       & 0.03                       & 0.98       & 1.11         \\
+		\hline 
+\end{tabular}
+\end{sidewaystable}
 
+
+\begin{sidewaystable}
+	\caption{GMM Estimates of Parameters of NI and Inflation Process}
+	\label{GMM_Est_NI_Table}
+\begin{tabular}{llllllllllllllllllll}
+	0        & 1  & 2    & 3   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $Var$ & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $Var$ & NI: $\rho$ & NI: $\sigma$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & $Var$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & $Var$ & NI: $\rho$ & NI: $\sigma$ \\
+	\hline 
+	Forecast &    &      &     & 98.52                     & 1.69                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 98.52                     & 1.69                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
+	\hline 
+	FE       &    &      &     & 151.59                    & 0.95                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 151.59                    & 0.95                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE &      &     & -0.7                      & 336.37                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & -0.7                      & 336.37                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE & Disg &     & 1.63                      & 115.06                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 1.63                      & 115.06                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE & Disg & Var & -0.63                     & 131.43                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & -0.63                     & 131.43                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1    \\
+	\hline     
+\end{tabular}
+\end{sidewaystable}
 
 \end{document}
