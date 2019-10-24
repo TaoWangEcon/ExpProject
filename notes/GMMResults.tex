@@ -9,6 +9,7 @@ footskip=.25in]{geometry}
 \usepackage{adjustbox}
 \usepackage{tabularx}
 \usepackage{rotating}
+\usepackage{hyperref}
 
 %opening
 \title{A Note on GMM Estimation of Theories of Expectation Formation}
@@ -37,7 +38,7 @@ For a given process of inflation and a particular theory of expectation formatio
 	\item $W$ is the weighting matrix. For now, I stick to the identity matrix. 
 \end{itemize}
 
-The above procedure is specific to a pair of an assumed inflation process and a theory of expectation. It can be estimated only estimated for the theory of expectation formation with exogenous fed parameters of the inflation process using the entire history of inflation data, or we could jointly estimate the parameters of expectation formation and the inflation process. 
+The above procedure is specific to a pair of assumed inflation process and a theory of expectation. It can be estimated only for the theory of expectation formation with exogenous fed parameters of the inflation process using the entire history of inflation data, or we could jointly estimate the parameters of expectation formation and the inflation process. 
 
 \section{Estimation}
 \subsection{Real-time Data}
@@ -48,7 +49,7 @@ These real-time vintage inflation data since 1998 were obtained from the Real-Ti
 
 To get an idea of how much of the differences there are between the real-time inflation and the most recent vintage in 2018, Figure \ref{real_time_rev} and \ref{ts_real_time_current_vintage} plot, respectively, the distributions of the revisions as well as the time series of the inflation. Although overall, there is no obvious skewness of the revisions, there have been indeed sizable revisions made for the real-time data. 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 		\centering
 \includegraphics[width=0.7\textwidth]{figures/hist_rev_realtime.png}
 \caption{Revisions of Current-vintage from Real-time Core CPI}
@@ -59,7 +60,7 @@ To get an idea of how much of the differences there are between the real-time in
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\textwidth]{figures/ts_rev_realtime.png}
 	\caption{Current-vintage and Real-time Core CPI}
@@ -72,7 +73,9 @@ To get an idea of how much of the differences there are between the real-time in
 
 Figure \ref{SE_diag_SPF} and \ref{SE_diag_joint_SPF} plot the estimated moments for SE model together with the data moments professional forecasts of SPF. 
 
-From left to the right, the four columns of the figures are based on estimation 
+From left to the right, the four columns of the figures are based on estimation using different choices of moments. 
+
+Figure \ref{NI_diag_SPF} and \ref{NI_diag_joint_SPF} plot the estimated moments for NI model together with the data moments professional forecasts of SPF. 
 
 \begin{figure}[ht]
 	\centering
@@ -139,7 +142,14 @@ From left to the right, the four columns of the figures are based on estimation
 
 \subsubsection{Households}
 
-\begin{figure}[ht]
+
+Figure \ref{SE_diag_SCE} and \ref{SE_diag_joint_SCE} plot the estimated moments for SE model together with the data moments of households inflation forecasts from SCE. 
+
+From left to the right, the four columns of the figures are based on estimation using different choices of moments. 
+
+Figure \ref{NI_diag_SCE} and \ref{NI_diag_joint_SCE} plot the estimated moments for NI model together with the data moments of households inflation forecasts from SCE. 
+
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
@@ -171,7 +181,7 @@ From left to the right, the four columns of the figures are based on estimation
 \end{figure}
 
 
-\begin{figure}[ht]
+\begin{figure}[htbp]
 	\centering
 	\begin{subfigure}[b]{\textwidth}
 		\centering
@@ -202,7 +212,8 @@ From left to the right, the four columns of the figures are based on estimation
 	\caption{NI of Households: Esimated Model Moments and Data Moments}
 \end{figure}
 
-	\begin{sidewaystable}
+	\begin{sidewaystable}[t]
+		\centering
 	\caption{GMM Estimates of Parameters of SE and Inflation Process}
 	\label{GMM_Est_SE_Table}
 \begin{tabular}{llllllllllll}
@@ -223,23 +234,83 @@ From left to the right, the four columns of the figures are based on estimation
 \end{sidewaystable}
 
 
-\begin{sidewaystable}
+\begin{sidewaystable}[t]
+	\centering
 	\caption{GMM Estimates of Parameters of NI and Inflation Process}
 	\label{GMM_Est_NI_Table}
-\begin{tabular}{llllllllllllllllllll}
-	0        & 1  & 2    & 3   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $Var$ & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $Var$ & NI: $\rho$ & NI: $\sigma$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & $Var$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & $Var$ & NI: $\rho$ & NI: $\sigma$ \\
+\begin{tabular}{llllllllllllllll}
+	0        & 1  & 2    & 3   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\rho$ & NI: $\sigma$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\rho$ & NI: $\sigma$ \\
+		\hline 
+	Forecast &    &      &     & 4.17                      & 164.56                & 0.5                       & 0.5                   & 0.8        & 0.1          & -0.34                     & 32.02                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+		\hline 
+	FE       &    &      &     & -2.15                     & 167.73                & 0.5                       & 0.5                   & 0.8        & 0.1          & 1.38                      & -0.46                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+		\hline 
+	Forecast & FE &      &     & 205.05                    & 1.52                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 0.47                      & 0.35                  & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+		\hline 
+	Forecast & FE & Disg &     & 9.57                      & 3.58                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 1043.13                   & 11.08                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+		\hline 
+	Forecast & FE & Disg & Var & 76.29                     & 0.69                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 2682.64                   & 334.37                & 0.5                       & 0.5                   & 0.8        & 1.1         \\
 	\hline 
-	Forecast &    &      &     & 98.52                     & 1.69                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 98.52                     & 1.69                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
-	\hline 
-	FE       &    &      &     & 151.59                    & 0.95                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 151.59                    & 0.95                  & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
-	\hline 
-	Forecast & FE &      &     & -0.7                      & 336.37                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & -0.7                      & 336.37                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
-	\hline 
-	Forecast & FE & Disg &     & 1.63                      & 115.06                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & 1.63                      & 115.06                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          \\
-	\hline 
-	Forecast & FE & Disg & Var & -0.63                     & 131.43                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1          & -0.63                     & 131.43                & 0.2   & 0.5                       & 0.5                   & 0.1   & 0.8        & 0.1    \\
-	\hline     
 \end{tabular}
 \end{sidewaystable}
+
+\section{Stochastic volatility model of inflation}
+
+\subsection{Process of inflation}
+
+Assume that the inflation follows a process of unobserved components model with stochastical volatility. 
+
+\begin{eqnarray}
+\begin{split}
+& y_t = \tau_t + \eta_t,\quad \textrm{where } \eta_t =\sigma_{\eta,t} \xi_{\eta,t} \\
+& \tau_t = \tau_{t-1} + \epsilon_t, \quad \textrm{where }  \epsilon_t =\sigma_{\epsilon,t} \xi_{\epsilon,t} \\
+& \log\sigma^2_{\eta,t} = \log\sigma^2_{\eta,t-1} + \mu_{\eta,t} \\
+& \log\sigma^2_{\epsilon,t} = \log\sigma^2_{\epsilon,t-1} + \mu_{\epsilon,t} 
+\end{split}
+\end{eqnarray}
+
+The distributions of shocks to levels of the components and their volatilities are, respectively, the following.
+
+\begin{eqnarray}
+\begin{split}
+& \xi_t =[\xi_{\eta,t},\xi_{\epsilon,t}] \sim N(0,I_2) \\
+& \mu_{t} = [\mu_{\eta,t},\mu_{\epsilon,t}]' \sim N(0,\gamma I_2) 
+\end{split}
+\end{eqnarray}
+
+The only parameter of the model is $\gamma$, which determines the time-varying volatilities. 
+
+\subsection{Different models of expectation formation}
+
+\subsubsection{Rational expectation}
+
+At the point of time $t$, the RE agent sees the realization of all stochastic variables above with subscript $t$, $t-1$, etc, including $y_t$, $\tau_t$, $\eta_t$, $\sigma_{\eta,t}$, $\sigma_{\epsilon,t}$ and their realizations in the whose past. Again, $*$ stands for FIRE benchmark. 
+
+\begin{eqnarray}
+\begin{split}
+\hat y^*_{t+h|i,t} & =  E^*_{i,t}(y_{t+h}|I_{i,t}) = \tau_t 
+\end{split}
+\end{eqnarray}
+
+Conditional h-step-ahead variance, uncertainty is
+
+\begin{eqnarray}
+\begin{split}
+Var^*_{t+h|i,t} & = \sum^{h}_{t=0} E_{i,t}(\sigma^2_{\eta,t+h}) +  E_{i,t}(\sigma^2_{\epsilon,t+h})  \\
+& = \sum^{h}_{t=1} E_{i,t}(exp^{\log \sigma^2_{\eta,t}+\sum^h_{t=1}\mu_{\eta,t+h}}) +  E_{i,t}(exp^{\log \sigma^2_{\epsilon,t}+\sum^h_{t=0}\mu_{\epsilon,t+h}} ) \\
+& = \sigma^2_{\eta,t} \sum^{h}_{t=0} E_{i,t}(exp^{\sum^h_{t=1}\mu_{t+h,\eta}}) +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{t=1}\mu_{\epsilon,t+h}} ) \\
+& = \sigma^2_{\eta,t} \sum^{h}_{t=0} exp^{E_{i,t}({\sum^h_{t=1}\mu_{t+h,\eta}})- 0.5Var_{i,t}(\sum^h_{t=1}\mu_{t+h,\eta})} +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{t=1}\mu_{\epsilon,t+h}} ) \\
+& = \sigma^2_{\eta,t} \sum^{h}_{t=0} exp^{- 0.5h\gamma_{\eta}} +  \sigma^2_{\epsilon,t} exp^{- 0.5h\gamma_{\epsilon}}  \\
+\end{split} 
+\end{eqnarray}
+
+For instance, set $h=0$, the conditional volatility for the current inflation is 
+
+
+\begin{eqnarray}
+\begin{split}
+Var^*_{t|i,t} =  \sigma^2_{\eta,t}  +  \sigma^2_{\epsilon,t}
+\end{split} 
+\end{eqnarray}
 
 \end{document}

@@ -293,7 +293,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [1, 2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 298, 302]}
+# + {"code_folding": [2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 298, 302]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -687,7 +687,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [2, 3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 274]}
+# + {"code_folding": [0, 3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 294]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -974,6 +974,33 @@ class NoisyInformation:
         else:
             moments_to_plot = self.all_moments
             
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        for i,val in enumerate(moments_to_plot):
+            plt.subplot(m_ct,1,i+1)
+            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+            plt.legend(loc=1)
+            
+    def ForecastPlotDiagJoint(self,
+                              all_moms = False):
+        sigma_pb,sigma_pb,var,rho,sigma = self.para_est_joint
+        exp_para_est_dct = {'sigma_pb':sigma_pb,
+                           'sigma_pr':sigma_pb,
+                           'var_init':var}
+        process_para_est_dct = {'rho':rho,
+                               'sigma':sigma}
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        new_instance.process_para = process_para_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        plt.style.use('ggplot')
+        
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+        
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
         for i,val in enumerate(moments_to_plot):
