@@ -79,7 +79,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0, 1, 5, 19]}
+# + {"code_folding": [1, 5, 19]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -104,8 +104,8 @@ def ForecastPlotDiag(test,data,legends=['model','data']):
     x = plt.figure(figsize=([3,3*m_ct]))
     for i,val in enumerate(test):
         plt.subplot(m_ct,1,i+1)
-        plt.plot(test[val],label= legends[0]+ ': ' +val)
-        plt.plot(np.array(data[val]),label=legends[1] +': '+ val)
+        plt.plot(test[val],'s-',label= legends[0]+ ': ' +val)
+        plt.plot(np.array(data[val]),'o-',label=legends[1] +': '+ val)
         plt.legend(loc=1)
     return x
         
@@ -293,7 +293,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 298, 302]}
+# + {"code_folding": [2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 237, 249, 278, 298, 302]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -617,7 +617,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ForecasterbySim
 #xx_history = AR1_simulator(rho,sigma,100)
 #xx_real_time = xx_history[20:]
@@ -636,6 +636,16 @@ class StickyExpectation:
 
 #mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 
+
+# +
+#test of ParaEstimate()
+#mom_sim_fake = mom_sim_dct.copy()
+#SE_instance.GetDataMoments(mom_sim_dct)
+#SE_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_time)))
+#SE_instance.ParaEstimate(method='L-BFGS-B',
+#                         para_guess = 0.5,
+#                         bounds = ((0,1),),
+#                         options={'disp':True})
 
 # + {"code_folding": []}
 ## test of ParaEstimateJoint()

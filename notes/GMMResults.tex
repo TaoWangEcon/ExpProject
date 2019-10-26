@@ -29,7 +29,7 @@ For a given process of inflation and a particular theory of expectation formatio
 
 \begin{itemize}
 	\item  $\Omega$ is a vector of size of $k$, depending on the number of parameters to be estimated. 
-	\item $M_{data}$ is the moments computed from data, i.e. mean forecasts, average forecast errors, the average cross-sectional variance of forecasts (disagreement), average uncertainty, etc. Also the autocovariance of all the abovementioned.  
+	\item $M_{data}$ is the moments computed from data, i.e. mean forecasts, average forecast errors, the cross-sectional variance of forecasts (disagreement), average uncertainty, etc. Also the autocovariance of all the abovementioned.  
 	
 	\item $F$ is the moments that are generated from a certain theory of expectation formation and inflation process. It is a function of parameters $\Omega$ as well as the $Y$, the real-time data(including history) that is available to forecasters at each point of the time $t$. 
 	\item For instance, for $T$ periods, $Y$ includes $T$  sequences of real-time inflation data of different lengths that terminate at each point of the forecasting:  $t =0$, $t=1$... $t=T$ . 
@@ -218,18 +218,18 @@ Figure \ref{NI_diag_SCE} and \ref{NI_diag_joint_SCE} plot the estimated moments 
 	\label{GMM_Est_SE_Table}
 \begin{tabular}{llllllllllll}
 	\hline 
-	0        & 1  & 2    & 3   & SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$ & SE: $\sigma$ & SE: $\hat\lambda_{SCE}$(M) & SE: $\hat\lambda_{SCE}$(Q) & SE: $\rho$ & SE: $\sigma$ \\
+	0        & 1  & 2    & 3   & SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$ & SE: $\sigma$ & SE: $\hat\lambda_{SCE}$(M) & SE: $\hat\lambda_{SCE}$(M) & SE: $\rho$ & SE: $\sigma$ \\
 	\hline 
-	Forecast &    &      &     & 0.21                       & 0.01                       & 1          & 0.1          & 1.8                        & 1                          & 1          & 0.1          \\
-		\hline 
-	FE       &    &      &     & 0.18                       & 0.01                       & 1          & 0.1          & 1.74                       & 1                          & 1          & 0.1          \\
-		\hline 
-	Forecast & FE &      &     & 0.2                        & 0.01                       & 1          & 0.1          & 1.77                       & 1                          & 1          & 0.1          \\
-		\hline 
+	Forecast &    &      &     & 0.21                       & 0.01                       & 1          & 0.1          & 1                          & 1                          & 1          & 0.1          \\
+	\hline 
+	FE       &    &      &     & 0.18                       & 0.01                       & 1          & 0.1          & 1                          & 1                          & 1          & 0.1          \\
+	\hline 
+	Forecast & FE &      &     & 0.2                        & 0.01                       & 1          & 0.1          & 1                          & 1                          & 1          & 0.1          \\
+	\hline 
 	Forecast & FE & Disg &     & 0.23                       & 0.05                       & 1          & 0.1          & 0.02                       & 0.03                       & 0.98       & 0.1          \\
-		\hline 
-	Forecast & FE & Disg & Var & 0.26                       & 0.05                       & 1          & 0.07         & 0.01                       & 0.03                       & 0.98       & 1.11         \\
-		\hline 
+	\hline 
+	Forecast & FE & Disg & Var & 0.26                       & 0.05                       & 1          & 0.07         & 0.01                       & 0.03                       & 0.98       & 1.11        \\
+	\hline 
 \end{tabular}
 \end{sidewaystable}
 
@@ -239,17 +239,18 @@ Figure \ref{NI_diag_SCE} and \ref{NI_diag_joint_SCE} plot the estimated moments 
 	\caption{GMM Estimates of Parameters of NI and Inflation Process}
 	\label{GMM_Est_NI_Table}
 \begin{tabular}{llllllllllllllll}
+	\hline 
 	0        & 1  & 2    & 3   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\rho$ & NI: $\sigma$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\rho$ & NI: $\sigma$ \\
-		\hline 
-	Forecast &    &      &     & 4.17                      & 164.56                & 0.5                       & 0.5                   & 0.8        & 0.1          & -0.34                     & 32.02                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
-		\hline 
-	FE       &    &      &     & -2.15                     & 167.73                & 0.5                       & 0.5                   & 0.8        & 0.1          & 1.38                      & -0.46                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
-		\hline 
-	Forecast & FE &      &     & 205.05                    & 1.52                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 0.47                      & 0.35                  & 0.5                       & 0.5                   & 0.8        & 0.1          \\
-		\hline 
-	Forecast & FE & Disg &     & 9.57                      & 3.58                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 1043.13                   & 11.08                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
-		\hline 
-	Forecast & FE & Disg & Var & 76.29                     & 0.69                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 2682.64                   & 334.37                & 0.5                       & 0.5                   & 0.8        & 1.1         \\
+	\hline 
+	Forecast &    &      &     & 376.66                    & 1.26                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 0                         & 1.13                  & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+	\hline 
+	FE       &    &      &     & 1.04                      & 159.74                & 0.5                       & 0.5                   & 0.8        & 0.1          & 0                         & 1.26                  & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE &      &     & 1.14                      & 6.74                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 0.59                      & 0.36                  & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE & Disg &     & 1.39                      & 1.46                  & 0.5                       & 0.5                   & 0.8        & 0.1          & 2354.37                   & 10.93                 & 0.5                       & 0.5                   & 0.8        & 0.1          \\
+	\hline 
+	Forecast & FE & Disg & Var & 1.37                      & 1.1                   & 0.5                       & 0.5                   & 0.8        & 0.1          & 35263.31                  & 332.04                & 0.5                       & 0.5                   & 0.8        & 0.1         \\
 	\hline 
 \end{tabular}
 \end{sidewaystable}

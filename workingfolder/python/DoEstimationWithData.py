@@ -288,7 +288,7 @@ SE_model.para_est_joint
 se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [0, 29, 38]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -318,7 +318,8 @@ for i,moments_to_use in enumerate(moments_choices):
     SE_model.GetDataMoments(data_moms_dct)
     
     # only expectation
-    SE_model.ParaEstimate(method='CG',
+    SE_model.ParaEstimate(method='L-BFGS-B',
+                          para_guess =(0.5),
                           options={'disp':True})
     para_est_SPF_holder.append(SE_model.para_est)
     SE_model.all_moments = ['Forecast','FE','Disg','Var']
@@ -380,7 +381,9 @@ for i,moments_to_use in enumerate(moments_choices):
     SE_model2.GetDataMoments(data_moms_dct)
     
     ## only expectation
-    SE_model2.ParaEstimate(method='CG',
+    SE_model2.ParaEstimate(method='L-BFGS-B',
+                           para_guess =(0.5),
+                           bounds = ((0,1),),
                            options={'disp':True})
     para_est_SCE_holder.append(SE_model2.para_est)
     SE_model2.all_moments = ['Forecast','FE','Disg','Var']
@@ -401,11 +404,11 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SCE_holder)
 print(para_est_SCE_joint_holder)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 sce_se_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
 sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
-                                     columns=[r'SE: $\hat\lambda_{SCE}$(Q)',
+                                     columns = [r'SE: $\hat\lambda_{SCE}$(M)',
                                               r'SE: $\rho$',
                                               r'SE: $\sigma$'])
 
@@ -423,7 +426,9 @@ se_est_df = pd.concat([est_moms,
                       join='inner', axis=1)
 # -
 
-se_est_df
+sce_se_est_para
+
+sce_se_joint_est_para
 
 # + {"code_folding": [0]}
 se_est_df.to_excel('tables/SE_Est.xlsx',
@@ -455,16 +460,16 @@ lbd_est_SCE = SE_model2.para_est
 
 lbd_est_SCE
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## what is the estimated lambda?
-print("SPF: "+str(lbd_est_SPF))
-print("SCE: "+str(lbd_est_SCE))
+#print("SPF: "+str(lbd_est_SPF))
+#print("SCE: "+str(lbd_est_SCE))
 
 ## rough estimation that did not take care of following issues
 ## quarterly survey of 1-year-ahead forecast
 ## real-time data is yearly 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## compare the data with estimation for SPF
 SE_model.ForecastPlotDiag()
 
@@ -506,7 +511,7 @@ plt.legend()
 ## compare the data with estimation for SPF
 NI_model.ForecastPlotDiag()
 
-# + {"code_folding": [0, 14, 38]}
+# + {"code_folding": [0]}
 ## NI loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -537,7 +542,9 @@ for i,moments_to_use in enumerate(moments_choices):
     NI_model.GetDataMoments(data_moms_dct)
     
     # only expectation
-    NI_model.ParaEstimate(method='CG',
+    NI_model.ParaEstimate(method='L-BFGS-B',
+                          para_guess =(0.5,0.5,0.1),
+                          bounds = ((0,None),(0,None),(0,None)),
                           options={'disp':True})
     para_est_SPF_holder.append(NI_model.para_est)
     NI_model.all_moments = ['Forecast','FE','Disg','Var']
@@ -601,8 +608,10 @@ for i,moments_to_use in enumerate(moments_choices):
     NI_model2.GetDataMoments(data_moms_dct)
     
     # only expectation
-    NI_model2.ParaEstimate(method='CG',
-                          options={'disp':True})
+    NI_model2.ParaEstimate(method='L-BFGS-B',
+                           para_guess =(0.5,0.5,0.5),
+                           bounds =((0,None),(0,None),(0,None)),
+                           options={'disp':True})
     para_est_SCE_holder.append(NI_model2.para_est)
     NI_model2.all_moments = ['Forecast','FE','Disg','Var']
     NI_model2.ForecastPlotDiag(all_moms = True)
@@ -621,7 +630,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SPF_holder)
 print(para_est_SPF_joint_holder)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## tabulate the estimates 
 sce_ni_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'NI: $\hat\sigma_{pb,SCE}$',
