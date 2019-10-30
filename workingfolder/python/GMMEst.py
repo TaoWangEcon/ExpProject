@@ -127,7 +127,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [2, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
+# + {"code_folding": [1, 2, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -298,7 +298,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 237, 249, 278, 298, 302]}
+# + {"code_folding": [1, 2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -578,7 +578,8 @@ class StickyExpectation:
                 plt.legend(loc=1)
             
     def ForecastPlotDiag(self,
-                         all_moms = False):
+                         all_moms = False,
+                         diff_scale = False):
         exp_para_est_dct = {'lambda':self.para_est[0]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
@@ -591,11 +592,20 @@ class StickyExpectation:
             
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-            plt.legend(loc=1)
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
                 
     def ForecastPlotDiagJoint(self,
                               all_moms = False):
@@ -702,7 +712,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 294]}
+# + {"code_folding": [3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 307]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -976,10 +986,13 @@ class NoisyInformation:
     
     ## diagostic plots 
     def ForecastPlotDiag(self,
-                         all_moms = False):
+                         all_moms = False,
+                         diff_scale = False):
         exp_para_est_dct = {'sigma_pb':self.para_est[0],
                            'sigma_pr':self.para_est[1],
-                           'var_init':self.para_est[2]}
+                           'var_init':self.para_est[2],
+                           'y_init':self.para_est[3],
+                           'disg_init':self.para_est[4]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -990,12 +1003,22 @@ class NoisyInformation:
             moments_to_plot = self.all_moments
             
         m_ct = len(moments_to_plot)
+        
         x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-            plt.legend(loc=1)
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
             
     def ForecastPlotDiagJoint(self,
                               all_moms = False):

@@ -163,7 +163,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [0, 2, 16, 19, 30, 53, 77, 81, 92, 97, 115, 121]}
+# + {"code_folding": [2, 16, 19, 30, 53, 77, 81, 92, 97, 115, 121]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -340,7 +340,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 52, 89, 93, 99, 154, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
+# + {"code_folding": [2, 24, 28, 40, 52, 89, 93, 99, 154, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -757,7 +757,7 @@ xx_real_time = xx_history[20:]
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 3, 27, 31, 37, 43, 55, 116, 184, 209, 215, 218, 236, 241, 253, 265, 280, 300, 315]}
+# + {"code_folding": [3, 27, 31, 37, 43, 55, 116, 184, 209, 215, 218, 236, 241, 253, 265, 280, 300, 315]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1182,7 +1182,7 @@ ni_instance.SimulateSignals()
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [0, 3, 25, 36, 62, 87, 120]}
+# + {"code_folding": [3, 25, 36, 62, 87, 120]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
