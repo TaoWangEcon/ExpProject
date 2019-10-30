@@ -127,7 +127,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [2, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
+# + {"code_folding": [1, 2, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 110]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -237,12 +237,7 @@ class RationalExpectation:
             plt.legend(loc=1)
         return x 
     
-    def ForecastPlotDiag(self,
-                        all_moms = False):
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
+    def ForecastPlotDiag(self):
         re_process_est_dct = {'rho':self.para_est[0],
                               'sigma':self.para_est[1]}
         new_instance = cp.deepcopy(self)
@@ -265,7 +260,7 @@ class RationalExpectation:
         return x
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create a RE instance 
 #xx_history = AR1_simulator(rho,sigma,100)
 #xx_real_time = xx_history[20:]
@@ -273,7 +268,7 @@ class RationalExpectation:
 #RE_instance = RationalExpectation(real_time = xx_real_time,
 #                                 history = xx_history)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### simulate a realized series 
 #RE_instance.SimulateRealization()
 
@@ -286,19 +281,19 @@ class RationalExpectation:
 #RE_instance.GetDataMoments(fe_moms)
 #RE_instance.moments=['Forecast','FE','Var']
 
-#RE_instance.ParaEstimate(para_guess = np.array([0.1,0.2]),
+#RE_instance.ParaEstimate(para_guess = np.array([0.9,0.2]),
 #                         method = 'L-BFGS-B',
 #                         bounds =((0,1),(0,1)),
 #                         options = {'disp':True})
 #RE_instance.para_est
-#re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
+#re_plot_diag = RE_instance.ForecastPlotDiag()
 
 # + {"code_folding": []}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 237, 249, 278, 298, 302]}
+# + {"code_folding": [2, 24, 28, 40, 52, 70, 89, 100, 176, 197, 220, 225, 237, 249, 278, 298, 302]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -455,7 +450,7 @@ class StickyExpectation:
     
     ## a function estimating SE model parameter only 
     def SE_EstObjfunc(self,
-                      lbd):
+                      se_paras):
         """
         input
         -----
@@ -465,6 +460,7 @@ class StickyExpectation:
         -----
         the objective function to minmize
         """
+        lbd = se_paras[0]
         moments = self.moments
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
@@ -702,7 +698,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 294]}
+# + {"code_folding": [3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 294]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
