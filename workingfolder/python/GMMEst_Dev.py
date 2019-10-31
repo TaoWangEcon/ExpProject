@@ -80,7 +80,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## using nlopt library instead of scipy optimize
 def Estimator2(obj_func,
                para_guess):
@@ -93,13 +93,14 @@ def Estimator2(obj_func,
     -------
     - parameter: an array of estimated parameter
     """
-    opt = nlopt.opt(nlopt.LN_COBYLA,2)
+    opt = nlopt.opt(nlopt.LN_BOBYQA,2)
+    #opt.set_maxtime(20)
     opt.set_min_objective(obj_func)
     parameter = opt.optimize(para_guess)
     return parameter 
 
 
-# + {"code_folding": [0, 6]}
+# + {"code_folding": [6]}
 def myfunc(x, grad):
     if grad.size > 0:
         grad[0] = 0.0
@@ -107,8 +108,17 @@ def myfunc(x, grad):
     return np.sqrt(x[1])
 
 def myfunc0(x,
-            grad = None):
+            grad):
+    if grad.size>0:
+        grad[0] = None
+        grad[1] = None
     return np.sqrt(x**[0]+x[1]**2)
+
+
+# -
+
+Estimator2(myfunc0,
+          para_guess = [0.1,0.2])
 
 
 # + {"code_folding": [0, 1, 5, 9, 18]}
@@ -163,7 +173,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [2, 16, 19, 30, 53, 77, 81, 92, 97, 115, 121]}
+# + {"code_folding": [0, 2, 16, 19, 30, 53, 77, 104, 108, 119, 124, 142, 148]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -241,6 +251,33 @@ class RationalExpectation:
         obj_func = PrepMom(RE_moms,data_moms)
         return obj_func 
     
+    def RE_EstObjfunc2(self,
+                      process_para,
+                      grad):
+        """
+        input
+        -----
+        process_para: the parameters of process to be estimated. 
+           No expectation parameters because it is rational expectation
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        if grad.size>0:
+            for i in range(len(grad)):
+                grad[i] = None
+        moments = self.moments
+        re_process_para = {'rho':process_para[0],
+                           'sigma':process_para[1]}
+        self.process_para = re_process_para  # give the process para
+        data_moms_dct = self.data_moms_dct
+        RE_moms_dct = self.Forecaster().copy()
+        RE_moms = np.array([RE_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(RE_moms,data_moms)
+        return obj_func 
+    
     def GetDataMoments(self,
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
@@ -258,7 +295,7 @@ class RationalExpectation:
         
     def ParaEstimate2(self,
                      para_guess = np.array([0.5,0.1])):
-        self.para_est = Estimator2(self.RE_EstObjfunc,
+        self.para_est = Estimator2(self.RE_EstObjfunc2,
                                    para_guess = para_guess)
     
     def ForecastPlot(self,
@@ -307,32 +344,37 @@ class RationalExpectation:
         return x
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a RE instance 
-#xx_history = AR1_simulator(rho,sigma,100)
-#xx_real_time = xx_history[20:]
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[20:]
 
-#RE_instance = RationalExpectation(real_time = xx_real_time,
-#                                 history = xx_history)
+RE_instance = RationalExpectation(real_time = xx_real_time,
+                                 history = xx_history)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### simulate a realized series 
-#RE_instance.SimulateRealization()
+RE_instance.SimulateRealization()
 
 ### forecster
-#fe_moms = RE_instance.Forecaster()
+fe_moms = RE_instance.Forecaster()
 #re_plot = RE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ## estimate rational expectation model 
-#RE_instance.GetDataMoments(fe_moms)
-#RE_instance.moments=['Forecast','FE','Var']
+RE_instance.GetDataMoments(fe_moms)
+RE_instance.moments=['Forecast','FE','Var']
 
 #RE_instance.ParaEstimate(para_guess = np.array([0.5,0.3]),
 #                         method = 'L-BFGS-B',
 #                         bounds =((0,1),(0,1)),
 #                         options = {'disp':True})
 #RE_instance.para_est
+#re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
+# -
+
+RE_instance.ParaEstimate2(para_guess = [0.5,0.3])
+RE_instance.para_est
 #re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
 
 # + {"code_folding": []}

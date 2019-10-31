@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# ## GMM Estimation of Model Parameters of Expectation Formation(Stochastic Volatility Process)
+# ## GMM Estimation of Model Parameters of Expectation Formation (Stochastic Volatility Process)
 #
 # - This notebook includes functions that estimate the parameter of rigidity for different models
 # - It allows for flexible choices of moments to be used, forecast error, disagreement, and uncertainty, etc. 
@@ -22,14 +22,14 @@
 #   - Model-specific functions that take real-time data and process parameters as inputs and produces forecasts and moments as outputs. It is model-specific because different models of expectation formation bring about different forecasts. 
 #   - Auxiliary functions that compute the moments as well as the difference of data and model prediction, which will be used as inputs for GMM estimator. 
 
-# ## 1. A process of time-variant volatility 
+# ## 1. A process of time-varying volatility 
 #
 # Assume that the inflation follows a process of unobserved components model with stochastical volatility. 
 #
 # \begin{equation}
 # \begin{split}
-# & y_t = \tau_t + \eta_t,\quad \textrm{where } \eta_t =\sigma_{\eta,t} \xi_{\eta,t} \\
-# & \tau_t = \tau_{t-1} + \epsilon_t, \quad \textrm{where }  \epsilon_t =\sigma_{\epsilon,t} \xi_{\epsilon,t} \\
+# & y_t = \theta_t + \eta_t,\quad \textrm{where } \eta_t =\sigma_{\eta,t} \xi_{\eta,t} \\
+# & \theta_t = \theta_{t-1} + \epsilon_t, \quad \textrm{where }  \epsilon_t =\sigma_{\epsilon,t} \xi_{\epsilon,t} \\
 # & \log\sigma^2_{\eta,t} = \log\sigma^2_{\eta,t-1} + \mu_{\eta,t} \\
 # & \log\sigma^2_{\epsilon,t} = \log\sigma^2_{\epsilon,t-1} + \mu_{\epsilon,t} 
 # \end{split}
@@ -54,29 +54,175 @@
 #
 # \begin{equation}
 # \begin{split}
-# \hat y^*_{t+h|i,t} & =  E^*_{i,t}(y_{t+h}|I_{i,t}) = \tau_t 
+# \overline y^*_{t+h|t} \equiv y^*_{t+h|i,t} & =  E^*_{i,t}(y_{t+h}|I_{i,t}) = \theta_t 
 # \end{split}
 # \end{equation}
+#
+# Forecast error is simply the cumulated sum of unrealized shocks from $t$ to $t+h$, which is 
+#
+# \begin{equation}
+# \begin{split}
+# \overline{FE}^*_{t+h|t} \equiv  FE^*_{t+h|i,t} & =  \sum^{h}_{s=1} (\eta_{t+s} + \epsilon_{t+s})
+# \end{split}
+# \end{equation}
+#
+#
 #
 # Conditional h-step-ahead variance, uncertainty is
 #
 # \begin{equation}
 # \begin{split}
-# Var^*_{t+h|i,t} & = \sum^{h}_{t=0} E_{i,t}(\sigma^2_{\eta,t+h}) +  E_{i,t}(\sigma^2_{\epsilon,t+h})  \\
-# & = \sum^{h}_{t=1} E_{i,t}(exp^{\log \sigma^2_{\eta,t}+\sum^h_{t=1}\mu_{\eta,t+h}}) +  E_{i,t}(exp^{\log \sigma^2_{\epsilon,t}+\sum^h_{t=0}\mu_{\epsilon,t+h}} ) \\
-# & = \sigma^2_{\eta,t} \sum^{h}_{t=0} E_{i,t}(exp^{\sum^h_{t=1}\mu_{t+h,\eta}}) +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{t=1}\mu_{\epsilon,t+h}} ) \\
-# & = \sigma^2_{\eta,t} \sum^{h}_{t=0} exp^{E_{i,t}({\sum^h_{t=1}\mu_{t+h,\eta}})- 0.5Var_{i,t}(\sum^h_{t=1}\mu_{t+h,\eta})} +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{t=1}\mu_{\epsilon,t+h}} ) \\
-# & = \sigma^2_{\eta,t} \sum^{h}_{t=0} exp^{- 0.5h\gamma_{\eta}} +  \sigma^2_{\epsilon,t} exp^{- 0.5h\gamma_{\epsilon}}  \\
+#  \overline{Var}^*_{t+h|t} \equiv  Var^*_{t+h|i,t} & = \sum^{h}_{k=1} E_{i,t}(\sigma^2_{\eta,t+k}) +  E_{i,t}(\sigma^2_{\epsilon,t+k})  \\
+# & = \sum^{h}_{k=1} E_{i,t}(exp^{\log \sigma^2_{\eta,t}+\sum^h_{k=1}\mu_{\eta,t+k}}) +  E_{i,t}(exp^{\log \sigma^2_{\epsilon,t}+\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+# & = \sum^{h}_{k=1}\sigma^2_{\eta,t} E_{i,t}(exp^{\sum^h_{k=1}\mu_{t+h,\eta}}) +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+# & = \sum^{h}_{k=1}\sigma^2_{\eta,t}  exp^{E_{i,t}({\sum^h_{k=1}\mu_{t+k,\eta}})- 0.5Var_{i,t}(\sum^h_{k=1}\mu_{t+k,\eta})} +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+# & = \sigma^2_{\eta,t} \sum^{h}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t} exp^{- 0.5h\gamma_{\epsilon}} 
 # \end{split} 
 # \end{equation}
 #
-# For instance, set $h=0$, the conditional volatility for the current inflation is 
+# One immediately see that now the volatility is stochastic at any point of the time. 
+#
+# For instance, set $h=1$, the conditional volatility for the 1-step-ahead inflation is 
+#
+# \begin{equation}
+# \begin{split}
+# Var^*_{t+1|i,t} =  exp^{- 0.5\gamma_{\eta}} \sigma^2_{\eta,t}  +  exp^{- 0.5\gamma_{\epsilon}} \sigma^2_{\epsilon,t} 
+# \end{split} 
+# \end{equation}
+#
+# Disgreement is zero across agents in RE.
 #
 #
 # \begin{equation}
 # \begin{split}
-# Var^*_{t|i,t} =  \sigma^2_{\eta,t}  +  \sigma^2_{\epsilon,t}
+# \overline{Disg}^*_{t+h|t} =  0 
 # \end{split} 
+# \end{equation}
+#
+#
+
+# ### Sticky Expectation (SE)
+#
+#
+# An agent whose most recent up-do-date update happened at $t-\tau$, thus she sees all the realizations of stochastic variables up to $t-\tau$, including $y_{t-\tau}$, $\tau_{t-\tau}$, $\eta_{t-\tau}$, $\sigma_{\eta,t-\tau}$, $\sigma_{\epsilon,t-\tau}$. 
+#
+# Her forecast is the permanent component that realized at time $t-\tau$. 
+#
+# \begin{equation}
+# \begin{split}
+# y_{t+h|i,t-\tau}  = \theta_{t-\tau} 
+# \end{split}
+# \end{equation}
+#
+# Her forecast uncertainty is 
+#
+#
+# \begin{equation}
+# \begin{split}
+# Var_{t+h|i,t-\tau} & = \sigma^2_{\eta,t-\tau} \sum^{h+\tau}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t-\tau} exp^{- 0.5(h+\tau)\gamma_{\epsilon}}
+# \end{split} 
+# \end{equation}
+#
+# The population average of the two are, respectively, a weighted average of people whose the most update was in $t, t-1... t-\tau, t-\infty$, respectively. 
+#
+#
+# \begin{equation}
+# \begin{split}
+# \overline y^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda y_{t+h|t-\tau} \\
+# & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \theta_{t-\tau}
+# \end{split} 
+# \end{equation}
+#
+#
+#
+# \begin{equation}
+# \begin{split}
+# \overline {Var}^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda Var_{t+h|t-\tau} \\
+# & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda [ \sigma^2_{\eta,t-\tau} \sum^{h+\tau}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t-\tau} exp^{- 0.5(h+\tau)\gamma_{\epsilon}}]
+# \end{split} 
+# \end{equation}
+#
+# Both forecast errors $\overline{FE}_{t+h|t}$ and disagreements takes similar form to that in AR process with time-invariant volatility. 
+#
+#
+# \begin{equation}
+# \begin{split}
+# \overline {FE}^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda {FE}^*_{t+h|t-\tau} 
+# & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \sum^{\tau+h}_{s=1} (\theta_{t+s} + \epsilon_{t+s})  
+# \end{split} 
+# \end{equation}
+#
+# The disagreement is the following. 
+#
+#
+# \begin{equation}
+# \begin{split}
+# \overline{Disg}^{se}_{t+h|t} & =  \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 (y_{t+h|t-\tau} - \overline y^{se}_{t+h|t})^2  \\
+# & = \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 (\theta_{t-\tau} - \overline y^{se}_{t+h|t})^2  \\
+# & = \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 \{\theta_{t-\tau} - \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \theta_{t-\tau}\}^2  
+# \end{split} 
+# \end{equation}
+#
+#
+# ### Noisy Information 
+#
+# Now, the agent at time $t$ needs to recover the real-time permanent component $\theta_t$ to make the best forecast for future $y_{t+h}$ using nosiy signals.   
+#
+#
+# \begin{equation}
+# y^{ni}_{t+h|t}  \equiv  y^{ni}_{t+h|i,t} = \bar \theta_{t|t}
+# \end{equation}
+#
+# where $\bar \theta_{t|t}$ is generated through Kalman filtering.  
+#
+# Assume that the nosiy signals of $\theta_t$ consists of a public signals $s^{pb}_{t}$ and the private signals $s^{pr}_{i,t}$. For simplicity, let us assume the public signal is basically the $y_t$. A more general case would be an independently drawn public signal sequence. The two signals can be again stacked into a vector of $2\times 1$ to $s^\theta_{i,t}$. 
+#
+# Then the filterred $\theta_{t}$ by agent $i$ is 
+#
+# \begin{equation}
+# \begin{split}
+# \bar \theta_{t|t} =  (1-\tilde P_{t} H) \bar \theta_{t|t-1} + \tilde P s^\theta_{i,t} \\
+# \end{split}
+# \end{equation}
+#
+# where $\theta_{t|t-k}$ is the filterred forecast of $\theta_t$ using all the information up to $t-k$., and $\tilde Pt$ is the time-specific Kalman gain that is dependent on the noisy ratios of signals. 
+#
+# \begin{equation}
+# \begin{split}
+# \tilde P_{t} =  \Sigma^\theta_{i,t|t-1} H(H'\Sigma^\theta_{i,t|t-1} H + \Sigma^\theta_{t})^{-1} 
+# \end{split}
+# \end{equation}
+#
+# Now the noisiness of signals are time varying as well. 
+#
+# \begin{equation}
+# \begin{split}
+# 	\Sigma^\theta_t =  \left[ \begin{matrix} 
+# 				\sigma^2_{\eta,t} &  0 \\ 
+# 				0 & \sigma^2_\xi \end{matrix}\right] 
+# \end{split}               
+# \end{equation}
+#
+# where the variance of public signal is the time-varying $\sigma^2_{\eta,t}$ and let us assume the private signals have constant nosiness $\sigma^2_{\xi}$.
+#
+# The uncertainty matrix evolves in the following manner. 
+#
+# \begin{equation}
+# \Sigma^\theta_{i,t|t} = \Sigma^\theta_{i,t|t-1} - \Sigma^\theta_{i,t|t-1} H'(H \Sigma^\theta_{i,t-1} H' +\Sigma^\theta_{t}) H \Sigma^\theta_{i,t|t-1} 
+# \end{equation}
+#
+# Notice now that since prior of $\theta_t$ before time period $t$ is a weighted average of previous realizations of $y$ and past signals, current forecast depends on the past realizations even though the rational forecast is up-to-date $\theta_t$. 
+#
+# Due to the time-varying volatility $\sigma^2_{\eta,t}$, the noisyness of the public signal is also time-varying, which governs the degree of rigidity. For instance, if volatility to the transitory shock is high, the Kalman gain is low, the forecast responds less to the new realizations. 
+#
+# It is also worth thinking about what is the one-step ahead uncertainty in the context of stochastic valotility world. 
+#
+#
+# \begin{equation}
+# \begin{split}
+# \Sigma^\theta_{i,t|t-1} & = \Sigma^\theta_{i,t-1|t-1} + Var^*_{t|t-1}(y_t) \\
+# & = \Sigma^\theta_{i,t-1|t-1} +  exp^{- 0.5\gamma_{\eta}} \sigma^2_{\eta,t-1}  +  exp^{- 0.5\gamma_{\epsilon}} \sigma^2_{\epsilon,t-1} 
+# \end{split}
 # \end{equation}
 
 # ## 3. Estimation algorithms 
@@ -656,7 +802,7 @@ SE_instance.GetDataMoments(data_moms_dct_fake)
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [22, 26, 32, 37, 75, 94, 101, 133, 163, 187, 192, 197, 205]}
+# + {"code_folding": [0, 22, 26, 32, 37, 75, 94, 101, 133, 163, 187, 192, 197, 205]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -954,7 +1100,7 @@ class NoisyInformation:
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [24, 35, 61, 86, 115]}
+# + {"code_folding": [2, 24, 35, 61, 86, 115]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
