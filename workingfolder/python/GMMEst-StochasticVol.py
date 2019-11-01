@@ -24,7 +24,7 @@
 
 # ## 1. A process of time-varying volatility 
 #
-# Assume that the inflation follows a process of unobserved components model with stochastical volatility. 
+# Assume that the inflation follows a process of unobserved component model with stochastical volatility. (UC-SV model by Watson and Stock. 2007)
 #
 # \begin{equation}
 # \begin{split}
@@ -278,20 +278,30 @@ def PrepMom(model_moments,
     diff: the Euclidean distance of two arrays of data and model 
     
     """
-    diff = np.linalg.norm(model_moments - data_moments)
+    diff = np.linalg.norm((model_moments - data_moments)/data_moments)
     return diff
 
 
-# + {"code_folding": [0, 1, 5]}
+# + {"code_folding": [1, 20, 28, 40]}
 ## auxiliary functions 
-def hstepvar(h,sigma,rho):
-    return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
-
-np.random.seed(12345)
-def hstepfe(h,sigma,rho):
-    return sum([rho**i*(np.random.randn(1)*sigma)*np.random.randn(h)[i] for i in range(h)])
-## This is not correct. 
-
+def hstepvarSV(h,
+               sigmas_now,
+               gammas):
+    '''
+    inputs
+    ------
+    h: forecast horizon
+    sigmas_nows, 2 x 1 vector [sigma_eta, sigma_eps]
+    gamma, volatility, 2 x 1 vector [gamma_eta,gamma_eps]
+    
+    outputs
+    -------
+    scalar: h-step-forward variance 
+    '''
+    var_eta = sigmas_now[0]**2*sum([np.exp(-0.5*(k+1)*gammas[0]) for k in range(h)])
+    var_eps = sigmas_now[1]**2*np.exp(-0.5*h*gammas[1])
+    var = var_eta + var_eps
+    return var
 
 def ForecastPlot(test):
     x = plt.figure(figsize=([3,13]))
@@ -301,7 +311,9 @@ def ForecastPlot(test):
         plt.legend(loc=1)
     return x
         
-def ForecastPlotDiag(test,data,legends=['model','data']):
+def ForecastPlotDiag(test,
+                     data,
+                     legends=['model','data']):
     x = plt.figure(figsize=([3,13]))
     for i,val in enumerate(test):
         plt.subplot(4,1,i+1)
@@ -310,31 +322,55 @@ def ForecastPlotDiag(test,data,legends=['model','data']):
         plt.legend(loc=1)
     return x
         
-### AR1 simulator 
-def AR1_simulator(rho,sigma,nobs):
-    xxx = np.zeros(nobs+1)
-    shocks = np.random.randn(nobs+1)*sigma
-    xxx[0] = 0 
+### UC-SV simulator 
+def UCSV_simulator(gammas,
+                   nobs,
+                   eta0 = 0):
+    svols_eta_shock = np.random.randn(nobs+1)*gammas[0]
+    svols_eps_shock = np.random.randn(nobs+1)*gammas[1]
+    
+    svols_eta = np.zeros(nobs+1)
+    svols_eta[0] = 0.001
+    svols_eps = np.zeros(nobs+1)
+    svols_eps[0] = 0.001
     for i in range(nobs):
-        xxx[i+1] = rho*xxx[i] + shocks[i+1]
-    return xxx[1:]
+        svols_eta[i+1] = np.sqrt( np.exp(np.log(svols_eta[i]**2) + svols_eta_shock[i+1]) ) 
+        svols_eps[i+1] = np.sqrt( np.exp(np.log(svols_eps[i]**2) + svols_eps_shock[i+1]) ) 
+    shocks_eta = np.multiply(np.random.randn(nobs+1),svols_eta)  
+    shocks_eps = np.multiply(np.random.randn(nobs+1),svols_eps)
+    
+    eta = np.zeros(nobs+1)
+    eps = np.zeros(nobs+1)
+    
+    ## initial level of eta, 0 by defaul
+    eta[0] = eta0
+    
+    for i in range(nobs):
+        eta[i+1] = eta[i] + shocks_eta[i+1]
+        eps[i+1] = shocks_eps[i+1]
+        
+    xxx = eta + eps
+    return xxx,eta,svols_eta,svols_eps
 
 
 # + {"code_folding": [0]}
 ## some process parameters 
-rho = 0.95
-sigma = 0.1
-process_para = {'rho':rho,
-                'sigma':sigma}
+
+eta0_fake = 0
+gammas_fake = [0.1,0.2]
+sigmas_now_fake = [0.2,0.3]
+
+process_para = {'gammas':gammas_fake,
+                'eta0':eta0_fake}
 
 
-# + {"code_folding": [0, 2, 15, 18, 29, 52, 57, 65, 75, 90, 97, 98]}
-## Rational Expectation (RE) class 
-class RationalExpectation:
+# + {"code_folding": [1, 2, 15, 20, 38, 71, 94, 98, 109, 116]}
+## Rational Expectation (RE) class for UCSV model 
+class RationalExpectationSV:
     def __init__(self,
                  real_time,
                  history,
-                 horizon=1,
+                 horizon = 1,
                  process_para = process_para,
                  exp_para = {},
                  moments=['Forecast','FE','Disg','Var']):
@@ -344,37 +380,56 @@ class RationalExpectation:
         self.process_para = process_para
         self.moments = moments
     
-    def GetRealization(self,realized_series):
+    def GetRealization(self,
+                       realized_series):
         self.realized = realized_series
         
+    ## this is not exactly right
     def SimulateRealization(self):
-        n = len(self.real_time)
-        rho = self.process_para['rho']
-        sigma =self.process_para['sigma']
-        shocks = np.random.randn(n)*sigma
+        n = len(self.real_time['eta'])
+        ## information set 
+        eta_now = self.real_time['eta']
+        vol_now = self.real_time['vols']
+        
+        ## parameters
+        gammas = self.process_para['gammas']
+        #eta0 = self.process_para['eta0']
+        
         realized = np.zeros(n)
         for i in range(n):
-            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
-            realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
-        self.realized = realized        
+            realized[i] = np.asscalar(UCSV_simulator(gammas,
+                                                     nobs = 1,
+                                                     eta0 = eta_now[i])[0][1:]
+                                     )
+        self.realized = realized
         
     def Forecaster(self):
         ## parameters
-        n = len(self.real_time)
-        rho = self.process_para['rho']
-        sigma =self.process_para['sigma']
+        n = len(self.real_time['eta'])
+        gammas = self.process_para['gammas']
+        eta0 = self.process_para['eta0']
         
         ## parameters
         real_time = self.real_time
         horizon = self.horizon
         
         ## forecast moments 
-        Disg =np.zeros(n)
-        infoset = real_time
-        nowcast = infoset
-        forecast = rho**horizon*nowcast
-        Var = hstepvar(horizon,sigma,rho)* np.ones(n)
+        ## now the informationset needs to contain differnt components seperately.
+        ## therefore, real_time fed in the begining is a tuple, not just current eta, but also current sigmas. 
+        
+        infoset = real_time 
+        nowcast = infoset['eta']
+        forecast = nowcast
+        sigmas_now = infoset['vols']
+        Var = np.zeros(n)
+        for i in range(n):
+            #print(sigmas_now[:,i])
+            Var[i] = hstepvarSV(horizon,
+                                sigmas_now = sigmas_now[:,i],
+                                gammas = gammas)
         FE = forecast - self.realized ## forecast errors depend on realized shocks 
+        Disg = np.zeros(n)
+        
         self.forecast_moments = {"Forecast":forecast,
                                  "FE":FE,
                                  "Disg":Disg,
@@ -394,8 +449,8 @@ class RationalExpectation:
         the objective function to minmize
         """
         moments = self.moments
-        re_process_para = {'rho':process_para[0],
-                  'sigma':process_para[1]}
+        re_process_para = {'gammas':process_para[0:2],
+                           'eta0':process_para[2]}
         self.process_para = re_process_para  # give the process para
         data_moms_dct = self.data_moms_dct
         RE_moms_dct = self.Forecaster().copy()
@@ -409,7 +464,7 @@ class RationalExpectation:
         self.data_moms_dct = data_moms_dct
     
     def ParaEstimate(self,
-                     para_guess = np.array([0.5,0.1]),
+                     para_guess = np.array([0.5,0.1,0.1]),
                      method = 'CG',
                      bounds = None,
                      options = None):
@@ -427,8 +482,8 @@ class RationalExpectation:
             plt.legend(loc=1)
             
     def ForecastPlotDiag(self):
-        re_process_est_dct = {'rho':self.para_est[0],
-                           'sigma':self.para_est[1]}
+        re_process_est_dct = {'gammas':self.para_est[0:2],
+                              'eta0':self.para_est[2]}
         new_instance = cp.deepcopy(self)
         new_instance.process_para = re_process_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -442,40 +497,54 @@ class RationalExpectation:
 
 # + {"code_folding": [0]}
 ### create a RE instance 
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[20:]
+ucsv_fake = UCSV_simulator(gammas_fake,
+                           eta0 = eta0_fake,
+                           nobs = 100) 
+n_burn = 20
+# the permanent component
+xx_pc_history = ucsv_fake[1]
+xx_pc_real_time = xx_pc_history[n_burn:]
 
-RE_instance = RationalExpectation(real_time = xx_real_time,
-                                 history = xx_history)
+# the volatility
+vol_history = np.array([ucsv_fake[2],ucsv_fake[3]])
+vol_real_time = vol_history[:,n_burn:]
 
-# + {"code_folding": [0]}
+xx_real_time_dct = {'eta':xx_pc_real_time,
+                   'vols':vol_real_time}
+
+xx_history_dct = {'eta':xx_pc_history,
+                  'vols':vol_history}
+
+RE_instance = RationalExpectationSV(real_time = xx_real_time_dct,
+                                    history = xx_history_dct)
+
+# + {"code_folding": []}
 ### simulate a realized series 
-#RE_instance.SimulateRealization()
+RE_instance.SimulateRealization()
 
 ### forecster
-#fe_moms = RE_instance.Forecaster()
+re_moms = RE_instance.Forecaster()
 #RE_instance.ForecastPlot()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## estimate rational expectation model 
-#RE_instance.GetDataMoments(fe_moms)
-#RE_instance.moments=['Forecast','FE','Var']
+RE_instance.GetDataMoments(re_moms)
+RE_instance.moments=['Forecast','FE','Var']
 
-#RE_instance.ParaEstimate(para_guess = np.array([0.9,0.2]),
-#                         method = 'L-BFGS-B',
-#                         bounds =((0,1),(0,1)),
-#                         options = {'disp':True})
-#RE_instance.para_est
-#RE_instance.ForecastPlotDiag()
+para_guess = [0.5,0.3,1]
+RE_instance.ParaEstimate(para_guess = para_guess,
+                         options={'disp':True})
+RE_instance.para_est
+RE_instance.ForecastPlotDiag()
 
 # + {"code_folding": []}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 25, 52, 71, 76, 82, 131, 154, 183, 204, 226, 243, 255, 257, 262]}
+# + {"code_folding": [0, 25, 52, 71, 76, 82, 131, 154, 183, 204, 226, 243, 255, 257, 262]}
 ## Sticky Expectation(SE) class 
-class StickyExpectation:
+class StickyExpectationSV:
     def __init__(self,
                  real_time,
                  history,
@@ -802,10 +871,10 @@ SE_instance.GetDataMoments(data_moms_dct_fake)
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 22, 26, 32, 37, 75, 94, 101, 133, 163, 187, 192, 197, 205]}
+# + {"code_folding": [22, 26, 32, 37, 48, 75, 94, 101, 133, 163, 187, 192, 197, 205]}
 ## Noisy Information(NI) class 
 
-class NoisyInformation:
+class NoisyInformationSV:
     def __init__(self,
                  real_time,
                  history,
@@ -1100,10 +1169,10 @@ class NoisyInformation:
 PL_para_default = SE_para_default
 
 
-# + {"code_folding": [2, 24, 35, 61, 86, 115]}
+# + {"code_folding": [0, 2, 24, 35, 61, 86]}
 ### Paramter Learning(PL) class 
 
-class ParameterLearning:
+class ParameterLearningSV:
     def __init__(self,real_time,
                  history,
                  horizon=1,
