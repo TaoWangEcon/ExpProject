@@ -298,7 +298,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [1, 2, 24, 28, 40, 52, 70, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
+# + {"code_folding": [2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
