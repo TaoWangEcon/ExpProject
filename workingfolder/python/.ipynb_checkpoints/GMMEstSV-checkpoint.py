@@ -815,13 +815,13 @@ data_moms_dct_fake = SE_instance.Forecaster()
 ### feed the data moments
 SE_instance.GetDataMoments(data_moms_dct_fake)
 
-# + {"code_folding": [0]}
-### invoke generalized estimation 
-SE_instance.ParaEstimate(para_guess = 0.4,
-                         method = 'BFGS',
-                         options = {'disp':True})
-SE_instance.para_est
 
+# + {"code_folding": []}
+### invoke generalized estimation 
+#SE_instance.ParaEstimate(para_guess = 0.4,
+#                         method = 'BFGS',
+#                         options = {'disp':True})
+#SE_instance.para_est
 
 # +
 ### invoke simulated estimation 
@@ -1187,9 +1187,10 @@ ni_mom_dct =  ni_instance.Forecaster()
 #                         options = {'disp':True})
 #params_est_NI = ni_instance.para_est
 #print(params_est_NI)
-# -
 
-ni_instance.ForecastPlotDiag()
+# +
+#ni_instance.ForecastPlotDiag()
+# -
 
 ## parameter learning estimator 
 PL_para_default = SE_para_default
@@ -1330,7 +1331,7 @@ class ParameterLearningSV:
 #pl_instance.LearnParameters()
 #pl_moms_dct = pl_instance.Forecaster()
 
-# +
+# + {"code_folding": []}
 #pl_instance.ForecastPlot()
 
 # +
