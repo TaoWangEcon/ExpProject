@@ -282,7 +282,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 20, 28, 40]}
+# + {"code_folding": [0, 1, 20, 28]}
 ## auxiliary functions 
 def hstepvarSV(h,
                sigmas_now,
@@ -364,7 +364,7 @@ process_para = {'gammas':gammas_fake,
                 'eta0':eta0_fake}
 
 
-# + {"code_folding": [0, 2, 16, 20, 38, 70, 93, 97, 110, 115, 116]}
+# + {"code_folding": [2, 16, 20, 38, 70, 93, 97, 110, 115, 116]}
 ## Rational Expectation (RE) class for UCSV model 
 class RationalExpectationSV:
     def __init__(self,
