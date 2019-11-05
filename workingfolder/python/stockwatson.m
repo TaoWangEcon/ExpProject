@@ -39,7 +39,7 @@ params=[r_p;r_m1;r_m2; r_sig; r_sig2;q_p;q1;q2;tau1;tau2;vague];
     dy=y(2:end)-y(1:end-1);
     var_dy = (std(dy))^2;
 %Lower Bounds on variances			%
-% these are needed to keep algorith away from boundary   %
+% these are needed to keep algorithm away from boundary   %
 %    -- the values are problem specific: these seem to work well for the US	%
   %  var_eta_min = 0.015*var_dy;
     %var_eps_min = 0.005*var_dy;

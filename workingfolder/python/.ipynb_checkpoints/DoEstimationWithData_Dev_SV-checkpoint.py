@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# ## Do the Estimation with SCE and SPF data
+# ## Do the Estimation with SCE and SPF data for UCSV model
 #
 
 # ### 1. Importing estimation codes

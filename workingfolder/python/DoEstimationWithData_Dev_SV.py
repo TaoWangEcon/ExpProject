@@ -13,7 +13,7 @@
 #     name: python3
 # ---
 
-# ## Do the Estimation with SCE and SPF data
+# ## Do the Estimation with SCE and SPF data for UCSV model
 #
 
 # ### 1. Importing estimation codes
@@ -30,18 +30,18 @@ from statsmodels.tsa.api import AR
 from UCSVEst import UCSVEst as ucsv
 # -
 
-from GMMEst import RationalExpectation as re
-#from GMMEst_Dev import StickyExpectation as se
-#from GMMEst_Dev import NoisyInformation as ni
-from GMMEst import ParameterLearning as pl
-from GMMEst import AR1_simulator, ForecastPlotDiag, ForecastPlot
+from GMMEstSV import RationalExpectationSV as re
+from GMMEstSV import StickyExpectationSV as se
+from GMMEstSV import NoisyInformationSV as ni
+from GMMEstSV import ParameterLearningSV as pl
+from GMMEstSV import UCSV_simulator, ForecastPlotDiag, ForecastPlot
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some parameters 
-rho = 0.95
-sigma = 0.1
-process_para = {'rho':rho,
-                'sigma':sigma}
+#rho = 0.95
+#sigma = 0.1
+#process_para = {'rho':rho,
+#                'sigma':sigma}
 # -
 
 # ### 2. Preparing real-time data 
@@ -144,7 +144,7 @@ sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 CPICQ.to_excel("../OtherData/CPICQ.xlsx")
 
 CPICQ_UCSV_Est=pd.read_excel('../OtherData/estQ.xlsx',header=None)  
-CPICQ_UCSV_Est.columns = ['eta_est','eps_est','tau']
+CPICQ_UCSV_Est.columns = ['eta_est','eps_est','tau']  ## ucsv model estimates 
 
 # + {"code_folding": [0]}
 ## Inflation data monthly
@@ -188,7 +188,7 @@ SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
 SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## hisotries data, the series ends at the same dates with real-time data but startes earlier 
 
 st_t_history = '2000-01-01'
@@ -198,33 +198,33 @@ ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 historyQ = real_time_inf.copy().loc[st_t_history:ed_t_SPF]
 historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # How large is the difference between current vintage and real-time data
 rev = SPF_est['Inf1y_CPICore'] - SPF_est['RTCPICore']
 
-plt.style.use('ggplot')
-plt.figure(figsize=([6,4]))
-hist_rv = plt.hist(rev,
-                   bins=30,
-                   density = True)
-plt.title('Core CPI Revisions between Real-time \n \
-    data and the Current Vintage')
-plt.ylabel('Density(0-1)',size=12)
-plt.xlabel('Current Vintage - Real-Time',size=12)
-plt.savefig('figures/hist_rev_realtime.png')
+#plt.style.use('ggplot')
+#plt.figure(figsize=([6,4]))
+#hist_rv = plt.hist(rev,
+#                   bins=30,
+#                   density = True)
+#plt.title('Core CPI Revisions between Real-time \n \
+#    data and the Current Vintage')
+#plt.ylabel('Density(0-1)',size=12)
+#plt.xlabel('Current Vintage - Real-Time',size=12)
+#plt.savefig('figures/hist_rev_realtime.png')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 # real time inflation 
 real_time = np.array(SPF_est['RTCPI'])
 
-ax = SPF_est[['RTCPI','Inf1y_CPICore']].plot(style=['s-','o-'],
-                                             figsize=([6,4]))
+#ax = SPF_est[['RTCPI','Inf1y_CPICore']].plot(style=['s-','o-'],
+#                                             figsize=([6,4]))
 #plt.style.use('ggplot')
-ax.set_title('Real-time and Current-vintage Core CPI ')
-ax.set_xlabel('Date')
-ax.set_ylabel('Core CPI (%)')
-ax.legend(['Real-time', 'Current-vintage'])
-plt.savefig('figures/ts_rev_realtime.png')
+#ax.set_title('Real-time and Current-vintage Core CPI ')
+#ax.set_xlabel('Date')
+#ax.set_ylabel('Core CPI (%)')
+#ax.legend(['Real-time', 'Current-vintage'])
+#plt.savefig('figures/ts_rev_realtime.png')
 
 # + {"code_folding": [0]}
 ## realized 1-year-ahead inflation
@@ -233,7 +233,7 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 #SPF_est['Inf1yf_CPICore'].plot()
 #plt.title('Realized 1-year-ahead Core CPI Inflation')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## preparing for estimation 
 
 exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
@@ -247,7 +247,7 @@ data_moms_dct_SCE = dict(exp_data_SCE)
 
 # ### SE Estimation
 
-# + {"code_folding": [0, 21, 29, 39]}
+# + {"code_folding": [41]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -267,8 +267,10 @@ for i,moments_to_use in enumerate(moments_choices):
     real_time = np.array(SPF_est['RTCPI'])
     history_Q = historyQ['RTCPICore']
     data_moms_dct = data_moms_dct_SPF
+    ################################################################################
     process_paraQ_est = {'rho':rhoQ_est,
-                         'sigma':sigmaQ_est}
+                         'sigma':sigmaQ_est}   ## need to change here using estimates for UCSV
+    ################################################################################
     SE_model = se(real_time = real_time,
                   history = history_Q,
                   process_para = process_paraQ_est)
@@ -277,10 +279,12 @@ for i,moments_to_use in enumerate(moments_choices):
     SE_model.GetDataMoments(data_moms_dct)
     
     # only expectation
+    #####################################################################
     SE_model.ParaEstimate(method='L-BFGS-B',
                           para_guess =(0.5),
                           bounds = ((0,1),),
                           options={'disp':True})
+    ####################################################################
     para_est_SPF_holder.append(SE_model.para_est)
     SE_model.all_moments = ['Forecast','FE','Disg','Var']
     SE_model.ForecastPlotDiag(all_moms = True)
