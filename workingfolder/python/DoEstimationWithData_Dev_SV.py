@@ -120,31 +120,30 @@ dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
              "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## process parameters estimation 
 # period filter 
 start_t='1995-01-01'
-end_t = '2019-03-30'   # the same period as in Gali (1991)
+end_t = '2019-03-30'   
 
 ### quarterly data 
 CPICQ = InfQ['Inf1y_CPICore'].copy().loc[start_t:end_t]
 Y = np.array(CPICQ[1:])
 X = np.array(CPICQ[:-1])
 
-ARmodel = AR(CPICQ)
-ar_rs = ARmodel.fit(1,trend='nc')
-rhoQ_est = ar_rs.params[0]
-sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
+#ARmodel = AR(CPICQ)
+#ar_rs = ARmodel.fit(1,trend='nc')
+#rhoQ_est = ar_rs.params[0]
+#sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 
 
-
-# +
+# + {"code_folding": [0]}
 ### exporting the quarterly inflation series for process estimation using UCSV model in matlab
 
-CPICQ.to_excel("../OtherData/CPICQ.xlsx")
+CPICQ.to_excel("../OtherData/CPICQ.xlsx")  ## this is for matlab estimation of UCSV model
 
 CPICQ_UCSV_Est=pd.read_excel('../OtherData/estQ.xlsx',header=None)  
-CPICQ_UCSV_Est.columns = ['eta_est','eps_est','tau']  ## ucsv model estimates 
+CPICQ_UCSV_Est.columns = ['sd_eta_est','sd_eps_est','tau']  ## Loading ucsv model estimates 
 
 # + {"code_folding": [0]}
 ## Inflation data monthly
@@ -161,10 +160,10 @@ CPIM = InfM['Inf1y_CPIAU'].copy().loc[start_t:end_t]
 Y = np.array(CPIM[1:])
 X = np.array(CPIM[:-1])
 
-ARmodel2 = AR(CPIM)
-ar_rs2 = ARmodel2.fit(1,trend='nc')
-rhoM_est = ar_rs2.params[0]
-sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
+#ARmodel2 = AR(CPIM)
+#ar_rs2 = ARmodel2.fit(1,trend='nc')
+#rhoM_est = ar_rs2.params[0]
+#sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
 
 # + {"code_folding": [0]}
 ## expectation data from SCE
@@ -182,7 +181,7 @@ PopM.index = pd.DatetimeIndex(dateM)
 SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
@@ -195,36 +194,28 @@ st_t_history = '2000-01-01'
 ed_t_SPF = SPF_est.index[-1].strftime('%Y%m%d')
 ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 
-historyQ = real_time_inf.copy().loc[st_t_history:ed_t_SPF]
-historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
+## get the quarterly index 
+indexQ = CPICQ.index
 
-# + {"code_folding": []}
-# How large is the difference between current vintage and real-time data
-rev = SPF_est['Inf1y_CPICore'] - SPF_est['RTCPICore']
+historyQ = real_time_inf.copy().loc[indexQ,:].loc[st_t_history:ed_t_SPF,:] ## this is monthly. wrong. 
+historyM = real_time_inf.copy().loc[st_t_history:ed_t_SCE,:]
 
-#plt.style.use('ggplot')
-#plt.figure(figsize=([6,4]))
-#hist_rv = plt.hist(rev,
-#                   bins=30,
-#                   density = True)
-#plt.title('Core CPI Revisions between Real-time \n \
-#    data and the Current Vintage')
-#plt.ylabel('Density(0-1)',size=12)
-#plt.xlabel('Current Vintage - Real-Time',size=12)
-#plt.savefig('figures/hist_rev_realtime.png')
 
-# + {"code_folding": []}
-# real time inflation 
-real_time = np.array(SPF_est['RTCPI'])
+#########################################################
+## stochastic vol model specific 
+######################################################
 
-#ax = SPF_est[['RTCPI','Inf1y_CPICore']].plot(style=['s-','o-'],
-#                                             figsize=([6,4]))
-#plt.style.use('ggplot')
-#ax.set_title('Real-time and Current-vintage Core CPI ')
-#ax.set_xlabel('Date')
-#ax.set_ylabel('Core CPI (%)')
-#ax.legend(['Real-time', 'Current-vintage'])
-#plt.savefig('figures/ts_rev_realtime.png')
+n_burn_rt_history = len(CPICQ_UCSV_Est) - len(historyQ)  
+
+history_vol_epsQ = np.array(CPICQ_UCSV_Est['sd_eps_est'][n_burn_rt_history:])**2
+history_vol_etaQ = np.array(CPICQ_UCSV_Est['sd_eta_est'][n_burn_rt_history:])**2
+history_volsQ = np.array([history_vol_epsQ,history_vol_etaQ])
+history_etaQ = np.array(CPICQ_UCSV_Est['tau'][n_burn_rt_history:])
+
+## to burn 
+n_burn_Q = len(history_etaQ) - len(SPF_est['RTCPI'])
+real_time_volsQ = history_volsQ[n_burn_Q:]
+real_time_etaQ = history_etaQ[n_burn_Q:]
 
 # + {"code_folding": [0]}
 ## realized 1-year-ahead inflation
@@ -244,17 +235,26 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-vol_epsQ = np.array(CPICQ_UCSV_Est['eps_est']) 
-vol_etaQ = np.array(CPICQ_UCSV_Est['eta_est']) 
-volsQ = np.array([vol_epsQ,vol_etaQ])
-etaQ = np.array(CPICQ_UCSV_Est['tau'])
-# -
 
-n_burn_Q = len(etaQ) - len(SPF_est['RTCPI'])
+# + {"code_folding": [0]}
+## Plot estimation 
+
+## stochastic vols
+plt.plot(history_vol_epsQ,'r-.',label=r'$\widehat\sigma^2_{\theta}$')
+plt.plot(history_vol_etaQ,'--',label=r'$\widehat\sigma^2_{\epsilon}$')
+plt.legend(loc=0)
+
+# + {"code_folding": [0]}
+## inflation and the permanent component
+
+plt.plot(np.array(historyQ['RTCPICore']),'r-.',label='y')
+plt.plot(history_etaQ,'--',label=r'$\widehat\sigma^2_{\epsilon}$')
+plt.legend(loc=0)
+# -
 
 # ### SE Estimation
 
-# + {"code_folding": [3]}
+# + {"code_folding": [15]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -262,7 +262,8 @@ moments_choices = [['Forecast'],
                    ['FE'],
                    ['Forecast','FE'],
                    ['Forecast','FE','Disg'],
-                   ['Forecast','FE','Disg','Var']]
+                   ['Forecast','FE','Disg','Var'],
+                   ['Var']]
 
 para_est_SPF_holder = []
 para_est_SPF_joint_holder = []
@@ -275,15 +276,15 @@ for i,moments_to_use in enumerate(moments_choices):
     history_Q = historyQ['RTCPICore']
     data_moms_dct = data_moms_dct_SPF
     ################################################################################
-    process_paraQ_try = {'gamma':0.2,
+    process_paraQ_try = {'gamma':0.4,
                          'eta0': 0.1}   ## this does not matter basically 
     ################################################################################
-    history_dct = {'eta':etaQ,
-                   'vols':volsQ,
+    history_dct = {'eta':history_etaQ,
+                   'vols':history_volsQ,
                    'y':history_Q}
-    real_time_dct = {'eta':etaQ[n_burn_Q:],
-                   'vols':volsQ[n_burn_Q:],
-                   'y':history_Q[n_burn_Q:]}
+    real_time_dct = {'eta':real_time_etaQ,
+                   'vols':real_time_volsQ,
+                   'y':real_time}
     SE_model = se(real_time = real_time_dct,
                   history = history_dct,
                   process_para = process_paraQ_try)
@@ -300,7 +301,7 @@ for i,moments_to_use in enumerate(moments_choices):
     ####################################################################
     para_est_SPF_holder.append(SE_model.para_est)
     SE_model.all_moments = ['Forecast','FE','Disg','Var']
-    SE_model.ForecastPlotDiag()
+    SE_model.ForecastPlotDiag(all_moms = True)
     plt.savefig('figures/spf_se_est_diag'+str(i)+'.png')
     
     # joint estimate

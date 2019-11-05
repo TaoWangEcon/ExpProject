@@ -282,7 +282,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0, 21, 29, 41]}
+# + {"code_folding": [1, 21, 29, 41]}
 ## auxiliary functions 
 def hstepvarSV(h,
                sigmas_now,
@@ -550,7 +550,7 @@ para_guess = [0.5,0.2]
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 19, 84, 90, 152, 173, 195, 200, 212, 226]}
+# + {"code_folding": [2, 19, 23, 41, 84, 90, 152, 173, 195, 200, 212, 224, 226, 231]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
@@ -598,7 +598,7 @@ class StickyExpectationSV:
         history = self.history
         n = self.n
         ## process parameters
-        gammas = self.process_para['gamma']
+        gamma = self.process_para['gamma']
         eta0 = self.process_para['eta0']
         
         ## exp parameter
@@ -617,7 +617,7 @@ class StickyExpectationSV:
         ## uncertainty 
         Var_array = np.empty(n)
         for i in range(n):
-            Var_array[i] = sum([lbd*(1-lbd)**tau*hstepvarSV(tau+horizon,sigmas_now_history[:,i+n_burn-tau],gammas) for tau in range(i + n_burn)])
+            Var_array[i] = sum([lbd*(1-lbd)**tau*hstepvarSV(tau+horizon,sigmas_now_history[:,i+n_burn-tau],gamma) for tau in range(i + n_burn)])
         Var = Var_array
         
         # average forecast 
@@ -782,17 +782,35 @@ class StickyExpectationSV:
             plt.plot(self.forecast_moments[val],label=val)
             plt.legend(loc=1)
             
-    def ForecastPlotDiag(self):
+    def ForecastPlotDiag(self,
+                         all_moms = False,
+                         diff_scale = False):
         exp_para_est_dct = {'lambda':self.para_est[0]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
-        for i,val in enumerate(self.moments):
-            plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
-            plt.legend(loc=1)
+        plt.style.use('ggplot')
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+            
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
 
 # + {"code_folding": [0]}
 SE_instance = StickyExpectationSV(real_time = xx_real_time_dct,

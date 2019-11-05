@@ -177,14 +177,19 @@ SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
 SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## hisotries data, the series ends at the same dates with real-time data but startes earlier 
 
 st_t_history = '2000-01-01'
 ed_t_SPF = SPF_est.index[-1].strftime('%Y%m%d')
 ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 
-historyQ = real_time_inf.copy().loc[st_t_history:ed_t_SPF]
+
+## get the quarterly index 
+indexQ = CPICQ.index
+
+## get history data quarterly and monthly respectively 
+historyQ = real_time_inf.copy().loc[indexQ,:].loc[st_t_history:ed_t_SPF,:] ## this is monthly. wrong. 
 historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
 
 # + {"code_folding": [0]}
@@ -233,7 +238,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## SE estimation for SPF
 real_time = np.array(SPF_est['RTCPI'])
 history_Q = historyQ['RTCPICore']
@@ -288,7 +293,7 @@ SE_model.para_est_joint
 se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
 
 
-# + {"code_folding": [0, 29, 38]}
+# + {"code_folding": [0, 14, 29, 38]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
