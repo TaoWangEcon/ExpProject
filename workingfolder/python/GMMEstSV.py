@@ -550,7 +550,7 @@ para_guess = [0.5,0.2]
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 19, 41, 84, 90, 152, 173, 226]}
+# + {"code_folding": [2, 19, 84, 90, 152, 173, 195, 200, 212, 226]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,

@@ -243,11 +243,18 @@ data_moms_dct_SPF = dict(exp_data_SPF)
 exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
+
+vol_epsQ = np.array(CPICQ_UCSV_Est['eps_est']) 
+vol_etaQ = np.array(CPICQ_UCSV_Est['eta_est']) 
+volsQ = np.array([vol_epsQ,vol_etaQ])
+etaQ = np.array(CPICQ_UCSV_Est['tau'])
 # -
+
+n_burn_Q = len(etaQ) - len(SPF_est['RTCPI'])
 
 # ### SE Estimation
 
-# + {"code_folding": [41]}
+# + {"code_folding": [3]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -268,12 +275,18 @@ for i,moments_to_use in enumerate(moments_choices):
     history_Q = historyQ['RTCPICore']
     data_moms_dct = data_moms_dct_SPF
     ################################################################################
-    process_paraQ_est = {'rho':rhoQ_est,
-                         'sigma':sigmaQ_est}   ## need to change here using estimates for UCSV
+    process_paraQ_try = {'gamma':0.2,
+                         'eta0': 0.1}   ## this does not matter basically 
     ################################################################################
-    SE_model = se(real_time = real_time,
-                  history = history_Q,
-                  process_para = process_paraQ_est)
+    history_dct = {'eta':etaQ,
+                   'vols':volsQ,
+                   'y':history_Q}
+    real_time_dct = {'eta':etaQ[n_burn_Q:],
+                   'vols':volsQ[n_burn_Q:],
+                   'y':history_Q[n_burn_Q:]}
+    SE_model = se(real_time = real_time_dct,
+                  history = history_dct,
+                  process_para = process_paraQ_try)
     SE_model.moments = moments_to_use
     SE_model.GetRealization(realized_CPIC)
     SE_model.GetDataMoments(data_moms_dct)
@@ -287,29 +300,29 @@ for i,moments_to_use in enumerate(moments_choices):
     ####################################################################
     para_est_SPF_holder.append(SE_model.para_est)
     SE_model.all_moments = ['Forecast','FE','Disg','Var']
-    SE_model.ForecastPlotDiag(all_moms = True)
+    SE_model.ForecastPlotDiag()
     plt.savefig('figures/spf_se_est_diag'+str(i)+'.png')
     
     # joint estimate
-    SE_model.ParaEstimateJoint(method='L-BFGS-B',
-                               para_guess =(0.5,0.8,0.1),
-                               bounds = ((0,1),(0,1),(0,None)),
-                               options={'disp':True})
-    para_est_SPF_joint_holder.append(SE_model.para_est_joint)
-    SE_model.all_moments = ['Forecast','FE','Disg','Var']
-    SE_model.ForecastPlotDiagJoint(all_moms = True)
-    plt.savefig('figures/spf_se_est_joint_diag'+str(i)+'.png')
+    #SE_model.ParaEstimateJoint(method='L-BFGS-B',
+    #                           para_guess =(0.5,0.8,0.1),
+    #                           bounds = ((0,1),(0,1),(0,None)),
+    #                           options={'disp':True})
+    #para_est_SPF_joint_holder.append(SE_model.para_est_joint)
+    #SE_model.all_moments = ['Forecast','FE','Disg','Var']
+    #SE_model.ForecastPlotDiagJoint(all_moms = True)
+    #plt.savefig('figures/spf_se_est_joint_diag'+str(i)+'.png')
     
 print(para_est_SPF_holder)
 print(para_est_SPF_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## tabulate the estimates 
 spf_se_est_para = pd.DataFrame(para_est_SPF_holder,columns=[r'SE: $\hat\lambda_{SPF}$(Q)'])
-spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
-                                     columns=[r'SE: $\hat\lambda_{SPF}$(Q)',
-                                              r'SE: $\rho$',
-                                              r'SE: $\sigma$'])
+#spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
+#                                     columns=[r'SE: $\hat\lambda_{SPF}$(Q)',
+#                                              r'SE: $\rho$',
+#                                              r'SE: $\sigma$'])
 # -
 
 spf_se_joint_est_para
