@@ -21,6 +21,7 @@
 # +
 import matplotlib.pyplot as plt
 import pandas as pd
+from pandas.plotting import register_matplotlib_converters
 import numpy as np
 
 from scipy.optimize import minimize
@@ -35,14 +36,6 @@ from GMMEstSV import StickyExpectationSV as se
 from GMMEstSV import NoisyInformationSV as ni
 from GMMEstSV import ParameterLearningSV as pl
 from GMMEstSV import UCSV_simulator, ForecastPlotDiag, ForecastPlot
-
-# + {"code_folding": []}
-## some parameters 
-#rho = 0.95
-#sigma = 0.1
-#process_para = {'rho':rho,
-#                'sigma':sigma}
-# -
 
 # ### 2. Preparing real-time data 
 
@@ -251,8 +244,10 @@ plt.legend(loc=0)
 # -
 
 # ### SE Estimation
+#
+# #### SPF
 
-# + {"code_folding": [3]}
+# + {"code_folding": [0, 3]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -328,6 +323,8 @@ spf_se_est_para = pd.DataFrame(para_est_SPF_holder,columns=[r'SE: $\hat\lambda_{
 # -
 
 spf_se_est_para
+
+# #### SCE
 
 # + {"code_folding": [0, 13, 20]}
 ## SE loop estimation over different choieces of moments for SCE
@@ -415,8 +412,9 @@ se_est_df.to_excel('tables/SE_Est.xlsx',
 # -
 
 # ### NI Estimation 
+# #### SPF
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -436,11 +434,19 @@ for i,moments_to_use in enumerate(moments_choices):
     real_time = np.array(SPF_est['RTCPI'])
     history_Q = historyQ['RTCPICore']
     data_moms_dct = data_moms_dct_SPF
-    process_paraQ_est = {'rho':rhoQ_est,
-                         'sigma':sigmaQ_est}
-    NI_model = ni(real_time = real_time,
-                  history = history_Q,
-                  process_para = process_paraQ_est)
+    ################################################################################
+    process_paraQ_try = {'gamma':10,
+                         'eta0': 0.1}   ## this does not matter basically 
+    ################################################################################
+    history_dct = {'eta':history_etaQ,
+                   'vols':history_volsQ,
+                   'y':history_Q}
+    real_time_dct = {'eta':real_time_etaQ,
+                   'vols':real_time_volsQ,
+                   'y':real_time}
+    NI_model = ni(real_time = real_time_dct,
+                  history = history_dct,
+                  process_para = process_paraQ_try)
     NI_model.SimulateSignals()
     NI_model.moments = moments_to_use
     NI_model.GetRealization(realized_CPIC)
@@ -453,8 +459,9 @@ for i,moments_to_use in enumerate(moments_choices):
                           options={'disp':True})
     para_est_SPF_holder.append(NI_model.para_est)
     NI_model.all_moments = ['Forecast','FE','Disg','Var']
-    NI_model.ForecastPlotDiag(all_moms = True)
-    plt.savefig('figures/spf_ni_est_diag'+str(i)+'.png')
+    NI_model.ForecastPlotDiag(all_moms = True,
+                             diff_scale = True)
+    #plt.savefig('figures/spf_ni_est_diag'+str(i)+'.png')
     
     # joint estimate
     #NI_model.ParaEstimateJoint(method='L-BFGS-B',
@@ -475,7 +482,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SPF_holder)
 print(para_est_SPF_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## tabulate the estimates 
 spf_ni_est_para = pd.DataFrame(para_est_SPF_holder,
                                columns=[r'NI: $\hat\sigma_{pb,SPF}$',
@@ -492,6 +499,8 @@ spf_ni_est_para = pd.DataFrame(para_est_SPF_holder,
 # -
 
 spf_ni_est_para
+
+# #### SCE
 
 # + {"code_folding": [0]}
 ## NI loop estimation overdifferent choieces of moments for SCE

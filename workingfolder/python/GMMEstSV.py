@@ -852,7 +852,7 @@ class StickyExpectationSV:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 2, 3, 59, 70, 143, 186, 222, 246, 251, 256, 272]}
+# + {"code_folding": [26, 44, 59, 70, 143, 222, 246, 251, 256, 306]}
 ## Noisy Information(NI) class 
 
 class NoisyInformationSV:
@@ -861,8 +861,8 @@ class NoisyInformationSV:
                  history,
                  horizon = 1,
                  process_para = process_para, 
-                 exp_para = {'sigma_pb':0.01,
-                             'sigma_pr':0.01,
+                 exp_para = {'sigma_pb':0.1,
+                             'sigma_pr':0.1,
                              'var_init':1},
                  moments = ['Forecast','FE','Disg','Var']):
         self.real_time = real_time
@@ -1124,20 +1124,70 @@ class NoisyInformationSV:
             plt.plot(self.forecast_moments[val],label = val)
             plt.legend(loc=1)
     
+    
     ## diagostic plots 
-    def ForecastPlotDiag(self):
+    
+    def ForecastPlotDiag(self,
+                         all_moms = False,
+                         diff_scale = False):
         exp_para_est_dct = {'sigma_pb':self.para_est[0],
                            'sigma_pr':self.para_est[1],
                            'var_init':self.para_est[2]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
-        x = plt.figure(figsize=([3,13]))
-        for i,val in enumerate(self.moments):
-            plt.subplot(4,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'r-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'*',label='data:'+ val)
-            plt.legend(loc=1)
+        plt.style.use('ggplot')
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
+                
+    def ForecastPlotDiag2(self,
+                         all_moms = False,
+                         diff_scale = False):
+        exp_para_est_dct = {'lambda':self.para_est[0]}
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        plt.style.use('ggplot')
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+            
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
 # + {"code_folding": [0]}
 ## test of ForecasterbySim
 
@@ -1147,10 +1197,11 @@ ni_instance = NoisyInformationSV(real_time = xx_real_time_dct,
 
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## simulate signals
 ni_instance.SimulateRealization()
 ni_instance.SimulateSignals()
+
 
 # + {"code_folding": []}
 ## look the signals 
@@ -1168,9 +1219,9 @@ ni_instance.SimulateSignals()
 #plt.plot(ni_instance.real_time['eta'])
 #plt.plot(ni_mom_sim['Forecast'])
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## compare pop and simulated 
-ni_mom_dct =  ni_instance.Forecaster()
+#ni_mom_dct =  ni_instance.Forecaster()
 #ni_instance.ForecastPlot()
 
 # + {"code_folding": []}
@@ -1207,11 +1258,10 @@ ni_mom_dct =  ni_instance.Forecaster()
 
 # +
 #ni_instance.ForecastPlotDiag()
-# -
 
+# +
 ## parameter learning estimator 
-PL_para_default = SE_para_default
-
+#PL_para_default = SE_para_default
 
 # + {"code_folding": [0, 2, 24, 35, 61, 86]}
 ### Paramter Learning(PL) class 
