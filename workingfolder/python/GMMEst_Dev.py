@@ -80,7 +80,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 ## using nlopt library instead of scipy optimize
 def Estimator2(obj_func,
                para_guess):
@@ -100,7 +100,7 @@ def Estimator2(obj_func,
     return parameter 
 
 
-# + {"code_folding": [6]}
+# + {"code_folding": [0, 6]}
 def myfunc(x, grad):
     if grad.size > 0:
         grad[0] = 0.0
@@ -115,11 +115,9 @@ def myfunc0(x,
     return np.sqrt(x**[0]+x[1]**2)
 
 
-# -
-
-Estimator2(myfunc0,
-          para_guess = [0.1,0.2])
-
+# +
+#Estimator2(myfunc0,
+#          para_guess = [0.1,0.2])
 
 # + {"code_folding": [0, 1, 5, 9, 18]}
 ## auxiliary functions 

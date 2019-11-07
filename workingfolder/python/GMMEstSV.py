@@ -282,7 +282,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 21, 29, 41]}
+# + {"code_folding": [0, 1, 21, 29, 41]}
 ## auxiliary functions 
 def hstepvarSV(h,
                sigmas_now,
@@ -499,8 +499,8 @@ class RationalExpectationSV:
 ### create a RE instance 
 ucsv_fake = UCSV_simulator(gamma_fake,
                            eta0 = eta0_fake,
-                           nobs = 100) 
-n_burn = 20
+                           nobs = 200) 
+n_burn = 30
 # the permanent component
 
 xx_history = ucsv_fake[0]
@@ -538,19 +538,18 @@ re_moms = RE_instance.Forecaster()
 RE_instance.GetDataMoments(re_moms)
 RE_instance.moments=['Forecast','FE','Var']
 
-para_guess = [0.5,0.2]
+#para_guess = [0.5,0.2]
 #RE_instance.ParaEstimate(method='BFGS',
 #                         para_guess = para_guess,
 #                         options={'disp':True})
-#RE_instance.para_est
-#RE_instance.ForecastPlotDiag()
+#RE_instance.para_est#RE_instance.ForecastPlotDiag()
 
 # + {"code_folding": []}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 19, 23, 41, 84, 90, 152, 173, 195, 200, 212, 224, 226, 231]}
+# + {"code_folding": [2, 19, 23, 41, 89, 150, 171, 193, 198, 210, 222, 224, 229]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
@@ -599,7 +598,6 @@ class StickyExpectationSV:
         n = self.n
         ## process parameters
         gamma = self.process_para['gamma']
-        eta0 = self.process_para['eta0']
         
         ## exp parameter
         lbd = self.exp_para['lambda']
@@ -635,10 +633,10 @@ class StickyExpectationSV:
         for i in range(n):
             Disg_array[i] = sum([lbd*(1-lbd)**tau*(eta_now_history[i+n_burn-tau] - forecast[i])**2 for tau in range(i+n_burn)])
         Disg = Disg_array
-        self.forecast_moments = {"Forecast":forecast, 
-                "FE":FE,
-                "Disg":Disg,
-                "Var":Var}
+        self.forecast_moments = {"Forecast":forecast,
+                                 "FE":FE,
+                                 "Disg":Disg,
+                                 "Var":Var}
         return self.forecast_moments
     
     def ForecasterbySim(self,
@@ -650,7 +648,6 @@ class StickyExpectationSV:
         realized = self.realized
         ## process parameters
         gammas = self.process_para['gamma']
-        eta0 = self.process_para['eta0']
         
         ## exp parameter
         lbd = self.exp_para['lambda']
@@ -752,7 +749,7 @@ class StickyExpectationSV:
         
     ## invoke the estimator 
     def ParaEstimate(self,
-                     para_guess = 0.2,
+                     para_guess = np.array([0.4]),
                      method='BFGS',
                      bounds = None,
                      options = None):
@@ -764,7 +761,7 @@ class StickyExpectationSV:
         return self.para_est
         
     def ParaEstimateSim(self,
-                     para_guess = 0.2,
+                     para_guess = np.array([0.4]),
                      method='BFGS',
                      bounds = None,
                      options = None):
@@ -812,11 +809,12 @@ class StickyExpectationSV:
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
 
-# + {"code_folding": [0]}
-SE_instance = StickyExpectationSV(real_time = xx_real_time_dct,
-                                  history = xx_history_dct,
-                                  moments = ['Forecast','FE','Disg','Var'])
-SE_instance.SimulateRealization()
+
+# + {"code_folding": []}
+#SE_instance = StickyExpectationSV(real_time = xx_real_time_dct,
+#                                  history = xx_history_dct,
+#                                  moments = ['Forecast','FE','Disg','Var'])
+#SE_instance.SimulateRealization()
 
 ### simulate a realized series 
 #mom_dct =  SE_instance.Forecaster()
@@ -826,20 +824,19 @@ SE_instance.SimulateRealization()
 
 # + {"code_folding": []}
 ### fake data moments 
-data_moms_dct_fake = SE_instance.Forecaster()
+#data_moms_dct_fake = SE_instance.Forecaster()
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ### feed the data moments
-SE_instance.GetDataMoments(data_moms_dct_fake)
-
+#SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
 ### invoke generalized estimation 
-#SE_instance.ParaEstimate(para_guess = 0.4,
-#                         method = 'BFGS',
+#SE_instance.ParaEstimate(para_guess = np.array([0.4]),
+#                         method = 'CG',
 #                         options = {'disp':True})
 #SE_instance.para_est
 
