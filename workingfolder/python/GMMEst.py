@@ -298,7 +298,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 308, 312]}
+# + {"code_folding": [0, 2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -712,7 +712,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [3, 8, 29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 307]}
+# + {"code_folding": [29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 305]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -990,9 +990,7 @@ class NoisyInformation:
                          diff_scale = False):
         exp_para_est_dct = {'sigma_pb':self.para_est[0],
                            'sigma_pr':self.para_est[1],
-                           'var_init':self.para_est[2],
-                           'y_init':self.para_est[3],
-                           'disg_init':self.para_est[4]}
+                           'var_init':self.para_est[2]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()

@@ -220,7 +220,7 @@ ax.set_ylabel('Core CPI (%)')
 ax.legend(['Real-time', 'Current-vintage'])
 plt.savefig('figures/ts_rev_realtime.png')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## realized 1-year-ahead inflation
 realized_CPIC = np.array(SPF_est['Inf1yf_CPICore'])
 realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
@@ -238,60 +238,62 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
-## SE estimation for SPF
-real_time = np.array(SPF_est['RTCPI'])
+# + {"code_folding": [0]}
+## quarterly and monthly real time and history 
+
+## quarterly 
+real_time_Q = np.array(SPF_est['RTCPI'])
 history_Q = historyQ['RTCPICore']
 
-data_moms_dct = data_moms_dct_SPF
+data_moms_dctQ = data_moms_dct_SPF
 
 
 process_paraQ_est = {'rho':rhoQ_est,
                     'sigma':sigmaQ_est}
 
-SE_model = se(real_time = real_time,
-              history = history_Q,
-              process_para = process_paraQ_est)
-SE_model.moments = ['Forecast','FE','Disg']
-SE_model.GetRealization(realized_CPIC)
-SE_model.GetDataMoments(data_moms_dct)
-SE_model.ParaEstimate(options={'disp':True})
-# -
+## monthly 
 
-lbd_est_SPF = SE_model.para_est
-lbd_est_SPF
+real_time_M = np.array(SCE_est['RTCPI'])
+history_M = historyM['RTCPI']
+data_moms_dctM = data_moms_dct_SCE
 
-SE_model.all_moments = ['Forecast','FE','Disg']
-SE_model.ForecastPlotDiag(all_moms = True)
+
+process_paraM_est = {'rho':rhoM_est,
+                    'sigma':sigmaM_est}
 
 # + {"code_folding": [0]}
-## Joint estimation for SPF
+## RE for SPF 
 
-real_time = np.array(SPF_est['RTCPI'])
-history_Q = historyQ['RTCPICore']
-
-data_moms_dct = data_moms_dct_SPF
-
-
-process_paraQ_est = {'rho':rhoQ_est,
-                    'sigma':sigmaQ_est}
-
-SE_model = se(real_time = real_time,
+RE_model = re(real_time = real_time_Q,
               history = history_Q,
               process_para = process_paraQ_est)
-SE_model.moments = ['Forecast','FE','Disg']
-SE_model.GetRealization(realized_CPIC)
-SE_model.GetDataMoments(data_moms_dct)
-SE_model.ParaEstimateJoint(method='L-BFGS-B',
-                           para_guess =(0.5,0.8,0.1),
-                           bounds = ((0,1),(0,1),(0,None)),
-                           options={'disp':True})
-# -
+RE_model.moments = ['Forecast','FE','Disg']
+RE_model.GetRealization(realized_CPIC)
+RE_model.GetDataMoments(data_moms_dct)
+re_dict = RE_model.Forecaster()
 
-SE_model.para_est_joint
+## plot RE forecast moments and data moments 
 
-se_spf_joint_plot = SE_model.ForecastPlotDiagJoint()
+re_data_plot = ForecastPlotDiag(re_dict,
+                                data_moms_dctQ)
+plt.savefig('figures/spf_re_est_diag.png')
 
+# + {"code_folding": [0]}
+## RE for SCE 
+
+RE_model2 = re(real_time = real_time_M,
+               history = history_M,
+               process_para = process_paraM_est)
+RE_model2.moments = ['Forecast','FE','Disg']
+RE_model2.GetRealization(realized_CPI)
+RE_model2.GetDataMoments(data_moms_dctM)
+re_dict2 = RE_model2.Forecaster()
+
+## plot RE forecast moments and data moments 
+
+re_data_plot2 = ForecastPlotDiag(re_dict2,
+                                 data_moms_dctM)
+plt.savefig('figures/sce_re_est_diag.png')
 
 # + {"code_folding": [0, 14, 29, 38]}
 ## SE loop estimation overdifferent choieces of moments for SPF
@@ -344,7 +346,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SPF_holder)
 print(para_est_SPF_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## tabulate the estimates 
 spf_se_est_para = pd.DataFrame(para_est_SPF_holder,columns=[r'SE: $\hat\lambda_{SPF}$(Q)'])
 spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
@@ -353,11 +355,11 @@ spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
                                               r'SE: $\sigma$'])
 # -
 
-spf_se_joint_est_para
-
 spf_se_est_para
 
-# + {"code_folding": [0, 20]}
+spf_se_joint_est_para
+
+# + {"code_folding": [13, 20]}
 ## SE loop estimation over different choieces of moments for SCE
 
 moments_choices_short =[['Forecast']]
@@ -392,7 +394,8 @@ for i,moments_to_use in enumerate(moments_choices):
                            options={'disp':True})
     para_est_SCE_holder.append(SE_model2.para_est)
     SE_model2.all_moments = ['Forecast','FE','Disg','Var']
-    SE_model2.ForecastPlotDiag(all_moms = True)
+    SE_model2.ForecastPlotDiag(all_moms = True,
+                               diff_scale = True)
     plt.savefig('figures/sce_se_est_diag'+str(i)+'.png')
     
     ## joint estimation
@@ -403,13 +406,14 @@ for i,moments_to_use in enumerate(moments_choices):
                                 options={'disp':True})
     para_est_SCE_joint_holder.append(SE_model2.para_est_joint)
     SE_model2.all_moments = ['Forecast','FE','Disg','Var']
-    SE_model2.ForecastPlotDiag(all_moms = True)
+    SE_model2.ForecastPlotDiag(all_moms = True,
+                               diff_scale = True)
     plt.savefig('figures/sce_se_est_joint_diag'+str(i)+'.png')
 
 print(para_est_SCE_holder)
 print(para_est_SCE_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 sce_se_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
 sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
@@ -440,83 +444,7 @@ se_est_df.to_excel('tables/SE_Est.xlsx',
                    float_format='%.2f',
                    index=False)
 
-# + {"code_folding": [0]}
-## SE estimation for SCE
-real_time = np.array(SCE_est['RTCPI'])
-history_M = historyM['RTCPI']
-data_moms_dct = data_moms_dct_SCE
-
-
-process_paraM_est = {'rho':rhoM_est,
-                    'sigma':sigmaM_est}
-
-SE_model2 = se(real_time = realized_CPI,
-               history = history_M,
-               process_para = process_paraM_est)
-SE_model2.moments = ['Forecast']
-SE_model2.GetRealization(realized_CPI)
-SE_model2.GetDataMoments(data_moms_dct)
-SE_model2.ParaEstimate(method ='L-BFGS-B',
-                       options = {'disp':True})
-
-
-lbd_est_SCE = SE_model2.para_est
-# -
-
-lbd_est_SCE
-
 # + {"code_folding": []}
-## what is the estimated lambda?
-#print("SPF: "+str(lbd_est_SPF))
-#print("SCE: "+str(lbd_est_SCE))
-
-## rough estimation that did not take care of following issues
-## quarterly survey of 1-year-ahead forecast
-## real-time data is yearly 
-
-# + {"code_folding": []}
-## compare the data with estimation for SPF
-SE_model.ForecastPlotDiag()
-
-# + {"code_folding": [0]}
-## compare the data with estimation for SCE
-SE_model2.ForecastPlotDiag()
-
-# + {"code_folding": [0]}
-## NI estimation for SPF
-
-real_time = np.array(SPF_est['RTCPI'])
-data_moms_dct = data_moms_dct_SPF
-
-process_paraQ_est = {'rho':rhoQ_est,
-                    'sigma':sigmaQ_est}
-
-NI_model = ni(real_time = real_time,
-              history = history_Q,
-              process_para = process_paraQ_est,
-              moments = ['Forecast','FE','Disg','Var'])
-NI_model.SimulateSignals()
-NI_model.GetRealization(realized_CPIC)
-NI_model.GetDataMoments(data_moms_dct)
-NI_model.ParaEstimate(method = 'L-BFGS-B',
-                      bounds = ((0,None),(0,None),(0,None)),
-                      para_guess = np.array([0.01,0.01,0.01]),
-                      options={'disp':True})
-
-sigmas_est_SPF = NI_model.para_est
-# -
-
-sigmas_est_SPF
-
-plt.plot(NI_model.signals_pb,'--',label='public signals')
-plt.plot(NI_model.history,'r*',label='history')
-plt.legend()
-
-# + {"code_folding": [0]}
-## compare the data with estimation for SPF
-NI_model.ForecastPlotDiag()
-
-# + {"code_folding": [0]}
 ## NI loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -548,17 +476,17 @@ for i,moments_to_use in enumerate(moments_choices):
     
     # only expectation
     NI_model.ParaEstimate(method='L-BFGS-B',
-                          para_guess =(0.5,0.5,0.1),
+                          para_guess = (0.5,0.5,0.1),
                           bounds = ((0,None),(0,None),(0,None)),
                           options={'disp':True})
     para_est_SPF_holder.append(NI_model.para_est)
     NI_model.all_moments = ['Forecast','FE','Disg','Var']
-    NI_model.ForecastPlotDiag(all_moms = True)
+    NI_model.ForecastPlotDiag()
     plt.savefig('figures/spf_ni_est_diag'+str(i)+'.png')
     
     # joint estimate
     NI_model.ParaEstimateJoint(method='L-BFGS-B',
-                               para_guess =(0.5,0.5,0.1,0.8,0.1),
+                               para_guess =(0.5,0.5,0.1,1,0.1),
                                bounds = ((0,None),(0,None),(0,None),(0,1),(0,None)),
                                options={'disp':True})
     para_est_SPF_joint_holder.append(NI_model.para_est_joint)
@@ -569,7 +497,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SPF_holder)
 print(para_est_SPF_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## tabulate the estimates 
 spf_ni_est_para = pd.DataFrame(para_est_SPF_holder,
                                columns=[r'NI: $\hat\sigma_{pb,SPF}$',
@@ -582,7 +510,7 @@ spf_ni_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
                                               r'NI: $\rho$',
                                               r'NI: $\sigma$'])
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI loop estimation overdifferent choieces of moments for SCE
 
 moments_choices_short = [['Forecast']]
