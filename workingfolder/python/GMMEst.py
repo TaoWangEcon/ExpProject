@@ -33,7 +33,7 @@ import copy as cp
 from scipy.stats import bernoulli
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [1]}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -60,7 +60,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [1]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 def PrepMom(model_moments,
             data_moments):
@@ -79,7 +79,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0, 1, 5, 19]}
+# + {"code_folding": [1, 5, 10]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -99,14 +99,26 @@ def ForecastPlot(test):
         plt.legend(loc=1)
     return x
         
-def ForecastPlotDiag(test,data,legends=['model','data']):
+def ForecastPlotDiag(test,
+                     data,
+                     legends=['model','data'],
+                     diff_scale = False):
     m_ct = len(test)
     x = plt.figure(figsize=([3,3*m_ct]))
-    for i,val in enumerate(test):
-        plt.subplot(m_ct,1,i+1)
-        plt.plot(test[val],'s-',label= legends[0]+ ': ' +val)
-        plt.plot(np.array(data[val]),'o-',label=legends[1] +': '+ val)
-        plt.legend(loc=1)
+    if diff_scale == False:
+        for i,val in enumerate(test):
+            plt.subplot(m_ct,1,i+1)
+            plt.plot(test[val],'s-',label='model:'+ val)
+            plt.plot(np.array(data[val]),'o-',label='data:'+ val)
+            plt.legend(loc=1)
+    if diff_scale == True:
+        for i,val in enumerate(test):
+            ax1 = plt.subplot(m_ct,1,i+1)
+            ax1.plot(test[val],'rs-',label='model:'+ val)
+            ax1.legend(loc=0)
+            ax2 = ax1.twinx()
+            ax2.plot(np.array(data[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+            ax2.legend(loc=3)
     return x
         
 ### AR1 simulator 
@@ -119,7 +131,7 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
@@ -281,7 +293,7 @@ class RationalExpectation:
 #fe_moms = RE_instance.Forecaster()
 #re_plot = RE_instance.ForecastPlot()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## estimate rational expectation model 
 #RE_instance.GetDataMoments(fe_moms)
 #RE_instance.moments=['Forecast','FE','Var']
@@ -712,7 +724,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [29, 35, 41, 52, 110, 178, 201, 207, 210, 228, 233, 245, 257, 272, 305]}
+# + {"code_folding": [0, 29, 35, 41, 52, 110, 207, 257, 306]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -959,7 +971,7 @@ class NoisyInformation:
         return self.para_est
     
     def ParaEstimateJoint(self,
-                          para_guess = (0.5,0.1,0.2,0.7,0.1),
+                          para_guess = np.array([0.5,0.1,0.2,0.7,0.1]),
                           method='BFGS',
                           bounds = None,
                           options = None):
@@ -988,9 +1000,10 @@ class NoisyInformation:
     def ForecastPlotDiag(self,
                          all_moms = False,
                          diff_scale = False):
-        exp_para_est_dct = {'sigma_pb':self.para_est[0],
-                           'sigma_pr':self.para_est[1],
-                           'var_init':self.para_est[2]}
+        sigma_pb,sigma_pr,var_init = self.para_est
+        exp_para_est_dct = {'sigma_pb':sigma_pb,
+                           'sigma_pr':sigma_pr,
+                           'var_init':var_init}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -1280,7 +1293,7 @@ class ParameterLearning:
 #pl_moms_dct = pl_instance.Forecaster()
 
 # +
-#pl_instance.ForecastPlot()
+#pl_plot = ForecastPlotDiag(pl_moms_dct,pl_moms_dct,diff_scale=True)
 
 # +
 ## compare the forecast from learning model with realized data
