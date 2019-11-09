@@ -79,7 +79,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5, 10]}
+# + {"code_folding": [1, 5, 10, 19]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -310,7 +310,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 312]}
+# + {"code_folding": [2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -620,7 +620,8 @@ class StickyExpectation:
                 ax2.legend(loc=3)
                 
     def ForecastPlotDiagJoint(self,
-                              all_moms = False):
+                              all_moms = False,
+                              diff_scale = False):
         lbd,rho,sigma = self.para_est_joint
         exp_para_est_dct = {'lambda':lbd}
         process_para_est_dct = {'rho':rho,
@@ -638,11 +639,19 @@ class StickyExpectation:
         
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-            plt.legend(loc=1)
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+            else:
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
 
 # + {"code_folding": []}
 ## test of ForecasterbySim
@@ -724,7 +733,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 29, 35, 41, 52, 110, 207, 257, 306]}
+# + {"code_folding": [29, 35, 41, 52, 110, 178, 207, 233, 245, 257]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1032,7 +1041,8 @@ class NoisyInformation:
                 ax2.legend(loc=3)
             
     def ForecastPlotDiagJoint(self,
-                              all_moms = False):
+                              all_moms = False,
+                              diff_scale = False):
         sigma_pb,sigma_pb,var,rho,sigma = self.para_est_joint
         exp_para_est_dct = {'sigma_pb':sigma_pb,
                            'sigma_pr':sigma_pb,
@@ -1052,11 +1062,20 @@ class NoisyInformation:
         
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-            plt.legend(loc=1)
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        else:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
 # + {"code_folding": []}
 ## test of ForecasterbySim
 #xx_history = AR1_simulator(rho,sigma,100)
