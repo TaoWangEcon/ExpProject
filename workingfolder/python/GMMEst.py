@@ -733,7 +733,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [29, 35, 41, 52, 110, 178, 207, 233, 245, 257]}
+# + {"code_folding": [2, 3, 29, 35, 41, 52, 110, 178, 201, 207, 233, 245, 257, 272, 306]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
