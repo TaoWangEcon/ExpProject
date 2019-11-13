@@ -36,7 +36,7 @@ from GMMEst_Dev import RationalExpectation as re
 from GMMEst import ParameterLearning as pl
 from GMMEst import AR1_simulator, ForecastPlotDiag, ForecastPlot
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some parameters 
 rho = 0.95
 sigma = 0.1
@@ -111,7 +111,7 @@ PopQ.index = pd.DatetimeIndex(dateQ_str,freq='infer')
 #### specific to including more moments ###########
 ####################################################
 SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var',
-               'SPFCPI_ATV','SPFCPI_FEVar','SPFCPI_FEATV']].dropna(how='any')
+               'SPFCPI_ATV','SPFCPI_FEATV']].dropna(how='any')
 
 
 # + {"code_folding": []}
@@ -178,7 +178,7 @@ PopM.index = pd.DatetimeIndex(dateM,freq='infer')
 ####################################################
 
 SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var',
-              'SCE_ATV','SCE_FEVar','SCE_FEATV']].dropna(how='any')
+              'SCE_ATV','SCE_FEATV']].dropna(how='any')
 
 
 # + {"code_folding": [0]}
@@ -281,14 +281,14 @@ process_paraM_est = {'rho':rhoM_est,
 
 # ### Rational Expectation 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## RE for SPF #
 ###############
 
 RE_model = re(real_time = real_time_Q,
               history = history_Q,
               process_para = process_paraQ_est)
-RE_model.moments = ['Forecast','FE','Disg','Var','ATV','FEVar','FEATV']
+RE_model.moments = ['Forecast','FE','Disg','Var','ATV','FEATV']
 RE_model.GetRealization(realized_CPIC)
 RE_model.GetDataMoments(data_moms_dct_SPF)
 re_dict = RE_model.Forecaster()

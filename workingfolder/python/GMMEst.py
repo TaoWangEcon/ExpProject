@@ -139,7 +139,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
+# + {"code_folding": [1, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
