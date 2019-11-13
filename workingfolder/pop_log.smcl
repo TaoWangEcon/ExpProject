@@ -3,7 +3,7 @@
       name:  {res}<unnamed>
        {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
   {txt}log type:  {res}smcl
- {txt}opened on:  {res}10 Jul 2019, 10:45:35
+ {txt}opened on:  {res}13 Nov 2019, 11:15:58
 {txt}
 {com}. 
 . ****************************************
@@ -18,21 +18,11 @@
 {txt}
 {com}. 
 . merge 1:1 year month using "${c -(}mainfolder{c )-}/OtherData/RecessionDateM.dta", keep(match)
-{res}{txt}{p 0 7 2}
-(note: variable
-year was 
-int, now float to accommodate using data's values)
-{p_end}
-{p 0 7 2}
-(note: variable
-month was 
-byte, now float to accommodate using data's values)
-{p_end}
-
-{col 5}Result{col 38}# of obs.
+{res}
+{txt}{col 5}Result{col 38}# of obs.
 {col 5}{hline 41}
 {col 5}not matched{col 30}{res}               0
-{txt}{col 5}matched{col 30}{res}              53{txt}  (_merge==3)
+{txt}{col 5}matched{col 30}{res}             704{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. rename _merge  recession_merge
@@ -43,11 +33,11 @@ byte, now float to accommodate using data's values)
 
 {col 5}Result{col 38}# of obs.
 {col 5}{hline 41}
-{col 5}not matched{col 30}{res}             804
+{col 5}not matched{col 30}{res}             153
 {txt}{col 9}from master{col 30}{res}               0{txt}  (_merge==1)
-{col 9}from using{col 30}{res}             804{txt}  (_merge==2)
+{col 9}from using{col 30}{res}             153{txt}  (_merge==2)
 
-{col 5}matched{col 30}{res}              53{txt}  (_merge==3)
+{col 5}matched{col 30}{res}             704{txt}  (_merge==3)
 {col 5}{hline 41}
 
 {com}. rename _merge inflation_merge 
@@ -159,7 +149,7 @@ float, now double to accommodate using data's values)
 . ******************************
 . 
 . gen SCE_FE = Q9_mean - Inf1yf_CPIAU
-{txt}(807 missing values generated)
+{txt}(800 missing values generated)
 
 {com}. label var SCE_FE "1-yr-ahead forecast error"
 {txt}
@@ -391,18 +381,18 @@ float, now double to accommodate using data's values)
 
 {space 0}{space 0}{ralign 12:}{space 1}{c |}{space 1}{ralign 9:e(mean)}{space 1}{space 1}{ralign 9:e(varia~)}{space 1}{space 1}{ralign 9:e(p50)}{space 1}
 {space 0}{hline 13}{c   +}{hline 11}{hline 11}{hline 11}
-{space 0}{space 0}{ralign 12:Q9_mean}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 3.227634}}}{space 1}{space 1}{ralign 9:{res:{sf: .0544119}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.171889}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9_var}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 9.705194}}}{space 1}{space 1}{ralign 9:{res:{sf: .4050982}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.655975}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  6.09227}}}{space 1}{space 1}{ralign 9:{res:{sf: .2847731}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.064077}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9_iqr}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  4.04904}}}{space 1}{space 1}{ralign 9:{res:{sf:  .035048}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.010536}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9_mean}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 3.289306}}}{space 1}{space 1}{ralign 9:{res:{sf: .0693647}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.209944}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9_var}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  9.69948}}}{space 1}{space 1}{ralign 9:{res:{sf: .4587756}}}{space 1}{space 1}{ralign 9:{res:{sf: 9.657158}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 6.260496}}}{space 1}{space 1}{ralign 9:{res:{sf: .3355818}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.191247}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9_iqr}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 4.054396}}}{space 1}{space 1}{ralign 9:{res:{sf: .0415127}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.030906}}}{space 1}
 {space 0}{space 0}{ralign 12:CPI1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 3.014775}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.413239}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.473909}}}{space 1}
 {space 0}{space 0}{ralign 12:PCE1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.847065}}}{space 1}{space 1}{ralign 9:{res:{sf:  .052896}}}{space 1}{space 1}{ralign 9:{res:{sf:   1.8534}}}{space 1}
 {space 0}{space 0}{ralign 12:CORECPI1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.971262}}}{space 1}{space 1}{ralign 9:{res:{sf:  .088121}}}{space 1}{space 1}{ralign 9:{res:{sf: 2.004349}}}{space 1}
 {space 0}{space 0}{ralign 12:COREPCE1y}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 1.754005}}}{space 1}{space 1}{ralign 9:{res:{sf:   .06366}}}{space 1}{space 1}{ralign 9:{res:{sf: 1.775755}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9c_mean}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  3.34314}}}{space 1}{space 1}{ralign 9:{res:{sf: .0531438}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.271985}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9c_var}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 10.12813}}}{space 1}{space 1}{ralign 9:{res:{sf:   .35732}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.15025}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9c_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 6.913683}}}{space 1}{space 1}{ralign 9:{res:{sf: .2498055}}}{space 1}{space 1}{ralign 9:{res:{sf: 6.872466}}}{space 1}
-{space 0}{space 0}{ralign 12:Q9c_iqr}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 4.158789}}}{space 1}{space 1}{ralign 9:{res:{sf: .0302297}}}{space 1}{space 1}{ralign 9:{res:{sf:  4.17732}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_mean}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 3.412957}}}{space 1}{space 1}{ralign 9:{res:{sf: .0717812}}}{space 1}{space 1}{ralign 9:{res:{sf: 3.318967}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_var}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 10.13071}}}{space 1}{space 1}{ralign 9:{res:{sf: .4130496}}}{space 1}{space 1}{ralign 9:{res:{sf: 10.16118}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 7.029423}}}{space 1}{space 1}{ralign 9:{res:{sf: .2921196}}}{space 1}{space 1}{ralign 9:{res:{sf: 7.050529}}}{space 1}
+{space 0}{space 0}{ralign 12:Q9c_iqr}{space 1}{c |}{space 1}{ralign 9:{res:{sf: 4.161384}}}{space 1}{space 1}{ralign 9:{res:{sf:  .035142}}}{space 1}{space 1}{ralign 9:{res:{sf: 4.190114}}}{space 1}
 {space 0}{space 0}{ralign 12:CPI_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .5022143}}}{space 1}{space 1}{ralign 9:{res:{sf: .5895967}}}{space 1}{space 1}{ralign 9:{res:{sf: .2933465}}}{space 1}
 {space 0}{space 0}{ralign 12:PCE_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf: .3472125}}}{space 1}{space 1}{ralign 9:{res:{sf: .0503315}}}{space 1}{space 1}{ralign 9:{res:{sf: .2818246}}}{space 1}
 {space 0}{space 0}{ralign 12:CORECPI_disg}{space 1}{c |}{space 1}{ralign 9:{res:{sf:  .192936}}}{space 1}{space 1}{ralign 9:{res:{sf: .0294365}}}{space 1}{space 1}{ralign 9:{res:{sf:  .107817}}}{space 1}
@@ -425,318 +415,318 @@ float, now double to accommodate using data's values)
 {txt}  7{com}. *gen `var'1=`r(ac1)'
 . *label var `var'1 "Auto-correlation coefficient of `var'"
 . {c )-}
-{txt}(806 missing values generated)
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}   28.09
-    {txt}   Model {char |} {res} 1.42859395     5  .285718789           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} .427162868    42  .010170544           {txt}R-squared     = {res} 0.7698
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.7424
-    {txt}   Total {char |} {res} 1.85575681    47  .039484188           {txt}Root MSE      = {res} .10085
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}   55.61
+    {txt}   Model {char |} {res} 2.70297201     5  .540594402           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} .476347932    49  .009721386           {txt}R-squared     = {res} 0.8502
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8349
+    {txt}   Total {char |} {res} 3.17931994    54  .058876295           {txt}Root MSE      = {res}  .0986
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}     Q9_mean{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 5}Q9_mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6527965{col 26}{space 2} .1545434{col 37}{space 1}    4.22{col 46}{space 3}0.000{col 54}{space 4} .3409152{col 67}{space 3} .9646778
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1401223{col 26}{space 2} .1820122{col 37}{space 1}    0.77{col 46}{space 3}0.446{col 54}{space 4}-.2271931{col 67}{space 3} .5074377
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1318484{col 26}{space 2} .1814041{col 37}{space 1}    0.73{col 46}{space 3}0.471{col 54}{space 4}-.2342398{col 67}{space 3} .4979367
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0443846{col 26}{space 2} .1818991{col 37}{space 1}    0.24{col 46}{space 3}0.808{col 54}{space 4}-.3227026{col 67}{space 3} .4114717
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.1390039{col 26}{space 2} .1431054{col 37}{space 1}   -0.97{col 46}{space 3}0.337{col 54}{space 4}-.4278024{col 67}{space 3} .1497945
+{space 9}L1. {c |}{col 14}{res}{space 2} .7554774{col 26}{space 2} .1418093{col 37}{space 1}    5.33{col 46}{space 3}0.000{col 54}{space 4}  .470501{col 67}{space 3} 1.040454
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1064623{col 26}{space 2} .1713519{col 37}{space 1}    0.62{col 46}{space 3}0.537{col 54}{space 4}-.2378822{col 67}{space 3} .4508068
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1382817{col 26}{space 2} .1646235{col 37}{space 1}    0.84{col 46}{space 3}0.405{col 54}{space 4}-.1925417{col 67}{space 3} .4691051
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0855847{col 26}{space 2} .1612106{col 37}{space 1}   -0.53{col 46}{space 3}0.598{col 54}{space 4}-.4095494{col 67}{space 3}   .23838
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} -.011907{col 26}{space 2} .1263476{col 37}{space 1}   -0.09{col 46}{space 3}0.925{col 54}{space 4}-.2658121{col 67}{space 3}  .241998
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .5353498{col 26}{space 2} .2307516{col 37}{space 1}    2.32{col 46}{space 3}0.025{col 54}{space 4} .0696741{col 67}{space 3} 1.001025
+{space 7}_cons {c |}{col 14}{res}{space 2} .3106777{col 26}{space 2} .1810307{col 37}{space 1}    1.72{col 46}{space 3}0.092{col 54}{space 4}-.0531172{col 67}{space 3} .6744726
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est1{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    0.39
-    {txt}   Model {char |} {res} .022227158     5  .004445432           {txt}Prob > F      = {res} 0.8550
-    {txt}Residual {char |} {res} .471257491    41  .011494085           {txt}R-squared     = {res} 0.0450
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0714
-    {txt}   Total {char |} {res} .493484649    46  .010727927           {txt}Root MSE      = {res} .10721
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    0.45
+    {txt}   Model {char |} {res} .023882137     5  .004776427           {txt}Prob > F      = {res} 0.8081
+    {txt}Residual {char |} {res}  .50470635    48  .010514716           {txt}R-squared     = {res} 0.0452
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0543
+    {txt}   Total {char |} {res} .528588488    53  .009973368           {txt}Root MSE      = {res} .10254
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}  Q9_mean_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 2}Q9_mean_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.2018112{col 26}{space 2} .1558915{col 37}{space 1}   -1.29{col 46}{space 3}0.203{col 54}{space 4}-.5166404{col 67}{space 3}  .113018
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0698319{col 26}{space 2} .1601968{col 37}{space 1}   -0.44{col 46}{space 3}0.665{col 54}{space 4}-.3933559{col 67}{space 3}  .253692
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0315412{col 26}{space 2} .1606846{col 37}{space 1}    0.20{col 46}{space 3}0.845{col 54}{space 4}-.2929679{col 67}{space 3} .3560502
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0656124{col 26}{space 2} .1572432{col 37}{space 1}    0.42{col 46}{space 3}0.679{col 54}{space 4}-.2519468{col 67}{space 3} .3831716
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0018588{col 26}{space 2} .1521234{col 37}{space 1}    0.01{col 46}{space 3}0.990{col 54}{space 4}-.3053607{col 67}{space 3} .3090783
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1792401{col 26}{space 2} .1455921{col 37}{space 1}   -1.23{col 46}{space 3}0.224{col 54}{space 4}-.4719726{col 67}{space 3} .1134924
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0537361{col 26}{space 2} .1446994{col 37}{space 1}   -0.37{col 46}{space 3}0.712{col 54}{space 4}-.3446738{col 67}{space 3} .2372017
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0729548{col 26}{space 2} .1448548{col 37}{space 1}    0.50{col 46}{space 3}0.617{col 54}{space 4}-.2182953{col 67}{space 3} .3642048
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0241008{col 26}{space 2} .1330377{col 37}{space 1}   -0.18{col 46}{space 3}0.857{col 54}{space 4} -.291591{col 67}{space 3} .2433894
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0461159{col 26}{space 2} .1304224{col 37}{space 1}   -0.35{col 46}{space 3}0.725{col 54}{space 4}-.3083478{col 67}{space 3}  .216116
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0108763{col 26}{space 2} .0162048{col 37}{space 1}   -0.67{col 46}{space 3}0.506{col 54}{space 4}-.0436025{col 67}{space 3} .0218499
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0071369{col 26}{space 2} .0144129{col 37}{space 1}   -0.50{col 46}{space 3}0.623{col 54}{space 4}-.0361159{col 67}{space 3} .0218421
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est2{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.8869{col 18} 0.8894{col 27} 44.092{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} 
-{txt}2     {res}{col 9} 0.7996{col 18} 0.1277{col 27} 80.633{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c LT}{hline 1}       
-{txt}3     {res}{col 9} 0.7112{col 18} 0.0440{col 27} 110.12{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
-{txt}4     {res}{col 9} 0.6116{col 18}-0.0619{col 27} 132.38{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c |}        
-{txt}5     {res}{col 9} 0.5074{col 18}-0.1390{col 27} 148.01{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}       {hline 1}{c RT}        
-{txt}(806 missing values generated)
+1     {res}{col 9} 0.9085{col 18} 0.9090{col 27} 52.042{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} 
+{txt}2     {res}{col 9} 0.8437{col 18} 0.1139{col 27} 97.698{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c |}        
+{txt}3     {res}{col 9} 0.7822{col 18} 0.1287{col 27} 137.63{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c LT}{hline 1}       
+{txt}4     {res}{col 9} 0.7009{col 18}-0.0865{col 27} 170.26{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.6407{col 18}-0.0119{col 27} 198.03{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}    5.82
-    {txt}   Model {char |} {res} 8.38138646     5  1.67627729           {txt}Prob > F      = {res} 0.0004
-    {txt}Residual {char |} {res} 12.0975305    42   .28803644           {txt}R-squared     = {res} 0.4093
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.3389
-    {txt}   Total {char |} {res} 20.4789169    47  .435721637           {txt}Root MSE      = {res} .53669
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}    4.89
+    {txt}   Model {char |} {res} 7.33764347     5  1.46752869           {txt}Prob > F      = {res} 0.0010
+    {txt}Residual {char |} {res} 14.7065208    49  .300133078           {txt}R-squared     = {res} 0.3329
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2648
+    {txt}   Total {char |} {res} 22.0441643    54  .408225264           {txt}Root MSE      = {res} .54784
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}      Q9_var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 6}Q9_var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .4390193{col 26}{space 2} .1518688{col 37}{space 1}    2.89{col 46}{space 3}0.006{col 54}{space 4} .1325357{col 67}{space 3}  .745503
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3601547{col 26}{space 2} .1646725{col 37}{space 1}    2.19{col 46}{space 3}0.034{col 54}{space 4} .0278322{col 67}{space 3} .6924772
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2056438{col 26}{space 2} .1705075{col 37}{space 1}   -1.21{col 46}{space 3}0.235{col 54}{space 4}-.5497419{col 67}{space 3} .1384542
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .1147233{col 26}{space 2} .1650668{col 37}{space 1}    0.70{col 46}{space 3}0.491{col 54}{space 4} -.218395{col 67}{space 3} .4478416
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.1814221{col 26}{space 2} .1513523{col 37}{space 1}   -1.20{col 46}{space 3}0.237{col 54}{space 4}-.4868635{col 67}{space 3} .1240192
+{space 9}L1. {c |}{col 14}{res}{space 2}  .379984{col 26}{space 2} .1409843{col 37}{space 1}    2.70{col 46}{space 3}0.010{col 54}{space 4} .0966654{col 67}{space 3} .6633025
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3306164{col 26}{space 2} .1490758{col 37}{space 1}    2.22{col 46}{space 3}0.031{col 54}{space 4} .0310374{col 67}{space 3} .6301954
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1772891{col 26}{space 2} .1467614{col 37}{space 1}   -1.21{col 46}{space 3}0.233{col 54}{space 4}-.4722172{col 67}{space 3}  .117639
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .1316297{col 26}{space 2} .1460956{col 37}{space 1}    0.90{col 46}{space 3}0.372{col 54}{space 4}-.1619603{col 67}{space 3} .4252197
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.1428106{col 26}{space 2} .1241833{col 37}{space 1}   -1.15{col 46}{space 3}0.256{col 54}{space 4}-.3923662{col 67}{space 3} .1067451
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 4.588521{col 26}{space 2} 1.645369{col 37}{space 1}    2.79{col 46}{space 3}0.008{col 54}{space 4} 1.268031{col 67}{space 3} 7.909011
+{space 7}_cons {c |}{col 14}{res}{space 2} 4.635513{col 26}{space 2} 1.632958{col 37}{space 1}    2.84{col 46}{space 3}0.007{col 54}{space 4} 1.353961{col 67}{space 3} 7.917065
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est3{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    3.56
-    {txt}   Model {char |} {res} 5.84937909     5  1.16987582           {txt}Prob > F      = {res} 0.0091
-    {txt}Residual {char |} {res} 13.4573615    41  .328228329           {txt}R-squared     = {res} 0.3030
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2180
-    {txt}   Total {char |} {res} 19.3067406    46  .419711751           {txt}Root MSE      = {res} .57291
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    4.62
+    {txt}   Model {char |} {res} 7.79155929     5  1.55831186           {txt}Prob > F      = {res} 0.0016
+    {txt}Residual {char |} {res} 16.1982613    48  .337463777           {txt}R-squared     = {res} 0.3248
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2545
+    {txt}   Total {char |} {res} 23.9898206    53  .452638124           {txt}Root MSE      = {res} .58092
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}   Q9_var_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 3}Q9_var_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.4082676{col 26}{space 2} .1517635{col 37}{space 1}   -2.69{col 46}{space 3}0.010{col 54}{space 4}-.7147603{col 67}{space 3} -.101775
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0096861{col 26}{space 2} .1643046{col 37}{space 1}    0.06{col 46}{space 3}0.953{col 54}{space 4}-.3221337{col 67}{space 3}  .341506
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} -.224151{col 26}{space 2} .1620801{col 37}{space 1}   -1.38{col 46}{space 3}0.174{col 54}{space 4}-.5514784{col 67}{space 3} .1031764
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0161561{col 26}{space 2} .1623669{col 37}{space 1}   -0.10{col 46}{space 3}0.921{col 54}{space 4}-.3440627{col 67}{space 3} .3117505
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} -.036831{col 26}{space 2} .1501376{col 37}{space 1}   -0.25{col 46}{space 3}0.807{col 54}{space 4}  -.34004{col 67}{space 3}  .266378
+{space 9}L1. {c |}{col 14}{res}{space 2} -.484772{col 26}{space 2} .1408143{col 37}{space 1}   -3.44{col 46}{space 3}0.001{col 54}{space 4}-.7678982{col 67}{space 3}-.2016458
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.0454814{col 26}{space 2} .1567627{col 37}{space 1}   -0.29{col 46}{space 3}0.773{col 54}{space 4}-.3606738{col 67}{space 3} .2697111
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0991884{col 26}{space 2} .1537125{col 37}{space 1}   -0.65{col 46}{space 3}0.522{col 54}{space 4}-.4082481{col 67}{space 3} .2098714
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0792848{col 26}{space 2} .1420667{col 37}{space 1}    0.56{col 46}{space 3}0.579{col 54}{space 4}-.2063595{col 67}{space 3}  .364929
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0652528{col 26}{space 2} .1237519{col 37}{space 1}   -0.53{col 46}{space 3}0.600{col 54}{space 4}-.3140728{col 67}{space 3} .1835672
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0321933{col 26}{space 2}   .08375{col 37}{space 1}   -0.38{col 46}{space 3}0.703{col 54}{space 4}-.2013298{col 67}{space 3} .1369432
+{space 7}_cons {c |}{col 14}{res}{space 2} .0051738{col 26}{space 2} .0793073{col 37}{space 1}    0.07{col 46}{space 3}0.948{col 54}{space 4}-.1542841{col 67}{space 3} .1646318
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est4{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.5079{col 18} 0.5082{col 27}  14.46{col 36}0.0001{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
-{txt}2     {res}{col 9} 0.4937{col 18} 0.3191{col 27} 28.389{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}{hline 1}      
-{txt}3     {res}{col 9} 0.1575{col 18}-0.2719{col 27} 29.836{col 36}0.0000{col 44}        {c LT}{hline 1}       {col 63}      {hline 1}{hline 1}{c RT}        
-{txt}4     {res}{col 9} 0.1663{col 18} 0.0368{col 27} 31.481{col 36}0.0000{col 44}        {c LT}{hline 1}       {col 63}        {c |}        
-{txt}5     {res}{col 9}-0.0891{col 18}-0.1814{col 27} 31.963{col 36}0.0000{col 44}        {c |}        {col 63}       {hline 1}{c RT}        
-{txt}(806 missing values generated)
+1     {res}{col 9} 0.4078{col 18} 0.4082{col 27} 10.488{col 36}0.0012{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}{hline 1}{hline 1}     
+{txt}2     {res}{col 9} 0.3238{col 18} 0.1883{col 27} 17.211{col 36}0.0002{col 44}        {c LT}{hline 1}{hline 1}      {col 63}        {c LT}{hline 1}       
+{txt}3     {res}{col 9} 0.0776{col 18}-0.1933{col 27} 17.604{col 36}0.0005{col 44}        {c |}        {col 63}       {hline 1}{c RT}        
+{txt}4     {res}{col 9} 0.1411{col 18} 0.0840{col 27} 18.926{col 36}0.0008{col 44}        {c LT}{hline 1}       {col 63}        {c |}        
+{txt}5     {res}{col 9}-0.0641{col 18}-0.1428{col 27} 19.204{col 36}0.0018{col 44}        {c |}        {col 63}       {hline 1}{c RT}        
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}    8.36
-    {txt}   Model {char |} {res} 5.71480602     5   1.1429612           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 5.74386261    42  .136758634           {txt}R-squared     = {res} 0.4987
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4391
-    {txt}   Total {char |} {res} 11.4586686    47   .24380146           {txt}Root MSE      = {res} .36981
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}   16.94
+    {txt}   Model {char |} {res} 10.3238653     5  2.06477306           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 5.97292387    49  .121896406           {txt}R-squared     = {res} 0.6335
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.5961
+    {txt}   Total {char |} {res} 16.2967892    54  .301792392           {txt}Root MSE      = {res} .34914
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}     Q9_disg{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 5}Q9_disg {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}  .172199{col 26}{space 2} .1510979{col 37}{space 1}    1.14{col 46}{space 3}0.261{col 54}{space 4}-.1327289{col 67}{space 3} .4771268
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .0633429{col 26}{space 2} .1506109{col 37}{space 1}    0.42{col 46}{space 3}0.676{col 54}{space 4}-.2406023{col 67}{space 3} .3672881
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .2099815{col 26}{space 2} .1477932{col 37}{space 1}    1.42{col 46}{space 3}0.163{col 54}{space 4}-.0882773{col 67}{space 3} .5082402
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .1858653{col 26}{space 2} .1510771{col 37}{space 1}    1.23{col 46}{space 3}0.225{col 54}{space 4}-.1190206{col 67}{space 3} .4907513
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .2055677{col 26}{space 2} .1517165{col 37}{space 1}    1.35{col 46}{space 3}0.183{col 54}{space 4}-.1006085{col 67}{space 3}  .511744
+{space 9}L1. {c |}{col 14}{res}{space 2} .1815969{col 26}{space 2} .1411488{col 37}{space 1}    1.29{col 46}{space 3}0.204{col 54}{space 4}-.1020523{col 67}{space 3}  .465246
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1800616{col 26}{space 2} .1309926{col 37}{space 1}    1.37{col 46}{space 3}0.176{col 54}{space 4}-.0831779{col 67}{space 3} .4433012
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .1961048{col 26}{space 2} .1316738{col 37}{space 1}    1.49{col 46}{space 3}0.143{col 54}{space 4}-.0685036{col 67}{space 3} .4607133
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}  .206628{col 26}{space 2}  .132905{col 37}{space 1}    1.55{col 46}{space 3}0.126{col 54}{space 4}-.0604547{col 67}{space 3} .4737107
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1423232{col 26}{space 2} .1225932{col 37}{space 1}    1.16{col 46}{space 3}0.251{col 54}{space 4}-.1040372{col 67}{space 3} .3886835
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} .9024942{col 26}{space 2} .7981817{col 37}{space 1}    1.13{col 46}{space 3}0.265{col 54}{space 4}-.7083017{col 67}{space 3}  2.51329
+{space 7}_cons {c |}{col 14}{res}{space 2} .5107784{col 26}{space 2} .6244015{col 37}{space 1}    0.82{col 46}{space 3}0.417{col 54}{space 4}-.7440034{col 67}{space 3}  1.76556
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est5{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    5.61
-    {txt}   Model {char |} {res} 3.99931644     5  .799863288           {txt}Prob > F      = {res} 0.0005
-    {txt}Residual {char |} {res} 5.84884121    41  .142654664           {txt}R-squared     = {res} 0.4061
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.3337
-    {txt}   Total {char |} {res} 9.84815765    46  .214090384           {txt}Root MSE      = {res}  .3777
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    6.51
+    {txt}   Model {char |} {res} 4.05972106     5  .811944212           {txt}Prob > F      = {res} 0.0001
+    {txt}Residual {char |} {res} 5.98710036    48  .124731257           {txt}R-squared     = {res} 0.4041
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.3420
+    {txt}   Total {char |} {res} 10.0468214    53  .189562668           {txt}Root MSE      = {res} .35317
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}  Q9_disg_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 2}Q9_disg_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.7635713{col 26}{space 2} .1549147{col 37}{space 1}   -4.93{col 46}{space 3}0.000{col 54}{space 4}-1.076428{col 67}{space 3}-.4507148
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.6458879{col 26}{space 2} .1943271{col 37}{space 1}   -3.32{col 46}{space 3}0.002{col 54}{space 4} -1.03834{col 67}{space 3}-.2534363
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.3852637{col 26}{space 2} .2133604{col 37}{space 1}   -1.81{col 46}{space 3}0.078{col 54}{space 4}-.8161538{col 67}{space 3} .0456263
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1475813{col 26}{space 2} .2008275{col 37}{space 1}   -0.73{col 46}{space 3}0.467{col 54}{space 4}-.5531606{col 67}{space 3} .2579979
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0986975{col 26}{space 2}  .159057{col 37}{space 1}    0.62{col 46}{space 3}0.538{col 54}{space 4}-.2225247{col 67}{space 3} .4199196
+{space 9}L1. {c |}{col 14}{res}{space 2}-.7989761{col 26}{space 2} .1438498{col 37}{space 1}   -5.55{col 46}{space 3}0.000{col 54}{space 4}-1.088206{col 67}{space 3}-.5097467
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.6375189{col 26}{space 2} .1820906{col 37}{space 1}   -3.50{col 46}{space 3}0.001{col 54}{space 4}-1.003637{col 67}{space 3}-.2714013
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.4467968{col 26}{space 2}  .184414{col 37}{space 1}   -2.42{col 46}{space 3}0.019{col 54}{space 4} -.817586{col 67}{space 3}-.0760075
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.2005183{col 26}{space 2} .1578842{col 37}{space 1}   -1.27{col 46}{space 3}0.210{col 54}{space 4}-.5179657{col 67}{space 3} .1169292
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0161447{col 26}{space 2} .1237107{col 37}{space 1}    0.13{col 46}{space 3}0.897{col 54}{space 4}-.2325924{col 67}{space 3} .2648817
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0871145{col 26}{space 2} .0590585{col 37}{space 1}   -1.48{col 46}{space 3}0.148{col 54}{space 4}-.2063857{col 67}{space 3} .0321566
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0844832{col 26}{space 2} .0506743{col 37}{space 1}   -1.67{col 46}{space 3}0.102{col 54}{space 4}-.1863707{col 67}{space 3} .0174044
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est6{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.6252{col 18} 0.6359{col 27} 21.911{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   
-{txt}2     {res}{col 9} 0.5553{col 18} 0.3161{col 27} 39.534{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}      
-{txt}3     {res}{col 9} 0.5291{col 18} 0.3202{col 27} 55.853{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}      
-{txt}4     {res}{col 9} 0.4848{col 18} 0.2361{col 27} 69.834{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}       
-{txt}5     {res}{col 9} 0.4666{col 18} 0.2056{col 27} 83.058{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c LT}{hline 1}       
-{txt}(806 missing values generated)
+1     {res}{col 9} 0.6841{col 18} 0.6925{col 27} 29.506{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   
+{txt}2     {res}{col 9} 0.5927{col 18} 0.2448{col 27} 52.035{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
+{txt}3     {res}{col 9} 0.5585{col 18} 0.1942{col 27} 72.389{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
+{txt}4     {res}{col 9} 0.5628{col 18} 0.2346{col 27} 93.428{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
+{txt}5     {res}{col 9} 0.5309{col 18} 0.1423{col 27} 112.49{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}   46.24
-    {txt}   Model {char |} {res} 1.57807996     5  .315615992           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res}  .28665686    42  .006825163           {txt}R-squared     = {res} 0.8463
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8280
-    {txt}   Total {char |} {res} 1.86473682    47  .039675252           {txt}Root MSE      = {res} .08261
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}   67.78
+    {txt}   Model {char |} {res} 2.69839654     5  .539679307           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} .390149909    49  .007962243           {txt}R-squared     = {res} 0.8737
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.8608
+    {txt}   Total {char |} {res} 3.08854645    54  .057195305           {txt}Root MSE      = {res} .08923
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}    Q9c_mean{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 4}Q9c_mean {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6094827{col 26}{space 2} .1485411{col 37}{space 1}    4.10{col 46}{space 3}0.000{col 54}{space 4} .3097147{col 67}{space 3} .9092507
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .6203888{col 26}{space 2} .1689014{col 37}{space 1}    3.67{col 46}{space 3}0.001{col 54}{space 4} .2795319{col 67}{space 3} .9612456
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.3227985{col 26}{space 2} .1859787{col 37}{space 1}   -1.74{col 46}{space 3}0.090{col 54}{space 4}-.6981187{col 67}{space 3} .0525218
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.2893928{col 26}{space 2} .1619767{col 37}{space 1}   -1.79{col 46}{space 3}0.081{col 54}{space 4} -.616275{col 67}{space 3} .0374893
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .2476447{col 26}{space 2} .1364869{col 37}{space 1}    1.81{col 46}{space 3}0.077{col 54}{space 4}-.0277969{col 67}{space 3} .5230863
+{space 9}L1. {c |}{col 14}{res}{space 2}  .654405{col 26}{space 2} .1370066{col 37}{space 1}    4.78{col 46}{space 3}0.000{col 54}{space 4} .3790799{col 67}{space 3}   .92973
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .5060553{col 26}{space 2} .1596454{col 37}{space 1}    3.17{col 46}{space 3}0.003{col 54}{space 4} .1852359{col 67}{space 3} .8268748
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2671644{col 26}{space 2} .1643556{col 37}{space 1}   -1.63{col 46}{space 3}0.110{col 54}{space 4}-.5974493{col 67}{space 3} .0631205
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1093425{col 26}{space 2} .1481322{col 37}{space 1}   -0.74{col 46}{space 3}0.464{col 54}{space 4}-.4070253{col 67}{space 3} .1883403
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}  .133135{col 26}{space 2}   .12439{col 37}{space 1}    1.07{col 46}{space 3}0.290{col 54}{space 4} -.116836{col 67}{space 3} .3831061
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}  .435681{col 26}{space 2} .1969761{col 37}{space 1}    2.21{col 46}{space 3}0.032{col 54}{space 4}  .038167{col 67}{space 3} .8331949
+{space 7}_cons {c |}{col 14}{res}{space 2} .2712566{col 26}{space 2} .1712151{col 37}{space 1}    1.58{col 46}{space 3}0.120{col 54}{space 4}-.0728131{col 67}{space 3} .6153263
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est7{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    3.25
-    {txt}   Model {char |} {res} .126638016     5  .025327603           {txt}Prob > F      = {res} 0.0146
-    {txt}Residual {char |} {res} .319759408    41   .00779901           {txt}R-squared     = {res} 0.2837
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1963
-    {txt}   Total {char |} {res} .446397424    46  .009704292           {txt}Root MSE      = {res} .08831
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    2.52
+    {txt}   Model {char |} {res} .107182842     5  .021436568           {txt}Prob > F      = {res} 0.0419
+    {txt}Residual {char |} {res} .408317936    48  .008506624           {txt}R-squared     = {res} 0.2079
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1254
+    {txt}   Total {char |} {res} .515500778    53   .00972643           {txt}Root MSE      = {res} .09223
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1} Q9c_mean_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 1}Q9c_mean_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.2835619{col 26}{space 2} .1560087{col 37}{space 1}   -1.82{col 46}{space 3}0.076{col 54}{space 4}-.5986278{col 67}{space 3}  .031504
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3612598{col 26}{space 2} .1550446{col 37}{space 1}    2.33{col 46}{space 3}0.025{col 54}{space 4} .0481409{col 67}{space 3} .6743787
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0318925{col 26}{space 2} .1653043{col 37}{space 1}   -0.19{col 46}{space 3}0.848{col 54}{space 4}-.3657313{col 67}{space 3} .3019464
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.3192836{col 26}{space 2} .1497281{col 37}{space 1}   -2.13{col 46}{space 3}0.039{col 54}{space 4}-.6216656{col 67}{space 3}-.0169016
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} -.048447{col 26}{space 2} .1513503{col 37}{space 1}   -0.32{col 46}{space 3}0.751{col 54}{space 4}-.3541052{col 67}{space 3} .2572112
+{space 9}L1. {c |}{col 14}{res}{space 2}-.2889033{col 26}{space 2} .1439763{col 37}{space 1}   -2.01{col 46}{space 3}0.050{col 54}{space 4}-.5783871{col 67}{space 3} .0005805
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2431318{col 26}{space 2} .1407752{col 37}{space 1}    1.73{col 46}{space 3}0.091{col 54}{space 4}-.0399158{col 67}{space 3} .5261794
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.0422318{col 26}{space 2} .1461457{col 37}{space 1}   -0.29{col 46}{space 3}0.774{col 54}{space 4}-.3360773{col 67}{space 3} .2516138
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1832749{col 26}{space 2} .1346056{col 37}{space 1}   -1.36{col 46}{space 3}0.180{col 54}{space 4}-.4539176{col 67}{space 3} .0873679
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0816766{col 26}{space 2} .1299672{col 37}{space 1}   -0.63{col 46}{space 3}0.533{col 54}{space 4}-.3429932{col 67}{space 3}   .17964
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0130971{col 26}{space 2} .0134336{col 37}{space 1}   -0.97{col 46}{space 3}0.335{col 54}{space 4}-.0402269{col 67}{space 3} .0140326
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0107613{col 26}{space 2} .0131674{col 37}{space 1}   -0.82{col 46}{space 3}0.418{col 54}{space 4}-.0372362{col 67}{space 3} .0157136
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est8{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.8881{col 18} 0.8881{col 27} 44.209{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} 
-{txt}2     {res}{col 9} 0.8515{col 18} 0.3388{col 27} 85.655{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c LT}{hline 1}{hline 1}      
-{txt}3     {res}{col 9} 0.7292{col 18}-0.2787{col 27} 116.66{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}      {hline 1}{hline 1}{c RT}        
-{txt}4     {res}{col 9} 0.6314{col 18}-0.1206{col 27} 140.37{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
-{txt}5     {res}{col 9} 0.5513{col 18} 0.2476{col 27} 158.83{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}       
-{txt}(806 missing values generated)
+1     {res}{col 9} 0.9036{col 18} 0.9041{col 27} 51.475{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1} 
+{txt}2     {res}{col 9} 0.8677{col 18} 0.3273{col 27} 99.764{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}        {c LT}{hline 1}{hline 1}      
+{txt}3     {res}{col 9} 0.7715{col 18}-0.1399{col 27} 138.61{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}  {col 63}       {hline 1}{c RT}        
+{txt}4     {res}{col 9} 0.6960{col 18}-0.0280{col 27}  170.8{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.6436{col 18} 0.1331{col 27} 198.81{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}       
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}   16.43
-    {txt}   Model {char |} {res}   11.13718     5    2.227436           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res} 5.69229802    42  .135530905           {txt}R-squared     = {res} 0.6618
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.6215
-    {txt}   Total {char |} {res}  16.829478    47     .358074           {txt}Root MSE      = {res} .36815
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}   13.30
+    {txt}   Model {char |} {res} 10.7366646     5  2.14733293           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res}  7.9101142    49  .161430902           {txt}R-squared     = {res} 0.5758
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.5325
+    {txt}   Total {char |} {res} 18.6467788    54  .345310719           {txt}Root MSE      = {res} .40178
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}     Q9c_var{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 5}Q9c_var {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .6603696{col 26}{space 2} .1514437{col 37}{space 1}    4.36{col 46}{space 3}0.000{col 54}{space 4} .3547438{col 67}{space 3} .9659953
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .4574665{col 26}{space 2}   .17355{col 37}{space 1}    2.64{col 46}{space 3}0.012{col 54}{space 4} .1072284{col 67}{space 3} .8077047
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.3676736{col 26}{space 2}   .17835{col 37}{space 1}   -2.06{col 46}{space 3}0.045{col 54}{space 4}-.7275984{col 67}{space 3}-.0077488
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1817463{col 26}{space 2} .1720542{col 37}{space 1}   -1.06{col 46}{space 3}0.297{col 54}{space 4}-.5289656{col 67}{space 3} .1654731
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1642105{col 26}{space 2} .1384788{col 37}{space 1}    1.19{col 46}{space 3}0.242{col 54}{space 4} -.115251{col 67}{space 3} .4436719
+{space 9}L1. {c |}{col 14}{res}{space 2}  .715215{col 26}{space 2} .1404191{col 37}{space 1}    5.09{col 46}{space 3}0.000{col 54}{space 4} .4330323{col 67}{space 3} .9973976
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2144869{col 26}{space 2}  .171861{col 37}{space 1}    1.25{col 46}{space 3}0.218{col 54}{space 4}-.1308807{col 67}{space 3} .5598545
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2592046{col 26}{space 2} .1424663{col 37}{space 1}   -1.82{col 46}{space 3}0.075{col 54}{space 4}-.5455013{col 67}{space 3} .0270922
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0388621{col 26}{space 2} .1450931{col 37}{space 1}    0.27{col 46}{space 3}0.790{col 54}{space 4}-.2527134{col 67}{space 3} .3304375
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0581924{col 26}{space 2} .1079772{col 37}{space 1}   -0.54{col 46}{space 3}0.592{col 54}{space 4}-.2751807{col 67}{space 3} .1587959
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 2.691564{col 26}{space 2} 1.215018{col 37}{space 1}    2.22{col 46}{space 3}0.032{col 54}{space 4} .2395579{col 67}{space 3}  5.14357
+{space 7}_cons {c |}{col 14}{res}{space 2} 3.540432{col 26}{space 2} 1.240269{col 37}{space 1}    2.85{col 46}{space 3}0.006{col 54}{space 4} 1.048019{col 67}{space 3} 6.032846
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est9{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    2.11
-    {txt}   Model {char |} {res} 1.60432949     5  .320865898           {txt}Prob > F      = {res} 0.0831
-    {txt}Residual {char |} {res} 6.22362405    41  .151795708           {txt}R-squared     = {res} 0.2049
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.1080
-    {txt}   Total {char |} {res} 7.82795354    46  .170172903           {txt}Root MSE      = {res} .38961
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    0.99
+    {txt}   Model {char |} {res}  .93525011     5  .187050022           {txt}Prob > F      = {res} 0.4324
+    {txt}Residual {char |} {res} 9.04777001    48  .188495209           {txt}R-squared     = {res} 0.0937
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res}-0.0007
+    {txt}   Total {char |} {res} 9.98302012    53   .18835887           {txt}Root MSE      = {res} .43416
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}  Q9c_var_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 2}Q9c_var_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.2253403{col 26}{space 2} .1548339{col 37}{space 1}   -1.46{col 46}{space 3}0.153{col 54}{space 4}-.5380337{col 67}{space 3}  .087353
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .2244263{col 26}{space 2} .1495077{col 37}{space 1}    1.50{col 46}{space 3}0.141{col 54}{space 4}-.0775105{col 67}{space 3} .5263632
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1579914{col 26}{space 2}   .14347{col 37}{space 1}   -1.10{col 46}{space 3}0.277{col 54}{space 4} -.447735{col 67}{space 3} .1317522
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} -.272119{col 26}{space 2} .1386942{col 37}{space 1}   -1.96{col 46}{space 3}0.057{col 54}{space 4}-.5522176{col 67}{space 3} .0079796
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0576424{col 26}{space 2} .1421967{col 37}{space 1}   -0.41{col 46}{space 3}0.687{col 54}{space 4}-.3448145{col 67}{space 3} .2295297
+{space 9}L1. {c |}{col 14}{res}{space 2}-.1336963{col 26}{space 2} .1431198{col 37}{space 1}   -0.93{col 46}{space 3}0.355{col 54}{space 4}-.4214579{col 67}{space 3} .1540653
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .1224312{col 26}{space 2} .1433366{col 37}{space 1}    0.85{col 46}{space 3}0.397{col 54}{space 4}-.1657662{col 67}{space 3} .4106287
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.1998854{col 26}{space 2} .1373414{col 37}{space 1}   -1.46{col 46}{space 3}0.152{col 54}{space 4}-.4760288{col 67}{space 3}  .076258
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.0907234{col 26}{space 2}  .117948{col 37}{space 1}   -0.77{col 46}{space 3}0.446{col 54}{space 4}-.3278738{col 67}{space 3}  .146427
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0523125{col 26}{space 2} .1102147{col 37}{space 1}   -0.47{col 46}{space 3}0.637{col 54}{space 4} -.273914{col 67}{space 3}  .169289
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.0310579{col 26}{space 2}  .057082{col 37}{space 1}   -0.54{col 46}{space 3}0.589{col 54}{space 4}-.1463373{col 67}{space 3} .0842216
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0072695{col 26}{space 2} .0593539{col 37}{space 1}   -0.12{col 46}{space 3}0.903{col 54}{space 4}-.1266085{col 67}{space 3} .1120695
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est10{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.7385{col 18} 0.7386{col 27} 30.576{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   
-{txt}2     {res}{col 9} 0.5618{col 18} 0.0500{col 27} 48.615{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c |}        
-{txt}3     {res}{col 9} 0.2786{col 18}-0.3376{col 27} 53.141{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}      {col 63}      {hline 1}{hline 1}{c RT}        
-{txt}4     {res}{col 9} 0.1045{col 18}-0.0514{col 27} 53.791{col 36}0.0000{col 44}        {c |}        {col 63}        {c |}        
-{txt}5     {res}{col 9} 0.0162{col 18} 0.1642{col 27} 53.807{col 36}0.0000{col 44}        {c |}        {col 63}        {c LT}{hline 1}       
-{txt}(806 missing values generated)
+1     {res}{col 9} 0.5903{col 18} 0.5903{col 27} 21.972{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
+{txt}2     {res}{col 9} 0.3123{col 18}-0.1030{col 27} 28.229{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}      {col 63}        {c |}        
+{txt}3     {res}{col 9} 0.1820{col 18}-0.1063{col 27} 30.392{col 36}0.0000{col 44}        {c LT}{hline 1}       {col 63}        {c |}        
+{txt}4     {res}{col 9} 0.0866{col 18} 0.0512{col 27} 30.889{col 36}0.0000{col 44}        {c |}        {col 63}        {c |}        
+{txt}5     {res}{col 9}-0.0137{col 18}-0.0582{col 27} 30.902{col 36}0.0000{col 44}        {c |}        {col 63}        {c |}        
+{txt}(799 missing values generated)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      48
-{txt}{hline 13}{char +}{hline 30}           F(  5,    42) ={res}    8.05
-    {txt}   Model {char |} {res} 4.78513191     5  .957026381           {txt}Prob > F      = {res} 0.0000
-    {txt}Residual {char |} {res}  4.9919565    42  .118856107           {txt}R-squared     = {res} 0.4894
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.4286
-    {txt}   Total {char |} {res} 9.77708841    47  .208023158           {txt}Root MSE      = {res} .34476
+      Source {c |}       SS       df       MS              Number of obs ={res}      55
+{txt}{hline 13}{char +}{hline 30}           F(  5,    49) ={res}   13.00
+    {txt}   Model {char |} {res} 8.29873149     5   1.6597463           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res} 6.25765422    49  .127707229           {txt}R-squared     = {res} 0.5701
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.5262
+    {txt}   Total {char |} {res} 14.5563857    54  .269562698           {txt}Root MSE      = {res} .35736
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1}    Q9c_disg{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 4}Q9c_disg {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2} .2666682{col 26}{space 2} .1525731{col 37}{space 1}    1.75{col 46}{space 3}0.088{col 54}{space 4}-.0412368{col 67}{space 3} .5745732
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .3395789{col 26}{space 2} .1592099{col 37}{space 1}    2.13{col 46}{space 3}0.039{col 54}{space 4} .0182804{col 67}{space 3} .6608775
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0398924{col 26}{space 2} .1653047{col 37}{space 1}    0.24{col 46}{space 3}0.810{col 54}{space 4} -.293706{col 67}{space 3} .3734908
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0710827{col 26}{space 2} .1505176{col 37}{space 1}    0.47{col 46}{space 3}0.639{col 54}{space 4}-.2326741{col 67}{space 3} .3748394
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0981454{col 26}{space 2} .1466076{col 37}{space 1}    0.67{col 46}{space 3}0.507{col 54}{space 4}-.1977207{col 67}{space 3} .3940114
+{space 9}L1. {c |}{col 14}{res}{space 2} .1859347{col 26}{space 2} .1418522{col 37}{space 1}    1.31{col 46}{space 3}0.196{col 54}{space 4}-.0991279{col 67}{space 3} .4709973
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2} .4375041{col 26}{space 2} .1429302{col 37}{space 1}    3.06{col 46}{space 3}0.004{col 54}{space 4} .1502752{col 67}{space 3} .7247331
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} .0546477{col 26}{space 2} .1484326{col 37}{space 1}    0.37{col 46}{space 3}0.714{col 54}{space 4}-.2436388{col 67}{space 3} .3529343
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2} .0795788{col 26}{space 2} .1385757{col 37}{space 1}    0.57{col 46}{space 3}0.568{col 54}{space 4}-.1988995{col 67}{space 3}  .358057
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .1205428{col 26}{space 2} .1326859{col 37}{space 1}    0.91{col 46}{space 3}0.368{col 54}{space 4}-.1460994{col 67}{space 3} .3871851
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} 1.213721{col 26}{space 2} .9073774{col 37}{space 1}    1.34{col 46}{space 3}0.188{col 54}{space 4}-.6174409{col 67}{space 3} 3.044883
+{space 7}_cons {c |}{col 14}{res}{space 2}  .793526{col 26}{space 2} .7896681{col 37}{space 1}    1.00{col 46}{space 3}0.320{col 54}{space 4}-.7933714{col 67}{space 3} 2.380423
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est11{txt} stored)
 
-      Source {c |}       SS       df       MS              Number of obs ={res}      47
-{txt}{hline 13}{char +}{hline 30}           F(  5,    41) ={res}    4.67
-    {txt}   Model {char |} {res} 2.92878147     5  .585756295           {txt}Prob > F      = {res} 0.0018
-    {txt}Residual {char |} {res} 5.13884669    41  .125337724           {txt}R-squared     = {res} 0.3630
-{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.2853
-    {txt}   Total {char |} {res} 8.06762816    46  .175383221           {txt}Root MSE      = {res} .35403
+      Source {c |}       SS       df       MS              Number of obs ={res}      54
+{txt}{hline 13}{char +}{hline 30}           F(  5,    48) ={res}    7.76
+    {txt}   Model {char |} {res} 5.09246055     5  1.01849211           {txt}Prob > F      = {res} 0.0000
+    {txt}Residual {char |} {res}  6.3022505    48  .131296885           {txt}R-squared     = {res} 0.4469
+{txt}{hline 13}{char +}{hline 30}           Adj R-squared = {res} 0.3893
+    {txt}   Total {char |} {res} 11.3947111    53  .214994548           {txt}Root MSE      = {res} .36235
 
 {txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 1} Q9c_disg_ch{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {space 1}Q9c_disg_ch {c |}
-{space 9}L1. {c |}{col 14}{res}{space 2}-.6988488{col 26}{space 2} .1549184{col 37}{space 1}   -4.51{col 46}{space 3}0.000{col 54}{space 4}-1.011713{col 67}{space 3}-.3859847
-{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.3035373{col 26}{space 2} .1872567{col 37}{space 1}   -1.62{col 46}{space 3}0.113{col 54}{space 4}-.6817099{col 67}{space 3} .0746353
-{txt}{space 9}L3. {c |}{col 14}{res}{space 2}-.2635206{col 26}{space 2} .1900258{col 37}{space 1}   -1.39{col 46}{space 3}0.173{col 54}{space 4}-.6472855{col 67}{space 3} .1202443
-{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1348615{col 26}{space 2} .1881781{col 37}{space 1}   -0.72{col 46}{space 3}0.478{col 54}{space 4}-.5148949{col 67}{space 3} .2451719
-{txt}{space 9}L5. {c |}{col 14}{res}{space 2}-.0231641{col 26}{space 2} .1501516{col 37}{space 1}   -0.15{col 46}{space 3}0.878{col 54}{space 4}-.3264013{col 67}{space 3} .2800731
+{space 9}L1. {c |}{col 14}{res}{space 2}-.7786889{col 26}{space 2} .1431379{col 37}{space 1}   -5.44{col 46}{space 3}0.000{col 54}{space 4}-1.066487{col 67}{space 3}-.4908909
+{txt}{space 9}L2. {c |}{col 14}{res}{space 2}-.3294802{col 26}{space 2} .1810423{col 37}{space 1}   -1.82{col 46}{space 3}0.075{col 54}{space 4}-.6934902{col 67}{space 3} .0345299
+{txt}{space 9}L3. {c |}{col 14}{res}{space 2} -.306142{col 26}{space 2} .1820213{col 37}{space 1}   -1.68{col 46}{space 3}0.099{col 54}{space 4}-.6721202{col 67}{space 3} .0598363
+{txt}{space 9}L4. {c |}{col 14}{res}{space 2}-.1728668{col 26}{space 2} .1687402{col 37}{space 1}   -1.02{col 46}{space 3}0.311{col 54}{space 4}-.5121417{col 67}{space 3} .1664081
+{txt}{space 9}L5. {c |}{col 14}{res}{space 2} .0160842{col 26}{space 2} .1331418{col 37}{space 1}    0.12{col 46}{space 3}0.904{col 54}{space 4}-.2516152{col 67}{space 3} .2837837
 {txt}{space 12} {c |}
-{space 7}_cons {c |}{col 14}{res}{space 2} -.070959{col 26}{space 2} .0539229{col 37}{space 1}   -1.32{col 46}{space 3}0.196{col 54}{space 4}-.1798586{col 67}{space 3} .0379406
+{space 7}_cons {c |}{col 14}{res}{space 2}-.0724786{col 26}{space 2} .0512207{col 37}{space 1}   -1.42{col 46}{space 3}0.164{col 54}{space 4}-.1754648{col 67}{space 3} .0305076
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}({res}est12{txt} stored)
 
 {col 43}-1       0       1 -1       0       1
  LAG       AC       PAC      Q     Prob>Q  [Autocorrelation]  [Partial Autocor]
 {hline 79}
-1     {res}{col 9} 0.5705{col 18} 0.5863{col 27} 18.243{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
-{txt}2     {res}{col 9} 0.6310{col 18} 0.5088{col 27} 40.998{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
-{txt}3     {res}{col 9} 0.4603{col 18} 0.0887{col 27} 53.349{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
-{txt}4     {res}{col 9} 0.4525{col 18} 0.1098{col 27} 65.527{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
-{txt}5     {res}{col 9} 0.3904{col 18} 0.0981{col 27} 74.781{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
+1     {res}{col 9} 0.6206{col 18} 0.6406{col 27}  24.28{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   
+{txt}2     {res}{col 9} 0.6581{col 18} 0.5027{col 27} 52.054{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}{hline 1}   {col 63}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    
+{txt}3     {res}{col 9} 0.5171{col 18} 0.0902{col 27} 69.505{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c |}        
+{txt}4     {res}{col 9} 0.5030{col 18} 0.1060{col 27} 86.315{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}{hline 1}    {col 63}        {c |}        
+{txt}5     {res}{col 9} 0.4647{col 18} 0.1205{col 27} 100.92{col 36}0.0000{col 44}        {c LT}{hline 1}{hline 1}{hline 1}     {col 63}        {c |}        
 {txt}(406 missing values generated)
 
       Source {c |}       SS       df       MS              Number of obs ={res}     448
@@ -964,11 +954,15 @@ COREPCE1y_ch {c |}
 . 
 . local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
 >               Q9c_mean Q9c_var Q9c_disg Q9c_iqr ///
+>                           Q9_fe_var Q9_fe_atv Q9_atv ///
 >               COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
->                       PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
->                                 
+>                           CPI_atv PCE_atv CORECPI_atv COREPCE_atv ///
+>                           CPI_fe_var PCE_fe_var CORECPI_fe_var COREPCE_fe_var ///
+>                           CPI_fe_atv PCE_fe_atv CORECPI_fe_atv COREPCE_fe_atv ///
+>                       PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean 
 {txt}
-{com}. local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
+{com}.                                 
+. local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
 >                 PRCCPIMeanl1  PRCCPIVarl1 PRCCPIMeanf0  PRCCPIVarf0 /// 
 >                                 PRCPCEMeanl1  PRCPCEVarl1 PRCPCEMeanf0  PRCPCEVarf0
 {txt}
@@ -1032,8 +1026,13 @@ COREPCE1y_ch {c |}
 {com}. rename SCE_FE SCE_FE
 {res}{txt}  (all {it:newnames}=={it:oldnames})
 
+{com}. rename Q9_fe_var SCE_FEVar
+{res}{txt}
+{com}. rename Q9_fe_atv SCE_FEATV
+{res}{txt}
+{com}. rename Q9_atv SCE_ATV
+{res}{txt}
 {com}. 
-. 
 . rename Q9c_mean SCE_Mean1
 {res}{txt}
 {com}. rename Q9c_var SCE_Var1
@@ -1060,6 +1059,15 @@ COREPCE1y_ch {c |}
 {com}. rename COREPCE_disg SPFCPCE_Disg
 {res}{txt}
 {com}. 
+. rename CPI_atv SPFCPINC_ATV
+{res}{txt}
+{com}. rename PCE_atv SPFPCENC_ATV
+{res}{txt}
+{com}. rename CORECPI_atv SPFCPI_ATV
+{res}{txt}
+{com}. rename COREPCE_atv SPFPCE_ATV
+{res}{txt}
+{com}. 
 . rename PRCPCEVar1mean SPFPCE_Var
 {res}{txt}
 {com}. rename PRCCPIVar1mean SPFCPI_Var
@@ -1072,6 +1080,25 @@ COREPCE1y_ch {c |}
 {res}{txt}  (all {it:newnames}=={it:oldnames})
 
 {com}. 
+. rename CPI_fe_var SPFCPINC_FEVAR
+{res}{txt}
+{com}. rename PCE_fe_var SPFPCENC_FEVAR 
+{res}{txt}
+{com}. rename CORECPI_fe_var SPFCPI_FEVAR
+{res}{txt}
+{com}. rename COREPCE_fe_var SPFPCE_FEVAR
+{res}{txt}
+{com}. 
+. rename CPI_fe_atv SPFCPINC_FEATV
+{res}{txt}
+{com}. rename PCE_fe_atv SPFPCENC_FEATV 
+{res}{txt}
+{com}. rename CORECPI_fe_atv SPFCPI_FEATV
+{res}{txt}
+{com}. rename COREPCE_fe_atv SPFPCE_FEATV
+{res}{txt}
+{com}. 
+. 
 . rename PRCPCEMean_rv SPFPCE_Mean_rv
 {res}{txt}
 {com}. rename PRCCPIMean_rv SPFCPI_Mean_rv
@@ -1277,75 +1304,75 @@ COREPCE1y_ch {c |}
 {txt}  7{com}.          eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/6).InfExp_`mom'_rv, robust
 {txt}  8{com}.  {c )-}
 {txt}  9{com}. {c )-}
-{txt}(41 real changes made)
+{txt}(48 real changes made)
 
-Linear regression                                      Number of obs ={res}      41
-                                                       {txt}F(  0,    40) ={res}    0.00
+Linear regression                                      Number of obs ={res}      48
+                                                       {txt}F(  0,    47) ={res}    0.00
                                                        {txt}Prob > F      = {res}      .
                                                        {txt}R-squared     = {res} 0.0000
-                                                       {txt}Root MSE      = {res} .24357
+                                                       {txt}Root MSE      = {res} .23292
 
-{txt}{ralign 78:(Std. Err. adjusted for {res:41} clusters in date)}
+{txt}{ralign 78:(Std. Err. adjusted for {res:48} clusters in date)}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}InfExp_Mea~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.2631696{col 26}{space 2} .0380389{col 37}{space 1}   -6.92{col 46}{space 3}0.000{col 54}{space 4}-.3400491{col 67}{space 3}-.1862902
+{space 7}_cons {c |}{col 14}{res}{space 2}-.2650682{col 26}{space 2} .0336186{col 37}{space 1}   -7.88{col 46}{space 3}0.000{col 54}{space 4}-.3327002{col 67}{space 3}-.1974363
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      40
-                                                       {txt}F(  1,    38) ={res}  109.70
+{txt}Linear regression                                      Number of obs ={res}      47
+                                                       {txt}F(  1,    45) ={res}   78.91
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.7169
-                                                       {txt}Root MSE      = {res} .13223
+                                                       {txt}R-squared     = {res} 0.6299
+                                                       {txt}Root MSE      = {res} .14352
 
 {txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 16}{c |}{col 28}    Robust
 {col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
 {hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Mean_rv {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2} .8836235{col 28}{space 2} .0843662{col 39}{space 1}   10.47{col 48}{space 3}0.000{col 56}{space 4} .7128331{col 69}{space 3} 1.054414
+{space 11}L1. {c |}{col 16}{res}{space 2} .8243641{col 28}{space 2} .0928021{col 39}{space 1}    8.88{col 48}{space 3}0.000{col 56}{space 4} .6374511{col 69}{space 3} 1.011277
 {txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2}-.0164082{col 28}{space 2} .0291878{col 39}{space 1}   -0.56{col 48}{space 3}0.577{col 56}{space 4}-.0754958{col 69}{space 3} .0426794
+{space 9}_cons {c |}{col 16}{res}{space 2}-.0427472{col 28}{space 2} .0361313{col 39}{space 1}   -1.18{col 48}{space 3}0.243{col 56}{space 4}-.1155195{col 69}{space 3}  .030025
 {txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      38
-                                                       {txt}F(  3,    34) ={res}   34.85
+{txt}Linear regression                                      Number of obs ={res}      45
+                                                       {txt}F(  3,    41) ={res}   36.95
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.7323
-                                                       {txt}Root MSE      = {res} .13191
+                                                       {txt}R-squared     = {res} 0.7104
+                                                       {txt}Root MSE      = {res} .12995
 
 {txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 16}{c |}{col 28}    Robust
 {col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
 {hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Mean_rv {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2} .7501418{col 28}{space 2} .1711042{col 39}{space 1}    4.38{col 48}{space 3}0.000{col 56}{space 4} .4024163{col 69}{space 3} 1.097867
-{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2059786{col 28}{space 2} .1733075{col 39}{space 1}    1.19{col 48}{space 3}0.243{col 56}{space 4}-.1462246{col 69}{space 3} .5581818
-{txt}{space 11}L3. {c |}{col 16}{res}{space 2}-.0733129{col 28}{space 2} .1908429{col 39}{space 1}   -0.38{col 48}{space 3}0.703{col 56}{space 4}-.4611524{col 69}{space 3} .3145266
+{space 11}L1. {c |}{col 16}{res}{space 2} .7139928{col 28}{space 2} .1265538{col 39}{space 1}    5.64{col 48}{space 3}0.000{col 56}{space 4} .4584122{col 69}{space 3} .9695734
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2310041{col 28}{space 2} .1408206{col 39}{space 1}    1.64{col 48}{space 3}0.109{col 56}{space 4} -.053389{col 69}{space 3} .5153971
+{txt}{space 11}L3. {c |}{col 16}{res}{space 2}-.0435409{col 28}{space 2} .1406824{col 39}{space 1}   -0.31{col 48}{space 3}0.759{col 56}{space 4}-.3276548{col 69}{space 3}  .240573
 {txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2}-.0101107{col 28}{space 2} .0329507{col 39}{space 1}   -0.31{col 48}{space 3}0.761{col 56}{space 4}-.0770746{col 69}{space 3} .0568533
+{space 9}_cons {c |}{col 16}{res}{space 2}-.0132785{col 28}{space 2} .0328344{col 39}{space 1}   -0.40{col 48}{space 3}0.688{col 56}{space 4} -.079589{col 69}{space 3} .0530319
 {txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      35
-                                                       {txt}F(  6,    28) ={res}   15.28
+{txt}Linear regression                                      Number of obs ={res}      42
+                                                       {txt}F(  6,    35) ={res}   21.21
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.6900
-                                                       {txt}Root MSE      = {res} .14196
+                                                       {txt}R-squared     = {res} 0.7197
+                                                       {txt}Root MSE      = {res} .13834
 
 {txt}{hline 15}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 16}{c |}{col 28}    Robust
 {col 1}InfExp_Mean_rv{col 16}{c |}      Coef.{col 28}   Std. Err.{col 40}      t{col 48}   P>|t|{col 56}     [95% Con{col 69}f. Interval]
 {hline 15}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Mean_rv {c |}
-{space 11}L1. {c |}{col 16}{res}{space 2} .6848111{col 28}{space 2} .2105766{col 39}{space 1}    3.25{col 48}{space 3}0.003{col 56}{space 4} .2534645{col 69}{space 3} 1.116158
-{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .1986444{col 28}{space 2} .1846982{col 39}{space 1}    1.08{col 48}{space 3}0.291{col 56}{space 4}-.1796926{col 69}{space 3} .5769814
-{txt}{space 11}L3. {c |}{col 16}{res}{space 2}-.1216958{col 28}{space 2} .2635444{col 39}{space 1}   -0.46{col 48}{space 3}0.648{col 56}{space 4} -.661542{col 69}{space 3} .4181504
-{txt}{space 11}L4. {c |}{col 16}{res}{space 2} .0554222{col 28}{space 2} .2168896{col 39}{space 1}    0.26{col 48}{space 3}0.800{col 56}{space 4} -.388856{col 69}{space 3} .4997005
-{txt}{space 11}L5. {c |}{col 16}{res}{space 2} .0726185{col 28}{space 2} .2416185{col 39}{space 1}    0.30{col 48}{space 3}0.766{col 56}{space 4}-.4223146{col 69}{space 3} .5675517
-{txt}{space 11}L6. {c |}{col 16}{res}{space 2}-.0163606{col 28}{space 2} .1403492{col 39}{space 1}   -0.12{col 48}{space 3}0.908{col 56}{space 4}-.3038528{col 69}{space 3} .2711316
+{space 11}L1. {c |}{col 16}{res}{space 2} .7380475{col 28}{space 2} .1760398{col 39}{space 1}    4.19{col 48}{space 3}0.000{col 56}{space 4} .3806678{col 69}{space 3} 1.095427
+{txt}{space 11}L2. {c |}{col 16}{res}{space 2} .2557204{col 28}{space 2} .1836587{col 39}{space 1}    1.39{col 48}{space 3}0.173{col 56}{space 4}-.1171266{col 69}{space 3} .6285675
+{txt}{space 11}L3. {c |}{col 16}{res}{space 2}-.1853118{col 28}{space 2}   .25523{col 39}{space 1}   -0.73{col 48}{space 3}0.473{col 56}{space 4}-.7034563{col 69}{space 3} .3328327
+{txt}{space 11}L4. {c |}{col 16}{res}{space 2} .1482951{col 28}{space 2}  .170103{col 39}{space 1}    0.87{col 48}{space 3}0.389{col 56}{space 4}-.1970323{col 69}{space 3} .4936226
+{txt}{space 11}L5. {c |}{col 16}{res}{space 2} .0090134{col 28}{space 2} .1733415{col 39}{space 1}    0.05{col 48}{space 3}0.959{col 56}{space 4}-.3428885{col 69}{space 3} .3609154
+{txt}{space 11}L6. {c |}{col 16}{res}{space 2}-.0740951{col 28}{space 2} .1068668{col 39}{space 1}   -0.69{col 48}{space 3}0.493{col 56}{space 4}-.2910463{col 69}{space 3} .1428561
 {txt}{space 14} {c |}
-{space 9}_cons {c |}{col 16}{res}{space 2}-.0054687{col 28}{space 2} .0420646{col 39}{space 1}   -0.13{col 48}{space 3}0.897{col 56}{space 4}-.0916342{col 69}{space 3} .0806967
+{space 9}_cons {c |}{col 16}{res}{space 2}-.0182435{col 28}{space 2} .0426011{col 39}{space 1}   -0.43{col 48}{space 3}0.671{col 56}{space 4}-.1047284{col 69}{space 3} .0682414
 {txt}{hline 15}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. 
@@ -1358,75 +1385,75 @@ InfExp_Mean_rv {c |}
 {txt}  7{com}.          eststo `var'`mom'rvlv3: reg  InfExp_`mom'_rv l(1/6).InfExp_`mom'_rv, robust
 {txt}  8{com}.  {c )-}
 {txt}  9{com}. {c )-}
-{txt}(41 real changes made)
+{txt}(48 real changes made)
 
-Linear regression                                      Number of obs ={res}      41
-                                                       {txt}F(  0,    40) ={res}    0.00
+Linear regression                                      Number of obs ={res}      48
+                                                       {txt}F(  0,    47) ={res}    0.00
                                                        {txt}Prob > F      = {res}      .
                                                        {txt}R-squared     = {res} 0.0000
-                                                       {txt}Root MSE      = {res} 1.1127
+                                                       {txt}Root MSE      = {res} 1.1616
 
-{txt}{ralign 78:(Std. Err. adjusted for {res:41} clusters in date)}
+{txt}{ralign 78:(Std. Err. adjusted for {res:48} clusters in date)}
 {hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 14}{c |}{col 26}    Robust
 {col 1}InfExp_Var~v{col 14}{c |}      Coef.{col 26}   Std. Err.{col 38}      t{col 46}   P>|t|{col 54}     [95% Con{col 67}f. Interval]
 {hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
-{space 7}_cons {c |}{col 14}{res}{space 2}-.5903703{col 26}{space 2} .1737778{col 37}{space 1}   -3.40{col 46}{space 3}0.002{col 54}{space 4}-.9415883{col 67}{space 3}-.2391522
+{space 7}_cons {c |}{col 14}{res}{space 2}-.5373908{col 26}{space 2} .1676614{col 37}{space 1}   -3.21{col 46}{space 3}0.002{col 54}{space 4} -.874682{col 67}{space 3}-.2000996
 {txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      40
-                                                       {txt}F(  1,    38) ={res}   45.61
+{txt}Linear regression                                      Number of obs ={res}      47
+                                                       {txt}F(  1,    45) ={res}   34.43
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.5493
-                                                       {txt}Root MSE      = {res} .75516
+                                                       {txt}R-squared     = {res} 0.4359
+                                                       {txt}Root MSE      = {res} .82272
 
 {txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 15}{c |}{col 27}    Robust
 {col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
 {hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Var_rv {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2} .7305305{col 27}{space 2} .1081762{col 38}{space 1}    6.75{col 47}{space 3}0.000{col 55}{space 4} .5115392{col 68}{space 3} .9495217
+{space 10}L1. {c |}{col 15}{res}{space 2}  .609334{col 27}{space 2} .1038507{col 38}{space 1}    5.87{col 47}{space 3}0.000{col 55}{space 4}  .400168{col 68}{space 3}    .8185
 {txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.1855098{col 27}{space 2} .1548472{col 38}{space 1}   -1.20{col 47}{space 3}0.238{col 55}{space 4}-.4989815{col 68}{space 3} .1279619
+{space 8}_cons {c |}{col 15}{res}{space 2}-.2729437{col 27}{space 2} .1520875{col 38}{space 1}   -1.79{col 47}{space 3}0.079{col 55}{space 4}-.5792637{col 68}{space 3} .0333763
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      38
-                                                       {txt}F(  3,    34) ={res}   16.62
+{txt}Linear regression                                      Number of obs ={res}      45
+                                                       {txt}F(  3,    41) ={res}   16.59
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.5972
-                                                       {txt}Root MSE      = {res} .75023
+                                                       {txt}R-squared     = {res} 0.5405
+                                                       {txt}Root MSE      = {res} .74728
 
 {txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 15}{c |}{col 27}    Robust
 {col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
 {hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Var_rv {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2} .7228437{col 27}{space 2}  .159213{col 38}{space 1}    4.54{col 47}{space 3}0.000{col 55}{space 4} .3992839{col 68}{space 3} 1.046403
-{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .2833676{col 27}{space 2} .1968923{col 38}{space 1}    1.44{col 47}{space 3}0.159{col 55}{space 4}-.1167658{col 68}{space 3}  .683501
-{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.3364262{col 27}{space 2} .1863023{col 38}{space 1}   -1.81{col 47}{space 3}0.080{col 55}{space 4} -.715038{col 68}{space 3} .0421856
+{space 10}L1. {c |}{col 15}{res}{space 2} .6061386{col 27}{space 2}  .137004{col 38}{space 1}    4.42{col 47}{space 3}0.000{col 55}{space 4} .3294535{col 68}{space 3} .8828237
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .2848732{col 27}{space 2} .1448198{col 38}{space 1}    1.97{col 47}{space 3}0.056{col 55}{space 4}-.0075963{col 68}{space 3} .5773428
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.2077516{col 27}{space 2} .1291406{col 38}{space 1}   -1.61{col 47}{space 3}0.115{col 55}{space 4}-.4685563{col 68}{space 3} .0530531
 {txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.1991335{col 27}{space 2} .1637096{col 38}{space 1}   -1.22{col 47}{space 3}0.232{col 55}{space 4}-.5318313{col 68}{space 3} .1335644
+{space 8}_cons {c |}{col 15}{res}{space 2}-.1548709{col 27}{space 2} .1499746{col 38}{space 1}   -1.03{col 47}{space 3}0.308{col 55}{space 4}-.4577508{col 68}{space 3} .1480091
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}
-{txt}Linear regression                                      Number of obs ={res}      35
-                                                       {txt}F(  6,    28) ={res}   10.52
+{txt}Linear regression                                      Number of obs ={res}      42
+                                                       {txt}F(  6,    35) ={res}   10.55
                                                        {txt}Prob > F      = {res} 0.0000
-                                                       {txt}R-squared     = {res} 0.6190
-                                                       {txt}Root MSE      = {res} .79259
+                                                       {txt}R-squared     = {res} 0.6044
+                                                       {txt}Root MSE      = {res} .74969
 
 {txt}{hline 14}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {col 15}{c |}{col 27}    Robust
 {col 1}InfExp_Var_rv{col 15}{c |}      Coef.{col 27}   Std. Err.{col 39}      t{col 47}   P>|t|{col 55}     [95% Con{col 68}f. Interval]
 {hline 14}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 InfExp_Var_rv {c |}
-{space 10}L1. {c |}{col 15}{res}{space 2} .7847274{col 27}{space 2} .1608554{col 38}{space 1}    4.88{col 47}{space 3}0.000{col 55}{space 4} .4552301{col 68}{space 3} 1.114225
-{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .1740377{col 27}{space 2} .2463433{col 38}{space 1}    0.71{col 47}{space 3}0.486{col 55}{space 4}-.3305736{col 68}{space 3}  .678649
-{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.4099162{col 27}{space 2} .2660796{col 38}{space 1}   -1.54{col 47}{space 3}0.135{col 55}{space 4}-.9549555{col 68}{space 3} .1351231
-{txt}{space 10}L4. {c |}{col 15}{res}{space 2} .2701031{col 27}{space 2} .2192004{col 38}{space 1}    1.23{col 47}{space 3}0.228{col 55}{space 4}-.1789085{col 68}{space 3} .7191148
-{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.0652419{col 27}{space 2}  .247947{col 38}{space 1}   -0.26{col 47}{space 3}0.794{col 55}{space 4}-.5731383{col 68}{space 3} .4426546
-{txt}{space 10}L6. {c |}{col 15}{res}{space 2}-.0815723{col 27}{space 2} .1721306{col 38}{space 1}   -0.47{col 47}{space 3}0.639{col 55}{space 4}-.4341658{col 68}{space 3} .2710212
+{space 10}L1. {c |}{col 15}{res}{space 2} .8029431{col 27}{space 2} .1545534{col 38}{space 1}    5.20{col 47}{space 3}0.000{col 55}{space 4} .4891831{col 68}{space 3} 1.116703
+{txt}{space 10}L2. {c |}{col 15}{res}{space 2} .1142164{col 27}{space 2} .2179049{col 38}{space 1}    0.52{col 47}{space 3}0.603{col 55}{space 4}-.3281541{col 68}{space 3} .5565869
+{txt}{space 10}L3. {c |}{col 15}{res}{space 2}-.3471827{col 27}{space 2} .2421633{col 38}{space 1}   -1.43{col 47}{space 3}0.161{col 55}{space 4}-.8388003{col 68}{space 3} .1444348
+{txt}{space 10}L4. {c |}{col 15}{res}{space 2} .2885857{col 27}{space 2} .1573987{col 38}{space 1}    1.83{col 47}{space 3}0.075{col 55}{space 4}-.0309507{col 68}{space 3} .6081221
+{txt}{space 10}L5. {c |}{col 15}{res}{space 2}-.2585834{col 27}{space 2} .2172651{col 38}{space 1}   -1.19{col 47}{space 3}0.242{col 55}{space 4}-.6996551{col 68}{space 3} .1824883
+{txt}{space 10}L6. {c |}{col 15}{res}{space 2} .0961104{col 27}{space 2}  .146264{col 38}{space 1}    0.66{col 47}{space 3}0.515{col 55}{space 4}-.2008212{col 68}{space 3} .3930421
 {txt}{space 13} {c |}
-{space 8}_cons {c |}{col 15}{res}{space 2}-.1628133{col 27}{space 2} .1713754{col 38}{space 1}   -0.95{col 47}{space 3}0.350{col 55}{space 4}-.5138599{col 68}{space 3} .1882332
+{space 8}_cons {c |}{col 15}{res}{space 2}-.1772486{col 27}{space 2} .1544563{col 38}{space 1}   -1.15{col 47}{space 3}0.259{col 55}{space 4}-.4908117{col 68}{space 3} .1363144
 {txt}{hline 14}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
 {res}{txt}
 {com}. 
@@ -1435,16 +1462,73 @@ InfExp_Var_rv {c |}
 
 {com}. 
 . 
-. ddd
-{err}unrecognized command:  ddd
-{txt}{search r(199):r(199);}
-
-end of do-file
-
-{search r(199):r(199);}
-
-{com}. clear
-
-. clear
-
+. /*
+> *******************************************************************
+> *** Revision Efficiency Test Using Mean Revision Fuhrer's Approach**
+> ********************************************************************
+> 
+> foreach mom in Var{c -(}
+>    foreach var in SCE{c -(}
+>     ttest `var'_`mom'_rv =0
+>  {c )-}
+> {c )-}
+> 
+> eststo clear
+> 
+> foreach var in SCE{c -(}
+>   foreach mom in Mean{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>      replace InfExp_`mom'l1 = `var'_`mom'l1
+>          replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>           scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[InfExp_`mom']=1
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>      test _b[InfExp_`mom']=1
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>  {c )-}
+> {c )-}
+> 
+> 
+> foreach var in SCE{c -(}
+>   foreach mom in Var{c -(}
+>      replace InfExp_`mom' = `var'_`mom'
+>      replace InfExp_`mom'l1 = `var'_`mom'l1
+>          replace InfExp_`mom'f0 = `var'_`mom'f0
+>      eststo `var'`mom'rvlv1: reg InfExp_`mom'f0 InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv2: reg InfExp_`mom'f0 l(0/1).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>          eststo `var'`mom'rvlv3: reg InfExp_`mom'f0 l(0/2).InfExp_`mom'
+>          test _b[_cons]=0
+>          scalar pvtest= r(p)
+>          estadd scalar pvtest
+>  {c )-}
+> {c )-}
+> 
+> esttab using "${c -(}sum_table_folder{c )-}/RVEfficiencySCEM.csv", mtitles se(%8.3f) scalars(pvtest N r2) replace
+> */
 . 
+. save "${c -(}folder{c )-}/InfExpM.dta",replace 
+{txt}file /Users/Myworld/Dropbox/ExpProject/workingfolder/SurveyData//InfExpM.dta saved
+
+{com}. 
+. 
+. log close 
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}/Users/Myworld/Dropbox/ExpProject/workingfolder/pop_log.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}13 Nov 2019, 11:16:02
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}

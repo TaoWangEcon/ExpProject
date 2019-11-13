@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  11 NOV 2019 16:52
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  12 NOV 2019 14:11
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -948,7 +948,7 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 606.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 606.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 606.
 Package rerunfilecheck Info: File `GMMResults.out' has not changed.
-(rerunfilecheck)             Checksum: 40371CD312474D0A7379B02D140E8D71;930.
+(rerunfilecheck)             Checksum: B58B59EC7CE680D8667272DFED512F96;930.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 606.
  ) 
 Here is how much of TeX's memory you used:
@@ -979,7 +979,7 @@ texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/2019/t
 exmf-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/local/texlive/2019/tex
 mf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2019/texmf
 -dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
-Output written on GMMResults.pdf (20 pages, 2670004 bytes).
+Output written on GMMResults.pdf (20 pages, 2669837 bytes).
 PDF statistics:
  417 PDF objects out of 1000 (max. 8388607)
  244 compressed objects within 3 object streams

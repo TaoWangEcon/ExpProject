@@ -43,7 +43,6 @@ replace quarter=4 if month<=12 & month >=10
 merge m:1 year quarter using "${folder}/SPF/individual/InfExpSPFPointPopQ.dta",keep(match using master)
 rename _merge spf_merge 
 
-
 merge m:1 year quarter using "${folder}/SPF/InfExpSPFDstPopQ.dta",keep(match using master)
 rename _merge spf_dst_merge 
 
@@ -110,11 +109,18 @@ eststo clear
 ***  Collapse monthly data to quarterly  **
 *******************************************
 
-local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCE Inf1yf_PCE Inf1y_PCECore Inf1yf_PCECore
+local Infbf    Inf1y_CPIAU Inf1yf_CPIAU Inf1y_CPICore Inf1yf_CPICore Inf1y_PCE ///
+               Inf1yf_PCE Inf1y_PCECore Inf1yf_PCECore
 
-local Moments Q9_mean Q9_var Q9_disg Q9_iqr CPI1y PCE1y CORECPI1y InfExpMichMed ///
-                COREPCE1y CPI_disg PCE_disg CORECPI_disg COREPCE_disg SCE_FE SPFCPI_FE SPFPCE_FE ///
-				PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean ///
+local Moments  Q9_mean Q9_var Q9_disg Q9_iqr ///
+               Q9_fe_var Q9_fe_atv Q9_atv ///
+               CPI1y PCE1y CORECPI1y COREPCE1y InfExpMichMed ///
+               CPI_disg PCE_disg CORECPI_disg COREPCE_disg ///
+			   CPI_atv PCE_atv CORECPI_atv COREPCE_atv ///
+			   CPI_fe_var PCE_fe_var CORECPI_fe_var COREPCE_fe_var ///
+			   CPI_fe_atv PCE_fe_atv CORECPI_fe_atv COREPCE_fe_atv ///
+			   SCE_FE SPFCPI_FE SPFPCE_FE ///
+			   PRCCPIVar1mean PRCPCEVar1mean PRCCPIVar0mean PRCPCEVar0mean 
 				
 local MomentsRv PRCCPIMean_rv PRCPCEMean_rv  PRCCPIVar_rv PRCPCEVar_rv  ///
                 PRCCPIMeanl1  PRCCPIVarl1 PRCCPIMeanf0  PRCCPIVarf0 ///	
@@ -360,23 +366,41 @@ rename Q9_mean SCE_Mean
 rename Q9_var SCE_Var
 rename Q9_disg SCE_Disg
 rename SCE_FE SCE_FE
+rename Q9_fe_var SCE_FEVar
+rename Q9_fe_atv SCE_FEATV
+rename Q9_atv SCE_ATV
 
 rename CPI1y SPFCPINC_Mean
 rename PCE1y SPFPCENC_Mean
 rename COREPCE1y SPFPCE_Mean
 rename CORECPI1y SPFCPI_Mean
 
-
 rename CPI_disg SPFCPINC_Disg
 rename PCE_disg SPFPCENC_Disg 
 rename CORECPI_disg SPFCPI_Disg
 rename COREPCE_disg SPFPCE_Disg
+
+rename CPI_atv SPFCPINC_ATV
+rename PCE_atv SPFPCENC_ATV
+rename CORECPI_atv SPFCPI_ATV
+rename COREPCE_atv SPFPCE_ATV
 
 rename PRCPCEVar1mean SPFPCE_Var
 rename PRCCPIVar1mean SPFCPI_Var
 
 rename SPFCPI_FE SPFCPI_FE
 rename SPFPCE_FE SPFPCE_FE
+
+rename CPI_fe_var SPFCPINC_FEVAR
+rename PCE_fe_var SPFPCENC_FEVAR 
+rename CORECPI_fe_var SPFCPI_FEVAR
+rename COREPCE_fe_var SPFPCE_FEVAR
+
+rename CPI_fe_atv SPFCPINC_FEATV
+rename PCE_fe_atv SPFPCENC_FEATV 
+rename CORECPI_fe_atv SPFCPI_FEATV
+rename COREPCE_fe_atv SPFPCE_FEATV
+
 
 rename PRCPCEMean_rv SPFPCE_Mean_rv
 rename PRCCPIMean_rv SPFCPI_Mean_rv

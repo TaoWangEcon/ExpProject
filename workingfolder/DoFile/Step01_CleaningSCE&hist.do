@@ -252,14 +252,54 @@ foreach var in `Moments'{
 	  replace `var' = . if `var' <`var'p5 | (`var' >`var'p95 & `var'!=.)
 }
 
-*************************
-*** Other Measures *****
-*************************
+*****************************************
+*** Compute Cross-sectional Moments *****
+*****************************************
 
+* merge inflation data to compute forecast errors 
+
+merge m:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match using master)
+rename _merge inflation_merge 
+
+** indivdiual forecast errors 
+
+gen Q9_fe = Q9_mean - Inf1yf_CPIAU
+label var Q9_fe "Forecast error of 1-yr-ahead inflation"
+
+
+** variances of forecast errors 
+
+egen Q9_fe_sd = sd(Q9_fe), by(date)
+gen Q9_fe_var = Q9_fe_sd^2
+label var Q9_fe_sd "Variances of 1-yr-ahead forecast errors"
+
+** autocovariance of forecast errors
+
+sort userid date
+gen Q9_fe_l1 = l1.Q9_fe
+label var Q9_fe_l1 "lagged forecast error"
+
+sort date 
+egen Q9_fe_atv = corr(Q9_fe Q9_fe_l1), covariance by(date)
+label var Q9_fe_atv "Auto covariance of forecast errors"
+
+
+** autocovariance of forecast
+
+sort userid date
+gen Q9_mean_l1 = l1.Q9_mean
+label var Q9_mean_l1 "lagged forecasts"
+
+sort date 
+egen Q9_atv = corr(Q9_mean Q9_mean_l1), covariance by(date)
+label var Q9_atv "Auto covariance of forecasts"
+
+
+** variances of forecasts, i.e. disagreements
+sort userid date 
 egen Q9_sd = sd(Q9_mean), by(date)
 gen Q9_disg = Q9_sd^2
 label var Q9_disg "Disagreements of 1-yr-ahead expted inflation"
-
 
 egen Q9c_sd = sd(Q9c_mean), by(date)
 gen Q9c_disg = Q9c_sd^2
@@ -365,7 +405,10 @@ foreach var in SCE{
 *************************
 
 
-local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg Q9c_mean Q9c_var Q9c_iqr Q9c_cent50 Q9c_disg
+local Moments Q9_mean Q9_var Q9_iqr Q9_cent50 Q9_disg Q9c_mean Q9c_var Q9c_iqr Q9c_cent50 Q9c_disg ///
+              Q9_atv Q9_fe_var Q9_fe_atv
+			  
+			  
 local MomentsMom Q9_meanp25 Q9_meanp50 Q9_meanp75 Q9_varp25 Q9_varp50 Q9_varp75 ///
                  Q9c_meanp25 Q9c_meanp50 Q9c_meanp75 Q9c_varp25 Q9c_varp50 Q9c_varp75
 
@@ -377,7 +420,9 @@ label var Q9_var "Average Uncertainty of 1-yr-ahead Expected Inflation"
 label var Q9_iqr "Average 25/75 IQR of 1-yr-ahead Expected Inflation(%)"
 label var Q9_cent50 "Average Median of 1-yr-ahead Expected Inflation(%)"
 label var Q9_disg "Disagreements of 1-yr-ahead Expected Inflation"
-
+label var Q9_atv "Autocovariances of 1-yr-ahead Forecasts"
+label var Q9_fe_var "Variances of 1-yr-ahead Forecast Errors"
+label var Q9_fe_atv "Autocovariances of 1-yr-ahead Forecast Errors"
 
 
 label var Q9c_mean "Average 2-yr-ahead Expected Inflation(%)"
@@ -385,6 +430,7 @@ label var Q9c_var "Average Uncertainty of 2-yr-ahead Expected Inflation"
 label var Q9c_iqr "Average 25/75 IQR of 2-yr-ahead Expected Inflation(%)"
 label var Q9c_cent50 "Average Median of 2-yr-ahead Expected Inflation(%)"
 label var Q9c_disg "Disagreements of 2-yr-ahead Expected Inflation"
+
 
 save "${folder}/SCE/InfExpSCEProbPopM",replace 
 

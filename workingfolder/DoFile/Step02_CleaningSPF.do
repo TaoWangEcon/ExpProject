@@ -50,8 +50,8 @@ replace month =4 if quarter==2
 replace month =7 if quarter ==3
 replace month =9 if quarter==4
 
-order dateQ year quarter month
-
+order date dateQ year quarter month
+xtset ID date
 
 ***********************************
 *********Destring and Labels ******
@@ -94,12 +94,65 @@ gen `var'1y = 100*(((1+`var'3/100)*(1+`var'4/100)*(1+`var'5/100)*(1+`var'6/100))
 label var `var'1y "inflation from q to q+4"
 }
 
-*******************************
-*******  Population moments  **
-*******************************
+
+*****************************************
+*** Compute Cross-sectional Moments *****
+*****************************************
+
+* merge inflation data to compute forecast errors 
+
+merge m:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master)
+rename _merge inflation_merge 
+
+** indivdiual forecast errors 
+
+gen CPI_fe = CPI1y - Inf1yf_CPIAU
+label var CPI_fe "1-yr-ahead forecast error(SPF Core CPI)"
+
+gen PCE_fe = PCE1y - Inf1yf_PCE
+label var PCE_fe "1-yr-ahead forecast error(SPF Core PCE)"
+
+gen CORECPI_fe = CORECPI1y - Inf1yf_CPICore
+label var CORECPI_fe "1-yr-ahead forecast error(SPF Core CPI)"
+
+gen COREPCE_fe = COREPCE1y - Inf1yf_PCECore
+label var COREPCE_fe "1-yr-ahead forecast error(SPF Core PCE)"
 
 
-foreach var in PCE CPI CORECPI COREPCE{
+** variances and autocovariances of forecast errors
+
+foreach var in CPI PCE CORECPI COREPCE{
+
+** variances
+sort date
+egen `var'_fe_sd = sd(`var'_fe), by(date)
+gen `var'_fe_var = `var'_fe_sd^2
+label var `var'_fe_sd "Variances of 1-yr-ahead forecast errors"
+
+
+** autocovariance
+
+xtset ID date 
+gen `var'_fe_l1 = l1.`var'_fe
+label var `var'_fe_l1 "lagged forecast error"
+
+sort date 
+egen `var'_fe_atv = corr(`var'_fe `var'_fe_l1), covariance by(date)
+label var `var'_fe_atv "Auto covariance of forecast errors"
+
+** autocovariance of forecast
+
+sort ID date
+gen `var'1y_l1 = l1.`var'1y
+label var `var'1y_l1 "lagged forecasts"
+
+sort date 
+egen `var'_atv = corr(`var'1y `var'1y_l1), covariance by(date)
+label var `var'_atv "Auto covariance of forecasts"
+
+** variances of forecasts, i.e. disagreement
+sort ID date
+
 egen `var'_std = sd(`var'1y), by(year quarter)
 gen `var'_disg = `var'_std^2 
 label var `var'_disg "disagreements of `var'"
@@ -108,10 +161,14 @@ label var `var'_ct50 "Median of `var'"
 }
 
 
+
 save InfExpSPFPointIndQ,replace
 
 collapse (mean) PCE1y CPI1y CORECPI1y COREPCE1y ///
                 PCE_disg CPI_disg CORECPI_disg COREPCE_disg ///
+				PCE_atv CPI_atv CORECPI_atv COREPCE_atv ///
+				PCE_fe_var CPI_fe_var CORECPI_fe_var COREPCE_fe_var ///
+				PCE_fe_atv CPI_fe_atv CORECPI_fe_atv COREPCE_fe_atv ///
 				PCE_ct50 CPI_ct50 CORECPI_ct50 COREPCE_ct50, by(year quarter month)
 
 label var PCE1y "1-yr-ahead PCE inflation"
@@ -124,6 +181,23 @@ label var CPI_disg "Disagreements in 1-yr-ahead CPI inflation"
 label var COREPCE_disg "Disagreements in 1-yr-ahead Core PCE inflation"
 label var CORECPI_disg "Disagreements in 1-yr-ahead Core CPI inflation"
 
+
+label var PCE_atv "Autocovariance of 1-yr-ahead PCE inflation"
+label var CPI_atv "Autocovariance of 1-yr-ahead CPI inflation"
+label var COREPCE_atv "Autocovariance of in 1-yr-ahead Core PCE inflation"
+label var CORECPI_atv "Autocovariance of in 1-yr-ahead Core CPI inflation"
+
+
+label var PCE_fe_var "Variance of 1-yr-ahead PCE forecast errors"
+label var CPI_fe_var "Variance of 1-yr-ahead CPI forecast errors"
+label var COREPCE_fe_var "Variance of in 1-yr-ahead Core PCE forecast errors"
+label var CORECPI_fe_var "Variance of in 1-yr-ahead Core CPI forecast errors"
+
+
+label var PCE_fe_atv "Autocovariance of 1-yr-ahead PCE forecast errors"
+label var CPI_fe_atv "Autocovariance of 1-yr-ahead CPI forecast errors"
+label var COREPCE_fe_atv "Autocovariance of in 1-yr-ahead Core PCE forecast errors"
+label var CORECPI_fe_atv "Autocovariance of in 1-yr-ahead Core CPI forecast errors"
 
 label var PCE_ct50 "Median 1-yr-ahead PCE inflation"
 label var CPI_ct50 "Median 1-yr-ahead CPI inflation"
