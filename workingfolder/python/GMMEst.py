@@ -79,7 +79,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5, 10, 19]}
+# + {"code_folding": [1, 5, 10, 19, 42]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -139,7 +139,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [1, 2, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
+# + {"code_folding": [16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -310,7 +310,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
+# + {"code_folding": [24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,

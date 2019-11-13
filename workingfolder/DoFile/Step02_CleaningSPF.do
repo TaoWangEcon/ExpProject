@@ -104,6 +104,7 @@ label var `var'1y "inflation from q to q+4"
 merge m:1 year month using "${mainfolder}/OtherData/InfM.dta",keep(match master)
 rename _merge inflation_merge 
 
+
 ** indivdiual forecast errors 
 
 gen CPI_fe = CPI1y - Inf1yf_CPIAU
@@ -118,6 +119,13 @@ label var CORECPI_fe "1-yr-ahead forecast error(SPF Core CPI)"
 gen COREPCE_fe = COREPCE1y - Inf1yf_PCECore
 label var COREPCE_fe "1-yr-ahead forecast error(SPF Core PCE)"
 
+** Redo the date to quarterly 
+
+drop date 
+gen date_str = string(year)+"Q"+string(quarter)
+gen date = quarterly(date_str,"YQ")
+format date %tq
+xtset ID date
 
 ** variances and autocovariances of forecast errors
 
@@ -159,7 +167,6 @@ label var `var'_disg "disagreements of `var'"
 egen `var'_ct50 = median(`var'1y), by(year quarter) 
 label var `var'_ct50 "Median of `var'"
 }
-
 
 
 save InfExpSPFPointIndQ,replace

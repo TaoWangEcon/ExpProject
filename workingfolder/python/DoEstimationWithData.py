@@ -246,7 +246,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## real time and history 
 
 ################
@@ -429,7 +429,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SCE_holder)
 print(para_est_SCE_joint_holder)
 
-# + {"code_folding": []}
+# + {"code_folding": [0, 2]}
 sce_se_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
 sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
@@ -440,7 +440,7 @@ sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
 
 
 
-# + {"code_folding": [2]}
+# + {"code_folding": [3]}
 est_moms = pd.DataFrame(moments_choices)
 
 ## combining SCE and SPF 

@@ -30,7 +30,7 @@ from statsmodels.tsa.api import AR
 from UCSVEst import UCSVEst as ucsv
 # -
 
-from GMMEst import RationalExpectation as re
+from GMMEst_Dev import RationalExpectation as re
 #from GMMEst_Dev import StickyExpectation as se
 #from GMMEst_Dev import NoisyInformation as ni
 from GMMEst import ParameterLearning as pl
@@ -84,7 +84,7 @@ real_time_cpi =  pd.Series(GetRealTimeData(matrix_cpi) )
 real_time_cpic.index =  InfCPICMRT.index #+ pd.DateOffset(months=1) 
 real_time_cpi.index = InfCPIMRT.index #+ pd.DateOffset(months=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## turn index into yearly inflation
 real_time_index =pd.concat([real_time_cpic,real_time_cpi], join='inner', axis=1)
 real_time_index.columns=['RTCPI','RTCPICore']
@@ -96,7 +96,7 @@ real_time_inf.tail()
 # ### 3. Estimating using real-time inflation and expectation data
 #
 
-# + {"code_folding": [0, 6]}
+# + {"code_folding": []}
 ## exapectation data from SPF 
 PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
 PopQ = PopQ[-PopQ.date.isnull()]
@@ -105,26 +105,29 @@ dateQ = pd.to_datetime(PopQ['date'],format='%Y%m%d')
 
 dateQ_str = dateQ.dt.year.astype(int).astype(str) + \
              "Q" + dateQ.dt.quarter.astype(int).astype(str)
-PopQ.index = pd.DatetimeIndex(dateQ_str)
+PopQ.index = pd.DatetimeIndex(dateQ_str,freq='infer')
 
-SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how='any')
+####################################################
+#### specific to including more moments ###########
+####################################################
+SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var',
+               'SPFCPI_ATV','SPFCPI_FEVar','SPFCPI_FEATV']].dropna(how='any')
 
 
-
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Inflation data quarterly 
 InfQ = pd.read_stata('../OtherData/InfShocksQClean.dta')
 InfQ = InfQ[-InfQ.date.isnull()]
 dateQ2 = pd.to_datetime(InfQ['date'],format='%Y%m%d')
-dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
-             "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
+dateQ_str2 = dateQ2.dt.year.astype(int).astype(str) + \
+             "Q" + dateQ2.dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
 
 # + {"code_folding": []}
 ## process parameters estimation 
 # period filter 
 start_t='1995-01-01'
-end_t = '2019-03-30'   # the same period as in Gali (1991)
+end_t = '2019-03-30'   
 
 ### quarterly data 
 CPICQ = InfQ['Inf1y_CPICore'].copy().loc[start_t:end_t]
@@ -136,15 +139,6 @@ ar_rs = ARmodel.fit(1,trend='nc')
 rhoQ_est = ar_rs.params[0]
 sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 
-
-
-# +
-### exporting the quarterly inflation series for process estimation using UCSV model in matlab
-
-CPICQ.to_excel("../OtherData/CPICQ.xlsx")
-
-CPICQ_UCSV_Est=pd.read_excel('../OtherData/estQ.xlsx',header=None)  
-CPICQ_UCSV_Est.columns = ['eta_est','eps_est','tau']
 
 # + {"code_folding": [0]}
 ## Inflation data monthly
@@ -166,7 +160,7 @@ ar_rs2 = ARmodel2.fit(1,trend='nc')
 rhoM_est = ar_rs2.params[0]
 sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## expectation data from SCE
 
 PopM = pd.read_stata('../SurveyData/InfExpM.dta')
@@ -177,12 +171,17 @@ dateM = pd.to_datetime(PopM['date'],format='%Y%m%d')
 
 dateM_str = dateM.dt.year.astype(int).astype(str) + \
              "M" + dateM.dt.month.astype(int).astype(str)
-PopM.index = pd.DatetimeIndex(dateM)
+PopM.index = pd.DatetimeIndex(dateM,freq='infer')
 
-SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
+####################################################
+#### specific to including more moments ###########
+####################################################
+
+SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var',
+              'SCE_ATV','SCE_FEVar','SCE_FEATV']].dropna(how='any')
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
@@ -234,15 +233,71 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 #plt.title('Realized 1-year-ahead Core CPI Inflation')
 
 # + {"code_folding": [0]}
-## preparing for estimation 
+## preparing data moments
 
-exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
-exp_data_SPF.columns = ['Forecast','FE','Disg','Var']
+####################################################
+#### specific to including more moments ###########
+####################################################
+
+exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var',
+                        'SPFCPI_ATV','SPFCPI_FEVar','SPFCPI_FEATV']]
+exp_data_SPF.columns = ['Forecast','FE','Disg','Var',
+                        'ATV','FEVar','FEATV']
 data_moms_dct_SPF = dict(exp_data_SPF)
 
-exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
-exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
+exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var',
+                       'SCE_ATV','SCE_FEVar','SCE_FEATV']]
+exp_data_SCE.columns = ['Forecast','FE','Disg','Var',
+                        'ATV','FEVar','FEATV']
 data_moms_dct_SCE = dict(exp_data_SCE)
+
+# + {"code_folding": [0]}
+## estimating parameters 
+
+################
+## quarterly ###
+#################
+
+real_time_Q = np.array(SPF_est['RTCPI'])
+history_Q = historyQ['RTCPICore']
+
+data_moms_dctQ = data_moms_dct_SPF
+
+
+process_paraQ_est = {'rho':rhoQ_est,
+                    'sigma':sigmaQ_est}
+##############
+## monthly ###
+#############
+
+real_time_M = np.array(SCE_est['RTCPI'])
+history_M = historyM['RTCPI']
+data_moms_dctM = data_moms_dct_SCE
+
+
+process_paraM_est = {'rho':rhoM_est,
+                    'sigma':sigmaM_est}
+# -
+
+# ### Rational Expectation 
+
+# + {"code_folding": [0]}
+## RE for SPF #
+###############
+
+RE_model = re(real_time = real_time_Q,
+              history = history_Q,
+              process_para = process_paraQ_est)
+RE_model.moments = ['Forecast','FE','Disg','Var','ATV','FEVar','FEATV']
+RE_model.GetRealization(realized_CPIC)
+RE_model.GetDataMoments(data_moms_dct_SPF)
+re_dict = RE_model.Forecaster()
+
+## plot RE forecast moments and data moments 
+
+re_data_plot = ForecastPlotDiag(re_dict,
+                                data_moms_dctQ)
+plt.savefig('figures/spf_re_est_diag.png')
 # -
 
 # ### SE Estimation
@@ -312,7 +367,7 @@ spf_se_joint_est_para
 
 spf_se_est_para
 
-# + {"code_folding": [0, 20]}
+# + {"code_folding": [0, 13, 20]}
 ## SE loop estimation over different choieces of moments for SCE
 
 moments_choices_short =[['Forecast']]

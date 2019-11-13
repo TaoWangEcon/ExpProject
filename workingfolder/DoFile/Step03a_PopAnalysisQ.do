@@ -391,10 +391,10 @@ rename PRCCPIVar1mean SPFCPI_Var
 rename SPFCPI_FE SPFCPI_FE
 rename SPFPCE_FE SPFPCE_FE
 
-rename CPI_fe_var SPFCPINC_FEVAR
-rename PCE_fe_var SPFPCENC_FEVAR 
-rename CORECPI_fe_var SPFCPI_FEVAR
-rename COREPCE_fe_var SPFPCE_FEVAR
+rename CPI_fe_var SPFCPINC_FEVar
+rename PCE_fe_var SPFPCENC_FEVar 
+rename CORECPI_fe_var SPFCPI_FEVar
+rename COREPCE_fe_var SPFPCE_FEVar
 
 rename CPI_fe_atv SPFCPINC_FEATV
 rename PCE_fe_atv SPFPCENC_FEATV 
