@@ -61,7 +61,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": [0]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 def PrepMom(model_moments,
             data_moments):
@@ -76,8 +76,12 @@ def PrepMom(model_moments,
     diff: the Euclidean distance of two arrays of data and model 
     
     """
-    diff = np.linalg.norm((model_moments - data_moments)/data_moments)
+    diff = np.linalg.norm((model_moments - data_moments))
     return diff
+
+#################################
+######## specific to new moments
+################################
 
 
 # + {"code_folding": [1]}
@@ -119,7 +123,7 @@ def myfunc0(x,
 #Estimator2(myfunc0,
 #          para_guess = [0.1,0.2])
 
-# + {"code_folding": [0, 1, 5, 9, 18, 24, 30, 39, 55]}
+# + {"code_folding": [0, 1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -153,12 +157,13 @@ def ForecastPlotDiag(test,
     if diff_scale == True:
         for i,val in enumerate(test):
             ax1 = plt.subplot(m_ct,1,i+1)
-            ax1.plot(test[val],'rs-',label=legends[0]+ ': ' +val)
+            ax1.plot(test[val],'s-',label=legends[0]+ ': ' +val)
             ax1.legend(loc=0)
             ax2 = ax1.twinx()
             ax2.plot(np.array(data[val]),'o-',color='steelblue',label=legends[1] +':'+ val)
             ax2.legend(loc=3)
     return x
+
 def ForecastPlotDiag2(test,data,
                      legends=['model','data']):
     m_ct = len(test)
@@ -192,7 +197,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [0, 2, 16, 19, 30, 62, 86, 113, 117, 128, 133, 151]}
+# + {"code_folding": [0, 2, 16, 19, 30, 66, 93, 116, 140, 167, 181, 196, 207, 212, 230, 261]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -228,10 +233,10 @@ class RationalExpectation:
         n = len(self.real_time)
         rho = self.process_para['rho']
         sigma = self.process_para['sigma']
-        
-        ## parameters
-        real_time = self.real_time
         horizon = self.horizon
+
+        ## information set 
+        real_time = self.real_time
         
         ## forecast moments 
         Disg = np.zeros(n)
@@ -254,7 +259,61 @@ class RationalExpectation:
                                  "ATV": ATV,
                                  "FEATV":FEATV}
         return self.forecast_moments
+    
+###################################
+######## specific to new moments
+#####################################
+    
+    def GMM(self):
+        ## parameters
+        n = len(self.real_time)
+        rho = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        horizon = self.horizon
         
+        ## moments 
+        Disg = 0
+        Var = hstepvar(horizon,
+                       sigma,
+                       rho)
+        FE = 0  
+        ATV = rho*sigma**2/(1-rho**2)
+        FEATV = 0
+        
+        self.GMMMoments = {"FE":FE,
+                    "Disg":Disg,
+                    "Var":Var,
+                    "ATV": ATV,
+                    "FEATV":FEATV}
+        return self.GMMMoments
+        
+###################################
+######## specific to new moments
+#####################################
+    
+    def RE_EstObjfuncGMM(self,
+                        process_para):
+        """
+        input
+        -----
+        process_para: the parameters of process to be estimated. 
+           No expectation parameters because it is rational expectation
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        re_process_para = {'rho':process_para[0],
+                           'sigma':process_para[1]}
+        self.process_para = re_process_para
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        RE_moms_scalar_dct = self.GMM().copy()
+        RE_moms_scalar = np.array([RE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        obj_func = PrepMom(RE_moms_scalar,data_moms_scalar)
+        return obj_func 
+    
     def RE_EstObjfunc(self,
                       process_para):
         """
@@ -309,6 +368,16 @@ class RationalExpectation:
     def GetDataMoments(self,
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
+        
+#################################
+######## specific to new moments
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        self.data_moms_scalar_dct = data_moms_scalar_dct
     
     def ParaEstimate(self,
                      para_guess = np.array([0.5,0.1]),
@@ -320,6 +389,21 @@ class RationalExpectation:
                                   method = method,
                                   bounds = bounds,
                                   options = options)
+        
+###################################
+######## specific to new moments
+#####################################
+
+    def ParaEstimateGMM(self,
+                        para_guess = np.array([0.5,0.1]),
+                        method = 'CG',
+                        bounds = None,
+                        options = None):
+        self.para_estGMM = Estimator(self.RE_EstObjfuncGMM,
+                                     para_guess = para_guess,
+                                     method = method,
+                                     bounds = bounds,
+                                     options = options)
         
     def ParaEstimate2(self,
                      para_guess = np.array([0.5,0.1])):
@@ -370,6 +454,37 @@ class RationalExpectation:
                 plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
                 plt.legend(loc=1)
         return x
+    
+###################################
+######## specific to new moments
+#####################################
+
+    def ForecastPlotDiagGMM(self,
+                        all_moms = False):
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+        re_process_est_dct = {'rho':self.para_estGMM[0],
+                              'sigma':self.para_estGMM[1]}
+        new_instance = cp.deepcopy(self)
+        new_instance.process_para = re_process_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        
+        ## decide if plot all moments 
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+        m_ct = len(moments_to_plot)
+        plt.style.use('ggplot')
+        x = plt.figure(figsize=([3,3*m_ct]))
+        for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        return x
 
 
 # + {"code_folding": [0]}
@@ -391,7 +506,7 @@ fe_moms = RE_instance.Forecaster()
 # + {"code_folding": [0]}
 ## estimate rational expectation model 
 RE_instance.GetDataMoments(fe_moms)
-RE_instance.moments = ['Forecast','Disg']
+#RE_instance.moments = ['Forecast','Disg']
 
 #RE_instance.ParaEstimate(para_guess = np.array([0.5,0.3]),
 #                         method = 'L-BFGS-B',
@@ -401,16 +516,24 @@ RE_instance.moments = ['Forecast','Disg']
 #re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
 
 # +
-#RE_instance.ParaEstimate2(para_guess = [0.5,0.3])
-#RE_instance.para_est
-#re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
+#################################
+######## specific to new moments
+################################
 
-# + {"code_folding": []}
+## test GMM est
+#RE_instance.moments=['FE','Disg','Var','ATV','FEATV']
+#RE_instance.ParaEstimateGMM()
+#RE_instance.para_estGMM
+
+# +
+#re_plot = RE_instance.ForecastPlotDiagGMM()
+
+# + {"code_folding": [0]}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [1, 2, 24, 28, 40, 52, 70, 120, 138, 178, 187, 209, 230, 253, 270, 282, 293, 311, 341, 345]}
+# + {"code_folding": [0, 2, 24, 28, 40, 56, 88, 134, 142, 159, 177, 217, 229, 253, 275, 296, 319, 332, 344, 356, 368, 379, 401, 431, 461, 465]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -462,7 +585,43 @@ class StickyExpectation:
             sim_realized_noshock[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.sim_realized_noshock = sim_realized_noshock
         return self.sim_realized_noshock
+    
+#################################
+######## specific to new moments
+################################
+
+    def GMM(self):
+        ## parameters and information set
         
+        real_time = self.real_time
+        history = self.history
+        #realized = self.realized
+        #sim_realized = self.sim_realized
+        n = len(real_time)
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        lbd = self.exp_para['lambda']
+        #max_back = self.max_back
+        horizon = self.horizon      
+        n_burn = len(history) - n
+        #n_history = n + n_burn  # of course equal to len(history)
+        
+        ## moments 
+        
+        FE = 0  
+        Disg = rho**(2*horizon)*(1-lbd)**2*lbd**2*sigma**2/(1- lbd**2*(1-lbd)**2) ## might be wrong. needs to check 
+        ATV = (1-lbd)**Disg                              ## Disg is wrong 
+        Var = sum([(1-lbd)**tau*lbd*hstepvar(horizon+tau,sigma,rho) for tau in range(n + n_burn)])
+        FEVar = lbd**2*rho**(2*horizon)*sigma**2/(1-(1-lbd)**2)
+        FEATV = (1-lbd)*FEVar
+        
+        self.GMMMoments = {"FE":FE,
+                           "Disg":Disg,
+                           "Var":Var,
+                           "ATV": ATV,
+                           "FEATV":FEATV}
+        return self.GMMMoments
+    
     def Forecaster(self):
         ## inputs 
         real_time = self.real_time
@@ -510,7 +669,7 @@ class StickyExpectation:
         ## autocovariance of forecast
         ATV_array = np.empty(n)
         for i in range(n-1):
-            ATV_array[i+1] = (1-lbd)*Disg[i]
+            ATV_array[i+1] = (1-lbd)*np.sqrt(Disg[i])*np.sqrt(Disg[i+1])
         ATV_array[0] = ATV_array[1]
         ATV = ATV_array 
         
@@ -518,9 +677,12 @@ class StickyExpectation:
         FEVar = np.empty(n)
         FEATV = np.empty(n)
         for i in range(n):
-            FEVar[i] = sum([lbd*(1-lbd)**tau*(rho**(tau+horizon))*sigma**2 for tau in range(i+n_burn)])
+            FEVar[i] = sum([lbd*(1-lbd)**tau*
+                            (sum([rho**(x+horizon)*FE[i-x] for x in range(tau) if x<=i])
+                             - FE[i])**2 
+                            for tau in range(i+n_burn)])
         for i in range(n-1):
-            FEATV[i+1] = (1-lbd)*FEVar[i] 
+            FEATV[i+1] = (1-lbd)*np.sqrt(FEVar[i])*np.sqrt(FEVar[i+1])
         FEATV[0] = FEATV[1]
             
         self.forecast_moments = {"Forecast":forecast,
@@ -597,6 +759,33 @@ class StickyExpectation:
                                      "FEATV":FEs_atv}
         return self.forecast_moments_sim
     
+###################################
+######## specific to new moments
+#####################################
+
+    def SE_EstObjfuncGMM(self,
+                         se_paras):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        lbd = se_paras[0]
+        moments = self.moments
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        SE_moms_scalar_dct = self.GMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        obj_func = PrepMom(SE_moms_scalar,data_moms_scalar)
+        return obj_func 
+    
     ## a function estimating SE model parameter only 
     def SE_EstObjfunc(self,
                       se_paras):
@@ -667,6 +856,26 @@ class StickyExpectation:
     def GetDataMoments(self,
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
+#################################
+######## specific to new moments
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        self.data_moms_scalar_dct = data_moms_scalar_dct
+        
+    def ParaEstimateGMM(self,
+                     para_guess = 0.2,
+                     method='CG',
+                     bounds = None,
+                     options = None):
+        self.para_estGMM = Estimator(self.SE_EstObjfuncGMM,
+                                  para_guess = para_guess,
+                                  method = method,
+                                  bounds = bounds,
+                                  options = options)
         
     ## invoke the estimator 
     def ParaEstimate(self,
@@ -722,6 +931,40 @@ class StickyExpectation:
                 plt.plot(self.forecast_moments[val],label=val)
                 plt.legend(loc=1)
             
+#################################
+######## specific to new moments
+################################
+
+    def ForecastPlotDiagGMM(self,
+                         all_moms = False,
+                         diff_scale = False):
+        exp_para_est_dct = {'lambda':self.para_estGMM[0]}
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        self.forecast_moments_est = new_instance.Forecaster()
+        plt.style.use('ggplot')
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+            
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
+
     def ForecastPlotDiag(self,
                          all_moms = False,
                          diff_scale = False):
@@ -777,7 +1020,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -785,28 +1028,43 @@ xx_real_time = xx_history[20:]
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xx_real_time,
                                 history = xx_history,
-                                moments = ['Forecast','FE','Disg','Var','ATV','FEATV'])
+                                moments = ['FE','Disg','Var','ATV','FEATV'])
 
 SE_instance.SimulateRealization()
 
 ### simulate a realized series 
-mom_dct =  SE_instance.Forecaster()
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim=400)
+#mom_dct =  SE_instance.Forecaster()
+#mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
 
-mom_sim_and_pop = ForecastPlotDiag(mom_dct,
-                                   mom_sim_dct,
-                                   legends = ['computed',
-                                              'simulated'])
+#mom_sim_and_pop = ForecastPlotDiag(mom_dct,
+#                                   mom_sim_dct,
+#                                   legends = ['computed',
+#                                              'simulated'])
 
 # + {"code_folding": []}
 #test of ParaEstimate()
 #mom_sim_fake = mom_sim_dct.copy()
-#SE_instance.GetDataMoments(mom_sim_fake)
-SE_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_time)))
+#mom_fake = mom_dct.copy()
+#SE_instance.GetDataMoments(mom_fake)
+
 #SE_instance.ParaEstimate(method='L-BFGS-B',
 #                         para_guess = 0.5,
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
+
+# +
+#################################
+######## specific to new moments
+################################
+
+## test GMM est
+#SE_instance.moments=['ATV','FE','Disg','FEATV']
+#SE_instance.ParaEstimateGMM(method='CG',
+#                            para_guess = np.array([0.3]),
+#                            options={'disp':True})
+#SE_instance.para_estGMM
+#SE_instance.ForecastPlotDiagGMM(all_moms = True,
+#                               diff_scale = True)
 
 # + {"code_folding": [0]}
 ## test of ParaEstimateJoint()
@@ -827,15 +1085,14 @@ SE_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_tim
 
 # + {"code_folding": []}
 ### fake data moments 
-data_moms_dct_fake = SE_instance.Forecaster()
+#data_moms_dct_fake = SE_instance.Forecaster()
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ### feed the data moments
-SE_instance.GetDataMoments(data_moms_dct_fake)
-
+#SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
 #moms_sim_dct = SE_instance.ForecasterbySim(n_sim =100)
@@ -1208,9 +1465,9 @@ class NoisyInformation:
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[5:]
 
-ni_instance = NoisyInformation(real_time = xx_real_time,
-                              history = xx_history,
-                              moments=['Forecast','FE','Disg','Var'])
+#ni_instance = NoisyInformation(real_time = xx_real_time,
+#                              history = xx_history,
+#                              moments=['Forecast','FE','Disg','Var'])
 
 
 # +
@@ -1218,8 +1475,8 @@ ni_instance = NoisyInformation(real_time = xx_real_time,
 
 # + {"code_folding": []}
 ## simulate signals
-ni_instance.SimulateRealization()
-ni_instance.SimulateSignals()
+#ni_instance.SimulateRealization()
+#ni_instance.SimulateSignals()
 
 # + {"code_folding": []}
 ## forecast by simulating

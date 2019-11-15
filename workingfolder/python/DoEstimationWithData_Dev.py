@@ -27,11 +27,11 @@ from scipy.optimize import minimize
 
 import statsmodels.api as sm
 from statsmodels.tsa.api import AR
-from UCSVEst import UCSVEst as ucsv
+#from UCSVEst import UCSVEst as ucsv
 # -
 
 from GMMEst_Dev import RationalExpectation as re
-#from GMMEst_Dev import StickyExpectation as se
+from GMMEst_Dev import StickyExpectation as se
 #from GMMEst_Dev import NoisyInformation as ni
 from GMMEst import ParameterLearning as pl
 from GMMEst import AR1_simulator, ForecastPlotDiag, ForecastPlot
@@ -240,15 +240,15 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 ####################################################
 
 exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var',
-                        'SPFCPI_ATV','SPFCPI_FEVar','SPFCPI_FEATV']]
+                        'SPFCPI_ATV','SPFCPI_FEATV']]
 exp_data_SPF.columns = ['Forecast','FE','Disg','Var',
-                        'ATV','FEVar','FEATV']
+                        'ATV','FEATV']
 data_moms_dct_SPF = dict(exp_data_SPF)
 
 exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var',
-                       'SCE_ATV','SCE_FEVar','SCE_FEATV']]
+                       'SCE_ATV','SCE_FEATV']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var',
-                        'ATV','FEVar','FEATV']
+                        'ATV','FEATV']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
 # + {"code_folding": [0]}
@@ -281,7 +281,7 @@ process_paraM_est = {'rho':rhoM_est,
 
 # ### Rational Expectation 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## RE for SPF #
 ###############
 
@@ -302,10 +302,10 @@ plt.savefig('figures/spf_re_est_diag.png')
 
 # ### SE Estimation
 
-# + {"code_folding": [0, 21, 29, 39]}
-## SE loop estimation overdifferent choieces of moments for SPF
+# + {"code_folding": [14, 21, 29, 39]}
+## SE loop estimation over different choieces of moments for SPF
 
-moments_choices_short = [['Forecast']]
+moments_choices_short = [['Forecast','Disg']]
 moments_choices = [['Forecast'],
                    ['FE'],
                    ['Forecast','FE'],
@@ -317,7 +317,7 @@ para_est_SPF_joint_holder = []
 
 ### loop starts from here for SPF 
 
-for i,moments_to_use in enumerate(moments_choices):
+for i,moments_to_use in enumerate(moments_choices_short):
     print("moments used include "+ str(moments_to_use))
     real_time = np.array(SPF_est['RTCPI'])
     history_Q = historyQ['RTCPICore']
