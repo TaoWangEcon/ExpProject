@@ -31,7 +31,7 @@ import statsmodels.api as sm
 from statsmodels.tsa.api import AR
 import copy as cp 
 from scipy.stats import bernoulli
-import nlopt
+#import nlopt
 #from numpy import *
 
 # + {"code_folding": [1]}
@@ -61,7 +61,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [2, 24]}
+# + {"code_folding": [0, 2, 24]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 
 def PrepMom(model_moments,
@@ -220,7 +220,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [2, 16, 19, 30, 66, 132, 157, 184, 198, 224, 229, 247, 278]}
+# + {"code_folding": [1, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -530,7 +530,7 @@ class RationalExpectation:
         return x
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create a RE instance 
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -538,7 +538,7 @@ xx_real_time = xx_history[20:]
 RE_instance = RationalExpectation(real_time = xx_real_time,
                                   history = xx_history)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### simulate a realized series 
 RE_instance.SimulateRealization()
 
@@ -546,7 +546,7 @@ RE_instance.SimulateRealization()
 fe_moms = RE_instance.Forecaster()
 #re_plot = RE_instance.ForecastPlot()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## estimate rational expectation model 
 RE_instance.GetDataMoments(fe_moms)
 #RE_instance.moments = ['Forecast','Disg']
@@ -558,15 +558,15 @@ RE_instance.GetDataMoments(fe_moms)
 #RE_instance.para_est
 #re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
 
-# +
+# + {"code_folding": [0]}
 #################################
 ######## specific to new moments
 ################################
 
 ## test GMM est
-RE_instance.moments=['FE','ATV','Var','FEATV']
-RE_instance.ParaEstimateGMM()
-RE_instance.para_estGMM
+#RE_instance.moments=['FE','ATV','Var','FEATV']
+#RE_instance.ParaEstimateGMM()
+#RE_instance.para_estGMM
 
 # +
 #re_plot = RE_instance.ForecastPlotDiagGMM()
@@ -576,7 +576,7 @@ RE_instance.para_estGMM
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 56, 88, 134, 159, 177, 217, 229, 254, 276, 297, 320, 334, 346, 358, 370, 381, 403, 433, 463, 467]}
+# + {"code_folding": [2, 24, 28, 40, 88, 159, 177, 217, 229, 254, 276, 297, 320, 334, 346, 358, 370, 381, 403, 433, 463, 467]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -1065,7 +1065,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -1086,7 +1086,36 @@ SE_instance.SimulateRealization()
 #                                   legends = ['computed',
 #                                              'simulated'])
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
+##################################
+###### Specific to new moments ##
+##################################
+
+## test if the GMM is computed right 
+
+
+GMM_moms = SE_instance.GMM()
+
+sim_times = 50
+
+for mom in ['FE','Disg','Var','ATV','FEATV']:
+    #print(mom)
+    mom_sim_list = []
+    for i in range(sim_times):
+        SE_instance.SimulateRealization()
+        mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
+        mom_sim = np.mean(mom_sim_dct[mom])
+        #print(mom_sim)
+        mom_sim_list.append(mom_sim)
+    mom_GMM = GMM_moms[mom] 
+    fig,ax = plt.subplots()
+    plt.hist(mom_sim_list)
+    plt.axvline(mom_GMM)
+    plt.title(mom)
+    #print(mom_GMM)
+
+
+# + {"code_folding": [0]}
 #test of ParaEstimate()
 #mom_sim_fake = mom_sim_dct.copy()
 #mom_fake = mom_dct.copy()
@@ -1097,7 +1126,7 @@ SE_instance.SimulateRealization()
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
 
-# +
+# + {"code_folding": [0]}
 #################################
 ######## specific to new moments
 ################################

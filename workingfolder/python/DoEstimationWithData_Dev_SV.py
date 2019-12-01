@@ -89,7 +89,7 @@ real_time_inf.tail()
 # ### 3. Estimating using real-time inflation and expectation data
 #
 
-# + {"code_folding": [0, 6]}
+# + {"code_folding": [6]}
 ## exapectation data from SPF 
 
 PopQ = pd.read_stata('../SurveyData/InfExpQ.dta')  
@@ -175,13 +175,13 @@ CPIM_UCSV_Est.columns = ['sd_eta_est','sd_eps_est','tau']  ## Loading ucsv model
  ######################################################################################
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
 SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## hisotries data, the series ends at the same dates with real-time data but startes earlier 
 
 st_t_history = '2000-01-01'
@@ -241,41 +241,50 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 #SPF_est['Inf1yf_CPICore'].plot()
 #plt.title('Realized 1-year-ahead Core CPI Inflation')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## plot estimation of UCSV model quarterly 
 date_historyQ = np.array(list(CPICQ.index[n_burn_rt_historyQ:]) )
 
 ## stochastic vols
-plt.plot(date_historyQ,
-         history_vol_etaQ,'r-.',
+plt.plot(history_vol_etaQ,'r-.',
          label=r'$\widehat\sigma^2_{\eta}$')
-plt.plot(date_historyQ,
-         history_vol_epsQ,'--',
+plt.plot(history_vol_epsQ,'--',
          label=r'$\widehat\sigma^2_{\epsilon}$')
 plt.legend(loc=0)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## inflation and the permanent component quarterly 
 
-plt.plot(date_historyQ,np.array(historyQ['RTCPICore']),'r-.',label='y')
-plt.plot(date_historyQ,history_etaQ,'b--',label=r'$\widehat\theta$')
+plt.plot(np.array(CPICQ),
+         'r-.',
+         label='y')
+         
+#plt.plot(np.array(historyQ['RTCPICore']),
+#         'r-.',
+#         label='y')
+
+plt.plot(np.array(CPICQ_UCSV_Est['tau']),
+         '--',
+         label=r'$\widehat\theta$')
 plt.legend(loc=0)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Plot estimation of UCSV model monthly
 
 date_historyM = np.array(list(CPIM.index[n_burn_rt_historyM:]) )
 
 ## stochastic vols
-plt.plot(date_historyM,history_vol_etaM,'r-.',label=r'$\widehat\sigma^2_{\eta}$')
-plt.plot(date_historyM,history_vol_epsM,'--',label=r'$\widehat\sigma^2_{\epsilon}$')
+plt.plot(history_vol_etaM,'r-.',label=r'$\widehat\sigma^2_{\eta}$')
+plt.plot(history_vol_epsM,'--',label=r'$\widehat\sigma^2_{\epsilon}$')
 plt.legend(loc=0)
 
 # + {"code_folding": []}
 ## inflation and the permanent component monthly 
 
-plt.plot(date_historyM,np.array(historyM['RTCPI']),'r-.',label='y')
-plt.plot(date_historyM,history_etaM,'b--',label=r'$\widehat\theta$')
+plt.plot(np.array(historyM['RTCPI']),
+         'r-.',label='y')
+plt.plot(history_etaM,'b--',
+         label=r'$\widehat\theta$')
 plt.legend(loc=0)
 
 # + {"code_folding": [0]}
