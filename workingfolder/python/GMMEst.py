@@ -33,7 +33,7 @@ import copy as cp
 from scipy.stats import bernoulli
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": []}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -60,7 +60,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": []}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 def PrepMom(model_moments,
             data_moments):
@@ -75,7 +75,7 @@ def PrepMom(model_moments,
     diff: the Euclidean distance of two arrays of data and model 
     
     """
-    diff = np.linalg.norm(model_moments - data_moments)
+    diff = np.linalg.norm((model_moments - data_moments)/data_moments)
     return diff
 
 
@@ -331,7 +331,7 @@ class StickyExpectation:
         self.data_moms_dct ={}
         self.para_est = {}
         self.moments = moments
-        self.all_moments = ['Forecast','FE','Disg','Var']
+        self.all_moments = ['Forecast','FE','Disg']
         self.realized = None
         self.sim_realized = None
         

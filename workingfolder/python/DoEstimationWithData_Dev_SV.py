@@ -304,15 +304,15 @@ data_moms_dct_SCE = dict(exp_data_SCE)
 #
 # #### SPF
 
-# + {"code_folding": [0, 3, 14]}
+# + {"code_folding": [0]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
-                   ['Forecast','FE'],
-                   ['Forecast','FE','Disg'],
-                   ['Forecast','FE','Disg','Var']]
+                   ['FE','Disg'],
+                   ['FE','Var'],
+                   ['FE','Disg','Var']]
 
 para_est_SPF_holder = []
 para_est_SPF_joint_holder = []
@@ -383,15 +383,15 @@ spf_se_est_para
 
 # #### SCE
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## SE loop estimation over different choieces of moments for SCE
 
 moments_choices_short =[['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
-                   ['Forecast','FE'],
-                   ['Forecast','FE','Disg'],
-                   ['Forecast','FE','Disg','Var']]
+                   ['FE','Disg'],
+                   ['FE','Var'],
+                   ['FE','Disg','Var']]
 
 para_est_SCE_holder = []
 para_est_SCE_joint_holder =[]
@@ -445,7 +445,7 @@ for i,moments_to_use in enumerate(moments_choices):
 print(para_est_SCE_holder)
 print(para_est_SCE_joint_holder)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 sce_se_est_para = pd.DataFrame(para_est_SCE_holder,
                                columns=[r'SE: $\hat\lambda_{SCE}$(M)'])
 #sce_se_joint_est_para = pd.DataFrame(para_est_SCE_joint_holder,
@@ -460,7 +460,7 @@ est_moms = pd.DataFrame(moments_choices)
 ## combining SCE and SPF 
 se_est_df = pd.concat([est_moms,
                        spf_se_est_para,
-                       sce_se_est_para], 
+                       sce_se_est_para],
                       join='inner', axis=1)
 # -
 
@@ -484,9 +484,9 @@ se_est_df.to_excel('tables/SE_Est_sv.xlsx',
 moments_choices_short = [['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
-                   ['Forecast','FE'],
-                   ['Forecast','FE','Disg'],
-                   ['Forecast','FE','Disg','Var']]
+                   ['FE','Disg'],
+                   ['FE','Var'],
+                   ['FE','Disg','Var']]
 
 para_est_SPF_holder = []
 para_est_SPF_joint_holder = []
@@ -566,15 +566,15 @@ spf_ni_est_para
 
 # #### SCE
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## NI loop estimation overdifferent choieces of moments for SCE
 
 moments_choices_short = [['Forecast']]
 moments_choices = [['Forecast'],
                    ['FE'],
-                   ['Forecast','FE'],
-                   ['Forecast','FE','Disg'],
-                   ['Forecast','FE','Disg','Var']]
+                   ['FE','Disg'],
+                   ['FE','Var'],
+                   ['FE','Disg','Var']]
 
 para_est_SCE_holder = []
 para_est_SCE_joint_holder = []
@@ -657,6 +657,8 @@ ni_est_df = pd.concat([est_moms,
                        sce_ni_est_para],
                       join='inner', axis=1)
 # -
+
+ni_est_df
 
 ni_est_df.to_excel('tables/NI_Est_sv.xlsx',
                    float_format='%.2f',

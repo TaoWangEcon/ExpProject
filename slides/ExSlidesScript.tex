@@ -1,0 +1,157 @@
+\documentclass[]{article}
+
+%opening
+\title{Script for brown bag seminar presentation}
+\author{Tao Wang}
+
+\begin{document}
+
+\maketitle
+
+
+\begin{itemize}
+	
+	\item 
+Thanks for coming, everyone. 
+
+\item outline page.
+
+Let me start by saying that what I will present today is a subset of what I am doing for the sake of time. I am presenting the challenging part because it is still ongoing and I want to get feedback from you. 
+
+\item motivation page 
+
+A little big picture. 
+
+There have been a variety of theories on how agents form expectation deviating from full-information rational expectation benchmark. 
+
+One particular line of literature that gradually taken off since Coibion and Gorednichenco's JPE paper in 2012, is to take these theories to data, deriving implications from the theory and test them using  survey data of different type of agents, households, professionals and central bank economists. By comparable I mean these theories are put together and compared. 
+
+One way to check if a particular theory on expectation formation works well is to check if its predictions about different moments from the survey data are relatively consistent with the data. The moments, here, refer to forecast errors, disagreement, uncertainty, etc. 
+
+In light of this, the paper is motivated by two ideas. 
+
+First, if we have more moments, we have more restrictions on testing these theories. I will particularly brining in an additional moment, uncertainty to this line of work. 
+
+Second, instead of using survey purely for studying expectation self, I would try to convince you that survey itself can also helps us understand the variable process itself. 
+
+\item paper preview page 
+
+So in particular, this paper does the following three things 
+
+First is some basic facts about the time-series and cross-sectional pattern of the inflation uncertainty estimated from the density forecasts by households and professionals. A hightlight of this exercise is that although many empirical literature has used alternative indicators all they call uncertainty, say, disagreement, they are not the same things, both as defined statistically or empiricall from the data. 
+
+Second, once I have uncertainty, I can do some rational expectation null tests for uncertainty in a similar spirit to what the literature has done for other moments, say forecast errors. This part the results are in my draft already. I will not show it here today. 
+
+Third, is my focus today. I extend Coibon and Goridennicheco's JPE paper in two ways. For those of you who do not know what they do exactly, they derive testable predictions according to a particular theory, on forecast error, on disagrrement and then explore the data using impulse resposne. 
+
+My extension are twofold. First, instead of examining these predictions seperately. I do it jointly across moments, including uncertainty. 
+Second, in their paper, they assume a stylized inflation process of AR(1), my work, however, once guided by the uncertainty from the data, tells me that there is time varying uncertainty. I need to have a stochastic volatility inflation process. 
+
+\item  move to literature page 
+
+Let me not spend much time on the literature. except for pointing you the 2nd block of literature. When you start talking about probablistic surveys. One may shrug and say, well, people are bad at probabilities and answering surveys. This is not my response, but other researchers' response. They advocate the rationale of eliciting expectation surveys. Also, they show people have willingness and ability to exprese their expectations in a density manner. 
+
+\item generic frameowork  
+
+Straightforward. 
+
+- Different theories of expectation we are talking about here differ in informatio set (a sufficient statistic you need to form expectations for future variables subject to what the theory tells you have access to.) 
+
+- Once you get your information set. how you forecast depends on the inflation process, AR(1), or unobservable component. etc. 
+
+\item moments  
+
+let me make sure we are on the same pape when we talk about these moments. 
+
+upper bar to denote population moments. Also it has no subscript $i$. 
+
+The purpose of this paper, average uncertainty.
+ 
+ 
+ \item Data  
+ Two kinds agents. For households, SCE from New York Fed. 
+ 
+ SPF for professionals. has a longer sample but lower frequency. Density forecasts of core inflation goes back to 2007.
+ 
+ To be clear, the orginal answer in the survey is not eactly a density distribution itself. Instead, it is a histogram with predefined bin size.  Then I need to turn that to a density so that I can compute variance of each one's distribution, i.e. uncertainty.  I follow this paper. So does the New York Fed. 
+ 
+ Also, I exclude throughout the whole sample some extrem values. 
+  
+\item basic pattern 1 page
+
+time series pattern of the uncertainty. 
+Always from left to right, the first wo are SPF for CPI and PCE core. The thrid is for households. 
+
+On professionals
+- an upward trend in uncertainty. 
+
+On housheolds
+- more volatile. 
+
+Let me remind that the sheer magnitude is not comparable across two types of agents.  
+
+\item basic pattern 2 page
+
+Size of the forecast error. Not the forecsast error. 
+
+higher ex ante uncertainty do not necessarily mean bigger size of the ex post  forecast errors. 
+
+\item basic pattern 3 page
+
+average uncertainty is not the same as disagreement for professionals.  
+
+trending down disagreement in the period between 2007 till now. but upward uncertainty. 
+
+but for households, correlated and covement. 
+
+\item summary page
+
+two main messages for me. 
+
+first, uncertainty changes over time. 
+
+second, the dynamics are not the same as other moments. has useful things to say about expectation formation and inflation. 
+
+\item AR(1) page
+
+Now I want to choose a combination of inflation process and expectation formation and see if it better explains the dynamcis we have seen above. 
+
+I have derive for each moment according to each combination. But I just show uncertainty here, to give you a flavor. 
+
+Benchmark, AR(1) model. 
+
+REVar is simly the summation of the variance of unrealized shocks.  Constant size each period by definition. 
+
+SEVar is a weighted average of the REvar standing at different point of time depending on the last update at $\tau$. 
+
+NIvar has two parts. Since now you cannot real-time inflation well. Noisy. So you have uncertainty about it at time $t$. conditional on that, you are like a rational agent standing at time t. Your uncertainty about future shocks are othognol to the nowcasting uncertainty. 
+
+\item SV model. following stock and watson. 
+
+Now two componenets, unobservable to agents $\theta_t$ and $\eta_t$. 
+
+The permanent component $\theta_t$ is a marginale with the shock $\epsilon$. 
+
+Transitory $\eta_t$ and permanent shock $\epsilon_t$ are of the size $\sigma_\eta$ and $\sigma_\epsilon$, both of which are time varying. the stocastic shock happens to the volatility itself. 
+ 
+Both the variance of permanent and transitory shocks are time varying now because there is a time-specific shock to the volatility of each compoenent.
+ 
+\item Uncertainty SV page
+
+Full-information reationality states that you know all the stocastic variables that realized up to t. 
+
+So your uncertainty now depends on the most recent volatility level of two components
+
+SE again is a weighted avearge. 
+
+NI. now has two components as well. One part has your uncertainty about filtering true component theta. the second part is the same as a rational agent standing at time t. 
+
+The bottom line from this, time varying volatility. This has a hope to match with the uncertainty better. 
+ 
+ \item estimation page. 
+ 
+
+ 
+ \end{itemize}
+ 
+\end{document}
