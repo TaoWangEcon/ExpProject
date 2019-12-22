@@ -16,7 +16,7 @@
 # ## Do the Estimation with SCE and SPF data
 #
 
-# ### 1. Importing estimation codes
+# ### 1. Importing estimation modules
 
 # +
 import matplotlib.pyplot as plt

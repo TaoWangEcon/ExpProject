@@ -34,7 +34,7 @@ from scipy.stats import bernoulli
 #import nlopt
 #from numpy import *
 
-# + {"code_folding": [1]}
+# + {"code_folding": [0]}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -127,7 +127,7 @@ def Estimator2(obj_func,
     return parameter 
 
 
-# + {"code_folding": [0, 6]}
+# + {"code_folding": [0]}
 def myfunc(x, grad):
     if grad.size > 0:
         grad[0] = 0.0
@@ -146,13 +146,13 @@ def myfunc0(x,
 #Estimator2(myfunc0,
 #          para_guess = [0.1,0.2])
 
-# + {"code_folding": [0, 1, 9, 18, 40, 56]}
+# + {"code_folding": [1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
 
-np.random.seed(12345)
 def hstepfe(h,sigma,rho):
+    np.random.seed(12345)
     return sum([rho**i*(np.random.randn(1)*sigma)*np.random.randn(h)[i] for i in range(h)])
 ## This is not correct. 
 
@@ -220,7 +220,11 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [1, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
+# -
+
+# ## RE model 
+
+# + {"code_folding": [0, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -530,7 +534,7 @@ class RationalExpectation:
         return x
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a RE instance 
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -538,7 +542,7 @@ xx_real_time = xx_history[20:]
 RE_instance = RationalExpectation(real_time = xx_real_time,
                                   history = xx_history)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### simulate a realized series 
 RE_instance.SimulateRealization()
 
@@ -570,13 +574,16 @@ RE_instance.GetDataMoments(fe_moms)
 
 # +
 #re_plot = RE_instance.ForecastPlotDiagGMM()
+# -
 
-# + {"code_folding": [0]}
+# ## SE model 
+
+# + {"code_folding": []}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 24, 28, 40, 88, 159, 177, 217, 229, 254, 276, 297, 320, 334, 346, 358, 370, 381, 403, 433, 463, 467]}
+# + {"code_folding": [2, 24, 41, 57, 89, 160, 219, 231, 256, 278, 300, 323, 337, 349, 361, 373, 384, 406, 436, 466, 470]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -609,6 +616,7 @@ class StickyExpectation:
         n = self.n
         rho = self.process_para['rho']
         sigma = self.process_para['sigma']
+        np.random.seed(12345)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -754,6 +762,7 @@ class StickyExpectation:
     
         
         ## simulation
+        np.random.seed(12345)
         update_or_not = bernoulli.rvs(p = lbd,
                                       size=[n_sim,n_history])
         most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
@@ -868,6 +877,7 @@ class StickyExpectation:
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
+        np.random.seed(12345)
         SE_moms_dct = self.ForecasterbySim().copy()
         SE_moms = np.array([SE_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
@@ -1065,7 +1075,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,100)
 xx_real_time = xx_history[20:]
@@ -1078,13 +1088,13 @@ SE_instance = StickyExpectation(real_time = xx_real_time,
 SE_instance.SimulateRealization()
 
 ### simulate a realized series 
-#mom_dct =  SE_instance.Forecaster()
-#mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
+mom_dct =  SE_instance.Forecaster()
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
 
-#mom_sim_and_pop = ForecastPlotDiag(mom_dct,
-#                                   mom_sim_dct,
-#                                   legends = ['computed',
-#                                              'simulated'])
+mom_sim_and_pop = ForecastPlotDiag(mom_dct,
+                                   mom_sim_dct,
+                                   legends = ['computed',
+                                              'simulated'])
 
 # + {"code_folding": [0]}
 ##################################
@@ -1093,10 +1103,9 @@ SE_instance.SimulateRealization()
 
 ## test if the GMM is computed right 
 
-
 GMM_moms = SE_instance.GMM()
 
-sim_times = 50
+sim_times = 2
 
 for mom in ['FE','Disg','Var','ATV','FEATV']:
     #print(mom)
@@ -1114,19 +1123,18 @@ for mom in ['FE','Disg','Var','ATV','FEATV']:
     plt.title(mom)
     #print(mom_GMM)
 
-
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #test of ParaEstimate()
-#mom_sim_fake = mom_sim_dct.copy()
-#mom_fake = mom_dct.copy()
-#SE_instance.GetDataMoments(mom_fake)
+mom_sim_fake = mom_sim_dct.copy()
+mom_fake = mom_dct.copy()
+SE_instance.GetDataMoments(mom_fake)
 
 #SE_instance.ParaEstimate(method='L-BFGS-B',
 #                         para_guess = 0.5,
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
@@ -1140,7 +1148,7 @@ for mom in ['FE','Disg','Var','ATV','FEATV']:
 #SE_instance.ForecastPlotDiagGMM(all_moms = True,
 #                               diff_scale = True)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ParaEstimateJoint()
 #mom_sim_fake = mom_sim_dct.copy()
 #SE_instance.GetDataMoments(mom_sim_dct)
@@ -1169,28 +1177,32 @@ for mom in ['FE','Disg','Var','ATV','FEATV']:
 #SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
-#moms_sim_dct = SE_instance.ForecasterbySim(n_sim =100)
+moms_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
 
 # + {"code_folding": []}
 ### invoke estimation 
-#SE_instance.moments = ['FE','Var','ATV']
+SE_instance.moments = ['FE','Disg']
 #SE_instance.ParaEstimate(para_guess = np.array([0.01]),
 #                         method = 'L-BFGS-B',
 #                         bounds = ((0,1),),
 #                         options = {'disp':True})
 #SE_instance.para_est
+# -
 
-# +
 ### invoke simulated estimation 
-#SE_instance.ParaEstimateSim(para_guess = 0.4,
-#                            method = 'TNC',
-#                            options = {'disp':True})
+SE_instance.ParaEstimateSim(para_guess = 0.3,
+                            method = 'L-BFGS-B',
+                            options = {'disp':True})
+
 
 # + {"code_folding": []}
 #SE_instance.para_est
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
+# -
+
+# ##  NI model 
 
 # + {"code_folding": [0, 2, 3, 27, 31, 37, 43, 55, 116, 184, 209, 215, 218, 236, 241, 253, 265, 280, 300, 315]}
 ## Noisy Information(NI) class 

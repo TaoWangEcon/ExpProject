@@ -376,7 +376,7 @@ spf_se_est_para
 # +
 #spf_se_joint_est_para
 
-# + {"code_folding": [20]}
+# + {"code_folding": [13, 20]}
 ## SE loop estimation over different choieces of moments for SCE
 
 moments_choices_short =[['Forecast']]
@@ -453,7 +453,8 @@ se_est_df = pd.concat([est_moms,
 
 sce_se_est_para
 
-sce_se_joint_est_para
+# +
+#sce_se_joint_est_para
 
 # + {"code_folding": []}
 se_est_df.to_excel('tables/SE_Est.xlsx',
@@ -532,7 +533,7 @@ spf_ni_est_para
 # +
 #spf_ni_joint_est_para
 
-# + {"code_folding": [0]}
+# + {"code_folding": [0, 14]}
 ## NI loop estimation overdifferent choieces of moments for SCE
 
 moments_choices_short = [['Forecast']]
@@ -616,13 +617,16 @@ ni_est_df = pd.concat([est_moms,
                        spf_ni_est_para,
                        sce_ni_est_para],
                       join='inner', axis=1)
+# -
+
+ni_est_df
 
 # + {"code_folding": [0]}
 ni_est_df.to_excel('tables/NI_Est.xlsx',
                    float_format='%.2f',
                    index=False)
 
-# + {"code_folding": [8]}
+# + {"code_folding": [0, 8]}
 ### Estimate of Parameter Learning for SPF
 
 real_time = np.array(SPF_est['RTCPI'])

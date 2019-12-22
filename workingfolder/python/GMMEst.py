@@ -33,7 +33,7 @@ import copy as cp
 from scipy.stats import bernoulli
 
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 # a general-purpose estimating function of the parameter
 def Estimator(obj_func,
               para_guess,
@@ -60,7 +60,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 def PrepMom(model_moments,
             data_moments):
@@ -79,7 +79,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5, 10, 19, 42]}
+# + {"code_folding": [1, 5, 9, 18, 41]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -88,7 +88,6 @@ np.random.seed(12345)
 def hstepfe(h,sigma,rho):
     return sum([rho**i*(np.random.randn(1)*sigma)*np.random.randn(h)[i] for i in range(h)])
 ## This is not correct. 
-
 
 def ForecastPlot(test):
     m_ct = len(test)
@@ -310,7 +309,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
+# + {"code_folding": [0, 2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -733,7 +732,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [2, 3, 29, 35, 41, 52, 110, 178, 201, 207, 233, 245, 257, 272, 306]}
+# + {"code_folding": [3, 29, 36, 55, 84, 113, 181, 204, 210, 236, 248, 260, 275, 309]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -767,6 +766,7 @@ class NoisyInformation:
         n = self.n
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
+        np.random.seed(12345)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -780,7 +780,9 @@ class NoisyInformation:
         n_history = len(self.history)
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
+        np.random.seed(1234)
         s_pb = self.history + sigma_pb*np.random.randn(n_history)
+        np.random.seed(1256)
         s_pr = self.history + sigma_pr*np.random.randn(n_history)
         self.signals = np.asmatrix(np.array([s_pb,s_pr]))
         self.signals_pb = s_pb
