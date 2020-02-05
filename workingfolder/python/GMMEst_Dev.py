@@ -127,7 +127,7 @@ def Estimator2(obj_func,
     return parameter 
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": [0, 6]}
 def myfunc(x, grad):
     if grad.size > 0:
         grad[0] = 0.0
@@ -583,7 +583,7 @@ RE_instance.GetDataMoments(fe_moms)
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [2, 24, 41, 57, 89, 160, 219, 231, 256, 278, 300, 323, 337, 349, 361, 373, 384, 406, 436, 466, 470]}
+# + {"code_folding": [2, 24, 28, 41, 57, 104, 175, 246, 271, 293, 315, 338, 352, 364, 376, 388, 399, 421, 451, 481]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -659,18 +659,33 @@ class StickyExpectation:
         
         ## moments 
         
+        # FE
         FE = 0  
-        Disg = rho**(2*horizon)*(1-lbd)**2*lbd**2*sigma**2/(1- lbd**2*(1-lbd)**2) ## might be wrong. needs to check 
-        ATV = (1-lbd)**Disg                               
-        Var = sum([(1-lbd)**tau*lbd*hstepvar(horizon+tau,sigma,rho) for tau in range(n + n_burn)])
-        FEVar = lbd**2*rho**(2*horizon)*sigma**2/(1-(1-lbd)**2)
-        FEATV = (1-lbd)*FEVar
+        FEVar = ((1-lbd)*2*sigma**2+lbd**2*hstepvar(horizon,sigma,rho))/(1-(1-lbd)**2*rho**2)
+        #FEVar = lbd**2*rho**(2*horizon)*sigma**2/(1-(1-lbd)**2)
+        ## because FE_t' = (1-lbd)*rho*FE_t + (1-lbd) eps + lbd FE*
+        FEATV = (1-lbd)*rho*FEVar
+        
+        # Disg
+        Disg = rho**(2*horizon)*sigma**2
+        DisgVar = rho**(4*horizon)*sigma**4/(1-rho**(2*horizon)(1-lbd)**2)
+        DisgATV = rho**(2*horizon)(1-lbd)**2*DisgVar
+        #Disg = rho**(2*horizon)*(1-lbd)**2*lbd**2*sigma**2/(1- lbd**2*(1-lbd)**2) ## might be wrong. needs to check 
+        
+        # Var
+        Var = sigma**2/(1-rho**2)*(1-lbd*rho**(2*horizon)/(1-(1-lbd)*rho*2))
+        
+        #ATV = (1-lbd)**Disg                               
+        #Var = sum([(1-lbd)**tau*lbd*hstepvar(horizon+tau,sigma,rho) for tau in range(n + n_burn)])
+        
         
         self.GMMMoments = {"FE":FE,
+                           "FEVar":FEVar,
+                           "FEATV":FEATV,
                            "Disg":Disg,
-                           "Var":Var,
-                           "ATV": ATV,
-                           "FEATV":FEATV}
+                           "DisgVar":DisgVar,
+                           "DisgATV":DisgATV,
+                           "Var":Var}
         return self.GMMMoments
     
     def Forecaster(self):
@@ -1096,7 +1111,7 @@ mom_sim_and_pop = ForecastPlotDiag(mom_dct,
                                    legends = ['computed',
                                               'simulated'])
 
-# + {"code_folding": [0]}
+# + {"code_folding": [10]}
 ##################################
 ###### Specific to new moments ##
 ##################################
@@ -1105,7 +1120,7 @@ mom_sim_and_pop = ForecastPlotDiag(mom_dct,
 
 GMM_moms = SE_instance.GMM()
 
-sim_times = 2
+sim_times = 10
 
 for mom in ['FE','Disg','Var','ATV','FEATV']:
     #print(mom)
@@ -1140,13 +1155,16 @@ SE_instance.GetDataMoments(mom_fake)
 ################################
 
 ## test GMM est
-#SE_instance.moments=['ATV','FE','Disg','FEATV']
-#SE_instance.ParaEstimateGMM(method='CG',
-#                            para_guess = np.array([0.3]),
-#                            options={'disp':True})
-#SE_instance.para_estGMM
-#SE_instance.ForecastPlotDiagGMM(all_moms = True,
-#                               diff_scale = True)
+SE_instance.moments=['ATV','FE','Disg','FEATV']
+SE_instance.ParaEstimateGMM(method='CG',
+                            para_guess =  np.array([0.3]),
+                            options={'disp':True})
+SE_instance.para_estGMM
+SE_instance.ForecastPlotDiagGMM(all_moms = True,
+                               diff_scale = True)
+# -
+
+SE_instance.para_estGMM
 
 # + {"code_folding": []}
 ## test of ParaEstimateJoint()

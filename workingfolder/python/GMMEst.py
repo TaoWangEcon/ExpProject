@@ -31,10 +31,12 @@ import statsmodels.api as sm
 from statsmodels.tsa.api import AR
 import copy as cp 
 from scipy.stats import bernoulli
+from numba import jit, njit # njit is just an alias for jit(nopython=True)
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": [2]}
 # a general-purpose estimating function of the parameter
+@jit
 def Estimator(obj_func,
               para_guess,
               method='CG',
@@ -60,8 +62,9 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": []}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
+@jit
 def PrepMom(model_moments,
             data_moments):
     """
@@ -79,7 +82,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 5, 9, 18, 41]}
+# + {"code_folding": [0, 1, 5, 9, 18, 41]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -138,7 +141,7 @@ process_para = {'rho':rho,
                 'sigma':sigma}
 
 
-# + {"code_folding": [1, 16, 19, 30, 53, 58, 66, 76, 80, 91, 109, 111, 115]}
+# + {"code_folding": [2, 16, 19, 31, 54, 59, 67, 77, 82, 93, 111, 113, 117]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -168,7 +171,8 @@ class RationalExpectation:
             cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
             realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.realized = realized        
-        
+    
+    @jit
     def Forecaster(self):
         ## parameters
         n = len(self.real_time)
@@ -219,6 +223,7 @@ class RationalExpectation:
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
     
+    @jit
     def ParaEstimate(self,
                      para_guess = np.array([0.5,0.1]),
                      method = 'CG',
@@ -278,24 +283,25 @@ class RationalExpectation:
 
 # + {"code_folding": []}
 ### create a RE instance 
-#xx_history = AR1_simulator(rho,sigma,100)
-#xx_real_time = xx_history[20:]
+xx_history = AR1_simulator(rho,sigma,100)
 
-#RE_instance = RationalExpectation(real_time = xx_real_time,
-#                                 history = xx_history)
+xx_real_time = xx_history[20:]
+
+RE_instance = RationalExpectation(real_time = xx_real_time,
+                                 history = xx_history)
 
 # + {"code_folding": []}
 ### simulate a realized series 
-#RE_instance.SimulateRealization()
+RE_instance.SimulateRealization()
 
 ### forecster
 #fe_moms = RE_instance.Forecaster()
 #re_plot = RE_instance.ForecastPlot()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## estimate rational expectation model 
-#RE_instance.GetDataMoments(fe_moms)
-#RE_instance.moments=['Forecast','FE','Var']
+RE_instance.GetDataMoments(fe_moms)
+RE_instance.moments=['Forecast','FE','Var']
 
 #RE_instance.ParaEstimate(para_guess = np.array([0.1,0.2]),
 #                         method = 'L-BFGS-B',
@@ -309,7 +315,7 @@ class RationalExpectation:
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 24, 28, 40, 52, 89, 100, 155, 176, 197, 220, 225, 237, 249, 260, 278, 308, 313]}
+# + {"code_folding": [2, 24, 28, 41, 54, 102, 158, 179, 200]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -342,6 +348,7 @@ class StickyExpectation:
         n = self.n
         rho = self.process_para['rho']
         sigma = self.process_para['sigma']
+        #np.random.seed(13234)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -361,7 +368,8 @@ class StickyExpectation:
             sim_realized_noshock[i] = rho**self.horizon*self.real_time[i] + cum_shock
         self.sim_realized_noshock = sim_realized_noshock
         return self.sim_realized_noshock
-        
+    
+    
     def Forecaster(self):
         ## inputs 
         real_time = self.real_time
@@ -409,9 +417,9 @@ class StickyExpectation:
                                 "Disg":Disg,
                                 "Var":Var}
         return self.forecast_moments
-    
+
     def ForecasterbySim(self,
-                        n_sim = 100):
+                        n_sim = 1000):
         ## inputs 
         real_time = self.real_time
         history  = self.history
@@ -428,8 +436,9 @@ class StickyExpectation:
     
         
         ## simulation
+        np.random.seed(12444)
         update_or_not = bernoulli.rvs(p = lbd,
-                                      size=[n_sim,n_history])
+                                      size = [n_sim,n_history])
         most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
         nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
         Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
@@ -459,9 +468,9 @@ class StickyExpectation:
         Vars_mean = np.mean(Vars,axis=0) ## need to change 
         
         self.forecast_moments_sim = {"Forecast":forecasts_mean, 
-                "FE":FEs_mean,
-                "Disg":forecasts_var,
-                "Var":Vars_mean}
+                                    "FE":FEs_mean,
+                                    "Disg":forecasts_var,
+                                    "Var":Vars_mean}
         return self.forecast_moments_sim
     
     ## a function estimating SE model parameter only 
@@ -553,10 +562,10 @@ class StickyExpectation:
                      bounds = None,
                      options = None):
         self.para_est_sim = Estimator(self.SE_EstObjfuncSim,
-                                  para_guess=para_guess,
-                                  method = method,
-                                  bounds = bounds,
-                                  options = options)
+                                      para_guess = para_guess,
+                                      method = method,
+                                      bounds = bounds,
+                                      options = options)
         return self.para_est_sim
     
     def ParaEstimateJoint(self,
@@ -654,20 +663,20 @@ class StickyExpectation:
 
 # + {"code_folding": []}
 ## test of ForecasterbySim
-#xx_history = AR1_simulator(rho,sigma,100)
-#xx_real_time = xx_history[20:]
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[20:]
 
 ### create a SE instance using fake real time data 
-#SE_instance = StickyExpectation(real_time = xx_real_time,
-#                                history = xx_history,
-#                               moments = ['Forecast','FE','Disg'])
+SE_instance = StickyExpectation(real_time = xx_real_time,
+                                history = xx_history,
+                               moments = ['Forecast','FE','Disg'])
 
-#SE_instance.SimulateRealization()
+SE_instance.SimulateRealization()
 
 
 ### simulate a realized series 
-#mom_dct =  SE_instance.Forecaster()
-#mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
+mom_dct =  SE_instance.Forecaster()
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
 
 #mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 
@@ -701,14 +710,15 @@ class StickyExpectation:
 
 # + {"code_folding": []}
 ### fake data moments 
-#data_moms_dct_fake = SE_instance.Forecaster()
+data_moms_dct_fake = SE_instance.Forecaster()
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ### feed the data moments
-#SE_instance.GetDataMoments(data_moms_dct_fake)
+SE_instance.GetDataMoments(data_moms_dct_fake)
+
 
 # + {"code_folding": []}
 #moms_sim_dct = SE_instance.ForecasterbySim(n_sim =100)
@@ -722,7 +732,7 @@ class StickyExpectation:
 
 # +
 ### invoke simulated estimation 
-#SE_instance.ParaEstimateSim(para_guess = 0.4,
+#SE_instance.ParaEstimateSim(para_guess = 0.1,
 #                            method = 'TNC',
 #                            options = {'disp':True})
 
@@ -732,7 +742,7 @@ class StickyExpectation:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [3, 29, 36, 55, 84, 113, 181, 204, 210, 236, 248, 260, 275, 309]}
+# + {"code_folding": [3, 25, 29, 36, 42, 84, 113, 182, 205, 211, 231, 255, 260, 272, 283, 295, 310, 344]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -766,7 +776,7 @@ class NoisyInformation:
         n = self.n
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
-        np.random.seed(12345)
+        #np.random.seed(12345)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -847,7 +857,7 @@ class NoisyInformation:
         return self.forecast_moments
     
     def ForecasterbySim(self,
-                       n_sim = 100):
+                       n_sim = 1000):
         # parameters
         real_time = self.real_time
         history = self.history
@@ -869,6 +879,7 @@ class NoisyInformation:
         
         # randomly simulated signals 
         signal_pb = self.signals_pb 
+        np.random.seed(12343)
         signals_pr = self.history + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
         
         ## prepare matricies 
@@ -963,6 +974,29 @@ class NoisyInformation:
         obj_func = PrepMom(NI_moms_stack,data_moms_stack)
         return obj_func
     
+    def NI_EstObjfuncSim(self,
+                      ni_paras):
+        """
+        input
+        -----
+        sigma: the parameters of NI model to be estimated. A vector of sigma_pb and sigma_pr
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        NI_para = {"sigma_pb":ni_paras[0],
+                  "sigma_pr":ni_paras[1],
+                  'var_init':ni_paras[2]}
+        self.exp_para = NI_para  # give the new parameters 
+        data_moms_dct = self.data_moms_dct
+        NI_moms_dct = self.ForecasterbySim()
+        NI_moms = np.array([NI_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(NI_moms,data_moms)
+        return obj_func 
+    
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
                        data_moms_dct):
@@ -987,6 +1021,17 @@ class NoisyInformation:
                           bounds = None,
                           options = None):
         self.para_est_joint = Estimator(self.NI_EstObjfuncJoint,
+                                  para_guess = para_guess,
+                                  method = method,
+                                  bounds = bounds,
+                                  options = options)
+        
+    def ParaEstimateSim(self,
+                     para_guess=np.array([0.2,0.2,0.2]),
+                     method='CG',
+                     bounds = None,
+                     options = None):
+        self.para_est = Estimator(self.NI_EstObjfuncSim,
                                   para_guess = para_guess,
                                   method = method,
                                   bounds = bounds,
@@ -1080,12 +1125,12 @@ class NoisyInformation:
                 ax2.legend(loc=3)
 # + {"code_folding": []}
 ## test of ForecasterbySim
-#xx_history = AR1_simulator(rho,sigma,100)
-#xx_real_time = xx_history[5:]
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[5:]
 
-#ni_instance = NoisyInformation(real_time = xx_real_time,
-#                               history = xx_history,
-#                              moments=['Forecast','FE','Disg','Var'])
+ni_instance = NoisyInformation(real_time = xx_real_time,
+                               history = xx_history,
+                              moments=['Forecast','FE','Disg','Var'])
 
 
 # +
@@ -1093,12 +1138,12 @@ class NoisyInformation:
 
 # + {"code_folding": []}
 ## simulate signals
-#ni_instance.SimulateRealization()
-#ni_instance.SimulateSignals()
+ni_instance.SimulateRealization()
+ni_instance.SimulateSignals()
 
 # + {"code_folding": []}
 ## forecast by simulating
-#ni_mom_sim = ni_instance.ForecasterbySim(n_sim=200)
+#ni_mom_sim = ni_instance.ForecasterbySim(n_sim=2000)
 #ni_plot_sim = ForecastPlot(ni_mom_sim)
 
 # +
@@ -1124,7 +1169,7 @@ class NoisyInformation:
 #ni_mom_dct =  ni_instance.Forecaster()
 
 #fake_data_moms_dct = ni_mom_dct
-#ni_instance.GetDataMoments(fake_data_moms_dct)
+#ni_instance.GetDataMoments(ni_mom_sim)
 
 #ni_instance.ParaEstimate(method = 'L-BFGS-B',
 #                         bounds = ((0,None),(0,1),(0,None)),
@@ -1146,6 +1191,14 @@ class NoisyInformation:
 #ni_instance.ParaEstimateJoint(method='CG',
 #                              para_guess =(0.5,0.8,0.1,0.9,0.1),
 #                              options={'disp':True})
+# -
+
+## test of ParaEstimateSim
+mom_sim_fake = ni_mom_sim.copy()
+ni_instance.GetDataMoments(mom_sim_fake)
+ni_instance.ParaEstimateSim(method='BFGS',
+                              para_guess =(0.5,0.8,0.1),
+                              options={'disp':True})
 
 # +
 #ni_instance.para_est_joint

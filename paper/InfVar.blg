@@ -3,6 +3,18 @@ Capacity: max_strings=100000, hash_size=100000, hash_prime=85009
 The top-level auxiliary file: InfVar.aux
 The style file: apalike.bst
 Database file #1: InfVar.bib
+Repeated entry---line 469 of file InfVar.bib
+ : @techreport{d2019iq
+ :                    ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 477 of file InfVar.bib
+ : @techreport{das2017socioeconomic
+ :                                 ,
+I'm skipping whatever remains of this entry
+Repeated entry---line 485 of file InfVar.bib
+ : @techreport{woodford2001imperfect
+ :                                  ,
+I'm skipping whatever remains of this entry
 Warning--there's a number but no volume in armantier2017overview
 Warning--empty journal in fuhrer2018intrinsic
 Warning--empty journal in laseen2011anticipated
@@ -48,4 +60,4 @@ warning$ -- 4
 while$ -- 151
 width$ -- 0
 write$ -- 541
-(There were 4 warnings)
+(There were 3 error messages)
