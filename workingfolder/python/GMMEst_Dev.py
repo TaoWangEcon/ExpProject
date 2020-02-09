@@ -61,7 +61,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [2, 24]}
+# + {"code_folding": [24]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 
 def PrepMom(model_moments,
@@ -127,7 +127,7 @@ def Estimator2(obj_func,
     return parameter 
 
 
-# + {"code_folding": [6]}
+# + {"code_folding": [0, 6]}
 def myfunc(x, grad):
     if grad.size > 0:
         grad[0] = 0.0
@@ -212,7 +212,7 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
@@ -580,10 +580,10 @@ RE_instance.GetDataMoments(fe_moms)
 
 # + {"code_folding": []}
 ## SE expectation parameters 
-SE_para_default = {'lambda':0.3}
+SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [24, 28, 41, 104, 173, 221, 243, 268, 290, 312, 335, 343, 349, 361, 373, 385, 396, 418, 448, 478]}
+# + {"code_folding": [0, 2, 28, 41, 57, 108, 132, 201, 249, 271, 318, 340, 366, 401, 409, 420, 432, 444, 456, 471, 482, 504, 534, 564]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -610,7 +610,7 @@ class StickyExpectation:
         
     def GetRealization(self,
                        realized_series):
-        self.realized = realized_series   
+        self.realized = realized_series 
     
     def SimulateRealization(self):
         n = self.n
@@ -687,6 +687,34 @@ class StickyExpectation:
                            "DisgATV":DisgATV,
                            "Var":Var}
         return self.GMMMoments
+    
+#################################
+######## specific to new moments
+################################
+
+    def ProcessGMM(self):
+        
+        ## parameters and information set
+        
+        rho = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        history = self.history
+        
+        resd = 0 
+        yresd = 0 
+        YVar = sigma**2/(1-rho**2)
+        
+        self.ProcessMoments= {"resd":resd,
+                              "Yresd":yresd,
+                              "YVar":YVar}
+        
+        resd_data = np.mean(history[1:]-rho*history[:-1])
+        Yresd_data = np.mean(history[1:]*(history[1:]-rho*history[:-1]))
+        YVar_data = np.var(history)
+        
+        self.ProcessDataMoments = {"resd":resd_data,
+                                  "Yresd":Yresd_data,
+                                  "YVar": YVar_data}
     
     def Forecaster(self):
         ## inputs 
@@ -918,6 +946,44 @@ class StickyExpectation:
         obj_func = PrepMom(SE_moms_stack,data_moms_stack)
         return obj_func
     
+###################################
+######## specific to new moments
+#####################################
+
+    def SE_EstObjfuncGMMJoint(self,
+                              paras):
+        lbd,rho,sigma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'rho':rho,
+                              'sigma':sigma}
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process GMM 
+        self.ProcessGMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        SE_moms_scalar_dct = self.GMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        print(ProcessMoments)
+        print(ProcessDataMoments)
+        SE_moms_scalar_stack = np.concatenate((SE_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        
+        obj_func = PrepMom(SE_moms_scalar_stack,data_moms_scalar_stack)
+        return obj_func
+    
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
                        data_moms_dct):
@@ -931,6 +997,11 @@ class StickyExpectation:
                                         [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
                                        )
                                    )
+        data_moms_scalar_dct['FEVar'] = data_moms_dct['FE'].var()
+        data_moms_scalar_dct['FEATV'] = np.cov(data_moms_dct['FE'][1:],data_moms_dct['FE'][:-1])[1,1]
+        data_moms_scalar_dct['DisgVar'] = data_moms_dct['Disg'].var()
+        data_moms_scalar_dct['DisgATV'] =np.cov(data_moms_dct['Disg'][1:],data_moms_dct['Disg'][:-1])[1,1]
+        
         self.data_moms_scalar_dct = data_moms_scalar_dct
         
     def ParaEstimateGMM(self,
@@ -979,6 +1050,21 @@ class StickyExpectation:
                                   method = method,
                                   bounds = bounds,
                                   options = options)
+
+###################################
+######## specific to new moments
+#####################################
+    
+    def ParaEstimateGMMJoint(self,
+                             para_guess = (0.5,0.1,0.2),
+                             method='BFGS',
+                             bounds = None,
+                             options = None):
+        self.para_est_GMM_joint = Estimator(self.SE_EstObjfuncGMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
         
     def ForecastPlot(self,
                      all_moms = False):
@@ -1087,7 +1173,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,200)
 xx_real_time = xx_history[150:]
@@ -1152,7 +1238,7 @@ SE_instance.GetDataMoments(mom_fake)
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
 
-# + {"code_folding": []}
+# + {"code_folding": [0, 7]}
 ##################################
 ###### Specific to new moments ##
 ##################################
@@ -1160,7 +1246,7 @@ SE_instance.GetDataMoments(mom_fake)
 ## test if the GMM is computed right 
 print('Before covergence')
 
-for mom in ['FE','Disg','Var']:
+for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
     print(mom)
     print('computed GMM are:',SE_instance.GMM()[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
@@ -1171,11 +1257,11 @@ for mom in ['FE','Disg','Var']:
 ################################
 
 ## test GMM est
-SE_instance.moments=['Disg']
+SE_instance.moments=['FE','FEVar','FEATV','DisgATV']
 SE_instance.ParaEstimateGMM(method='CG',
-                            para_guess = 0.3,
+                            para_guess = 0.5,
                             options={'disp':True,
-                                     'gtol': 1e-10})
+                                     'gtol': 1e-15})
 SE_instance.para_estGMM
 SE_instance.ForecastPlotDiagGMM(all_moms = True,
                                 diff_scale = True)
@@ -1183,13 +1269,13 @@ SE_instance.ForecastPlotDiagGMM(all_moms = True,
 
 SE_instance.para_estGMM
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 #################################
 ######## specific to new moments
 ################################
 
 print('After covergence')
-for mom in ['FE','Disg','Var']:
+for mom in ['FE','FEVar','FEATV','DisgATV']:
     print(mom)
     print('computed GMM are:',SE_instance.GMM()[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
@@ -1204,6 +1290,28 @@ for mom in ['FE','Disg','Var']:
 #                              options={'disp':True})
 
 #L-BFGS-B
+
+# + {"code_folding": [0, 12]}
+#################################
+######## specific to new moments
+################################
+
+## test of ParaEstimateGMMJoint()
+SE_instance.GetDataMoments(mom_fake)
+SE_instance.ProcessGMM()
+#SE_instance.ParaEstimateGMMJoint(method='CG',
+#                                 para_guess =(0.2,0.8,0.04),
+#                                 options={'disp':True,
+#                                          'gtol': 1e-18})
+
+SE_instance.ParaEstimateGMMJoint(method='L-BFGS-B',
+                                 para_guess =(0.1,0.95,0.2),
+                                 bounds = ((0.001,1),(0.001,1),(0.01,None)),
+                                 options={'disp':True,
+                                          'gtol': 1e-18})
+# -
+
+SE_instance.para_est_GMM_joint
 
 # + {"code_folding": []}
 #SE_instance.para_est_joint
