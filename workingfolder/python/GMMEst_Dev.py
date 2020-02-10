@@ -25,6 +25,7 @@
 # ### 1. Estimation algorithms 
 
 from scipy.optimize import minimize
+from scipy.optimize import fixed_point as fp
 import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
@@ -61,7 +62,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [24]}
+# + {"code_folding": [2, 24]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 
 def PrepMom(model_moments,
@@ -146,7 +147,7 @@ def myfunc0(x,
 #Estimator2(myfunc0,
 #          para_guess = [0.1,0.2])
 
-# + {"code_folding": [0, 1, 9, 18, 40, 56]}
+# + {"code_folding": [1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -583,7 +584,7 @@ RE_instance.GetDataMoments(fe_moms)
 SE_para_default = {'lambda':0.2}
 
 
-# + {"code_folding": [0, 2, 28, 41, 57, 108, 132, 201, 249, 271, 318, 340, 366, 401, 409, 420, 432, 444, 456, 471, 482, 504, 534, 564]}
+# + {"code_folding": [2, 28, 41, 57, 108, 132, 201, 249, 271, 296, 318, 340, 366, 401, 409, 420, 432, 444, 456, 471, 482, 504, 534, 564]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -1175,8 +1176,8 @@ class StickyExpectation:
 
 # + {"code_folding": [0]}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,200)
-xx_real_time = xx_history[150:]
+xx_history = AR1_simulator(rho,sigma,300)
+xx_real_time = xx_history[100:]
 
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xx_real_time,
@@ -1190,7 +1191,7 @@ mom_dct =  SE_instance.Forecaster()
 
 ## compare simulated and computed moments 
 
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 200)
+#mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 200)
 
 #mom_sim_and_pop = ForecastPlotDiag(mom_dct,
 #                                   mom_sim_dct,
@@ -1230,7 +1231,7 @@ for mom in ['FE','Disg','Var']:
 # + {"code_folding": []}
 #test of ParaEstimate()
 #mom_sim_fake = mom_sim_dct.copy()
-mom_fake = mom_sim_dct.copy()
+mom_fake = mom_dct.copy()
 SE_instance.GetDataMoments(mom_fake)
 
 #SE_instance.ParaEstimate(method='L-BFGS-B',
@@ -1251,17 +1252,17 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
     print('computed GMM are:',SE_instance.GMM()[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
 
-# + {"code_folding": []}
+# + {"code_folding": [11]}
 #################################
 ######## specific to new moments
 ################################
 
 ## test GMM est
-SE_instance.moments=['FE','FEVar','FEATV','DisgATV']
+SE_instance.moments=['FE','FEVar','FEATV','Disg','DisgATV','Var']
 SE_instance.ParaEstimateGMM(method='CG',
-                            para_guess = 0.5,
+                            para_guess = 0.4,
                             options={'disp':True,
-                                     'gtol': 1e-15})
+                                     'gtol': 1e-19})
 SE_instance.para_estGMM
 SE_instance.ForecastPlotDiagGMM(all_moms = True,
                                 diff_scale = True)
@@ -1358,7 +1359,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.3,
 
 # ##  NI model 
 
-# + {"code_folding": [0, 2, 3, 27, 31, 37, 43, 55, 116, 184, 209, 215, 218, 236, 241, 253, 265, 280, 300, 315]}
+# + {"code_folding": [3, 27, 31, 37, 43, 55, 89, 116, 187, 202, 214, 271, 296, 321, 327, 330, 348, 353, 365, 377, 392, 412, 427]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1542,6 +1543,118 @@ class NoisyInformation:
                                      "Var":Vars_mean}
         return self.forecast_moments_sim
     
+###################################
+######## new ######################
+###################################
+
+    def KalmanVar(self,
+                  nowvar):
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        
+        
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        H = np.asmatrix ([[1,1]]).T
+
+        step1_vars = rho**2*nowvar + sigma**2
+        nowvar_next= step1_vars - step1_vars*H.T*np.linalg.inv(H*step1_vars*H.T+sigma_v)*H*step1_vars
+        return nowvar_next
+    
+    def SteadyState(self):
+
+        VarSS = fp(self.KalmanVar,
+                   x0 = 0.1)
+        
+        self.VarSS = VarSS
+        return self.VarSS
+    
+#################################
+######## specific to new moments
+################################
+
+    def GMM(self):
+        ## parameters and information set
+        ## inputs 
+        now_var = self.VarSS
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        var_init = self.exp_para['var_init']
+        y_init = self.exp_para['y_init']
+        disg_init = self.exp_para['disg_init']
+        
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        horizon = self.horizon      
+        #signals = self.signals
+        nb_s = len(self.signals) ## # of signals 
+        H = np.asmatrix ([[1,1]]).T
+        
+        ## compute steady state Pkalman 
+        
+        step1_vars_SS = rho**2*VarSS + sigma**2
+        PkalmanSS = step1_vars_SS*H.T*np.linalg.inv(H*step1_vars_SS*H.T+sigma_v)
+        
+        ## GMM unconditional moments
+        
+        ### FE
+        FE = 0
+        FEVar = (rho**(2*horizon)*sigma_pb**2+PkalmanSS[0]**2*(1-rho**(2*horizon))/
+                 (1-rho)*sigma**2)/(1-(1-PkalmanSS*H)**2)
+        FEATV = (1-PkalmanSS*H)*FEVar
+        
+        ### Disg
+        Disg_now = PkalmanSS[1]*sigma_pr**2/(1-(1-PkalmanSS*H)**2)
+        Disg = Disg_now*rho**(2*horizon)
+        
+        DisgVar_now =  PkalmanSS[1]*sigma_pr**4/(1-(1-PkalmanSS*H)**4)
+        DisgVar = rho**(4*horizon)*DisgVar_now
+        
+        DisgATV_now = (1-PkalmanSS)**2*DisgVar_now 
+        DisgATV = rho**(4*horizon)*DisgATV_now
+        
+        ### 
+        Var = rho**(2*horizon)*VarSS + hstepvar(horizon,sigma,rho)
+        
+        self.GMMMoments = {"FE":FE,
+                           "FEVar":FEVar,
+                           "FEATV":FEATV,
+                           "Disg":Disg,
+                           "DisgVar":DisgVar,
+                           "DisgATV":DisgATV,
+                           "Var":Var}
+        return self.GMMMoments
+    
+#################################
+######## specific to new moments
+################################
+
+    def ProcessGMM(self):
+        
+        ## parameters and information set
+        
+        rho = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        history = self.history
+        
+        resd = 0 
+        yresd = 0 
+        YVar = sigma**2/(1-rho**2)
+        
+        self.ProcessMoments= {"resd":resd,
+                              "Yresd":yresd,
+                              "YVar":YVar}
+        
+        resd_data = np.mean(history[1:]-rho*history[:-1])
+        Yresd_data = np.mean(history[1:]*(history[1:]-rho*history[:-1]))
+        YVar_data = np.var(history)
+        
+        self.ProcessDataMoments = {"resd":resd_data,
+                                  "Yresd":Yresd_data,
+                                  "YVar": YVar_data}
+    
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,
                       ni_paras):
@@ -1717,6 +1830,22 @@ xx_real_time = xx_history[5:]
 ## simulate signals
 #ni_instance.SimulateRealization()
 #ni_instance.SimulateSignals()
+# -
+
+#################################
+######## specific to new moments
+################################
+"""
+## cheack if the steady state kalman var is correct 
+
+vars_lst = np.linspace(0.000001,0.08,100)
+vars_next_lst = []
+for var in vars_lst:
+    vars_next_lst.append(np.array(ni_instance.KalmanVar(var))[0])
+    
+plt.plot(vars_lst,vars_next_lst)
+plt.plot(vars_lst,vars_lst)
+"""
 
 # + {"code_folding": []}
 ## forecast by simulating
