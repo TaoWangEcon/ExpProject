@@ -225,7 +225,7 @@ process_para = {'rho':rho,
 
 # ## RE model 
 
-# + {"code_folding": [2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
+# + {"code_folding": [1, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -581,10 +581,10 @@ RE_instance.GetDataMoments(fe_moms)
 
 # + {"code_folding": []}
 ## SE expectation parameters 
-SE_para_default = {'lambda':0.2}
+SE_para_default = {'lambda':0.4}
 
 
-# + {"code_folding": [2, 24, 28, 41, 57, 141, 210, 281, 306, 328, 350, 376, 411, 432, 444, 456, 468, 483, 494, 516, 546, 576]}
+# + {"code_folding": [2, 24, 28, 41, 57, 108, 141, 210, 281, 305, 315, 337, 359, 385, 420, 441, 453, 465, 477, 492, 503, 525, 555, 585]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -890,6 +890,15 @@ class StickyExpectation:
         obj_func = PrepMom(SE_moms_scalar,data_moms_scalar)
         return obj_func 
     
+    def PlotLossGMM(self,
+                    grids = np.linspace(0.01,0.99,20)):
+        loss = np.empty(len(grids))
+        for i,lbd in enumerate(grids):  
+            loss[i] = self.SE_EstObjfuncGMM(np.array([lbd]) )
+        self.fig = plt.plot(grids,loss,lw = 3)
+        plt.title('Loss function of GMM')
+        return self.fig
+    
     ## a function estimating SE model parameter only 
     def SE_EstObjfunc(self,
                       se_paras):
@@ -1186,7 +1195,7 @@ class StickyExpectation:
             plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
             plt.legend(loc=1)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## test of ForecasterbySim
 xx_history = AR1_simulator(rho,sigma,200)
 xx_real_time = xx_history[100:]
@@ -1202,7 +1211,7 @@ SE_instance.SimulateRealization()
 mom_dct =  SE_instance.Forecaster()
 
 ## compare simulated and computed moments 
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 400)
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 200)
 
 #mom_sim_and_pop = ForecastPlotDiag(mom_dct,
 #                                   mom_sim_dct,
@@ -1239,7 +1248,7 @@ for mom in ['FE','Disg','Var']:
 
 """
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #test of ParaEstimate()
 #mom_sim_fake = mom_sim_dct.copy()
 mom_fake = mom_sim_dct.copy()
@@ -1250,7 +1259,7 @@ SE_instance.GetDataMoments(mom_fake)
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
 
-# + {"code_folding": []}
+# + {"code_folding": [7]}
 ##################################
 ###### New                  ######
 ##################################
@@ -1269,20 +1278,22 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
 ################################
 
 ## test GMM est
-SE_instance.moments=['FE','FEATV','FEVar','Disg','DisgVar','Var']
+SE_instance.moments=['FE','FEVar','Disg','DisgVar','DisgATV']
 SE_instance.ParaEstimateGMM(method='BFGS',
-                            para_guess = 0.1,
+                            para_guess = 0.2,
                             options={'disp':True,
-                                     'gtol': 1e-20,
+                                     'gtol': 1e-25,
                                      'eps': 1.4901161193847656e-05})
 SE_instance.para_estGMM
-SE_instance.ForecastPlotDiagGMM(all_moms = True,
-                                diff_scale = True)
+#SE_instance.ForecastPlotDiagGMM(all_moms = True,
+#                                diff_scale = True)
 # -
+
+SE_instance.PlotLossGMM()
 
 SE_instance.para_estGMM
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 #################################
 ######## specific to new moments
 ################################
@@ -1374,7 +1385,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.3,
 
 # ##  NI model 
 
-# + {"code_folding": [28, 32, 39, 45, 59, 102, 129, 166, 203, 218, 230, 269, 282, 319, 349, 375, 381, 403, 422, 433, 445, 457, 472, 493, 512, 548]}
+# + {"code_folding": [3, 28, 32, 39, 45, 129, 166, 203, 218, 230, 269, 282, 319, 349, 375, 381, 403, 422, 433, 445, 457, 472, 493, 512, 548]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
