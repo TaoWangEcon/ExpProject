@@ -742,7 +742,7 @@ SE_instance.GetDataMoments(data_moms_dct_fake)
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [3, 25, 29, 36, 42, 84, 113, 182, 205, 211, 231, 255, 260, 272, 283, 295, 310, 344]}
+# + {"code_folding": [3, 25, 36, 55, 84, 113, 182, 205, 211, 231, 255, 260, 272, 283, 295, 310, 344]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
