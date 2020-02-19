@@ -62,7 +62,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [0, 2, 24]}
+# + {"code_folding": []}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 
 def PrepMom(model_moments,
@@ -78,7 +78,7 @@ def PrepMom(model_moments,
     diff: the Euclidean distance of two arrays of data and model 
     
     """
-    distance = model_moments-data_moments
+    distance = model_moments - data_moments
     diff = np.linalg.norm(distance)
     return diff
 
@@ -147,7 +147,7 @@ def myfunc0(x,
 #Estimator2(myfunc0,
 #          para_guess = [0.1,0.2])
 
-# + {"code_folding": [0, 1, 9, 18, 40, 56]}
+# + {"code_folding": [1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -213,7 +213,7 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
@@ -225,7 +225,7 @@ process_para = {'rho':rho,
 
 # ## RE model 
 
-# + {"code_folding": [1, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
+# + {"code_folding": [16, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -581,10 +581,10 @@ RE_instance.GetDataMoments(fe_moms)
 
 # + {"code_folding": []}
 ## SE expectation parameters 
-SE_para_default = {'lambda':0.4}
+SE_para_default = {'lambda':0.3}
 
 
-# + {"code_folding": [2, 24, 28, 41, 57, 108, 141, 210, 281, 305, 315, 337, 359, 385, 420, 441, 453, 465, 477, 492, 503, 525, 555, 585]}
+# + {"code_folding": [2, 24, 28, 41, 57, 108, 146, 215, 286, 311, 319, 341, 363, 389, 424, 445, 457, 469, 481, 496, 507, 529, 559, 589]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -696,35 +696,40 @@ class StickyExpectation:
     def ProcessGMM(self):
         
         ## parameters and information set
-        
+
+        ## model 
         rho = self.process_para['rho']
         sigma = self.process_para['sigma']
         history = self.history
         
         resd = 0 
-        yresd = 0 
-        YVar = sigma**2/(1-rho**2)
+        Yresd = 0 
         resdVar = sigma**2
+        YVar = sigma**2/(1-rho**2)
         YATV = rho*YVar
         
+        
         self.ProcessMoments= {"resd":resd,
-                              "Yresd":yresd,
-                              "YVar":YVar,
-                              "resdVar":resdVar,
-                              "YATV":YATV}
-        resd_data = history[1:]-rho*history[:-1]
-        resd_data = np.mean(resd_data)
-        resdVar_data = np.mean(resd**2)
-        Yresd_data = np.mean(history[1:]*(history[1:]-rho*history[:-1]))
-        YATV_data = np.cov(np.stack((history[1:],history[:-1]),axis=0))[0,1]
+                              #"Yresd":Yresd,
+                              #"YVar":YVar,
+                              #"resdVar":resdVar,
+                              #"YATV":YATV
+                             }
+        ## data 
+        resds = np.mean(history[1:]-rho*history[:-1])
+        resd_data = np.mean(resds)
+        resdVar_data = np.mean(resds**2)
+        Yresd_data = np.mean(history[:-1]*resds)
         YVar_data = np.var(history)
+        YATV_data = np.cov(np.stack((history[1:],history[:-1]),axis=0))[0,1]
         
         
         self.ProcessDataMoments = {"resd":resd_data,
-                                  "Yresd":Yresd_data,
-                                  "YVar": YVar_data,
-                                  "YATV":YATV_data,
-                                  "resdVar_data":resdVar_data}
+                                  #"Yresd":Yresd_data,
+                                  #"YVar": YVar_data,
+                                  #"resdVar":resdVar_data,
+                                   #"YATV":YATV_data
+                                  }
     
     def Forecaster(self):
         ## inputs 
@@ -877,11 +882,12 @@ class StickyExpectation:
         -----
         the objective function to minmize
         """
-        lbd = se_paras[0]
         moments = self.moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        lbd = se_paras[0]
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
-        data_moms_scalar_dct = self.data_moms_scalar_dct
         
         SE_moms_scalar_dct = self.GMM().copy()
         SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
@@ -891,11 +897,9 @@ class StickyExpectation:
         return obj_func 
     
     def PlotLossGMM(self,
-                    grids = np.linspace(0.01,0.99,20)):
-        loss = np.empty(len(grids))
-        for i,lbd in enumerate(grids):  
-            loss[i] = self.SE_EstObjfuncGMM(np.array([lbd]) )
-        self.fig = plt.plot(grids,loss,lw = 3)
+                    lbds = np.linspace(0.01,0.99,20)):
+        loss  = np.array([self.SE_EstObjfuncGMM(np.array([lbd])) for lbd in lbds])
+        self.fig = plt.plot(lbds,loss,lw = 3)
         plt.title('Loss function of GMM')
         return self.fig
     
@@ -996,8 +1000,8 @@ class StickyExpectation:
         
         process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
         data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
-        print(ProcessMoments)
-        print(ProcessDataMoments)
+        #print(ProcessMoments)
+        #print(ProcessDataMoments)
         SE_moms_scalar_stack = np.concatenate((SE_moms_scalar,process_moms))
         data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
         
@@ -1197,8 +1201,8 @@ class StickyExpectation:
 
 # + {"code_folding": [0]}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,200)
-xx_real_time = xx_history[100:]
+xx_history = AR1_simulator(rho,sigma,100)
+xx_real_time = xx_history[50:]
 
 ### create a SE instance using fake real time data 
 SE_instance = StickyExpectation(real_time = xx_real_time,
@@ -1259,7 +1263,7 @@ SE_instance.GetDataMoments(mom_fake)
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
 
-# + {"code_folding": [7]}
+# + {"code_folding": [0, 7]}
 ##################################
 ###### New                  ######
 ##################################
@@ -1272,17 +1276,17 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
     print('computed GMM are:',SE_instance.GMM()[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
 
 ## test GMM est
-SE_instance.moments=['FE','FEVar','Disg','DisgVar','DisgATV']
-SE_instance.ParaEstimateGMM(method='BFGS',
-                            para_guess = 0.2,
+SE_instance.moments=['FEATV','FEVar','DisgVar','Disg','DisgATV']
+SE_instance.ParaEstimateGMM(method='TNC',
+                            para_guess = 0.1,
                             options={'disp':True,
-                                     'gtol': 1e-25,
+                                     'gtol': 1e-20,
                                      'eps': 1.4901161193847656e-05})
 SE_instance.para_estGMM
 #SE_instance.ForecastPlotDiagGMM(all_moms = True,
@@ -1293,7 +1297,7 @@ SE_instance.PlotLossGMM()
 
 SE_instance.para_estGMM
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
@@ -1327,12 +1331,11 @@ SE_instance.ProcessGMM()
 #                                 para_guess =(0.2,0.8,0.04),
 #                                 options={'disp':True,
 #                                          'gtol': 1e-18})
-SE_instance.moments=['FE','FEVar','FEATV','Disg','DisgATV','DisgVar','Var']
+SE_instance.moments=['FE','FEVar','FEATV','Disg','DisgATV','DisgVar']
 #SE_instance.moments=['FE','FEVar','FEATV','Disg','Var','DisgVar']
 
 
-SE_instance.ParaEstimateGMMJoint(method='L-BFGS-B',
-                                 para_guess =(0.4,0.9,0.05),
+SE_instance.ParaEstimateGMMJoint(method='TNC',
                                  bounds = ((0.001,1),(0.001,1),(0.01,None)),
                                  options={'disp':True,
                                           'gtol': 1e-20})
@@ -1385,7 +1388,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.3,
 
 # ##  NI model 
 
-# + {"code_folding": [3, 28, 32, 39, 45, 129, 166, 203, 218, 230, 269, 282, 319, 349, 375, 381, 403, 422, 433, 445, 457, 472, 493, 512, 548]}
+# + {"code_folding": [3, 28, 32, 39, 45, 59, 129, 166, 203, 218, 230, 269, 282, 319, 348, 359, 385, 391, 413, 432, 443, 455, 467, 482, 503, 522, 558]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1734,6 +1737,16 @@ class NoisyInformation:
         obj_func = PrepMom(NI_moms_scalar,data_moms_scalar)
         return obj_func 
     
+    def PlotLossGMM(self,
+                    sigma_pbs = np.linspace(0.01,2,10),
+                    sigma_prs = np.linspace(0.01,2,10)):
+        xx,yy = np.meshgrid(sigma_pbs,sigma_prs)
+        paras = np.array([[xx[i],yy[i]] for i in range(len(xx))])
+        loss = self.NI_EstObjfuncGMM(paras)
+        self.fig = plt.contourf(sigma_pbs,sigma_prs,loss)
+        plt.title('Loss function of GMM')
+        return self.fig
+    
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,
                       ni_paras):
@@ -2031,10 +2044,10 @@ ni_instance.GetDataMoments(fake_data_moms_dct)
 #params_est_NI = ni_instance.para_est
 #print(params_est_NI)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ParaEstimateGMM
 
-ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','DisgVar']
+ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','DisgVar','Var']
 
 ni_instance.ParaEstimateGMM(method = 'L-BFGS-B',
                             bounds = ((0.01,None),(0.01,None),),
@@ -2048,6 +2061,8 @@ ni_instance.para_estGMM
 
 ni_instance.ForecastPlotDiagGMM(all_moms = True,
                                 diff_scale = False)
+
+ni_instance.PlotLossGMM()
 
 # + {"code_folding": []}
 #ni_instance.ParaEstimate(method = 'CG',
