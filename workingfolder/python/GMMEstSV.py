@@ -282,7 +282,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [0, 1, 21, 29, 41]}
+# + {"code_folding": [1, 21, 29, 41]}
 ## auxiliary functions 
 def hstepvarSV(h,
                sigmas_now,
@@ -546,10 +546,10 @@ RE_instance.moments=['Forecast','FE','Var']
 
 # + {"code_folding": []}
 ## SE expectation parameters 
-SE_para_default = {'lambda':0.2}
+SE_para_default = {'lambda':0.3}
 
 
-# + {"code_folding": [2, 19, 23, 41, 89, 150, 171, 193, 198, 210, 222, 224, 229]}
+# + {"code_folding": [2, 23, 41, 89, 151, 172, 194, 199, 211, 223, 225, 230]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
@@ -663,6 +663,7 @@ class StickyExpectationSV:
     
         
         ## simulation
+        np.random.seed(12344)
         update_or_not = bernoulli.rvs(p = lbd,
                                       size=[n_sim,n_history])
         most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
@@ -722,7 +723,7 @@ class StickyExpectationSV:
         return obj_func 
     
     def SE_EstObjfuncSim(self,
-                      lbd):
+                         lbd):
         """
         input
         -----
@@ -809,29 +810,28 @@ class StickyExpectationSV:
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
 
-
 # + {"code_folding": []}
-#SE_instance = StickyExpectationSV(real_time = xx_real_time_dct,
-#                                  history = xx_history_dct,
-#                                  moments = ['Forecast','FE','Disg','Var'])
-#SE_instance.SimulateRealization()
+SE_instance = StickyExpectationSV(real_time = xx_real_time_dct,
+                                  history = xx_history_dct,
+                                  moments = ['Forecast','FE','Disg','Var'])
+SE_instance.SimulateRealization()
 
 ### simulate a realized series 
-#mom_dct =  SE_instance.Forecaster()
+mom_dct =  SE_instance.Forecaster()
 #SE_instance.ForecastPlot()
-#mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
-#mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
+mom_sim_dct = SE_instance.ForecasterbySim(n_sim=100)
+mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
 
 # + {"code_folding": []}
 ### fake data moments 
-#data_moms_dct_fake = SE_instance.Forecaster()
+data_moms_dct_fake = SE_instance.Forecaster()
 
 # + {"code_folding": []}
 #SE_instance.ForecastPlot()
 
 # + {"code_folding": []}
 ### feed the data moments
-#SE_instance.GetDataMoments(data_moms_dct_fake)
+SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
 ### invoke generalized estimation 
@@ -839,12 +839,14 @@ class StickyExpectationSV:
 #                         method = 'CG',
 #                         options = {'disp':True})
 #SE_instance.para_est
+# -
 
-# +
 ### invoke simulated estimation 
-#SE_instance.ParaEstimateSim(para_guess = 0.4,
-#                            method = 'TNC',
-#                            options = {'disp':True})
+SE_instance.moments =['FE','Disg','Var']
+SE_instance.ParaEstimateSim(para_guess = 0.4,
+                            method = 'Nelder-Mead',
+                            options = {'disp':True})
+
 
 # + {"code_folding": []}
 #SE_instance.para_est
@@ -852,7 +854,7 @@ class StickyExpectationSV:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [26, 44, 59, 70, 143, 222, 246, 251, 256, 306]}
+# + {"code_folding": [0, 3, 26, 44, 59, 70, 143, 222, 246, 251, 256, 264, 273, 305]}
 ## Noisy Information(NI) class 
 
 class NoisyInformationSV:
@@ -1123,7 +1125,6 @@ class NoisyInformationSV:
             plt.subplot(4,1,i+1)
             plt.plot(self.forecast_moments[val],label = val)
             plt.legend(loc=1)
-    
     
     ## diagostic plots 
     
