@@ -44,7 +44,7 @@
 # \end{split}
 # \end{equation}
 #
-# The only parameter of the model is $\gamma$, which determines the time-varying volatilities. 
+# The only parameter of the model is $\gamma$, which determines the time-varying volatility. 
 
 # ## 2. Different models of expectation formation 
 #
@@ -282,7 +282,7 @@ def PrepMom(model_moments,
     return diff
 
 
-# + {"code_folding": [1, 21, 29, 41]}
+# + {"code_folding": [1, 21, 29]}
 ## auxiliary functions 
 def hstepvarSV(h,
                sigmas_now,
@@ -343,7 +343,7 @@ def UCSV_simulator(gamma,
     eta = np.zeros(nobs+1)
     eps = np.zeros(nobs+1)
     
-    ## initial level of eta, 0 by defaul
+    ## initial level of eta, 0 by default
     eta[0] = eta0
     
     for i in range(nobs):
@@ -354,7 +354,7 @@ def UCSV_simulator(gamma,
     return xxx,eta,svols_eta,svols_eps
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 
 eta0_fake = 0
@@ -495,7 +495,7 @@ class RationalExpectationSV:
             plt.legend(loc=1)
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a RE instance 
 ucsv_fake = UCSV_simulator(gamma_fake,
                            eta0 = eta0_fake,
@@ -549,7 +549,7 @@ RE_instance.moments=['Forecast','FE','Var']
 SE_para_default = {'lambda':0.3}
 
 
-# + {"code_folding": [2, 23, 41, 89, 151, 172, 194, 199, 211, 223, 225, 230]}
+# + {"code_folding": [2, 23, 41, 89, 151, 172, 194, 199, 211, 223, 225, 240]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
@@ -854,7 +854,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.4,
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [0, 3, 26, 44, 59, 70, 143, 222, 246, 251, 256, 264, 273, 305]}
+# + {"code_folding": [3, 25, 43, 59, 70, 111, 143, 187, 223, 245, 269, 274, 279, 289, 301, 342]}
 ## Noisy Information(NI) class 
 
 class NoisyInformationSV:
@@ -864,8 +864,7 @@ class NoisyInformationSV:
                  horizon = 1,
                  process_para = process_para, 
                  exp_para = {'sigma_pb':0.1,
-                             'sigma_pr':0.1,
-                             'var_init':1},
+                             'sigma_pr':0.1},
                  moments = ['Forecast','FE','Disg','Var']):
         self.real_time = real_time
         self.history = history
@@ -906,6 +905,7 @@ class NoisyInformationSV:
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
         eta_history = self.history['eta']
+        np.random.seed(12344)
         if self_filter == True:
             s_pb = history['y']
         else:
@@ -942,7 +942,7 @@ class NoisyInformationSV:
         
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        var_init = self.exp_para['var_init']
+        var_init = 0.1
         
         ## history 
         eta_now_history = history['eta']
@@ -1008,14 +1008,14 @@ class NoisyInformationSV:
         n_history = n + n_burn  # of course equal to len(history)
         
         ## process parameters
-        gammas = self.process_para['gammas']
+        gammas = self.process_para['gamma']
         eta0 = self.process_para['eta0']
         
         ## exp parameters 
         
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        var_init = self.exp_para['var_init']
+        var_init = 0.1
         
         ## history 
         eta_now_history = history['eta']
@@ -1030,6 +1030,7 @@ class NoisyInformationSV:
         
         # randomly simulated signals 
         signal_pb = self.signals_pb 
+        np.random.seed(12344)
         signals_pr = eta_now_history + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
         
         ## prepare matricies 
@@ -1090,8 +1091,7 @@ class NoisyInformationSV:
         """
         moments = self.moments
         NI_para = {"sigma_pb":ni_paras[0],
-                  "sigma_pr":ni_paras[1],
-                  'var_init':ni_paras[2]}
+                  "sigma_pr":ni_paras[1]}
         self.exp_para = NI_para  # give the new parameters 
         data_moms_dct = self.data_moms_dct
         NI_moms_dct = self.Forecaster()
@@ -1100,6 +1100,29 @@ class NoisyInformationSV:
         obj_func = PrepMom(NI_moms,data_moms)
         return obj_func 
     
+    def NI_EstObjfuncSim(self,
+                         ni_paras):
+        """
+        input
+        -----
+        sigma: the parameters of NI model to be estimated. A vector of sigma_pb and sigma_pr
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        sigma_pb,sigma_pr = ni_paras
+        NI_para = {'sigma_pb':sigma_pb,
+                   'sigma_pr':sigma_pr}         
+        self.exp_para = NI_para 
+        data_moms_dct = self.data_moms_dct
+        NI_moms_dct = self.ForecasterbySim().copy()
+        NI_moms = np.array([NI_moms_dct[key] for key in moments] )
+        data_moms = np.array([data_moms_dct[key] for key in moments] )
+        obj_func = PrepMom(NI_moms,data_moms)
+        return obj_func
+
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
                        data_moms_dct):
@@ -1118,6 +1141,20 @@ class NoisyInformationSV:
                                   options = options)
         return self.para_est
     
+###########################
+### New
+###########################
+    def ParaEstimateSim(self,
+                        para_guess = np.array([0.3,0.3]),
+                        method='Nelder-Mead',
+                        bounds = None,
+                        options = None):
+        self.para_est_sim = Estimator(self.NI_EstObjfuncSim,
+                                      para_guess=para_guess,
+                                      method = method,
+                                      bounds = bounds,
+                                      options = options)
+    
     ## plot functions
     def ForecastPlot(self):
         x = plt.figure(figsize=([3,13]))
@@ -1132,8 +1169,7 @@ class NoisyInformationSV:
                          all_moms = False,
                          diff_scale = False):
         exp_para_est_dct = {'sigma_pb':self.para_est[0],
-                           'sigma_pr':self.para_est[1],
-                           'var_init':self.para_est[2]}
+                           'sigma_pr':self.para_est[1]}
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -1189,7 +1225,7 @@ class NoisyInformationSV:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ForecasterbySim
 
 ni_instance = NoisyInformationSV(real_time = xx_real_time_dct,
@@ -1203,7 +1239,6 @@ ni_instance = NoisyInformationSV(real_time = xx_real_time_dct,
 ni_instance.SimulateRealization()
 ni_instance.SimulateSignals()
 
-
 # + {"code_folding": []}
 ## look the signals 
 #plt.plot(ni_instance.history['eta'],label=r'$\theta$')
@@ -1213,52 +1248,44 @@ ni_instance.SimulateSignals()
 
 # + {"code_folding": []}
 ## forecast by simulating
-#ni_mom_sim = ni_instance.ForecasterbySim(n_sim=200)
-#ni_plot_sim = ForecastPlot(ni_mom_sim)
+ni_mom_sim = ni_instance.ForecasterbySim(n_sim = 200)
 
-# +
-#plt.plot(ni_instance.real_time['eta'])
-#plt.plot(ni_mom_sim['Forecast'])
-
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## compare pop and simulated 
-#ni_mom_dct =  ni_instance.Forecaster()
-#ni_instance.ForecastPlot()
+ni_mom_dct =  ni_instance.Forecaster()
 
-# + {"code_folding": []}
-#ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
-#                                      ni_mom_sim,
-#                                     legends=['computed','simulated'])
+## plot 
+ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
+                                      ni_mom_sim,
+                                      legends=['computed','simulated'])
 
-# +
-#plt.plot(ni_instance.realized,label='Realized')
-#plt.plot(ni_mom_dct['Forecast'],label='Forecast')
-#plt.legend(loc=1)
-
-# + {"code_folding": []}
-#ni_instance.ForecastPlot()
-
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## Estimate NI using fake data. 
-#ni_mom_dct =  ni_instance.Forecaster()
+ni_mom_dct =  ni_instance.Forecaster()
 
-#fake_data_moms_dct = ni_mom_dct
-#ni_instance.GetDataMoments(fake_data_moms_dct)
+fake_data_moms_dct = ni_mom_dct
+ni_instance.GetDataMoments(fake_data_moms_dct)
 
-#ni_instance.ParaEstimate(para_guess=[0.01,0.02,1],
-#                         method = 'CG',
-#                         options = {'disp':True})
-#params_est_NI = ni_instance.para_est
-#print(params_est_NI)
+ni_instance.moments = ['FE','Disg','Var']
 
-# + {"code_folding": []}
-#ni_instance.ParaEstimate(method = 'CG',
-#                         options = {'disp':True})
-#params_est_NI = ni_instance.para_est
-#print(params_est_NI)
+ni_instance.ParaEstimate(para_guess=(0.2,0.2),
+                         method = 'CG',
+                         options = {'disp':True})
+params_est_NI = ni_instance.para_est
+print(params_est_NI)
 
 # +
-#ni_instance.ForecastPlotDiag()
+## Estimate NI by simulation 
+
+ni_instance.ParaEstimateSim(para_guess=(0.3,0.3),
+                            method = 'Nelder-Mead',
+                            options = {'disp':True})
+params_est_NI_sim = ni_instance.para_est_sim
+print(params_est_NI_sim)
+
+# + {"code_folding": []}
+ni_instance.ForecastPlotDiag()
+
 
 # +
 ## parameter learning estimator 
