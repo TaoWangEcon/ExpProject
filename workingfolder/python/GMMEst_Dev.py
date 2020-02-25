@@ -82,7 +82,6 @@ def PrepMom(model_moments,
     diff = np.linalg.norm(distance)
     return diff
 
-
 #################################
 ######## specific to new moments
 ################################
@@ -108,46 +107,7 @@ def PrepMomWM(model_moments,
 
 
 
-# + {"code_folding": [1]}
-## using nlopt library instead of scipy optimize
-def Estimator2(obj_func,
-               para_guess):
-    """
-    Inputs
-    ------
-    - moments: a function of the rigidity model parameter  
-
-    Outputs
-    -------
-    - parameter: an array of estimated parameter
-    """
-    opt = nlopt.opt(nlopt.LN_BOBYQA,2)
-    #opt.set_maxtime(20)
-    opt.set_min_objective(obj_func)
-    parameter = opt.optimize(para_guess)
-    return parameter 
-
-
-# + {"code_folding": [0, 6]}
-def myfunc(x, grad):
-    if grad.size > 0:
-        grad[0] = 0.0
-        grad[1] = 0.5 / np.sqrt(x[1])
-    return np.sqrt(x[1])
-
-def myfunc0(x,
-            grad):
-    if grad.size>0:
-        grad[0] = None
-        grad[1] = None
-    return np.sqrt(x**[0]+x[1]**2)
-
-
-# +
-#Estimator2(myfunc0,
-#          para_guess = [0.1,0.2])
-
-# + {"code_folding": [1, 9, 40, 56]}
+# + {"code_folding": [1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -584,7 +544,7 @@ RE_instance.GetDataMoments(fe_moms)
 SE_para_default = {'lambda':0.4}
 
 
-# + {"code_folding": [2, 24, 28, 41, 57, 109, 143, 181, 250, 276, 311, 321, 350, 379, 389, 397, 419, 441, 467, 505, 540, 565, 579, 591, 603, 615, 630, 645, 656, 678, 708, 738]}
+# + {"code_folding": [2, 24, 28, 41, 57, 109, 143, 181, 250, 276, 311, 321, 350, 379, 389, 397, 419, 441, 467, 505, 540, 565, 579, 592, 604, 616, 631, 646, 658, 680]}
 ## Sticky Expectation(SE) class 
 class StickyExpectation:
     def __init__(self,
@@ -1130,7 +1090,7 @@ class StickyExpectation:
         self.data_moms_dct = data_moms_dct
         
 #################################
-######## specific to new moments
+######## New
 ################################
 
         data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
@@ -1174,6 +1134,7 @@ class StickyExpectation:
                                      method = method,
                                      bounds = bounds,
                                      options = options)
+        return self.para_estSMM
     
     ## invoke the estimator 
     def ParaEstimate(self,
@@ -1240,6 +1201,7 @@ class StickyExpectation:
                                             method = method,
                                             bounds = bounds,
                                             options = options)
+        return self.para_est_SMM_joint
         
     def ForecastPlot(self,
                      all_moms = False):
@@ -1263,40 +1225,30 @@ class StickyExpectation:
 ######## New
 ################################
 
-    def ForecastPlotDiagGMM(self,
-                         all_moms = False,
-                         diff_scale = False):
-        exp_para_est_dct = {'lambda':self.para_estGMM[0]}
-        new_instance = cp.deepcopy(self)
-        new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
-        plt.style.use('ggplot')
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
-            
-        m_ct = len(moments_to_plot)
-        x = plt.figure(figsize=([3,3*m_ct]))
-        if diff_scale == False:
-            for i,val in enumerate(moments_to_plot):
-                plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-                plt.legend(loc=1)
-        if diff_scale == True:
-            for i,val in enumerate(moments_to_plot):
-                ax1 = plt.subplot(m_ct,1,i+1)
-                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
-                ax1.legend(loc=0)
-                ax2 = ax1.twinx()
-                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
-                ax2.legend(loc=3)
-
     def ForecastPlotDiag(self,
                          all_moms = False,
-                         diff_scale = False):
-        exp_para_est_dct = {'lambda':self.para_est[0]}
+                         diff_scale = False,
+                         how = 'GMMs'):
+        if how =='GMMs':
+            exp_para_est_dct = {'lambda':self.para_est[0]}
+        elif how == "GMM":
+            exp_para_est_dct = {'lambda':self.para_estGMM}
+        elif how == "SMM":
+            exp_para_est_dct = {'lambda':self.para_estSMM}
+        elif how =="SMMs":
+            exp_para_est_dct = {'lambda':self.para_est_sim[0]}
+        elif how =="SMMjoint":
+            lbd,rho,sigma = self.para_est_SMM_joint
+            exp_para_est_dct = {'lambda':lbd}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+        elif how =="GMMsjoint":
+            lbd,rho,sigma = self.para_est_joint
+            exp_para_est_dct = {'lambda':lbd}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+            
+        ## plot 
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -1305,7 +1257,7 @@ class StickyExpectation:
             moments_to_plot = self.moments
         else:
             moments_to_plot = self.all_moments
-            
+
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
         if diff_scale == False:
@@ -1322,31 +1274,6 @@ class StickyExpectation:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
-                
-    def ForecastPlotDiagJoint(self,
-                              all_moms = False):
-        lbd,rho,sigma = self.para_est_joint
-        exp_para_est_dct = {'lambda':lbd}
-        process_para_est_dct = {'rho':rho,
-                               'sigma':sigma}
-        new_instance = cp.deepcopy(self)
-        new_instance.exp_para = exp_para_est_dct
-        new_instance.process_para = process_para_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
-        plt.style.use('ggplot')
-        
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
-        
-        m_ct = len(moments_to_plot)
-        x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-            plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-            plt.legend(loc=1)
 
 # + {"code_folding": [0]}
 ## test of ForecasterbySim
@@ -1401,8 +1328,9 @@ for mom in ['FE','Disg','Var']:
 
 """
 
-# + {"code_folding": [0]}
-#test of ParaEstimate()
+# + {"code_folding": []}
+#test of ParaEstimate
+
 #mom_sim_fake = mom_sim_dct.copy()
 mom_fake = mom_sim_dct.copy()
 SE_instance.GetDataMoments(mom_fake)
@@ -1411,6 +1339,9 @@ SE_instance.GetDataMoments(mom_fake)
 #                         para_guess = 0.5,
 #                         bounds = ((0,1),),
 #                         options={'disp':True})
+
+
+#SE_instance.ForecastPlotDiag()
 
 # + {"code_folding": [0]}
 ##################################
@@ -1429,36 +1360,42 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
     print('SMM are:',SE_instance.SMMMoments[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
 
 ## test GMM est
-#SE_instance.moments=['FEATV','FEVar']
+#SE_instance.moments=['FEATV','FEVar','Disg']
 #SE_instance.ParaEstimateGMM(method='COBYLA',
 #                            para_guess = 0.1,
 #                            options={'disp':True})
-#SE_instance.para_estGMM
-#SE_instance.ForecastPlotDiagGMM(all_moms = True,
-#                                diff_scale = True)
+
+#SE_instance.ForecastPlotDiag(all_moms = True,
+#                             diff_scale = True,
+#                             how ="GMM")
 
 # + {"code_folding": []}
 #SE_instance.PlotLossGMM()
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 #################################
 ######## specific to new moments
 ################################
 
 ## test SMM est
-SE_instance.moments=['FEATV','Var']
+SE_instance.moments=['FEATV','FEVar','DisgATV','Disg','Var']
 SE_instance.ParaEstimateSMM(method='Nelder-Mead',
                             para_guess = 0.1,
                             options={'disp':True})
-# -
 
 SE_instance.para_estSMM
+
+# + {"code_folding": [0]}
+## Plot after SMM estimation
+SE_instance.ForecastPlotDiag(all_moms = True,
+                             diff_scale = True,
+                             how = "SMM")
 
 # +
 #################################
@@ -1469,9 +1406,13 @@ SE_instance.para_estSMM
 SE_instance.moments=['FEATV','FEVar','DisgVar','Disg','DisgATV','Var']
 SE_instance.ParaEstimateSMMJoint(method='Nelder-Mead',
                                  options={'disp':True})
-# -
-
 SE_instance.para_est_SMM_joint
+
+# + {"code_folding": [0]}
+## plot after SMMjoint 
+SE_instance.ForecastPlotDiag(all_moms = True,
+                             diff_scale = True,
+                             how = "SMMjoint")
 
 # + {"code_folding": []}
 #################################
@@ -1563,7 +1504,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.6,
 
 # ##  NI model 
 
-# + {"code_folding": [2, 3, 28, 32, 39, 45, 59, 129, 167, 204, 219, 231, 270, 283, 316, 353, 386, 415, 426, 452, 458, 479, 516, 539, 554, 581, 593, 605, 620, 641, 660, 696]}
+# + {"code_folding": [3, 28, 32, 39, 45, 59, 129, 204, 219, 231, 270, 283, 316, 353, 386, 415, 426, 452, 458, 479, 516, 539, 555, 571, 584, 596, 608, 627, 668, 687, 723]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1867,14 +1808,14 @@ class NoisyInformation:
         
         Var_sim = np.mean(Vars_sim)
         
-        self.GMMMoments = {"FE":FE_sim,
+        self.SMMMoments = {"FE":FE_sim,
                            "FEVar":FEVar_sim,
                            "FEATV":FEATV_sim,
                            "Disg":Disg_sim,
                            "DisgVar":DisgVar_sim,
                            "DisgATV":DisgATV_sim,
                            "Var":Var_sim}
-        return self.GMMMoments
+        return self.SMMMoments
     
 #################################
 ######## New
@@ -1955,7 +1896,7 @@ class NoisyInformation:
         """
         input
         -----
-        lbd: the parameter of SE model to be estimated
+        ni_paras: the parameter of NI model to be estimated
         
         output
         -----
@@ -2113,6 +2054,7 @@ class NoisyInformation:
                                      method = method,
                                      bounds = bounds,
                                      options = options)
+        return self.para_estGMM
         
 #################################
 ######## New
@@ -2128,6 +2070,7 @@ class NoisyInformation:
                                      method = method,
                                      bounds = bounds,
                                      options = options)
+        return self.para_estSMM
         
 #################################
 ######## New
@@ -2143,7 +2086,8 @@ class NoisyInformation:
                                              method = method,
                                              bounds = bounds,
                                              options = options)
-        
+        return self.para_est_SMM_joint
+            
     ## invoke the estimator 
     def ParaEstimate(self,
                      para_guess=np.array([0.2,0.2]),
@@ -2183,16 +2127,40 @@ class NoisyInformation:
             plt.plot(self.forecast_moments[val],label=val)
             plt.legend(loc=1)
     
+########################
+###### New
+########################
+
     ## diagostic plots 
     def ForecastPlotDiag(self,
                          all_moms = False,
-                         diff_scale = False):
-        exp_para_est_dct = {'sigma_pb':self.para_est[0],
-                           'sigma_pr':self.para_est[1],
-                           #'var_init':self.para_est[2],
-                           #'y_init':self.para_est[3],
-                           #'disg_init':self.para_est[4]
-                           }
+                         diff_scale = False,
+                         how ="GMMs"):
+        if how =="GMMs":
+            exp_para_est_dct = {'sigma_pb':self.para_est[0],
+                               'sigma_pr':self.para_est[1]}
+        elif how == "GMM":
+            exp_para_est_dct = {'sigma_pb':self.para_estGMM[0],
+                               'sigma_pr':self.para_estGMM[1]}
+        elif how == "SMM":
+            exp_para_est_dct = {'sigma_pb':self.para_estSMM[0],
+                               'sigma_pr':self.para_estSMM[1]}
+        elif how =="SMMs":
+            exp_para_est_dct = {'sigma_pb':self.para_est_sim[0],
+                               'sigma_pr':self.para_est_sim[1]}
+        elif how =="SMMjoint":
+            sigma_pb,sigma_pr,rho,sigma = self.para_est_SMM_joint
+            exp_para_est_dct = {'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+        elif how =="GMMsjoint":
+            sigma_pb,sigma_pr,rho,sigma = self.para_est_joint
+            exp_para_est_dct = {'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma} 
+        
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
