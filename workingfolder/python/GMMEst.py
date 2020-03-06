@@ -25,18 +25,20 @@
 # ### 1. Estimation algorithms 
 
 from scipy.optimize import minimize
+from scipy.optimize import fixed_point as fp
 import numpy as np
 import matplotlib.pyplot as plt
 import statsmodels.api as sm
 from statsmodels.tsa.api import AR
 import copy as cp 
 from scipy.stats import bernoulli
-from numba import jit, njit # njit is just an alias for jit(nopython=True)
+#from numpy import *
+#from numba import jit
+import time
 
 
-# + {"code_folding": [2]}
+# + {"code_folding": [1, 26]}
 # a general-purpose estimating function of the parameter
-@jit
 def Estimator(obj_func,
               para_guess,
               method='CG',
@@ -61,10 +63,7 @@ def Estimator(obj_func,
                          options = options)['x']
     return parameter 
 
-
-# + {"code_folding": []}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
-@jit
 def PrepMom(model_moments,
             data_moments):
     """
@@ -78,19 +77,16 @@ def PrepMom(model_moments,
     diff: the Euclidean distance of two arrays of data and model 
     
     """
-    diff = np.linalg.norm((model_moments - data_moments)/data_moments)
+    distance = model_moments - data_moments
+    diff = np.linalg.norm(distance)
     return diff
 
 
-# + {"code_folding": [0, 1, 5, 9, 18, 41]}
+
+# + {"code_folding": [13, 4]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
-    return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
-
-np.random.seed(12345)
-def hstepfe(h,sigma,rho):
-    return sum([rho**i*(np.random.randn(1)*sigma)*np.random.randn(h)[i] for i in range(h)])
-## This is not correct. 
+    return np.sum([ rho**(2*i)*sigma**2 for i in range(h)])
 
 def ForecastPlot(test):
     m_ct = len(test)
@@ -100,7 +96,7 @@ def ForecastPlot(test):
         plt.plot(test[val],label=val)
         plt.legend(loc=1)
     return x
-        
+     
 def ForecastPlotDiag(test,
                      data,
                      legends=['model','data'],
@@ -110,16 +106,16 @@ def ForecastPlotDiag(test,
     if diff_scale == False:
         for i,val in enumerate(test):
             plt.subplot(m_ct,1,i+1)
-            plt.plot(test[val],'s-',label='model:'+ val)
-            plt.plot(np.array(data[val]),'o-',label='data:'+ val)
+            plt.plot(test[val],'s-',label=legends[0]+ ': ' +val)
+            plt.plot(np.array(data[val]),'o-',label=legends[1] +':'+ val)
             plt.legend(loc=1)
     if diff_scale == True:
         for i,val in enumerate(test):
             ax1 = plt.subplot(m_ct,1,i+1)
-            ax1.plot(test[val],'rs-',label='model:'+ val)
+            ax1.plot(test[val],'s-',label=legends[0]+ ':' +val)
             ax1.legend(loc=0)
             ax2 = ax1.twinx()
-            ax2.plot(np.array(data[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+            ax2.plot(np.array(data[val]),'o-',color='steelblue',label=legends[1] +':'+ val)
             ax2.legend(loc=3)
     return x
         
@@ -140,183 +136,17 @@ sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
 
-
-# + {"code_folding": [2, 16, 19, 31, 54, 59, 67, 77, 82, 93, 111, 113, 117]}
-## Rational Expectation (RE) class 
-class RationalExpectation:
-    def __init__(self,
-                 real_time,
-                 history,
-                 horizon = 1,
-                 process_para = process_para,
-                 exp_para = {},
-                 moments = ['Forecast','FE','Disg','Var']):
-        self.real_time = real_time
-        self.history = history
-        self.horizon = horizon
-        self.process_para = process_para
-        self.moments = moments
-        self.all_moments = ['Forecast','FE','Disg','Var']
-    
-    def GetRealization(self,realized_series):
-        self.realized = realized_series
-        
-    def SimulateRealization(self):
-        n = len(self.real_time)
-        rho = self.process_para['rho']
-        sigma =self.process_para['sigma']
-        shocks = np.random.randn(n)*sigma
-        realized = np.zeros(n)
-        for i in range(n):
-            cum_shock = sum([rho**h*shocks[h] for h in range(self.horizon)])
-            realized[i] = rho**self.horizon*self.real_time[i] + cum_shock
-        self.realized = realized        
-    
-    @jit
-    def Forecaster(self):
-        ## parameters
-        n = len(self.real_time)
-        rho = self.process_para['rho']
-        sigma =self.process_para['sigma']
-        
-        ## parameters
-        real_time = self.real_time
-        horizon = self.horizon
-        
-        ## forecast moments 
-        Disg =np.zeros(n)
-        infoset = real_time
-        nowcast = infoset
-        forecast = rho**horizon*nowcast
-        Var = hstepvar(horizon,sigma,rho)* np.ones(n)
-        FE = forecast - self.realized ## forecast errors depend on realized shocks 
-        self.forecast_moments = {"Forecast":forecast,
-                                 "FE":FE,
-                                 "Disg":Disg,
-                                 "Var":Var}
-        return self.forecast_moments
-        
-    def RE_EstObjfunc(self,
-                      process_para):
-        """
-        input
-        -----
-        process_para: the parameters of process to be estimated. 
-           No expectation parameters because rational expectation
-        
-        output
-        -----
-        the objective function to minmize
-        """
-        moments = self.moments
-        re_process_para = {'rho':process_para[0],
-                  'sigma':process_para[1]}
-        self.process_para = re_process_para  # give the process para
-        data_moms_dct = self.data_moms_dct
-        RE_moms_dct = self.Forecaster().copy()
-        RE_moms = np.array([RE_moms_dct[key] for key in moments] )
-        data_moms = np.array([data_moms_dct[key] for key in moments] )
-        obj_func = PrepMom(RE_moms,data_moms)
-        return obj_func 
-    
-    def GetDataMoments(self,
-                       data_moms_dct):
-        self.data_moms_dct = data_moms_dct
-    
-    @jit
-    def ParaEstimate(self,
-                     para_guess = np.array([0.5,0.1]),
-                     method = 'CG',
-                     bounds = None,
-                     options = None):
-        self.para_est = Estimator(self.RE_EstObjfunc,
-                                  para_guess = para_guess,
-                                  method = method,
-                                  bounds = bounds,
-                                  options = options)
-    
-    def ForecastPlot(self,
-                    all_moms = False):
-            
-        ## decide if plot all moments 
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
-        m_ct = len(moments_to_plot)
-        plt.style.use('ggplot')
-        x = plt.figure(figsize=([3,3*m_ct]))
-        
-        for i,val in enumerate(moments_to_plot):
-            plt.subplot(m_ct,1,i+1)
-            plt.plot(self.forecast_moments[val],label=val)
-            plt.legend(loc=1)
-        return x 
-    
-    def ForecastPlotDiag(self,
-                        all_moms = False):
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
-        re_process_est_dct = {'rho':self.para_est[0],
-                              'sigma':self.para_est[1]}
-        new_instance = cp.deepcopy(self)
-        new_instance.process_para = re_process_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
-        
-        ## decide if plot all moments 
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
-        m_ct = len(moments_to_plot)
-        plt.style.use('ggplot')
-        x = plt.figure(figsize=([3,3*m_ct]))
-        for i,val in enumerate(moments_to_plot):
-                plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-                plt.legend(loc=1)
-        return x
-
-
-# + {"code_folding": []}
-### create a RE instance 
-xx_history = AR1_simulator(rho,sigma,100)
-
-xx_real_time = xx_history[20:]
-
-RE_instance = RationalExpectation(real_time = xx_real_time,
-                                 history = xx_history)
-
-# + {"code_folding": []}
-### simulate a realized series 
-RE_instance.SimulateRealization()
-
-### forecster
-#fe_moms = RE_instance.Forecaster()
-#re_plot = RE_instance.ForecastPlot()
-
-# + {"code_folding": []}
-## estimate rational expectation model 
-RE_instance.GetDataMoments(fe_moms)
-RE_instance.moments=['Forecast','FE','Var']
-
-#RE_instance.ParaEstimate(para_guess = np.array([0.1,0.2]),
-#                         method = 'L-BFGS-B',
-#                         bounds =((0,1),(0,1)),
-#                         options = {'disp':True})
-#RE_instance.para_est
-#re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
+# +
+## Rational Expectation
 
 # + {"code_folding": []}
 ## SE expectation parameters 
-SE_para_default = {'lambda':0.2}
+SE_para_default = {'lambda':0.4}
 
-
-# + {"code_folding": [2, 24, 28, 41, 54, 102, 158, 179, 200]}
+# + {"code_folding": [0, 3, 4, 30, 43, 59, 111, 145, 181, 250, 320, 349, 378, 388, 577, 606, 631, 645, 672, 684, 696, 711, 726, 738, 760, 814, 830]}
 ## Sticky Expectation(SE) class 
+
+
 class StickyExpectation:
     def __init__(self,
                  real_time,
@@ -336,19 +166,19 @@ class StickyExpectation:
         self.data_moms_dct ={}
         self.para_est = {}
         self.moments = moments
-        self.all_moments = ['Forecast','FE','Disg']
+        self.all_moments = ['Forecast','FE','Disg','Var']
         self.realized = None
         self.sim_realized = None
         
     def GetRealization(self,
                        realized_series):
-        self.realized = realized_series   
+        self.realized = realized_series 
     
     def SimulateRealization(self):
         n = self.n
         rho = self.process_para['rho']
         sigma = self.process_para['sigma']
-        #np.random.seed(13234)
+        np.random.seed(12345)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -369,6 +199,131 @@ class StickyExpectation:
         self.sim_realized_noshock = sim_realized_noshock
         return self.sim_realized_noshock
     
+#################################
+######## specific to new moments
+################################
+
+    def GMM(self):
+        ## parameters and information set
+        
+        real_time = self.real_time
+        history = self.history
+        #realized = self.realized
+        #sim_realized = self.sim_realized
+        n = len(real_time)
+        rho = self.process_para['rho']
+        sigma =self.process_para['sigma']
+        lbd = self.exp_para['lambda']
+        #max_back = self.max_back
+        horizon = self.horizon      
+        n_burn = len(history) - n
+        #n_history = n + n_burn  # of course equal to len(history)
+        
+        ## moments 
+        
+        # FE
+        FE = 0  
+        FEVar = ((1-lbd)*2*sigma**2+lbd**2*hstepvar(horizon,sigma,rho))/(1-(1-lbd)**2*rho**2)
+        #FEVar = lbd**2*rho**(2*horizon)*sigma**2/(1-(1-lbd)**2)
+        ## because FE_t' = (1-lbd)*rho*FE_t + (1-lbd) eps + lbd FE*
+        FEATV = (1-lbd)*rho*FEVar
+        
+        # Disg
+        Disg = rho**(2*horizon)*sigma**2/(1-rho**2*(1-lbd)**2)
+        DisgVar = rho**(4*horizon)*sigma**4/(1-rho**(2*horizon)*(1-lbd)**2)
+        DisgATV = rho**(2*horizon)*(1-lbd)**2*DisgVar
+        #Disg = rho**(2*horizon)*(1-lbd)**2*lbd**2*sigma**2/(1- lbd**2*(1-lbd)**2) ## might be wrong. needs to check 
+        
+        # Var
+        Var = sigma**2/(1-rho**2)*(1-lbd*rho**(2*horizon)/(1-(1-lbd)*rho*2))
+        
+        #ATV = (1-lbd)**Disg                               
+        #Var = sum([(1-lbd)**tau*lbd*hstepvar(horizon+tau,sigma,rho) for tau in range(n + n_burn)])
+        
+        
+        self.GMMMoments = {"FE":FE,
+                           "FEVar":FEVar,
+                           "FEATV":FEATV,
+                           "Disg":Disg,
+                           "DisgVar":DisgVar,
+                           "DisgATV":DisgATV,
+                           "Var":Var}
+        return self.GMMMoments
+    
+    
+#################################
+######## specific to new moments
+################################
+
+    def SMM(self):
+            
+        ## simulate forecasts 
+        
+        self.ForecasterbySim(n_sim = 200)
+        moms_sim = self.forecast_moments_sim
+        
+        FEs_sim = moms_sim['FE']
+        Disgs_sim = moms_sim['Disg']
+        Vars_sim = moms_sim['Var']
+        
+        ## SMM moments     
+        FE_sim = np.mean(FEs_sim)
+        FEVar_sim = np.var(FEs_sim)
+        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0 ))[0,1]
+        Disg_sim = np.mean(Disgs_sim)
+        DisgVar_sim = np.var(Disgs_sim)
+        DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
+        
+        Var_sim = np.mean(Vars_sim)
+    
+        self.SMMMoments = {"FE":FE_sim,
+                           "FEVar":FEVar_sim,
+                           "FEATV":FEATV_sim,
+                           "Disg":Disg_sim,
+                           "DisgVar":DisgVar_sim,
+                           "DisgATV":DisgATV_sim,
+                           "Var":Var_sim}
+        return self.SMMMoments
+    
+#################################
+######## New
+################################
+
+    def ProcessGMM(self):
+        
+        ## parameters and information set
+
+        ## model 
+        rho = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        history = self.history
+        
+        resd = 0 
+        Yresd = 0 
+        resdVar = sigma**2
+        YVar = sigma**2/(1-rho**2)
+        YATV = rho*YVar
+        
+        
+        self.ProcessMoments= {"Yresd":Yresd,
+                              "YVar":YVar,
+                              "resdVar":resdVar,
+                              #"YATV":YATV
+                             }
+        ## data 
+        resds = np.mean(history[1:]-rho*history[:-1])
+        resd_data = np.mean(resds)
+        resdVar_data = np.mean(resds**2)
+        Yresd_data = np.mean(history[:-1]*resds)
+        YVar_data = np.var(history)
+        YATV_data = np.cov(np.stack((history[1:],history[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessDataMoments = {"Yresd":Yresd_data,
+                                  "YVar": YVar_data,
+                                  "resdVar":resdVar_data,
+                                   #"YATV":YATV_data
+                                  }
     
     def Forecaster(self):
         ## inputs 
@@ -400,26 +355,47 @@ class StickyExpectation:
             nowcast_array[i] = nowcast_this_i
         nowcast = nowcast_array
         forecast = rho**horizon*nowcast
+        
         # forecast errors
         if realized is not None:
             FE = forecast - realized
         elif sim_realized is not None:
             FE = forecast - sim_realized
+            
         ## diagreement 
         Disg_array = np.empty(n)
         for i in range(n):
             Disg_this_i = sum([lbd*(1-lbd)**tau*(rho**(tau+horizon)*history[i+n_burn-tau] - forecast[i])**2 for tau in range(i+n_burn)])
             Disg_array[i] = Disg_this_i
         Disg = Disg_array
-        #Disg =  sum([ lbd*(1-lbd)**tau*(rho**(tau+horizon)*np.roll(real_time,tau)-forecast)**2 for tau in range(max_back)] )
-        self.forecast_moments = {"Forecast":forecast, 
-                                "FE":FE,
-                                "Disg":Disg,
-                                "Var":Var}
+        
+        ## autocovariance of forecast
+        ATV_array = np.empty(n)
+        for i in range(n-1):
+            ATV_array[i+1] = (1-lbd)*np.sqrt(Disg[i])*np.sqrt(Disg[i+1])
+        ATV_array[0] = ATV_array[1]
+        ATV = ATV_array 
+        
+        ## autocovariance of forecast errors
+        FEVar = np.empty(n)
+        FEATV = np.empty(n)
+        for i in range(n):
+            FEVar[i] = sum([lbd*(1-lbd)**tau*
+                            (sum([rho**(x+horizon)*FE[i-x] for x in range(tau) if x<=i])
+                             - FE[i])**2 
+                            for tau in range(i+n_burn)])
+        for i in range(n-1):
+            FEATV[i+1] = (1-lbd)*np.sqrt(FEVar[i])*np.sqrt(FEVar[i+1])
+        FEATV[0] = FEATV[1]
+            
+        self.forecast_moments = {"Forecast":forecast,
+                                 "FE":FE,
+                                 "Disg":Disg,
+                                 "Var":Var}
         return self.forecast_moments
-
+    
     def ForecasterbySim(self,
-                        n_sim = 1000):
+                        n_sim = 100):
         ## inputs 
         real_time = self.real_time
         history  = self.history
@@ -436,18 +412,17 @@ class StickyExpectation:
     
         
         ## simulation
-        np.random.seed(12444)
-        update_or_not = bernoulli.rvs(p = lbd,
-                                      size = [n_sim,n_history])
-        most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
-        nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
-        Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        np.random.seed(12345)
+        update_or_not = bernoulli.rvs(lbd,size = [n_sim,n_history])
+        most_recent_when = np.empty([n_sim,n_history],dtype = int)
+        nowcasts_to_burn = np.empty([n_sim,n_history])
+        Vars_to_burn = np.empty([n_sim,n_history])
         
         ## look back for the most recent last update for each point of time  
         for i in range(n_sim):
             for j in range(n_history):
-                if any([x for x in range(j) if update_or_not[i,j-x] == True]):
-                    most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                if np.any([x for x in range(j) if update_or_not[i,j-x] == 1]):
+                    most_recent_when[i,j] = np.min([x for x in range(j) if update_or_not[i,j-x] == 1])
                 else:
                     most_recent_when[i,j] = j
                 nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
@@ -458,24 +433,39 @@ class StickyExpectation:
         forecasts = rho**horizon*nowcasts
         Vars = np.array( Vars_to_burn[:,n_burn:])
         
+        if realized is not None:
+            FEs = forecasts - realized
+        elif self.sim_realized is not None:
+            FEs = forecasts - self.sim_realized
+        
         ## compuate population moments
-        forecasts_mean = np.mean(forecasts,axis=0)
-        forecasts_var = np.var(forecasts,axis=0)
+        forecasts_mean = np.mean(forecasts,axis = 0)
+        forecasts_var = np.var(forecasts,axis = 0)
+        
         if realized is not None:
             FEs_mean = forecasts_mean - realized
         elif self.sim_realized is not None:
             FEs_mean = forecasts_mean - self.sim_realized
-        Vars_mean = np.mean(Vars,axis=0) ## need to change 
+            
+        Vars_mean = np.mean(Vars,axis = 0) ## need to change 
         
-        self.forecast_moments_sim = {"Forecast":forecasts_mean, 
-                                    "FE":FEs_mean,
-                                    "Disg":forecasts_var,
-                                    "Var":Vars_mean}
+        forecasts_vcv = np.cov(forecasts.T)
+        forecasts_atv = np.array([forecasts_vcv[i+1,i] for i in range(n-1)])
+        FEs_vcv = np.cov(FEs.T)
+        FEs_atv = np.array([FEs_vcv[i+1,i] for i in range(n-1)]) ## this is no longer needed
+        
+        self.forecast_moments_sim = {"Forecast":forecasts_mean,
+                                     "FE":FEs_mean,
+                                     "Disg":forecasts_var,
+                                     "Var":Vars_mean}
         return self.forecast_moments_sim
     
-    ## a function estimating SE model parameter only 
-    def SE_EstObjfunc(self,
-                      lbd):
+###################################
+######## New
+#####################################
+
+    def SE_EstObjfuncGMM(self,
+                         se_paras):
         """
         input
         -----
@@ -486,13 +476,91 @@ class StickyExpectation:
         the objective function to minmize
         """
         moments = self.moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        lbd = se_paras[0]
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        
+        SE_moms_scalar_dct = self.GMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        distance = SE_moms_scalar - data_moms_scalar
+        obj_func = np.linalg.norm(distance)
+        return obj_func 
+    
+###################################
+######## New
+#####################################
+
+    def SE_EstObjfuncSMM(self,
+                         se_paras):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        lbd = se_paras[0]
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        
+        SE_moms_scalar_dct = self.SMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        distance = SE_moms_scalar - data_moms_scalar
+        obj_func = np.linalg.norm(distance)
+        return obj_func 
+    
+###################################
+######## New
+#####################################
+
+    def PlotLossGMM(self,
+                    lbds = np.linspace(0.01,0.99,20)):
+        loss  = np.array([self.SE_EstObjfuncGMM(np.array([lbd])) for lbd in lbds])
+        self.fig = plt.plot(lbds,loss,lw = 3)
+        plt.title('Loss function of GMM')
+        return self.fig  
+
+###################################
+######## New
+#####################################
+    def PlotLossSMM(self,
+                    lbds = np.linspace(0.01,0.99,20)):
+        loss  = np.array([self.SE_EstObjfuncSMM(np.array([lbd])) for lbd in lbds])
+        self.fig = plt.plot(lbds,loss,lw = 3)
+        plt.title('Loss function of SMM')
+        return self.fig
+    
+    ## a function estimating SE model parameter only 
+    def SE_EstObjfunc(self,
+                      se_paras):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        lbd = se_paras[0]
+        moments = self.moments
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
         SE_moms_dct = self.Forecaster().copy()
         SE_moms = np.array([SE_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
-        obj_func = PrepMom(SE_moms,data_moms)
+        distance = SE_moms - data_moms
+        obj_func = np.linalg.norm(distance)
         return obj_func 
     
     def SE_EstObjfuncSim(self,
@@ -510,10 +578,12 @@ class StickyExpectation:
         SE_para = {"lambda":lbd}
         self.exp_para = SE_para  # give the new lambda
         data_moms_dct = self.data_moms_dct
+        np.random.seed(12345)
         SE_moms_dct = self.ForecasterbySim().copy()
         SE_moms = np.array([SE_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
-        obj_func = PrepMom(SE_moms,data_moms)
+        distance = SE_moms - data_moms
+        obj_func = np.linalg.norm(distance)
         return obj_func
     
     def SE_EstObjfuncJoint(self,
@@ -535,7 +605,148 @@ class StickyExpectation:
         n = len(sim_realized)
         SE_moms_stack = np.concatenate((SE_moms, sim_realized.reshape(1,n)), axis=0)
         data_moms_stack = np.concatenate((data_moms, realized.reshape(1,n)), axis=0)
-        obj_func = PrepMom(SE_moms_stack,data_moms_stack)
+        distance = SE_moms_stack - data_moms_stack
+        obj_func = np.linalg.norm(distance)
+        return obj_func
+    
+###################################
+######## New
+#####################################
+
+    def SE_EstObjfuncGMMJoint(self,
+                              paras):
+        lbd,rho,sigma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'rho':rho,
+                              'sigma':sigma}
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process GMM 
+        self.ProcessGMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        SE_moms_scalar_dct = self.GMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        #print(ProcessMoments)
+        #print(ProcessDataMoments)
+        SE_moms_scalar_stack = np.concatenate((SE_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        distance = SE_moms_scalar_stack - data_moms_scalar_stack
+        obj_func = np.linalg.norm(distance)
+        return obj_func
+    
+###################################
+######## New
+#####################################
+
+    def SE_EstObjfuncSMMJoint(self,
+                              paras):
+        lbd,rho,sigma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'rho':rho,
+                              'sigma':sigma}
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process GMM 
+        self.ProcessGMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        SE_moms_scalar_dct = self.SMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        #print(ProcessMoments)
+        #print(ProcessDataMoments)
+        SE_moms_scalar_stack = np.concatenate((SE_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        distance = SE_moms_scalar_stack - data_moms_scalar_stack
+        obj_func = np.linalg.norm(distance)
+        return obj_func
+    
+###################################
+######## New
+#####################################
+    
+    def SE_EstObjfuncSMMwm1st(self,
+                              se_paras):
+        
+        # estimate first step 
+        self.ParaEstimateSMM()
+        self.WM1stSMM()
+        
+        ## data moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        ## 1-step weighting matrix 
+        wm1st = self.wm1st
+        
+        ## parameters 
+        lbd = se_paras[0]
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        
+        SE_moms_scalar_dct = self.SMM().copy()
+        
+        sim_moms = np.array([SE_moms_scalar_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+        assert len(sim_moms) == len(data_moms), "not equal lenghth"
+        distance = sim_moms - data_moms
+        tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
+        obj_func = np.sum(tmp)
+        return obj_func
+    
+###################################
+######## New
+#####################################
+
+    def SE_EstObjfuncSMMwmboot(self,
+                                  se_paras):
+        
+        # estimate first step 
+        self.ParaEstimateSMM()
+        self.WMbootSMM()
+        
+        ## data moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        ## 1-step weighting matrix 
+        wm1st = self.wm_boot
+        
+        ## parameters 
+        lbd = se_paras[0]
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        
+        SE_moms_scalar_dct = self.SMM().copy()
+        
+        sim_moms = np.array([SE_moms_scalar_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+        assert len(sim_moms) == len(data_moms), "not equal lenghth"
+        distance = sim_moms - data_moms
+        tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
+        obj_func = np.sum(tmp)
         return obj_func
     
     ## feeds the instance with data moments dictionary 
@@ -543,10 +754,71 @@ class StickyExpectation:
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
         
+#################################
+######## New
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        data_moms_scalar_dct['FEVar'] = data_moms_dct['FE'].var()
+        FE_stack = np.stack((data_moms_dct['FE'][1:],data_moms_dct['FE'][:-1]),axis = 0)
+        data_moms_scalar_dct['FEATV'] = np.cov(FE_stack)[0,1]
+        data_moms_scalar_dct['DisgVar'] = data_moms_dct['Disg'].var()
+        Disg_stack = np.stack((data_moms_dct['Disg'][1:],data_moms_dct['Disg'][:-1]),axis = 0)
+        data_moms_scalar_dct['DisgATV'] = np.cov(Disg_stack)[0,1]
+        
+        self.data_moms_scalar_dct = data_moms_scalar_dct
+        
+###################################
+######## New
+####################################
+        
+    def ParaEstimateGMM(self,
+                        para_guess = 0.2,
+                        method='COBYLA',
+                        bounds = None,
+                        options = None):
+        self.para_estGMM = Estimator(self.SE_EstObjfuncGMM,
+                                     para_guess = para_guess,
+                                     method = method,
+                                     bounds = bounds,
+                                     options = options)
+###################################
+######## New
+####################################
+        
+    def ParaEstimateSMM(self,
+                        wb = 'identity',
+                        para_guess = 0.2,
+                        method='Nelder-Mead',
+                        bounds = None,
+                        options = None):
+        if wb == 'identity':
+            self.para_estSMM = Estimator(self.SE_EstObjfuncSMM,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+        elif wb =='2-step':
+            self.para_estSMM = Estimator(self.SE_EstObjfuncSMMwm1st,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+        elif wb =='bootstrap':
+            self.para_estSMM = Estimator(self.SE_EstObjfuncSMMwmboot,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+        return self.para_estSMM
+    
     ## invoke the estimator 
     def ParaEstimate(self,
                      para_guess = 0.2,
-                     method='BFGS',
+                     method='CG',
                      bounds = None,
                      options = None):
         self.para_est = Estimator(self.SE_EstObjfunc,
@@ -557,15 +829,15 @@ class StickyExpectation:
         return self.para_est
         
     def ParaEstimateSim(self,
-                     para_guess = 0.2,
-                     method='BFGS',
-                     bounds = None,
-                     options = None):
+                        para_guess = 0.2,
+                        method='BFGS',
+                        bounds = None,
+                        options = None):
         self.para_est_sim = Estimator(self.SE_EstObjfuncSim,
-                                      para_guess = para_guess,
-                                      method = method,
-                                      bounds = bounds,
-                                      options = options)
+                                  para_guess=para_guess,
+                                  method = method,
+                                  bounds = bounds,
+                                  options = options)
         return self.para_est_sim
     
     def ParaEstimateJoint(self,
@@ -578,6 +850,37 @@ class StickyExpectation:
                                   method = method,
                                   bounds = bounds,
                                   options = options)
+        
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateGMMJoint(self,
+                             para_guess = (0.5,0.1,0.2),
+                             method='BFGS',
+                             bounds = None,
+                             options = None):
+        self.para_est_GMM_joint = Estimator(self.SE_EstObjfuncGMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateSMMJoint(self,
+                             para_guess = (0.5,0.8,0.2),
+                             method='Nelder-Mead',
+                             bounds = None,
+                             options = None):
+        self.para_est_SMM_joint = Estimator(self.SE_EstObjfuncSMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        return self.para_est_SMM_joint
         
     def ForecastPlot(self,
                      all_moms = False):
@@ -597,10 +900,34 @@ class StickyExpectation:
                 plt.plot(self.forecast_moments[val],label=val)
                 plt.legend(loc=1)
             
+#################################
+######## New
+################################
+
     def ForecastPlotDiag(self,
                          all_moms = False,
-                         diff_scale = False):
-        exp_para_est_dct = {'lambda':self.para_est[0]}
+                         diff_scale = False,
+                         how = 'GMMs'):
+        if how =='GMMs':
+            exp_para_est_dct = {'lambda':self.para_est[0]}
+        elif how == "GMM":
+            exp_para_est_dct = {'lambda':self.para_estGMM}
+        elif how == "SMM":
+            exp_para_est_dct = {'lambda':self.para_estSMM}
+        elif how =="SMMs":
+            exp_para_est_dct = {'lambda':self.para_est_sim[0]}
+        elif how =="SMMjoint":
+            lbd,rho,sigma = self.para_est_SMM_joint
+            exp_para_est_dct = {'lambda':lbd}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+        elif how =="GMMsjoint":
+            lbd,rho,sigma = self.para_est_joint
+            exp_para_est_dct = {'lambda':lbd}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+            
+        ## plot 
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -609,7 +936,7 @@ class StickyExpectation:
             moments_to_plot = self.moments
         else:
             moments_to_plot = self.all_moments
-            
+
         m_ct = len(moments_to_plot)
         x = plt.figure(figsize=([3,3*m_ct]))
         if diff_scale == False:
@@ -626,123 +953,53 @@ class StickyExpectation:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
+        
+#################################
+######## New
+################################
                 
-    def ForecastPlotDiagJoint(self,
-                              all_moms = False,
-                              diff_scale = False):
-        lbd,rho,sigma = self.para_est_joint
-        exp_para_est_dct = {'lambda':lbd}
-        process_para_est_dct = {'rho':rho,
-                               'sigma':sigma}
-        new_instance = cp.deepcopy(self)
-        new_instance.exp_para = exp_para_est_dct
-        new_instance.process_para = process_para_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
-        plt.style.use('ggplot')
+    def WM1stSMM(self):
+        """
+        - get the 1-st step variance and covariance matrix
+        """
+        exp_para_est_dct = {'lambda':self.para_estSMM}
+        self.exp_para = exp_para_est_dct
         
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
+        sim_moms_dct = self.SMM()
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+        distance = sim_moms - data_moms
+        distance_diag = np.diag(distance*distance.T)
+        self.wm1st = np.linalg.inv(distance_diag)
+        return self.wm1st
+    
+    def WMbootSMM(self,
+                  n_boot = 100):
+        # data moments 
+        data_moms_scalar_dct = self.data_moms_scalar_dct
         
-        m_ct = len(moments_to_plot)
-        x = plt.figure(figsize=([3,3*m_ct]))
-        if diff_scale == False:
-            for i,val in enumerate(moments_to_plot):
-                plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-                plt.legend(loc=1)
-            else:
-                ax1 = plt.subplot(m_ct,1,i+1)
-                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
-                ax1.legend(loc=0)
-                ax2 = ax1.twinx()
-                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
-                ax2.legend(loc=3)
-
-# + {"code_folding": []}
-## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[20:]
-
-### create a SE instance using fake real time data 
-SE_instance = StickyExpectation(real_time = xx_real_time,
-                                history = xx_history,
-                               moments = ['Forecast','FE','Disg'])
-
-SE_instance.SimulateRealization()
+        # parameters 
+        exp_para_est_dct = {'lambda':self.para_estSMM}
+        self.exp_para = exp_para_est_dct
+        
+        distance_boot = []
+        
+        for i in range(n_boot): 
+            self.SMM()
+            sim_moms_dct = self.SMMMoments
+            sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
+            data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+            distance = sim_moms - data_moms
+            distance_boot.append(np.array(distance))
+        #print(np.array(distance_boot).shape)
+        vcv_boot_ary = np.array(distance_boot, dtype=np.float64)
+        self.vcv_boot = np.cov(vcv_boot_ary.T)
+        #print(self.vcv_boot)
+        self.wm_boot = np.linalg.inv(self.vcv_boot)               
 
 
-### simulate a realized series 
-mom_dct =  SE_instance.Forecaster()
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim=1000)
-
-#mom_sim_and_pop = ForecastPlotDiag(mom_dct,mom_sim_dct)
-
-
-# +
-#test of ParaEstimate()
-#mom_sim_fake = mom_sim_dct.copy()
-#SE_instance.GetDataMoments(mom_sim_dct)
-#SE_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_time)))
-#SE_instance.ParaEstimate(method='L-BFGS-B',
-#                         para_guess = 0.5,
-#                         bounds = ((0,1),),
-#                         options={'disp':True})
-
-# + {"code_folding": []}
-## test of ParaEstimateJoint()
-#mom_sim_fake = mom_sim_dct.copy()
-#SE_instance.GetDataMoments(mom_sim_dct)
-#SE_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_time)))
-#SE_instance.ParaEstimateJoint(method='CG',
-#                              para_guess =(0.5,0.8,0.1),
-#                              options={'disp':True})
-
-#L-BFGS-B
-
-# + {"code_folding": []}
-#SE_instance.para_est_joint
-
-# + {"code_folding": []}
-#SE_instance.ForecastPlotDiagJoint()
-
-# + {"code_folding": []}
-### fake data moments 
-data_moms_dct_fake = SE_instance.Forecaster()
-
-# + {"code_folding": []}
-#SE_instance.ForecastPlot()
-
-# + {"code_folding": []}
-### feed the data moments
-SE_instance.GetDataMoments(data_moms_dct_fake)
-
-
-# + {"code_folding": []}
-#moms_sim_dct = SE_instance.ForecasterbySim(n_sim =100)
-
-# + {"code_folding": []}
-### invoke generalized estimation 
-#SE_instance.ParaEstimate(para_guess = 0.4,
-#                         method = 'BFGS',
-#                         options = {'disp':True})
-#SE_instance.para_est
-
-# +
-### invoke simulated estimation 
-#SE_instance.ParaEstimateSim(para_guess = 0.1,
-#                            method = 'TNC',
-#                            options = {'disp':True})
-
-# + {"code_folding": []}
-#SE_instance.para_est
-
-# + {"code_folding": []}
-#SE_instance.ForecastPlotDiag()
-
-# + {"code_folding": [3, 25, 36, 55, 84, 113, 182, 205, 211, 231, 255, 260, 272, 283, 295, 310, 344]}
+# + {"code_folding": [3, 32, 45, 59, 207, 222, 234, 286, 319, 356, 389, 401, 422, 455, 484, 495, 507, 522, 550, 587, 595, 610, 626, 657, 670, 682, 694, 713, 774, 791]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -751,9 +1008,12 @@ class NoisyInformation:
                  history,
                  horizon = 1,
                  process_para = process_para, 
-                 exp_para = {'sigma_pb':0.5,
-                             'sigma_pr':0.5,
-                             'var_init':1},
+                 exp_para = {'sigma_pb':0.2,
+                             'sigma_pr':0.2,
+                             #'var_init':1,
+                             #'y_init':0.1,
+                             #'disg_init':0.1,
+                            },
                  moments = ['Forecast','FE','Disg']):
         self.real_time = real_time
         self.history = history
@@ -776,7 +1036,7 @@ class NoisyInformation:
         n = self.n
         rho = self.process_para['rho']
         sigma =self.process_para['sigma']
-        #np.random.seed(12345)
+        np.random.seed(12345)
         shocks = np.random.randn(n)*sigma
         sim_realized = np.zeros(n)
         for i in range(n):
@@ -792,12 +1052,13 @@ class NoisyInformation:
         sigma_pr =self.exp_para['sigma_pr']
         np.random.seed(1234)
         s_pb = self.history + sigma_pb*np.random.randn(n_history)
-        np.random.seed(1256)
+        np.random.seed(12343)
         s_pr = self.history + sigma_pr*np.random.randn(n_history)
         self.signals = np.asmatrix(np.array([s_pb,s_pr]))
         self.signals_pb = s_pb
         
     # a function that generates population moments according to NI     
+    
     def Forecaster(self):
         ## inputs 
         real_time = self.real_time
@@ -811,7 +1072,19 @@ class NoisyInformation:
         sigma = self.process_para['sigma']
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        var_init = self.exp_para['var_init']
+        #var_init = self.exp_para['var_init']
+        #######################
+        var_init = 1
+        ##################
+        #y_init = self.exp_para['y_init
+        #######################
+        y_init = 0
+        ##################
+        #disg_init = self.exp_para['disg_init']
+        #######################
+        disg_init = 1
+        #######################
+        
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
         signals = self.signals
@@ -819,12 +1092,12 @@ class NoisyInformation:
         H = np.asmatrix ([[1,1]]).T
         Pkalman = np.zeros([n_history,nb_s])
         nowcast_to_burn = np.zeros(n_history)
-        nowcast_to_burn[0] = history[0]
+        nowcast_to_burn[0] = y_init
         nowvar_to_burn = np.zeros(n_history)
         nowvar_to_burn[0] = var_init
         Var_to_burn = np.zeros(n_history)
         nowdisg_to_burn = np.zeros(n_history)
-        nowdisg_to_burn[0] = sigma_pr**2 
+        nowdisg_to_burn[0] = disg_init 
      
         ## forecast moments        
         for t in range(n_history-1):
@@ -857,7 +1130,7 @@ class NoisyInformation:
         return self.forecast_moments
     
     def ForecasterbySim(self,
-                       n_sim = 1000):
+                       n_sim = 100):
         # parameters
         real_time = self.real_time
         history = self.history
@@ -870,17 +1143,23 @@ class NoisyInformation:
         n_history = len(self.history)
         sigma_pb = self.exp_para['sigma_pb']
         sigma_pr =self.exp_para['sigma_pr']
-        var_init = self.exp_para['var_init']
+        #var_init = self.exp_para['var_init']
+        #######################
+        var_init = 10
+        ##################
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
+        
+        ## simulate signals 
+        self.SimulateSignals()
         signals = self.signals
         nb_s = len(self.signals) ## # of signals 
         H = np.asmatrix ([[1,1]]).T
         
         # randomly simulated signals 
         signal_pb = self.signals_pb 
-        np.random.seed(12343)
-        signals_pr = self.history + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
+        np.random.seed(12434)
+        signals_pr = np.array([self.history]) + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
         
         ## prepare matricies 
         nowcasts_to_burn = np.zeros([n_sim,n_history])
@@ -924,6 +1203,297 @@ class NoisyInformation:
                                      "Var":Vars_mean}
         return self.forecast_moments_sim
     
+###################################
+######## new ######################
+###################################
+
+    def KalmanVar(self,
+                  nowvar):
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        
+        
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        H = np.asmatrix ([[1,1]]).T
+
+        step1_vars = rho**2*nowvar + sigma**2
+        nowvar_next= step1_vars - step1_vars*H.T*np.linalg.inv(H*step1_vars*H.T+sigma_v)*H*step1_vars
+        return nowvar_next
+    
+    def SteadyState(self):
+
+        VarSS = fp(self.KalmanVar,
+                   x0 = 0.1)   # steady state nowcasting uncertainty 
+        
+        self.VarSS = VarSS
+        return self.VarSS
+    
+#################################
+######## New
+################################
+
+    def GMM(self):
+        ## parameters
+        now_var = self.VarSS  ## nowcasting variance in steady state 
+        rho  = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        #var_init = self.exp_para['var_init']
+        #y_init = self.exp_para['y_init']
+        #disg_init = self.exp_para['disg_init']
+        
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
+        horizon = self.horizon      
+        H = np.asmatrix ([[1,1]]).T
+        
+        ## compute steady state Pkalman 
+        step1_vars_SS = rho**2*now_var + sigma**2
+        PkalmanSS = step1_vars_SS*H.T*np.linalg.inv(H*step1_vars_SS*H.T+sigma_v)
+        ## GMM unconditional moments
+        
+        ### FE
+        FE = 0
+        FEVar = np.asscalar((rho**(2*horizon)*sigma_pb**2+PkalmanSS[:,0]**2*(1-rho**(2*horizon))/
+                             (1-rho)*sigma**2)/(1-(1-PkalmanSS*H)**2))
+        FEATV = np.asscalar((1-PkalmanSS*H)*FEVar)
+        
+        ### Disg
+        Disg_now = np.asscalar((PkalmanSS[:1]*sigma_pr**2/(1-(1-PkalmanSS*H)**2))[:,1])
+        Disg = Disg_now*rho**(2*horizon)
+        
+        DisgVar_now = np.asscalar((PkalmanSS[:1]*sigma_pr**4/(1-(1-PkalmanSS*H)**4))[:,1])
+        DisgVar = rho**(4*horizon)*DisgVar_now
+        
+        DisgATV_now =np.asscalar((1-PkalmanSS*H)**2*DisgVar_now) 
+        DisgATV = rho**(4*horizon)*DisgATV_now
+        
+        ### Var
+        Var = np.asscalar(rho**(2*horizon)*now_var + hstepvar(horizon,sigma,rho))
+        
+        self.GMMMoments = {"FE":FE,
+                           "FEVar":FEVar,
+                           "FEATV":FEATV,
+                           "Disg":Disg,
+                           "DisgVar":DisgVar,
+                           "DisgATV":DisgATV,
+                           "Var":Var}
+        return self.GMMMoments
+    
+#################################
+######## New
+################################
+
+    def SMM(self):
+        
+        ## simulate
+        self.ForecasterbySim(n_sim = 200)
+        moms_sim = self.forecast_moments_sim
+        
+        FEs_sim = moms_sim['FE']
+        Disgs_sim = moms_sim['Disg']
+        Vars_sim = moms_sim['Var']
+        
+        ## SMM moments     
+        FE_sim = np.mean(FEs_sim)
+        FEVar_sim = np.var(FEs_sim)
+        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0 ))[0,1]
+        Disg_sim = np.mean(Disgs_sim)
+        DisgVar_sim = np.var(Disgs_sim)
+        DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
+        
+        Var_sim = np.mean(Vars_sim)
+        
+        self.SMMMoments = {"FE":FE_sim,
+                           "FEVar":FEVar_sim,
+                           "FEATV":FEATV_sim,
+                           "Disg":Disg_sim,
+                           "DisgVar":DisgVar_sim,
+                           "DisgATV":DisgATV_sim,
+                           "Var":Var_sim}
+        return self.SMMMoments
+    
+#################################
+######## New
+################################
+
+    def ProcessGMM(self):
+        
+        ## parameters and information set
+        
+        rho = self.process_para['rho']
+        sigma = self.process_para['sigma']
+        history = self.history
+        
+        resd = 0 
+        yresd = 0 
+        YVar = sigma**2/(1-rho**2)
+        resdVar = sigma**2
+        YATV = rho*YVar
+        
+        self.ProcessMoments= {#"resd":resd,
+                              "Yresd":yresd,
+                              "YVar":YVar,
+                              "resdVar":resdVar,
+                              "YATV":YATV}
+        resd_data = history[1:]-rho*history[:-1]
+        resd_data = np.mean(resd_data)
+        resdVar_data = np.mean(resd**2)
+        Yresd_data = np.mean(history[1:]*(history[1:]-rho*history[:-1]))
+        YATV_data = np.cov(np.stack((history[1:],history[:-1]),axis=0))[0,1]
+        YVar_data = np.var(history)
+        
+        
+        self.ProcessDataMoments = {#"resd":resd_data,
+                                  "Yresd":Yresd_data,
+                                  "YVar": YVar_data,
+                                  "YATV":YATV_data,
+                                  "resdVar_data":resdVar_data}
+        
+#################################
+######## specific to new moments
+################################
+
+    def NI_EstObjfuncGMM(self,
+                         ni_paras):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        NI_para = {"sigma_pb":ni_paras[0],
+                  "sigma_pr":ni_paras[1],
+                  #'var_init':ni_paras[2],
+                  # 'y_init':ni_paras[3],
+                  # 'disg_init':ni_paras[4]
+                  }
+
+        self.exp_para = NI_para  # give the new parameters 
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        self.SteadyState()
+        NI_moms_scalar_dct = self.GMM().copy()
+        NI_moms_scalar = np.array([NI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        distance = NI_moms_scalar - data_moms_scalar
+        obj_func = np.linalg.norm(distance)
+        return obj_func 
+    
+#################################
+######## specific to new moments
+################################
+
+    def NI_EstObjfuncSMM(self,
+                         ni_paras):
+        """
+        input
+        -----
+        ni_paras: the parameter of NI model to be estimated
+        
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        NI_para = {"sigma_pb":ni_paras[0],
+                  "sigma_pr":ni_paras[1],
+                  #'var_init':ni_paras[2],
+                  # 'y_init':ni_paras[3],
+                  # 'disg_init':ni_paras[4]
+                  }
+
+        self.exp_para = NI_para  # give the new parameters 
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        #self.SteadyState()
+        NI_moms_scalar_dct = self.SMM().copy()
+        NI_moms_scalar = np.array([NI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        distance = NI_moms_scalar - data_moms_scalar
+        obj_func = np.linalg.norm(distance)
+        return obj_func 
+    
+###################################
+######## New
+#####################################
+    
+    def NI_EstObjfuncSMMwm1st(self,
+                              ni_paras):
+        
+        # estimate first step 
+        self.ParaEstimateSMM()
+        self.WM1stSMM()
+        
+        ## data moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        ## 1-step weighting matrix 
+        wm1st = self.wm1st
+        
+        ## parameters 
+        sigma_pb,sigma_pr = ni_paras
+        NI_para = {"sigma_pb":sigma_pb,
+                  "sigma_pr":sigma_pr}
+        self.exp_para = NI_para  # give the new lambda
+        
+        NI_moms_scalar_dct = self.SMM().copy()
+        
+        sim_moms = np.array([NI_moms_scalar_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+        assert len(sim_moms) == len(data_moms), "not equal lenghth"
+        distance = sim_moms - data_moms
+        tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
+        obj_func = np.sum(tmp)
+        return obj_func
+    
+###################################
+######## New
+#####################################
+
+    def NI_EstObjfuncSMMwmboot(self,
+                               ni_paras):
+        
+        # estimate first step 
+        self.ParaEstimateSMM()
+        self.WMbootSMM()
+        
+        ## data moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        ## 1-step weighting matrix 
+        wm1st = self.wm_boot
+        
+        ## parameters 
+        sigma_pb,sigma_pr = ni_paras
+        NI_para = {"sigma_pb":sigma_pb,
+                  "sigma_pr":sigma_pr}
+        self.exp_para = NI_para  # give the new lambda
+        
+        NI_moms_scalar_dct = self.SMM().copy()
+        
+        sim_moms = np.array([NI_moms_scalar_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
+        assert len(sim_moms) == len(data_moms), "not equal lenghth"
+        distance = sim_moms - data_moms
+        tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
+        obj_func = np.sum(tmp)
+        return obj_func
+    
+    def PlotLossGMM(self,
+                    sigma_pbs = np.linspace(0.01,2,10),
+                    sigma_prs = np.linspace(0.01,2,10)):
+        xx,yy = np.meshgrid(sigma_pbs,sigma_prs)
+        paras = np.array([[xx[i],yy[i]] for i in range(len(xx))])
+        loss = self.NI_EstObjfuncGMM(paras)
+        self.fig = plt.contourf(sigma_pbs,sigma_prs,loss)
+        plt.title('Loss function of GMM')
+        return self.fig
+    
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,
                       ni_paras):
@@ -939,13 +1509,17 @@ class NoisyInformation:
         moments = self.moments
         NI_para = {"sigma_pb":ni_paras[0],
                   "sigma_pr":ni_paras[1],
-                  'var_init':ni_paras[2]}
+                  #'var_init':ni_paras[2],
+                   #'y_init':ni_paras[3],
+                   #'disg_init':ni_paras[4]
+                  }
         self.exp_para = NI_para  # give the new parameters 
         data_moms_dct = self.data_moms_dct
         NI_moms_dct = self.Forecaster()
         NI_moms = np.array([NI_moms_dct[key] for key in moments] )
         data_moms = np.array([data_moms_dct[key] for key in moments] )
-        obj_func = PrepMom(NI_moms,data_moms)
+        distance = NI_moms - data_moms
+        obj_func = np.linalg.norm(distance)
         return obj_func 
     
     def NI_EstObjfuncJoint(self,
@@ -959,7 +1533,8 @@ class NoisyInformation:
         
         NI_para = {"sigma_pb":sigma_pb,
                   "sigma_pr":sigma_pr,
-                  'var_init':var_init}
+                  #'var_init':var_init
+                  }
         
         self.exp_para = NI_para  # give the new lambda
         self.process_para = process_para_joint
@@ -971,40 +1546,132 @@ class NoisyInformation:
         n = len(sim_realized)
         NI_moms_stack = np.concatenate((NI_moms, sim_realized.reshape(1,n)), axis=0)
         data_moms_stack = np.concatenate((data_moms, realized.reshape(1,n)), axis=0)
-        obj_func = PrepMom(NI_moms_stack,data_moms_stack)
+        distance = NI_moms_stack - data_moms_stack
+        obj_func = np.linalg.norm(distance)
         return obj_func
     
-    def NI_EstObjfuncSim(self,
-                      ni_paras):
-        """
-        input
-        -----
-        sigma: the parameters of NI model to be estimated. A vector of sigma_pb and sigma_pr
-        
-        output
-        -----
-        the objective function to minmize
-        """
+    def NI_EstObjfuncSMMJoint(self,
+                              paras):
+        sigma_pb,sigma_pr,rho,sigma = paras
         moments = self.moments
-        NI_para = {"sigma_pb":ni_paras[0],
-                  "sigma_pr":ni_paras[1],
-                  'var_init':ni_paras[2]}
-        self.exp_para = NI_para  # give the new parameters 
-        data_moms_dct = self.data_moms_dct
-        NI_moms_dct = self.ForecasterbySim()
-        NI_moms = np.array([NI_moms_dct[key] for key in moments] )
-        data_moms = np.array([data_moms_dct[key] for key in moments] )
-        obj_func = PrepMom(NI_moms,data_moms)
-        return obj_func 
+        realized = self.realized
+        
+        process_para_joint = {'rho':rho,
+                              'sigma':sigma}
+        NI_para = {"sigma_pb":sigma_pb,
+                  "sigma_pr":sigma_pr}
+        
+        self.exp_para = NI_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process GMM 
+        self.ProcessGMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        NI_moms_scalar_dct = self.SMM().copy()
+        NI_moms_scalar = np.array([NI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        #print(ProcessMoments)
+        #print(ProcessDataMoments)
+        NI_moms_scalar_stack = np.concatenate((NI_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        distance = NI_moms_scalar_stack - data_moms_scalar_stack
+        obj_func = np.linalg.norm(distance)
+        return obj_func
     
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
                        data_moms_dct):
         self.data_moms_dct = data_moms_dct
         
+#################################
+######## specific to new moments
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        data_moms_scalar_dct['FEVar'] = data_moms_dct['FE'].var()
+        data_moms_scalar_dct['FEATV'] = np.cov(data_moms_dct['FE'][1:],data_moms_dct['FE'][:-1])[1,1]
+        data_moms_scalar_dct['DisgVar'] = data_moms_dct['Disg'].var()
+        data_moms_scalar_dct['DisgATV'] =np.cov(data_moms_dct['Disg'][1:],data_moms_dct['Disg'][:-1])[1,1]
+        
+        self.data_moms_scalar_dct = data_moms_scalar_dct
+        
+#################################
+######## New
+################################
+
+    def ParaEstimateGMM(self,
+                        para_guess=np.array([0.2,0.2]),
+                        method='CG',
+                        bounds = None,
+                        options = None):
+        self.para_estGMM = Estimator(self.NI_EstObjfuncGMM,
+                                     para_guess = para_guess,
+                                     method = method,
+                                     bounds = bounds,
+                                     options = options)
+        return self.para_estGMM
+        
+#################################
+######## New
+################################
+
+    def ParaEstimateSMM(self,
+                        wb = 'identity',
+                        para_guess = np.array([0.2,0.2]),
+                        method='Nelder-Mead',
+                        bounds = None,
+                        options = None):
+        if wb =='identity':
+            self.para_estSMM = Estimator(self.NI_EstObjfuncSMM,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+        elif wb =='2-step':
+            self.para_estSMM = Estimator(self.NI_EstObjfuncSMMwm1st,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+        elif wb =='bootstrap':
+            self.para_estSMM = Estimator(self.NI_EstObjfuncSMMwmboot,
+                                         para_guess = para_guess,
+                                         method = method,
+                                         bounds = bounds,
+                                         options = options)
+            
+        return self.para_estSMM
+        
+#################################
+######## New
+################################
+
+    def ParaEstimateSMMJoint(self,
+                            para_guess=np.array([0.2,0.2,0.8,0.1]),
+                            method='Nelder-Mead',
+                            bounds = None,
+                            options = None):
+        self.para_est_SMM_joint = Estimator(self.NI_EstObjfuncSMMJoint,
+                                             para_guess = para_guess,
+                                             method = method,
+                                             bounds = bounds,
+                                             options = options)
+        return self.para_est_SMM_joint
+            
     ## invoke the estimator 
     def ParaEstimate(self,
-                     para_guess=np.array([0.2,0.2,0.2]),
+                     para_guess=np.array([0.2,0.2]),
                      method='CG',
                      bounds = None,
                      options = None):
@@ -1016,22 +1683,11 @@ class NoisyInformation:
         return self.para_est
     
     def ParaEstimateJoint(self,
-                          para_guess = np.array([0.5,0.1,0.2,0.7,0.1]),
+                          para_guess = (0.5,0.1),
                           method='BFGS',
                           bounds = None,
                           options = None):
         self.para_est_joint = Estimator(self.NI_EstObjfuncJoint,
-                                  para_guess = para_guess,
-                                  method = method,
-                                  bounds = bounds,
-                                  options = options)
-        
-    def ParaEstimateSim(self,
-                     para_guess=np.array([0.2,0.2,0.2]),
-                     method='CG',
-                     bounds = None,
-                     options = None):
-        self.para_est = Estimator(self.NI_EstObjfuncSim,
                                   para_guess = para_guess,
                                   method = method,
                                   bounds = bounds,
@@ -1052,14 +1708,40 @@ class NoisyInformation:
             plt.plot(self.forecast_moments[val],label=val)
             plt.legend(loc=1)
     
+########################
+###### New
+########################
+
     ## diagostic plots 
     def ForecastPlotDiag(self,
                          all_moms = False,
-                         diff_scale = False):
-        sigma_pb,sigma_pr,var_init = self.para_est
-        exp_para_est_dct = {'sigma_pb':sigma_pb,
-                           'sigma_pr':sigma_pr,
-                           'var_init':var_init}
+                         diff_scale = False,
+                         how ="GMMs"):
+        if how =="GMMs":
+            exp_para_est_dct = {'sigma_pb':self.para_est[0],
+                               'sigma_pr':self.para_est[1]}
+        elif how == "GMM":
+            exp_para_est_dct = {'sigma_pb':self.para_estGMM[0],
+                               'sigma_pr':self.para_estGMM[1]}
+        elif how == "SMM":
+            exp_para_est_dct = {'sigma_pb':self.para_estSMM[0],
+                               'sigma_pr':self.para_estSMM[1]}
+        elif how =="SMMs":
+            exp_para_est_dct = {'sigma_pb':self.para_est_sim[0],
+                               'sigma_pr':self.para_est_sim[1]}
+        elif how =="SMMjoint":
+            sigma_pb,sigma_pr,rho,sigma = self.para_est_SMM_joint
+            exp_para_est_dct = {'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma}
+        elif how =="GMMsjoint":
+            sigma_pb,sigma_pr,rho,sigma = self.para_est_joint
+            exp_para_est_dct = {'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            process_para_est_dct = {'rho':rho,
+                                   'sigma':sigma} 
+        
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
         self.forecast_moments_est = new_instance.Forecaster()
@@ -1086,127 +1768,54 @@ class NoisyInformation:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
-            
-    def ForecastPlotDiagJoint(self,
-                              all_moms = False,
-                              diff_scale = False):
-        sigma_pb,sigma_pb,var,rho,sigma = self.para_est_joint
-        exp_para_est_dct = {'sigma_pb':sigma_pb,
-                           'sigma_pr':sigma_pb,
-                           'var_init':var}
-        process_para_est_dct = {'rho':rho,
-                               'sigma':sigma}
-        new_instance = cp.deepcopy(self)
-        new_instance.exp_para = exp_para_est_dct
-        new_instance.process_para = process_para_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
-        plt.style.use('ggplot')
+                
+                
+#################################
+######## New
+################################
+                
+    def WM1stSMM(self):
+        """
+        - get the 1-st step variance and covariance matrix
+        """
+        exp_para_est_dct = {'sigma_pb':self.para_estSMM[0],
+                           'sigma_pr':self.para_estSMM[1]}
+        self.exp_para = exp_para_est_dct
         
-        if all_moms == False:
-            moments_to_plot = self.moments
-        else:
-            moments_to_plot = self.all_moments
+        sim_moms_dct = self.SMM()
+        data_moms_scalar = self.data_moms_scalar_dct
+        sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar[key] for key in self.moments])
+        distance = sim_moms - data_moms
+        distance_diag = np.diag(distance*distance.T)
+        self.wm1st = np.linalg.inv(distance_diag)
+        return self.wm1st
+    
+    def WMbootSMM(self,
+                  n_boot = 100):
+        # data moments 
+        data_moms_scalar = self.data_moms_scalar_dct
         
-        m_ct = len(moments_to_plot)
-        x = plt.figure(figsize=([3,3*m_ct]))
-        if diff_scale == False:
-            for i,val in enumerate(moments_to_plot):
-                plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-                plt.legend(loc=1)
-        else:
-            for i,val in enumerate(moments_to_plot):
-                ax1 = plt.subplot(m_ct,1,i+1)
-                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
-                ax1.legend(loc=0)
-                ax2 = ax1.twinx()
-                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
-                ax2.legend(loc=3)
-# + {"code_folding": []}
-## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[5:]
-
-ni_instance = NoisyInformation(real_time = xx_real_time,
-                               history = xx_history,
-                              moments=['Forecast','FE','Disg','Var'])
-
-
-# +
-#plt.plot(xx_real_time)
-
-# + {"code_folding": []}
-## simulate signals
-ni_instance.SimulateRealization()
-ni_instance.SimulateSignals()
-
-# + {"code_folding": []}
-## forecast by simulating
-#ni_mom_sim = ni_instance.ForecasterbySim(n_sim=2000)
-#ni_plot_sim = ForecastPlot(ni_mom_sim)
-
-# +
-#plt.plot(rho*ni_instance.real_time)
-#plt.plot(ni_mom_sim['Forecast'])
-
-# + {"code_folding": []}
-## compare pop and simulated 
-#ni_mom_dct =  ni_instance.Forecaster()
-#niplt = ForecastPlot(ni_mom_dct)
-
-# + {"code_folding": []}
-#ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
-#                                      ni_mom_sim,
-#                                     legends=['computed','simulated'])
-
-# +
-#plt.plot(ni_instance.realized,label='Realized')
-#plt.plot(ni_mom_dct['Forecast'],label='Forecast')
-#plt.legend(loc=1)
-
-# + {"code_folding": []}
-#ni_mom_dct =  ni_instance.Forecaster()
-
-#fake_data_moms_dct = ni_mom_dct
-#ni_instance.GetDataMoments(ni_mom_sim)
-
-#ni_instance.ParaEstimate(method = 'L-BFGS-B',
-#                         bounds = ((0,None),(0,1),(0,None)),
-#                         options = {'disp':True})
-#params_est_NI = ni_instance.para_est
-#print(params_est_NI)
-
-# + {"code_folding": []}
-#ni_instance.ParaEstimate(method = 'CG',
-#                         options = {'disp':True})
-#params_est_NI = ni_instance.para_est
-#print(params_est_NI)
-
-# +
-## test of ParaEstimateJoint
-#mom_sim_fake = ni_mom_sim.copy()
-#ni_instance.GetDataMoments(ni_mom_sim)
-#ni_instance.GetRealization(rho*xx_real_time+sigma*np.random.rand(len(xx_real_time)))
-#ni_instance.ParaEstimateJoint(method='CG',
-#                              para_guess =(0.5,0.8,0.1,0.9,0.1),
-#                              options={'disp':True})
+        # parameters 
+        exp_para_est_dct = {'sigma_pb':self.para_estSMM[0],
+                           'sigma_pr':self.para_estSMM[1]}
+        self.exp_para = exp_para_est_dct
+        
+        distance_boot = []
+        
+        for i in range(n_boot): 
+            self.SMM()
+            sim_moms_dct = self.SMMMoments
+            sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
+            data_moms = np.array([data_moms_scalar[key] for key in self.moments])
+            distance = sim_moms - data_moms
+            distance_boot.append(np.array(distance))
+        #print(np.array(distance_boot).shape)
+        vcv_boot_ary = np.array(distance_boot, dtype=np.float64)
+        self.vcv_boot = np.cov(vcv_boot_ary.T)
+        #print(self.vcv_boot)
+        self.wm_boot = np.linalg.inv(self.vcv_boot) 
 # -
-
-## test of ParaEstimateSim
-mom_sim_fake = ni_mom_sim.copy()
-ni_instance.GetDataMoments(mom_sim_fake)
-ni_instance.ParaEstimateSim(method='BFGS',
-                              para_guess =(0.5,0.8,0.1),
-                              options={'disp':True})
-
-# +
-#ni_instance.para_est_joint
-
-# +
-#ni_instance.ForecastPlotDiag()
-# -
-
 ## parameter learning estimator 
 PL_para_default = SE_para_default
 
@@ -1353,23 +1962,3 @@ class ParameterLearning:
             plt.subplot(m_ct,1,i+1)
             plt.plot(self.forecast_moments[val],label=val)
             plt.legend(loc=1)
-
-# + {"code_folding": []}
-## try parameter learning 
-#xx_history = AR1_simulator(rho,sigma,100)
-#xx_real_time = xx_history[20:]
-
-#pl_instance = ParameterLearning(real_time = xx_real_time,
-#                                history = xx_history,
-#                               moments=['Forecast','FE','Disg','Var'])
-#pl_instance.SimulateRealization()
-#pl_instance.LearnParameters()
-#pl_moms_dct = pl_instance.Forecaster()
-
-# +
-#pl_plot = ForecastPlotDiag(pl_moms_dct,pl_moms_dct,diff_scale=True)
-
-# +
-## compare the forecast from learning model with realized data
-#plt.plot(pl_instance.realized)
-#plt.plot(pl_moms_dct['Forecast'])

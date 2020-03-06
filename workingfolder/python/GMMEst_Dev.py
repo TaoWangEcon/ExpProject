@@ -34,6 +34,9 @@ import copy as cp
 from scipy.stats import bernoulli
 #import nlopt
 #from numpy import *
+from numba import jit
+import time
+
 
 # + {"code_folding": [1]}
 # a general-purpose estimating function of the parameter
@@ -62,7 +65,7 @@ def Estimator(obj_func,
     return parameter 
 
 
-# + {"code_folding": [2, 23]}
+# + {"code_folding": [0, 2, 23]}
 # a function that prepares moment conditions. So far the loss being simply the norm of the difference
 
 def PrepMom(model_moments,
@@ -107,7 +110,7 @@ def PrepMomWM(model_moments,
 
 
 
-# + {"code_folding": [1, 9, 18, 40, 56]}
+# + {"code_folding": [0, 1, 9, 18, 40, 56]}
 ## auxiliary functions 
 def hstepvar(h,sigma,rho):
     return sum([ rho**(2*i)*sigma**2 for i in range(h)] )
@@ -495,35 +498,35 @@ class RationalExpectation:
         return x
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### create a RE instance 
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[20:]
+#xx_history = AR1_simulator(rho,sigma,100)
+#xx_real_time = xx_history[20:]
 
-RE_instance = RationalExpectation(real_time = xx_real_time,
-                                  history = xx_history)
+#RE_instance = RationalExpectation(real_time = xx_real_time,
+#                                  history = xx_history)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ### simulate a realized series 
-RE_instance.SimulateRealization()
+#RE_instance.SimulateRealization()
 
 ### forecster
-fe_moms = RE_instance.Forecaster()
+#fe_moms = RE_instance.Forecaster()
 #re_plot = RE_instance.ForecastPlot()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## estimate rational expectation model 
-RE_instance.GetDataMoments(fe_moms)
+#RE_instance.GetDataMoments(fe_moms)
 #RE_instance.moments = ['Forecast','Disg']
 
-#RE_instance.ParaEstimate(para_guess = np.array([0.5,0.3]),
+# RE_instance.ParaEstimate(para_guess = np.array([0.5,0.3]),
 #                         method = 'L-BFGS-B',
 #                         bounds =((0,1),(0,1)),
 #                         options = {'disp':True})
 #RE_instance.para_est
 #re_plot_diag = RE_instance.ForecastPlotDiag(all_moms=True)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
@@ -533,7 +536,7 @@ RE_instance.GetDataMoments(fe_moms)
 #RE_instance.ParaEstimateGMM()
 #RE_instance.para_estGMM
 
-# +
+# + {"code_folding": []}
 #re_plot = RE_instance.ForecastPlotDiagGMM()
 # -
 
@@ -543,9 +546,10 @@ RE_instance.GetDataMoments(fe_moms)
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.4}
 
-
-# + {"code_folding": [2, 24, 28, 41, 57, 109, 143, 181, 250, 276, 311, 321, 350, 379, 389, 397, 419, 441, 467, 505, 543, 575, 604, 629, 643, 656, 662, 670, 682, 694, 709, 724, 736, 758, 812, 828]}
+# + {"code_folding": [3, 4, 26, 30, 43, 59, 111, 145, 183, 252, 322, 351, 380, 390, 398, 420, 442, 468, 506, 544, 576, 605, 613, 630, 644, 657, 663, 671, 683, 695, 710, 725, 737, 759, 813, 829]}
 ## Sticky Expectation(SE) class 
+
+
 class StickyExpectation:
     def __init__(self,
                  real_time,
@@ -814,17 +818,16 @@ class StickyExpectation:
         
         ## simulation
         np.random.seed(12345)
-        update_or_not = bernoulli.rvs(p = lbd,
-                                      size = (n_sim,n_history))
-        most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
-        nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
-        Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        update_or_not = bernoulli.rvs(lbd,size = [n_sim,n_history])
+        most_recent_when = np.empty([n_sim,n_history],dtype = int)
+        nowcasts_to_burn = np.empty([n_sim,n_history])
+        Vars_to_burn = np.empty([n_sim,n_history])
         
         ## look back for the most recent last update for each point of time  
         for i in range(n_sim):
             for j in range(n_history):
-                if any([x for x in range(j) if update_or_not[i,j-x] == True]):
-                    most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                if np.any([x for x in range(j) if update_or_not[i,j-x] == 1]):
+                    most_recent_when[i,j] = np.min([x for x in range(j) if update_or_not[i,j-x] == 1])
                 else:
                     most_recent_when[i,j] = j
                 nowcasts_to_burn[i,j] = history[j - most_recent_when[i,j]]*rho**most_recent_when[i,j]
@@ -1109,7 +1112,7 @@ class StickyExpectation:
         SE_moms_scalar_dct = self.SMM().copy()
         
         sim_moms = np.array([SE_moms_scalar_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
         assert len(sim_moms) == len(data_moms), "not equal lenghth"
         distance = sim_moms - data_moms
         tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
@@ -1141,7 +1144,7 @@ class StickyExpectation:
         SE_moms_scalar_dct = self.SMM().copy()
         
         sim_moms = np.array([SE_moms_scalar_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
         assert len(sim_moms) == len(data_moms), "not equal lenghth"
         distance = sim_moms - data_moms
         tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
@@ -1365,9 +1368,9 @@ class StickyExpectation:
         self.exp_para = exp_para_est_dct
         
         sim_moms_dct = self.SMM()
-        data_moms_dct = self.data_moms_dct
+        data_moms_scalar_dct = self.data_moms_scalar_dct
         sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
         distance = sim_moms - data_moms
         distance_diag = np.diag(distance*distance.T)
         self.wm1st = np.linalg.inv(distance_diag)
@@ -1376,7 +1379,7 @@ class StickyExpectation:
     def WMbootSMM(self,
                   n_boot = 100):
         # data moments 
-        data_moms_dct = self.data_moms_dct
+        data_moms_scalar_dct = self.data_moms_scalar_dct
         
         # parameters 
         exp_para_est_dct = {'lambda':self.para_estSMM}
@@ -1388,7 +1391,7 @@ class StickyExpectation:
             self.SMM()
             sim_moms_dct = self.SMMMoments
             sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
-            data_moms = np.array([data_moms_dct[key] for key in self.moments])
+            data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
             distance = sim_moms - data_moms
             distance_boot.append(np.array(distance))
         #print(np.array(distance_boot).shape)
@@ -1397,30 +1400,30 @@ class StickyExpectation:
         #print(self.vcv_boot)
         self.wm_boot = np.linalg.inv(self.vcv_boot)               
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[50:]
+#xx_history = AR1_simulator(rho,sigma,100)
+#xx_real_time = xx_history[50:]
 
 ### create a SE instance using fake real time data 
-SE_instance = StickyExpectation(real_time = xx_real_time,
-                                history = xx_history,
-                                moments = ['FE','Disg','Var'])
+#SE_instance = StickyExpectation(real_time = xx_real_time,
+#                                history = xx_history,
+#                                moments = ['FE','Disg','Var'])
 
-SE_instance.SimulateRealization()
+#SE_instance.SimulateRealization()
 
 ### simulate a realized series 
-mom_dct =  SE_instance.Forecaster()
+#mom_dct =  SE_instance.Forecaster()
 
 ## compare simulated and computed moments 
-mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 200)
+#mom_sim_dct = SE_instance.ForecasterbySim(n_sim = 200)
 
 #mom_sim_and_pop = ForecastPlotDiag(mom_dct,
 #                                   mom_sim_dct,
 #                                   legends = ['computed',
 #                                              'simulated'])
 
-# + {"code_folding": [0, 14]}
+# + {"code_folding": [14]}
 ##################################
 ######    New     ################
 ##################################
@@ -1453,9 +1456,10 @@ for mom in ['FE','Disg','Var']:
 # + {"code_folding": []}
 #test of ParaEstimate
 
+
 #mom_sim_fake = mom_sim_dct.copy()
-mom_fake = mom_sim_dct.copy()
-SE_instance.GetDataMoments(mom_fake)
+#mom_fake = mom_sim_dct.copy()
+#SE_instance.GetDataMoments(mom_fake)
 
 #SE_instance.ParaEstimate(method='L-BFGS-B',
 #                         para_guess = 0.5,
@@ -1470,7 +1474,7 @@ SE_instance.GetDataMoments(mom_fake)
 ###### New                  ######
 ##################################
 
-
+"""
 SE_instance.SMM()
 
 ## test if the GMM is computed right 
@@ -1481,6 +1485,7 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
     print('computed GMM are:',SE_instance.GMM()[mom])
     print('SMM are:',SE_instance.SMMMoments[mom])
     print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
+"""
 
 # + {"code_folding": []}
 #################################
@@ -1500,24 +1505,30 @@ for mom in ['FE','Disg','Var','FEVar','FEATV','DisgVar','DisgATV']:
 # + {"code_folding": []}
 #SE_instance.PlotLossGMM()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
+#start_time = time.time()
 
-## test SMM est
-SE_instance.moments=['FEATV','FEVar','DisgATV','Disg','Var']
-SE_instance.ParaEstimateSMM(method='Nelder-Mead',
-                            para_guess = 0.1,
-                            options={'disp':True})
 
-SE_instance.para_estSMM
+# test SMM est
+#SE_instance.moments=['FEATV','FEVar','DisgATV','Disg','Var']
+#SE_instance.ParaEstimateSMM(method='Nelder-Mead',
+#                            para_guess = 0.1,
+#                            options={'disp':True})
 
-# + {"code_folding": [0]}
+#SE_instance.para_estSMM
+
+#elapsed_time = time.time() - start_time
+
+#print("elapsed time:"+ str(elapsed_time))
+
+# + {"code_folding": []}
 ## Plot after SMM estimation
-SE_instance.ForecastPlotDiag(all_moms = True,
-                             diff_scale = True,
-                             how = "SMM")
+#SE_instance.ForecastPlotDiag(all_moms = True,
+#                             diff_scale = True,
+#                             how = "SMM")
 
 # +
 #################################
@@ -1525,28 +1536,28 @@ SE_instance.ForecastPlotDiag(all_moms = True,
 ################################
 
 ## test SMMjoint est
-SE_instance.moments=['FEATV','FEVar','DisgVar','Disg','DisgATV','Var']
-SE_instance.ParaEstimateSMMJoint(method='Nelder-Mead',
-                                 options={'disp':True})
-SE_instance.para_est_SMM_joint
+#SE_instance.moments=['FEATV','FEVar','DisgVar','Disg','DisgATV','Var']
+#SE_instance.ParaEstimateSMMJoint(method='Nelder-Mead',
+#                                 options={'disp':True})
+#SE_instance.para_est_SMM_joint
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## plot after SMMjoint 
-SE_instance.ForecastPlotDiag(all_moms = True,
-                             diff_scale = True,
-                             how = "SMMjoint")
+#SE_instance.ForecastPlotDiag(all_moms = True,
+#                             diff_scale = True,
+#                             how = "SMMjoint")
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
 
-print('After covergence')
-for mom in ['FE','FEVar','FEATV','DisgATV','Var']:
-    print(mom)
-    print('computed GMM are:',SE_instance.GMM()[mom])
-    print('SMM are:',SE_instance.SMMMoments[mom])
-    print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
+#print('After covergence')
+#for mom in ['FE','FEVar','FEATV','DisgATV','Var']:
+#    print(mom)
+#    print('computed GMM are:',SE_instance.GMM()[mom])
+#    print('SMM are:',SE_instance.SMMMoments[mom])
+#    print('Data GMM are:',SE_instance.data_moms_scalar_dct[mom])
 
 # + {"code_folding": []}
 ## test of ParaEstimateJoint()
@@ -1577,7 +1588,7 @@ for mom in ['FE','FEVar','FEATV','DisgATV','Var']:
 #SE_instance.ParaEstimateGMMJoint(method='COBYLA',
 #                                 options={'disp':True})
 
-# +
+# + {"code_folding": []}
 #SE_instance.para_est_GMM_joint
 
 # + {"code_folding": []}
@@ -1598,11 +1609,11 @@ for mom in ['FE','FEVar','FEATV','DisgATV','Var']:
 #SE_instance.GetDataMoments(data_moms_dct_fake)
 
 # + {"code_folding": []}
-moms_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
+#moms_sim_dct = SE_instance.ForecasterbySim(n_sim = 100)
 
 # + {"code_folding": []}
 ### invoke estimation 
-SE_instance.moments = ['FE','Disg','Var']
+#SE_instance.moments = ['FE','Disg','Var']
 #SE_instance.ParaEstimate(para_guess = np.array([0.01]),
 #                         method = 'L-BFGS-B',
 #                         bounds = ((0,1),),
@@ -1612,10 +1623,9 @@ SE_instance.moments = ['FE','Disg','Var']
 # + {"code_folding": []}
 ### invoke simulated estimation 
 
-SE_instance.ParaEstimateSim(para_guess = 0.6,
-                            method = 'Nelder-Mead',
-                            options = {'disp':True})
-
+#SE_instance.ParaEstimateSim(para_guess = 0.6,
+#                            method = 'Nelder-Mead',
+#                            options = {'disp':True})
 
 # + {"code_folding": []}
 #SE_instance.para_est
@@ -1626,7 +1636,7 @@ SE_instance.ParaEstimateSim(para_guess = 0.6,
 
 # ##  NI model 
 
-# + {"code_folding": [3, 28, 32, 39, 45, 59, 129, 204, 219, 231, 270, 283, 316, 353, 386, 419, 452, 481, 492, 518, 524, 545, 582, 605, 652, 665, 677, 689, 708, 749, 769, 786]}
+# + {"code_folding": [3, 28, 32, 39, 45, 59, 129, 207, 222, 234, 273, 286, 319, 356, 389, 401, 422, 455, 484, 495, 521, 527, 548, 585, 608, 624, 655, 668, 680, 692, 711, 752, 772, 789]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1679,7 +1689,7 @@ class NoisyInformation:
         sigma_pr =self.exp_para['sigma_pr']
         np.random.seed(1234)
         s_pb = self.history + sigma_pb*np.random.randn(n_history)
-        np.random.seed(1234)
+        np.random.seed(12343)
         s_pr = self.history + sigma_pr*np.random.randn(n_history)
         self.signals = np.asmatrix(np.array([s_pb,s_pr]))
         self.signals_pb = s_pb
@@ -1776,14 +1786,17 @@ class NoisyInformation:
         ##################
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]])
         horizon = self.horizon      
+        
+        ## simulate signals 
+        self.SimulateSignals()
         signals = self.signals
         nb_s = len(self.signals) ## # of signals 
         H = np.asmatrix ([[1,1]]).T
         
         # randomly simulated signals 
         signal_pb = self.signals_pb 
-        np.random.seed(1234)
-        signals_pr = self.history + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
+        np.random.seed(12434)
+        signals_pr = np.array([self.history]) + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
         
         ## prepare matricies 
         nowcasts_to_burn = np.zeros([n_sim,n_history])
@@ -2034,7 +2047,7 @@ class NoisyInformation:
 
         self.exp_para = NI_para  # give the new parameters 
         data_moms_scalar_dct = self.data_moms_scalar_dct
-        self.SteadyState()
+        #self.SteadyState()
         NI_moms_scalar_dct = self.SMM().copy()
         NI_moms_scalar = np.array([NI_moms_scalar_dct[key] for key in moments] )
         data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
@@ -2068,7 +2081,7 @@ class NoisyInformation:
         NI_moms_scalar_dct = self.SMM().copy()
         
         sim_moms = np.array([NI_moms_scalar_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
         assert len(sim_moms) == len(data_moms), "not equal lenghth"
         distance = sim_moms - data_moms
         tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
@@ -2101,7 +2114,7 @@ class NoisyInformation:
         NI_moms_scalar_dct = self.SMM().copy()
         
         sim_moms = np.array([NI_moms_scalar_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar_dct[key] for key in self.moments])
         assert len(sim_moms) == len(data_moms), "not equal lenghth"
         distance = sim_moms - data_moms
         tmp = np.multiply(np.multiply(distance.T,wm1st),distance)  ## need to make sure it is right. 
@@ -2250,7 +2263,7 @@ class NoisyInformation:
 
     def ParaEstimateSMM(self,
                         wb = 'identity',
-                        para_guess=np.array([0.2,0.2]),
+                        para_guess = np.array([0.2,0.2]),
                         method='Nelder-Mead',
                         bounds = None,
                         options = None):
@@ -2405,9 +2418,9 @@ class NoisyInformation:
         self.exp_para = exp_para_est_dct
         
         sim_moms_dct = self.SMM()
-        data_moms_dct = self.data_moms_dct
+        data_moms_scalar = self.data_moms_scalar_dct
         sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
-        data_moms = np.array([data_moms_dct[key] for key in self.moments])
+        data_moms = np.array([data_moms_scalar[key] for key in self.moments])
         distance = sim_moms - data_moms
         distance_diag = np.diag(distance*distance.T)
         self.wm1st = np.linalg.inv(distance_diag)
@@ -2416,7 +2429,7 @@ class NoisyInformation:
     def WMbootSMM(self,
                   n_boot = 100):
         # data moments 
-        data_moms_dct = self.data_moms_dct
+        data_moms_scalar = self.data_moms_scalar_dct
         
         # parameters 
         exp_para_est_dct = {'sigma_pb':self.para_estSMM[0],
@@ -2429,7 +2442,7 @@ class NoisyInformation:
             self.SMM()
             sim_moms_dct = self.SMMMoments
             sim_moms = np.array([sim_moms_dct[key] for key in self.moments])
-            data_moms = np.array([data_moms_dct[key] for key in self.moments])
+            data_moms = np.array([data_moms_scalar[key] for key in self.moments])
             distance = sim_moms - data_moms
             distance_boot.append(np.array(distance))
         #print(np.array(distance_boot).shape)
@@ -2439,12 +2452,12 @@ class NoisyInformation:
         self.wm_boot = np.linalg.inv(self.vcv_boot) 
 # + {"code_folding": []}
 ## test of ForecasterbySim
-xx_history = AR1_simulator(rho,sigma,100)
-xx_real_time = xx_history[50:]
+#xx_history = AR1_simulator(rho,sigma,100)
+#xx_real_time = xx_history[50:]
 
-ni_instance = NoisyInformation(real_time = xx_real_time,
-                               history = xx_history,
-                               moments=['Forecast','FE','Disg','Var'])
+#ni_instance = NoisyInformation(real_time = xx_real_time,
+#                               history = xx_history,
+#                               moments=['Forecast','FE','Disg','Var'])
 
 
 # +
@@ -2454,10 +2467,10 @@ ni_instance = NoisyInformation(real_time = xx_real_time,
 
 # + {"code_folding": []}
 ## simulate signals
-ni_instance.SimulateRealization()
-ni_instance.SimulateSignals()
+#ni_instance.SimulateRealization()
+#ni_instance.SimulateSignals()
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################################
 ######## specific to new moments
 ################################
@@ -2475,7 +2488,7 @@ plt.plot(vars_lst,vars_lst)
 
 # + {"code_folding": []}
 ## forecast by simulating
-ni_mom_sim = ni_instance.ForecasterbySim(n_sim=500)
+#ni_mom_sim = ni_instance.ForecasterbySim(n_sim=500)
 #ni_plot_sim = ForecastPlot(ni_mom_sim)
 
 # +
@@ -2484,7 +2497,7 @@ ni_mom_sim = ni_instance.ForecasterbySim(n_sim=500)
 
 # + {"code_folding": []}
 ## compare pop and simulated 
-ni_mom_dct =  ni_instance.Forecaster()
+#ni_mom_dct =  ni_instance.Forecaster()
 #niplt = ForecastPlot(ni_mom_dct)
 
 #ni_mom_sim_and_pop = ForecastPlotDiag(ni_mom_dct,
@@ -2496,11 +2509,11 @@ ni_mom_dct =  ni_instance.Forecaster()
 #plt.plot(ni_mom_dct['Forecast'],label='Forecast')
 #plt.legend(loc=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## get fake data 
 
-fake_data_moms_dct = ni_mom_sim
-ni_instance.GetDataMoments(fake_data_moms_dct)
+#fake_data_moms_dct = ni_mom_sim
+#ni_instance.GetDataMoments(fake_data_moms_dct)
 
 #ni_instance.ParaEstimate(method = 'L-BFGS-B',
 #                         bounds = ((0,None),(0,1),(0,None),(None,None),(0,None)),
@@ -2508,48 +2521,49 @@ ni_instance.GetDataMoments(fake_data_moms_dct)
 #params_est_NI = ni_instance.para_est
 #print(params_est_NI)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ParaEstimateSMM
-ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','Var']
+#ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','Var']
 
-ni_instance.ParaEstimateSMM(method = 'Nelder-Mead',
-                            para_guess = (0.4,0.4),
-                            options = {'disp':True})
+#ni_instance.ParaEstimateSMM(wb ='2-step',
+#                            method = 'Nelder-Mead',
+#                            para_guess = (0.4,0.4),
+#                            options = {'disp':True})
 
-# -
 
-ni_instance.para_estGMM
+# + {"code_folding": []}
+#ni_instance.para_estSMM
 
 # +
-ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgATV','DisgVar','Var']
+#ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgATV','DisgVar','Var']
 
-ni_instance.ParaEstimateSMMJoint(method = 'Nelder-Mead',
-                                para_guess = (0.3,0.3,0.92,0.2),
-                                options = {'disp':True})
+#ni_instance.ParaEstimateSMMJoint(method = 'Nelder-Mead',
+#                                para_guess = (0.3,0.3,0.92,0.2),
+#                                options = {'disp':True})
 
-# -
 
-ni_instance.para_est_SMM_joint
+# + {"code_folding": []}
+#ni_instance.para_est_SMM_joint
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## test of ParaEstimateGMM
 
-ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','DisgVar','Var']
+#ni_instance.moments = ['FE','FEVar','FEATV','Disg','DisgVar','DisgVar','Var']
 
-ni_instance.ParaEstimateGMM(method = 'L-BFGS-B',
-                            bounds = ((0.01,None),(0.01,None),),
-                            options = {'disp':True})
+#ni_instance.ParaEstimateGMM(method = 'L-BFGS-B',
+#                            bounds = ((0.01,None),(0.01,None),),
+#                            options = {'disp':True})
 
 #ni_instance.ParaEstimateGMM(method = 'BFGS',
 #                            options = {'disp':True,
 #                                       'gtol': 1e-20})
-ni_instance.para_estGMM
+#ni_instance.para_estGMM
 
-# +
+# + {"code_folding": []}
 #ni_instance.ForecastPlotDiagGMM(all_moms = True,
 #                                diff_scale = False)
 
-# +
+# + {"code_folding": []}
 #ni_instance.PlotLossGMM()
 
 # + {"code_folding": []}
@@ -2558,7 +2572,7 @@ ni_instance.para_estGMM
 #params_est_NI = ni_instance.para_est
 #print(params_est_NI)
 
-# +
+# + {"code_folding": []}
 ## test of ParaEstimateJoint
 #mom_sim_fake = ni_mom_sim.copy()
 #ni_instance.GetDataMoments(ni_mom_sim)
@@ -2567,20 +2581,20 @@ ni_instance.para_estGMM
 #                              para_guess =(0.5,0.8,0.1,0.9,0.1),
 #                              options={'disp':True})
 
-# +
+# + {"code_folding": []}
 #ni_instance.para_est_joint
 
-# +
+# + {"code_folding": []}
 #ni_instance.ForecastPlotDiag()
 # -
 
 # ## PL Model 
 
+# + {"code_folding": []}
 ## parameter learning estimator 
-PL_para_default = SE_para_default
+#PL_para_default = SE_para_default
 
-
-# + {"code_folding": [0, 2, 3, 25, 36, 62, 87, 120]}
+# + {"code_folding": [0, 3, 25, 36, 62, 87]}
 ### Paramter Learning(PL) class 
 
 class ParameterLearning:
@@ -2742,3 +2756,6 @@ class ParameterLearning:
 ## compare the forecast from learning model with realized data
 #plt.plot(pl_instance.realized)
 #plt.plot(pl_moms_dct['Forecast'])
+# -
+
+

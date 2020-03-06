@@ -322,7 +322,7 @@
 
 
 \section{Estimation}
-\begin{frame}{Minimum distance estimation}
+\begin{frame}{Simulated method of moment estimation}
 	
 	\begin{eqnarray*}
 	\widehat \Omega = \underset{\{\Omega \in \Gamma\} }{argmin} (M_{\textrm{data} } - F^{o}(\Omega, Y)) W  (M_{\textrm{data} } - F^{o}(\Omega, Y))'
@@ -332,93 +332,172 @@
 		\item  $\Omega$: parameters of the particular $o \in \{{fire}, {se}, {ni} \} \times \{ar, sv\}$
 		\item  $\Gamma$: constraints for the parameter. 
 		\item $M_{data}$: data moments
-		\item $F$ model moments according to a particular theory $o$, a function of parameters $\Omega$ as well as the $Y$, the real-time data (including history) up to each point of the time $t$
+		\item $F$: simulated model moments according to a particular theory $o$, a function of parameters $\Omega$ as well as the $Y$, the real-time data (including history) up till each point of the time $t$. 
+		\begin{itemize}
+			\item unconditional moments, not specific to time
+			\item moments selected from average forecast, variance and autocovariance of forecasts, average diagreement, variance and autovariance of disagreement, average uncertainty, etc. 
+		\end{itemize}
 		\item  $W$: weight matrix, identity matrix for now 
 	\end{itemize}
-		
 \end{frame}
+
+
+\begin{frame}{Estimation procedure and algorithm}
+	\begin{enumerate}
+		\item for each theory of expectation formation and the inflation process, start with an initial value for the parameter(s) of interest
+		\item simulate individual forecasts for a large enough ($N=200$) number of forecasters
+		\item compute the average forecast errors, disagreement and average uncertainty across all agents
+		\item compute the time-series moments of the average forecast, disagreement, and uncertainty
+		\item compute the difference between the simulated moments and the data moments 
+		\item keep searching the parameter value until reaching below a threshold of the loss
+	\end{enumerate}
+\end{frame}
+
+
+\begin{frame}{Two-step and joint estimation}
+	\begin{enumerate}
+		\item two-step estimation:  separately estimate inflation process parameters and then parameters of the inflation process
+		\begin{itemize}
+			\item pros: computationally lighter 
+			\item cons: potential misspecification. does not utilize the expectation data to understand inflation process per se.  
+		\end{itemize}
+		\item joint estimation: targeting both moments of realized inflation series and moments of forecasts to simultaneously estimate both the inflation process and the parameter of expectation formation
+		\begin{itemize}
+			\item pros: additional information gain from expectations data about inflation process itself
+			\item cons: more computation burden  
+		\end{itemize}
+	\end{enumerate}
+\end{frame}
+
 
 \subsection{AR(1)}
 
-\begin{frame}{Results: professionals and SEAR}
+\begin{frame}{Professionals and SEAR}
 	\begin{figure}[ht]
 		\label{SE_diag_SPF}
-		\begin{subfigure}[b]{0.19\textwidth}
+		\begin{subfigure}[b]{0.2\textwidth}
 			\centering
-			\caption{forecast}
+			\caption{FE}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_diag0.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_diag1.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{forecast/FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_diag2.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_diag3.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var/Disg}
-			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_diag4.png}
-		\end{subfigure}
 	\end{figure}
 \end{frame}
 
 
-\begin{frame}{Results: households and SEAR}
+\begin{frame}{Professionals and SEAR: joint estimation}
 	\begin{figure}[ht]
-	\label{SE_diag_SCE}
-	\begin{subfigure}[b]{0.19\textwidth}
-		\centering
-		\caption{forecast}
+		\label{SE_diag_SPF_joint}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\centering
+			\caption{FE}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_joint_diag0.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_joint_diag1.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_joint_diag2.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_joint_diag3.png}
+		\end{subfigure}
+		\hfill
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Households and SEAR}
+	\begin{figure}[ht]
+		\label{SE_diag_SCE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\centering
+			\caption{FE}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag0.png}
-	\end{subfigure}
-	\hfill
-	\begin{subfigure}[b]{0.19\textwidth}
-		\caption{FE}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag1.png}
-	\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.19\textwidth}
-	\caption{forecast/FE}
-	\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag2.png}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.19\textwidth}
-	\caption{FE/var}
-	\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag3.png}
-\end{subfigure}
-\hfill
-\begin{subfigure}[b]{0.19\textwidth}
-	\caption{FE/var/Disg}
-	\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag4.png}
-\end{subfigure}
-\end{figure}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag2.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag3.png}
+		\end{subfigure}
+		\hfill
+	\end{figure}
+\end{frame}
+
+
+\begin{frame}{Households and SEAR: joint estimates}
+	\begin{figure}[ht]
+		\label{SE_diag_SCE_joint}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\centering
+			\caption{FE}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag0.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag1.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag2.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_se_est_diag3.png}
+		\end{subfigure}
+		\hfill
+	\end{figure}
 \end{frame}
 
 \begin{frame}{SE parameter estimate}
 	\begin{table}
 		\centering
-		\caption{Minimum Distance Estimates of Parameters of SE}
-		\label{GMM_Est_SE_Table}
-		\begin{tabular}{lllll}
-			\hline 
-			0        & 1    & 2   & SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SCE}$(M) \\
-			\hline 
-			Forecast &      &     & 0.04                       & 1                          \\
-			FE       &      &     & 0.05                       & 0.19                       \\
-			FE       & Disg &     & 0.17                       & 0.19                       \\
-			FE       & Var  &     & 0.16                       & 0.18                       \\
-			FE       & Disg & Var & 0.53                       & 0.18                      \\
-			\hline 
-		\end{tabular}
+		\caption{SMM Estimates of Parameters of SE}
+		\label{SMM_Est_SE_Table}
+	\begin{tabular}{llllllllllll}
+		\hline 
+		0     & 1       & 2       & 3       & SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$ & SE: $\sigma$ & SE: $\hat\lambda_{SCE}$(M) & SE: $\hat\lambda_{SCE}$(M) & SE: $\rho$ & SE: $\sigma$ \\
+		\hline 
+		FEVar & FEATV   &         &         & 0.47                       & 0.36                       & 1          & 0.08         & 0.2                        & 0.59                       & 0.99       & 0.08         \\
+		FEVar & DisgATV & DisgVar &         & 0.27                       & 0.38                       & 1          & 0.11         & 0.2                        & 0.56                       & 0.98       & 0.08         \\
+		FEVar & FEATV   & DisgVar & DisgATV & 0.47                       & 0.36                       & 1          & 0.1          & 0.2                        & 0.59                       & 0.99       & 0.08         \\
+		FEVar & FEATV   & DisgVar & DisgATV & 0.47                       & 0.36                       & 1          & 0.1          & 0.2                        & 0.59                       & 0.99       & 0.08        \\
+		\hline 
+	\end{tabular}
 	\end{table}
 \begin{itemize}
 	\item $\lambda$: update rate in SE
@@ -426,127 +505,173 @@
 \end{frame}
 
 
-\begin{frame}{Results: professionals and NIAR}
+\begin{frame}{Professionals and NIAR}
 	\begin{figure}[ht]
 		\label{NI_diag_SPF}
-		\begin{subfigure}[b]{0.19\textwidth}
+		\begin{subfigure}[b]{0.2\textwidth}
 			\centering
-			\caption{forecast}
+			\caption{FE}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_diag0.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_diag1.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{forecast/FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_diag2.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_diag3.png}
 		\end{subfigure}
+	\end{figure}
+	\end{frame}
+
+
+\begin{frame}{Professionals and NIAR: joint estimates}
+	\begin{figure}[ht]
+		\label{NI_diag_SPF_joint}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\centering
+			\caption{FE}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_joint_diag0.png}
+		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var/Disg}
-			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_diag4.png}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_joint_diag1.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_joint_diag2.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_ni_est_joint_diag3.png}
 		\end{subfigure}
 	\end{figure}
 \end{frame}
 
 
-\begin{frame}{Results: households and NIAR}
+\begin{frame}{Households and NIAR}
 	\begin{figure}[ht]
 		\label{NI_diag_SCE}
-		\begin{subfigure}[b]{0.19\textwidth}
+		\begin{subfigure}[b]{0.2\textwidth}
 			\centering
-			\caption{forecast}
+			\caption{FE}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_diag0.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_diag1.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{forecast/FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_diag2.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_diag3.png}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var/Disg}
-			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_diag4.png}
 		\end{subfigure}
 	\end{figure}
 \end{frame}
 
-\begin{frame}{NIAR parameters}
-	\begin{table}
-		\centering
-		\caption{Minimum Distance Estimates of Parameters of NI}
-		\label{GMM_Est_NI_Table}
-		\begin{tabular}{llllll}
-	\begin{tabular}{lllllll}
-		\hline 
-		0        & 1    & 2   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ \\
-		\hline 
-		Forecast &      &     & 39.65                     & 192.22                & 2.35                      & 0.38                  \\
-		FE       &      &     & 12.64                     & 211.14                & 1.64                      & 0                     \\
-		FE       & Disg &     & 112.37                    & 0.34                  & 512.51                    & 0.86                  \\
-		FE       & Var  &     & 1.13                      & 367.43                & 0                         & 1.28                  \\
-		FE       & Disg & Var & 1.29                      & 29.84                 & 2.74                      & 127.86                \\
-		\hline 
-	\end{tabular}  
-		\end{tabular}
-	\end{table}	
-\begin{itemize}
-	\item $\sigma_{pb}$: noisiness of public signals in NI
-	\item $\sigma_{pr}$: noisiness of private signals in Ni 
-\end{itemize}
+
+\begin{frame}{Households and NIAR: joint estimates}
+	\begin{figure}[ht]
+		\label{NI_diag_SCE_joint}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\centering
+			\caption{FE}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_joint_diag0.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_joint_diag1.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_joint_diag2.png}
+		\end{subfigure}
+		\hfill
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
+			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/sce_ni_est_joint_diag3.png}
+		\end{subfigure}
+	\end{figure}
 \end{frame}
 
 \subsection{Stocastic volatility}
 
-
-\begin{frame}{Results: professionals and SESV}
+\begin{frame}{Professionals and SESV}
 	\begin{figure}[ht]
 		\label{SESV_diag_SPF}
-		\begin{subfigure}[b]{0.19\textwidth}
+		\begin{subfigure}[b]{0.2\textwidth}
 			\centering
-			\caption{forecast}
+			\caption{FE}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_sv_diag0.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_sv_diag1.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{forecast/FE}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_sv_diag2.png}
 		\end{subfigure}
 		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var}
+		\begin{subfigure}[b]{0.2\textwidth}
+			\caption{FE/Disg/Var}
 			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_sv_diag3.png}
-		\end{subfigure}
-		\hfill
-		\begin{subfigure}[b]{0.19\textwidth}
-			\caption{FE/var/Disg}
-			\includegraphics[width=\textwidth, height = 0.8\textheight]{figuresDraft/spf_se_est_sv_diag4.png}
 		\end{subfigure}
 	\end{figure}
 \end{frame}
+
+
+\begin{frame}{NIAR parameters}
+	\begin{table}
+		\centering
+		\caption{SMM Estimates of Parameters of NI}
+		\label{SMM_Est_NI_Table}
+		\begin{tabular}{llllll}
+		\begin{tabular}{lllllllllllllllll}
+			\hline 
+			0       & 1       & 2       & 3       & 4   & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & NI: $\rho$ & NI: $\sigma$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\hat\sigma_{pb,SCE}$ & $\hat\sigma_{pr,SCE}$ & NI: $\rho$ & NI: $\sigma$ \\
+				\hline 
+			FEVar   & FEATV   &         &         &     & 25.32                     & 16.07                 & 0.9                       & 1.09                  & 1          & 0            & 3.4                       & 15.4                  & 3.4                       & 11.29                 & 1          & 0            \\
+			DisgVar & DisgATV &         &         &     & 471301.73                 & 0.85                  & -1.74                     & -0.17                 & 0.91       & 0.42         & 168519.46                 & 1.09                  & 0.67                      & 0.58                  & 1          & 0.03         \\
+			FEVar   & FEATV   & DisgVar & DisgATV &     & 25.32                     & 16.07                 & 0.9                       & 1.09                  & 1          & 0            & 3.4                       & 15.4                  & 3.4                       & 11.29                 & 1          & 0            \\
+			FEVar   & FEATV   & DisgVar & DisgATV & Var & 9.16708E+12               & 2.37                  & 0.9                       & 1.09                  & 1          & 0            & 13.22                     & 59.96                 & 13.22                     & 59.96                 & 1          & -0.03       \\
+			\hline 
+		\end{tabular}
+		\end{tabular}
+	\end{table}	
+	\begin{itemize}
+		\item $\sigma_{pb}$: noisiness of public signals in NI
+		\item $\sigma_{pr}$: noisiness of private signals in Ni 
+	\end{itemize}
+\end{frame}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\subsection{Stocastic volatility (old)}
 
 
 \begin{frame}{Results: households and SESV}
