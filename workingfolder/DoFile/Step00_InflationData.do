@@ -16,7 +16,7 @@ global sum_graph_folder "${mainfolder}/${otherdatafolder}"
 
 cd "${mainfolder}/${otherdatafolder}"
 
-import excel "${mainfolder}/${otherdatafolder}/CPI&CPICoreIdxM.xls", sheet("FRED Graph") cellrange(A12:C867) firstrow
+import excel "${mainfolder}/${otherdatafolder}/CPI&CPICoreIdxM.xls", sheet("FRED Graph") cellrange(A12:C890) firstrow
 rename observation_date date
 gen month=month(date)
 gen year = year(date)
@@ -35,8 +35,9 @@ order date year month
  
 save CPICPICore.dta,replace
 
+
 clear
-import excel "${mainfolder}/${otherdatafolder}/PCEIdxM.xls", sheet("FRED Graph") cellrange(A11:B734) firstrow
+import excel "${mainfolder}/${otherdatafolder}/PCEIdxM.xls", sheet("FRED Graph") cellrange(A11:B744) firstrow
 rename observation_date date
 gen month=month(date)
 gen year = year(date)
@@ -53,7 +54,7 @@ clear
 
 
 clear
-import excel "${mainfolder}/${otherdatafolder}/PCEPILFE.xls", sheet("FRED Graph") cellrange(A11:B736) firstrow
+import excel "${mainfolder}/${otherdatafolder}/PCEPILFE.xls", sheet("FRED Graph") cellrange(A11:B744) firstrow
 
 rename observation_date date
 gen month=month(date)

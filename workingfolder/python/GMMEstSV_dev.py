@@ -552,7 +552,7 @@ RE_instance = RationalExpectationSV(real_time = xx_real_time_dct,
 SE_para_default = {'lambda':0.3}
 
 
-# + {"code_folding": [2, 23, 45, 79, 115, 163, 228, 249, 274, 303, 337, 359, 371, 387, 404, 416, 418, 453]}
+# + {"code_folding": [0, 2, 23, 45, 79, 115, 163, 228, 249, 274, 303, 337, 359, 371, 387, 404, 416, 418, 423, 453]}
 ## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
@@ -1073,7 +1073,7 @@ class StickyExpectationSV:
 # + {"code_folding": []}
 #SE_instance.ForecastPlotDiag()
 
-# + {"code_folding": [3, 25, 43, 60, 71, 144, 189, 228, 258, 280, 307, 333, 353, 358, 368, 383, 395, 404, 457]}
+# + {"code_folding": [3, 25, 43, 60, 71, 144, 189, 228, 258, 280, 307, 333, 353, 358, 368, 383, 395, 457]}
 ## Noisy Information(NI) class 
 
 class NoisyInformationSV:
@@ -1479,6 +1479,7 @@ class NoisyInformationSV:
     ## diagostic plots 
     
     def ForecastPlotDiag(self,
+                         how = 'GMMs',
                          all_moms = False,
                          diff_scale = False):
         

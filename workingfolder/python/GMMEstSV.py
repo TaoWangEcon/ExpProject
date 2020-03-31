@@ -357,7 +357,7 @@ def UCSV_simulator(gamma,
     return xxx,eta,svols_eta,svols_eps
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## some process parameters 
 
 eta0_fake = 0
@@ -503,9 +503,8 @@ class RationalExpectationSV:
 SE_para_default = {'lambda':0.3}
 
 
-# + {"code_folding": [0, 3, 24, 47, 77, 125, 189, 210, 235, 261, 283, 295, 311, 323, 325, 330, 347, 360]}
-## Sticky Expectation(SE) class of UCSV model 
-
+# + {"code_folding": [0, 2, 19, 23, 45, 79, 115, 163, 228, 249, 274, 303, 337, 359, 371, 387, 404, 416, 423]}
+## Sticky Expectation(SE) class 
 class StickyExpectationSV:
     def __init__(self,
                  real_time,
@@ -513,7 +512,7 @@ class StickyExpectationSV:
                  horizon = 1,
                  process_para = process_para,
                  exp_para = SE_para_default,
-                 moments = ['FE','Disg','Var']):
+                 moments = ['Forecast','Disg','Var']):
         self.history = history
         self.real_time = real_time
         self.n = len(real_time['eta'])
@@ -530,7 +529,6 @@ class StickyExpectationSV:
     
     def SimulateRealization(self):
         n = len(self.real_time['eta'])
-        
         ## information set 
         eta_now = self.real_time['eta']
         vol_now = self.real_time['vols']
@@ -547,7 +545,7 @@ class StickyExpectationSV:
                                      )
         self.realized = realized
         
-################################
+#################################
 ######## New
 ################################
 
@@ -565,7 +563,7 @@ class StickyExpectationSV:
         ## SMM moments     
         FE_sim = np.mean(FEs_sim)
         FEVar_sim = np.var(FEs_sim)
-        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0 ))[0,1]
+        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0))[0,1]
         Disg_sim = np.mean(Disgs_sim)
         DisgVar_sim = np.var(Disgs_sim)
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
@@ -580,6 +578,46 @@ class StickyExpectationSV:
                            "DisgATV":DisgATV_sim,
                            "Var":Var_sim}
         return self.SMMMoments
+    
+#################################
+######## New!!!!!!!!!!!!!!!!!!!!!!
+################################
+
+    def ProcessSMM(self):
+        
+        ## parameters and information set
+
+        ## model parameters 
+        gamma = self.process_para['gamma']
+        history = self.history
+        y = history['y'] ## true data 
+        n = len(y)
+        
+        y_sim = UCSV_simulator(gamma = gamma,
+                               nobs = n,
+                               eta0 = 0.1,
+                               seed = True)[0]  # multiple outputs, the first one is data 
+        ### setting seed is important 
+        
+        Ymean_sim = np.mean(y_sim)
+        YVar_sim = np.var(y_sim)
+        YATV_sim = np.cov(np.stack((y_sim[1:],y_sim[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessMoments= {"Ymean":Ymean_sim,
+                              "YVar":YVar_sim,
+                              "YATV":YATV_sim
+                             }
+        ## data moments 
+        Ymean_data = np.mean(y)
+        YVar_data = np.var(y)
+        YATV_data = np.cov(np.stack((y[1:],y[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessDataMoments = {"Ymean":Ymean_data,
+                                   "YVar": YVar_data,
+                                   "YATV":YATV_data
+                                  }
         
     def Forecaster(self):
         ## inputs 
@@ -636,8 +674,9 @@ class StickyExpectationSV:
         history = self.history
         n = self.n
         realized = self.realized
+        
         ## process parameters
-        gammas = self.process_para['gamma']
+        gamma = self.process_para['gamma']
         
         ## exp parameter
         lbd = self.exp_para['lambda']
@@ -657,7 +696,7 @@ class StickyExpectationSV:
         np.random.seed(12344)
         #####################################
         update_or_not = bernoulli.rvs(p = lbd,
-                                      size=[n_sim,n_history])
+                                      size = [n_sim,n_history])
         most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
         nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
         Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
@@ -666,11 +705,11 @@ class StickyExpectationSV:
         for i in range(n_sim):
             for j in range(n_history):
                 if any([x for x in range(j) if update_or_not[i,j-x] == True]):
-                    most_recent_when[i,j] = min([x for x in range(j) if update_or_not[i,j-x] == True])
+                    most_recent_when[i,j] = np.min([x for x in range(j) if update_or_not[i,j-x] == True])
                 else:
                     most_recent_when[i,j] = j
                 nowcasts_to_burn[i,j] = eta_now_history[j - most_recent_when[i,j]]
-                Vars_to_burn[i,j]= hstepvarSV((most_recent_when[i,j]+horizon),sigmas_now_history[:,j-most_recent_when[i,j]],gammas)
+                Vars_to_burn[i,j]= hstepvarSV((most_recent_when[i,j]+horizon),sigmas_now_history[:,j-most_recent_when[i,j]],gamma)
         
         ## burn initial forecasts since history is too short 
         nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
@@ -684,7 +723,7 @@ class StickyExpectationSV:
             FEs_mean = forecasts_mean - realized
         elif self.sim_realized is not None:
             FEs_mean = forecasts_mean - self.sim_realized
-        Vars_mean = np.mean(Vars,axis=0) ## need to change 
+        Vars_mean = np.mean(Vars,axis = 0) ## need to change 
         
         self.forecast_moments_sim = {"Forecast":forecasts_mean,
                                      "FE":FEs_mean,
@@ -764,6 +803,43 @@ class StickyExpectationSV:
         obj_func = PrepMom(SE_moms_scalar,data_moms_scalar)
         return obj_func 
     
+###################################
+######## New!!!!!!!!!!!
+#####################################
+
+    def SE_EstObjfuncSMMJoint(self,
+                              paras):
+        lbd,gamma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'gamma':gamma,
+                              'eta0':0.1}
+        SE_para = {"lambda":lbd}
+        self.exp_para = SE_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process SMM 
+        self.ProcessSMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        SE_moms_scalar_dct = self.SMM().copy()
+        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        
+        SE_moms_scalar_stack = np.concatenate((SE_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        
+        obj_func = PrepMom(SE_moms_scalar_stack,data_moms_scalar_stack)
+        return obj_func
+    
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
                        data_moms_dct):
@@ -826,6 +902,23 @@ class StickyExpectationSV:
                                      bounds = bounds,
                                      options = options)
         return self.para_estSMM
+    
+    
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateSMMJoint(self,
+                             para_guess = (0.5,0.2),  # lbd for SE and gamma for SV
+                             method='Nelder-Mead',
+                             bounds = None,
+                             options = None):
+        self.para_est_SMM_joint = Estimator(self.SE_EstObjfuncSMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        return self.para_est_SMM_joint
         
     def ForecastPlot(self):
         x = plt.figure(figsize=([3,13]))
@@ -847,10 +940,10 @@ class StickyExpectationSV:
         elif how =="SMMs":
             exp_para_est_dct = {'lambda':self.para_est_sim[0]}
         elif how =="SMMjoint":
-            lbd,rho,sigma = self.para_est_SMM_joint
+            lbd,gamma = self.para_est_SMM_joint
             exp_para_est_dct = {'lambda':lbd}
-            process_para_est_dct = {'rho':rho,
-                                   'sigma':sigma}
+            process_para_est_dct = {'gamma':gamma,
+                                   'eta0':0.1}
         elif how =="GMMsjoint":
             lbd,rho,sigma = self.para_est_joint
             exp_para_est_dct = {'lambda':lbd}
@@ -883,9 +976,392 @@ class StickyExpectationSV:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
+# -
+
+DE_para_default = {'theta':0.3,
+                  'theta_sigma':0.1}
 
 
-# + {"code_folding": [3, 25, 43, 60, 71, 144, 190, 229, 259, 281, 308, 334, 354, 359, 369, 384, 396, 405, 458]}
+# + {"code_folding": [2, 23, 46, 80, 196, 225, 261, 286, 302, 314, 321, 329]}
+## Diagnostic Expectation(SE) class 
+class DiagnosticExpectationSV:
+    def __init__(self,
+                 real_time,
+                 history,
+                 horizon = 1,
+                 process_para = process_para,
+                 exp_para = DE_para_default,
+                 moments = ['Forecast','Disg','Var']):
+        self.history = history
+        self.real_time = real_time
+        self.n = len(real_time['eta'])
+        self.horizon = horizon
+        self.process_para = process_para
+        self.exp_para = exp_para
+        self.data_moms_dct ={}
+        self.para_est = {}
+        self.moments = moments
+        
+    def GetRealization(self,
+                       realized_series):
+        self.realized = realized_series   
+    
+    def SimulateRealization(self):
+        n = len(self.real_time['eta'])
+        
+        ## information set 
+        eta_now = self.real_time['eta']
+        vol_now = self.real_time['vols']
+        
+        ## parameters
+        gamma = self.process_para['gamma']
+        #eta0 = self.process_para['eta0']
+        
+        realized = np.zeros(n)
+        for i in range(n):
+            realized[i] = np.asscalar(UCSV_simulator(gamma,
+                                                     nobs = 1,
+                                                     eta0 = eta_now[i])[0][1:]
+                                     )
+        self.realized = realized
+        
+#################################
+######## New
+################################
+
+    def SMM(self):
+            
+        ## simulate forecasts 
+        
+        self.ForecasterbySim(n_sim = 200)
+        moms_sim = self.forecast_moments_sim
+        
+        FEs_sim = moms_sim['FE']
+        Disgs_sim = moms_sim['Disg']
+        Vars_sim = moms_sim['Var']
+        
+        ## SMM moments     
+        FE_sim = np.mean(FEs_sim)
+        FEVar_sim = np.var(FEs_sim)
+        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0))[0,1]
+        Disg_sim = np.mean(Disgs_sim)
+        DisgVar_sim = np.var(Disgs_sim)
+        DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
+        
+        Var_sim = np.mean(Vars_sim)
+    
+        self.SMMMoments = {"FE":FE_sim,
+                           "FEVar":FEVar_sim,
+                           "FEATV":FEATV_sim,
+                           "Disg":Disg_sim,
+                           "DisgVar":DisgVar_sim,
+                           "DisgATV":DisgATV_sim,
+                           "Var":Var_sim}
+        return self.SMMMoments
+    
+#################################
+######## New!!!!!!!!!!!!!!!!!!!!!!
+################################
+
+    def ProcessSMM(self):
+        
+        ## parameters and information set
+
+        ## model parameters 
+        gamma = self.process_para['gamma']
+        history = self.history
+        y = history['y'] ## true data 
+        n = len(y)
+        
+        y_sim = UCSV_simulator(gamma = gamma,
+                               nobs = n,
+                               eta0 = 0.1,
+                               seed = True)[0]  # multiple outputs, the first one is data 
+        ### setting seed is important 
+        
+        Ymean_sim = np.mean(y_sim)
+        YVar_sim = np.var(y_sim)
+        YATV_sim = np.cov(np.stack((y_sim[1:],y_sim[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessMoments= {"Ymean":Ymean_sim,
+                              "YVar":YVar_sim,
+                              "YATV":YATV_sim
+                             }
+        ## data moments 
+        Ymean_data = np.mean(y)
+        YVar_data = np.var(y)
+        YATV_data = np.cov(np.stack((y[1:],y[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessDataMoments = {"Ymean":Ymean_data,
+                                   "YVar": YVar_data,
+                                   "YATV":YATV_data
+                                  }
+    
+##############
+### need to change 
+####################
+
+    def ForecasterbySim(self,
+                        n_sim = 100):
+        ## inputs 
+        real_time = self.real_time
+        history = self.history
+        n = self.n
+        realized = self.realized
+        
+        ## process parameters
+        gamma = self.process_para['gamma']
+        
+        ## exp parameter
+        theta = self.exp_para['theta']
+        theta_sigma = self.exp_para['theta_sigma']
+        
+        ## other parameters 
+        
+        horizon = self.horizon      
+        n_burn = len(history['eta']) - n
+        n_history = n + n_burn  # of course equal to len(history)
+        
+        ## simulation of representativeness parameters 
+        np.random.seed(12345)
+        thetas = theta_sigma*np.random.randn(n_sim) + theta  ## randomly drawn representativeness parameters
+        
+        infoset = history
+        
+        ## history 
+        y_history = history['y']
+        eta_now_history = infoset['eta']
+        sigmas_now_history = infoset['vols']
+    
+        ## simulation of individual forecasts 
+    
+        nowcasts_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        nowcasts_to_burn[:,0] = eta_now_history[0]
+        
+        Vars_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        Vars_to_burn[:,0] = hstepvarSV(horizon,
+                                       sigmas_now_history[:,0],
+                                       gamma)
+        
+        for i in range(n_sim):
+            this_theta = thetas[i]
+            for j in range(n_history-1):
+                ###########################################################################################
+                nowcasts_to_burn[i,j+1] = y_history[j+1]+ this_theta*(y_history[j+1]- y_history[j])  # can be nowcasting[j-1] instead
+                Var_now_re = hstepvarSV(horizon,sigmas_now_history[:,j+1],gamma)
+                Vars_to_burn[i,j+1] = Var_now_re + this_theta*(Var_now_re - Vars_to_burn[i,j])
+######### this line of codes needs to be double checked!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                ##########################################################################################
+                
+        ## burn initial forecasts since history is too short 
+        nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
+        forecasts = nowcasts
+        Vars = np.array( Vars_to_burn[:,n_burn:])
+        
+        ## compuate population moments
+        forecasts_mean = np.mean(forecasts,axis=0)
+        forecasts_var = np.var(forecasts,axis=0)
+        if realized is not None:
+            FEs_mean = forecasts_mean - realized
+        elif self.sim_realized is not None:
+            FEs_mean = forecasts_mean - self.sim_realized
+        Vars_mean = np.mean(Vars,axis = 0) ## need to change 
+        
+        self.forecast_moments_sim = {"Forecast":forecasts_mean,
+                                     "FE":FEs_mean,
+                                     "Disg":forecasts_var,
+                                     "Var":Vars_mean}
+        return self.forecast_moments_sim
+
+###################################
+######## New
+#####################################
+
+    def DE_EstObjfuncSMM(self,
+                         paras):
+        """
+        input
+        -----
+        theta: the parameter of DE model to be estimated
+        theta_sigma: the dispersion of representation parameter
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        DE_para = {"theta":paras[0],
+                  "theta_sigma":paras[1]}
+        self.exp_para = DE_para 
+        
+        DE_moms_scalar_dct = self.SMM().copy()
+        DE_moms_scalar = np.array([DE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        obj_func = PrepMom(DE_moms_scalar,data_moms_scalar)
+        return obj_func 
+    
+###################################
+######## New!!!!!!!!!!!
+#####################################
+
+    def DE_EstObjfuncSMMJoint(self,
+                              paras):
+        theta,theta_sigma,gamma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'gamma':gamma,
+                              'eta0':0.1}
+        DE_para = {"theta":theta,
+                  "theta_sigma":theta_sigma}
+        self.exp_para = DE_para  
+        
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process SMM 
+        self.ProcessSMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        DE_moms_scalar_dct = self.SMM().copy()
+        DE_moms_scalar = np.array([DE_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        
+        DE_moms_scalar_stack = np.concatenate((DE_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        
+        obj_func = PrepMom(DE_moms_scalar_stack,data_moms_scalar_stack)
+        return obj_func
+    
+    ## feeds the instance with data moments dictionary 
+    def GetDataMoments(self,
+                       data_moms_dct):
+        self.data_moms_dct = data_moms_dct
+        
+#################################
+######## New
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        data_moms_scalar_dct['FEVar'] = data_moms_dct['FE'].var()
+        FE_stack = np.stack((data_moms_dct['FE'][1:],data_moms_dct['FE'][:-1]),axis = 0)
+        data_moms_scalar_dct['FEATV'] = np.cov(FE_stack)[0,1]
+        data_moms_scalar_dct['DisgVar'] = data_moms_dct['Disg'].var()
+        Disg_stack = np.stack((data_moms_dct['Disg'][1:],data_moms_dct['Disg'][:-1]),axis = 0)
+        data_moms_scalar_dct['DisgATV'] = np.cov(Disg_stack)[0,1]
+        
+        self.data_moms_scalar_dct = data_moms_scalar_dct
+        
+###################################
+######## New
+####################################
+        
+    def ParaEstimateSMM(self,
+                        para_guess = 0.2,
+                        method='Nelder-Mead',
+                        bounds = None,
+                        options = None):
+        self.para_estSMM = Estimator(self.DE_EstObjfuncSMM,
+                                     para_guess = para_guess,
+                                     method = method,
+                                     bounds = bounds,
+                                     options = options)
+        return self.para_estSMM
+    
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateSMMJoint(self,
+                             para_guess = (0.5,0.2),  # lbd for SE and gamma for SV
+                             method='Nelder-Mead',
+                             bounds = None,
+                             options = None):
+        self.para_est_SMM_joint = Estimator(self.DE_EstObjfuncSMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        return self.para_est_SMM_joint
+        
+    def ForecastPlot(self):
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments[val],label=val)
+            plt.legend(loc=1)
+            
+    def ForecastPlotDiag(self,
+                         all_moms = False,
+                         diff_scale = False,
+                         how = 'GMMs'):
+        if how =='GMMs':
+            exp_para_est_dct = {'theta':self.para_est[0],
+                               'theta_sigma': self.para_est[1]}
+        elif how == "GMM":
+            exp_para_est_dct = {'theta':self.para_estGMM[0],
+                               'theta_sigma': self.para_estGMM[1]}
+        elif how == "SMM":
+            exp_para_est_dct = {'theta':self.para_estSMM[0],
+                               'theta_sigma': self.para_estSMM[1]}
+        elif how =="SMMs":
+            exp_para_est_dct = {'theta':self.para_est_sim[0],
+                               'theta_sigma': self.para_est_sim[1]}
+        elif how =="SMMjoint":
+            theta,theta_sigma,gamma= self.para_est_SMM_joint
+            exp_para_est_dct = {'theta':theta,
+                               'theta_sigma':theta_sigma}
+            process_para_est_dct = {'gamma':gamma,
+                                   'eta0':0.1}
+        elif how =="GMMsjoint":
+            theta,theta_sigma,gamma = self.para_est_joint
+            exp_para_est_dct = {'theta':theta,
+                               'theta_sigma':theta_sigma}
+            process_para_est_dct = {'gamma':gamma,
+                                   'eta0':0.1}
+            
+        ## Estimate
+        new_instance = cp.deepcopy(self)
+        new_instance.exp_para = exp_para_est_dct
+        self.forecast_moments_est = new_instance.ForecasterbySim()
+        plt.style.use('ggplot')
+        if all_moms == False:
+            moments_to_plot = self.moments
+        else:
+            moments_to_plot = self.all_moments
+            
+        m_ct = len(moments_to_plot)
+        x = plt.figure(figsize=([3,3*m_ct]))
+        if diff_scale == False:
+            for i,val in enumerate(moments_to_plot):
+                plt.subplot(m_ct,1,i+1)
+                plt.plot(self.forecast_moments_est[val][:-1],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val][:-1]),'o-',label='data:'+ val)
+                plt.legend(loc=1)
+        if diff_scale == True:
+            for i,val in enumerate(moments_to_plot):
+                ax1 = plt.subplot(m_ct,1,i+1)
+                ax1.plot(self.forecast_moments_est[val][:-1],'rs-',label='model:'+ val)
+                ax1.legend(loc=0)
+                ax2 = ax1.twinx()
+                ax2.plot(np.array(self.data_moms_dct[val][:-1]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.legend(loc=3)
+
+
+# + {"code_folding": [0, 3, 25, 43, 60, 71, 230, 263, 300, 322, 349, 378, 413, 433, 438, 448, 463, 478, 491, 500]}
 ## Noisy Information(NI) class of UCSV model 
 
 class NoisyInformationSV:
@@ -1056,6 +1532,7 @@ class NoisyInformationSV:
         ## other pameters 
         horizon = self.horizon
         
+        ## simulate signals 
         self.SimulateSignals()
         signals = self.signals
         sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]]) ## this need to change to time variant
@@ -1144,6 +1621,46 @@ class NoisyInformationSV:
                            "Var":Var_sim}
         return self.SMMMoments
     
+#################################
+######## New!!!!!!!!!!!!!!!!!!!!!!
+################################
+
+    def ProcessSMM(self):
+        
+        ## parameters and information set
+
+        ## model parameters 
+        gamma = self.process_para['gamma']
+        history = self.history
+        y = history['y'] ## true data 
+        n = len(y)
+        
+        y_sim = UCSV_simulator(gamma = gamma,
+                               nobs = n,
+                               eta0 = 0.1,
+                               seed = True)[0]  # multiple outputs, the first one is data 
+        ### setting seed is important 
+        
+        Ymean_sim = np.mean(y_sim)
+        YVar_sim = np.var(y_sim)
+        YATV_sim = np.cov(np.stack((y_sim[1:],y_sim[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessMoments= {"Ymean":Ymean_sim,
+                              "YVar":YVar_sim,
+                              "YATV":YATV_sim
+                             }
+        ## data moments 
+        Ymean_data = np.mean(y)
+        YVar_data = np.var(y)
+        YATV_data = np.cov(np.stack((y[1:],y[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessDataMoments = {"Ymean":Ymean_data,
+                                   "YVar": YVar_data,
+                                   "YATV":YATV_data
+                                  }
+    
     ## a function estimating SE model parameter only 
     def NI_EstObjfunc(self,
                       ni_paras):
@@ -1218,6 +1735,44 @@ class NoisyInformationSV:
         
         obj_func = PrepMom(NI_moms_scalar,data_moms_scalar)
         return obj_func 
+    
+###################################
+######## New!!!!!!!!!!!
+#####################################
+
+    def NI_EstObjfuncSMMJoint(self,
+                              paras):
+        sigma_pb,sigma_pr,gamma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'gamma':gamma,
+                              'eta0':0.1}
+        NI_para = {"sigma_pb":sigma_pb,
+                  "sigma_pr":sigma_pr}
+        self.exp_para = NI_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process SMM 
+        self.ProcessSMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        NI_moms_scalar_dct = self.SMM().copy()
+        NI_moms_scalar = np.array([NI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        
+        NI_moms_scalar_stack = np.concatenate((NI_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        
+        obj_func = PrepMom(NI_moms_scalar_stack,data_moms_scalar_stack)
+        return obj_func
 
     ## feeds the instance with data moments dictionary 
     def GetDataMoments(self,
@@ -1280,6 +1835,22 @@ class NoisyInformationSV:
                                      method = method,
                                      bounds = bounds,
                                      options = options)
+        
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateSMMJoint(self,
+                             para_guess = (0.5,0.2,0.2),  
+                             method='Nelder-Mead',
+                             bounds = None,
+                             options = None):
+        self.para_est_SMM_joint = Estimator(self.NI_EstObjfuncSMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        return self.para_est_SMM_joint
     
     ## plot functions
     def ForecastPlot(self):
@@ -1292,6 +1863,7 @@ class NoisyInformationSV:
     ## diagostic plots 
     
     def ForecastPlotDiag(self,
+                         how = 'GMMs',
                          all_moms = False,
                          diff_scale = False):
         
@@ -1308,11 +1880,11 @@ class NoisyInformationSV:
             exp_para_est_dct = {'sigma_pb':self.para_est_sim[0],
                                 'sigma_pr':self.para_est_sim[1]}
         elif how =="SMMjoint":
-            exp_para_est_dct = {'sigma_pb':self.para_est_SMMjoint[0],
-                               'sigma_pr':self.para_est_SMMjoint[1]}
-            process_para_est_dct = {'gamma':self.para_est_SMMjoint[2],
+            exp_para_est_dct = {'sigma_pb':self.para_est_SMM_joint[0],
+                               'sigma_pr':self.para_est_SMM_joint[1]}
+            process_para_est_dct = {'gamma':self.para_est_SMM_joint[2],
                                    'eta0':0.1}
-        elif how =="SMMjoint":
+        elif how =="GMMjoint":
             exp_para_est_dct = {'sigma_pb':self.para_est_GMMjoint[0],
                                'sigma_pr':self.para_est_GMMjoint[1]}
             process_para_est_dct = {'gamma':self.para_est_GMMjoint[2],
@@ -1343,14 +1915,424 @@ class NoisyInformationSV:
                 ax2 = ax1.twinx()
                 ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
+# -
+SENI_para_default = {'lambda':0.3,
+                    'sigma_pb':0.1,
+                    'sigma_pr':0.1}
+
+
+# + {"code_folding": [2, 23, 42, 63, 97, 133, 184, 205, 241, 277, 314, 336, 352, 371]}
+## Sticky Expectation and Noisy Information Hybrid (SENI) class 
+class StickyNoisyHybridSV:
+    def __init__(self,
+                 real_time,
+                 history,
+                 horizon = 1,
+                 process_para = process_para,
+                 exp_para = SENI_para_default,
+                 moments = ['FE','Disg','Var']):
+        self.history = history
+        self.real_time = real_time
+        self.n = len(real_time['eta'])
+        self.horizon = horizon
+        self.process_para = process_para
+        self.exp_para = exp_para
+        self.data_moms_dct ={}
+        self.para_est = {}
+        self.moments = moments
+        
+    def GetRealization(self,
+                       realized_series):
+        self.realized = realized_series   
+    
+    def SimulateRealization(self):
+        n = len(self.real_time['eta'])
+        ## information set 
+        eta_now = self.real_time['eta']
+        vol_now = self.real_time['vols']
+        
+        ## parameters
+        gamma = self.process_para['gamma']
+        #eta0 = self.process_para['eta0']
+        
+        realized = np.zeros(n)
+        for i in range(n):
+            realized[i] = np.asscalar(UCSV_simulator(gamma,
+                                                     nobs = 1,
+                                                     eta0 = eta_now[i])[0][1:]
+                                     )
+        self.realized = realized
+        
+
+    def SimulateSignals(self,
+                        self_filter = False):
+        n = self.n
+        n_history = len(self.history['eta'])
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        eta_history = self.history['eta']
+        np.random.seed(12344)
+        if self_filter == True:
+            s_pb = history['y']
+        else:
+            np.random.seed(12342)
+            s_pb = eta_history + sigma_pb*np.random.randn(n_history)
+        s_pr = eta_history + sigma_pr*np.random.randn(n_history)
+        self.signals = np.asmatrix(np.array([s_pb,s_pr]))
+        self.signals_pb = s_pb
+        
+#################################
+######## New
+################################
+
+    def SMM(self):
+            
+        ## simulate forecasts 
+        
+        self.ForecasterbySim(n_sim = 200)
+        moms_sim = self.forecast_moments_sim
+        
+        FEs_sim = moms_sim['FE']
+        Disgs_sim = moms_sim['Disg']
+        Vars_sim = moms_sim['Var']
+        
+        ## SMM moments     
+        FE_sim = np.mean(FEs_sim)
+        FEVar_sim = np.var(FEs_sim)
+        FEATV_sim = np.cov(np.stack( (FEs_sim[1:],FEs_sim[:-1]),axis = 0))[0,1]
+        Disg_sim = np.mean(Disgs_sim)
+        DisgVar_sim = np.var(Disgs_sim)
+        DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
+        
+        Var_sim = np.mean(Vars_sim)
+    
+        self.SMMMoments = {"FE":FE_sim,
+                           "FEVar":FEVar_sim,
+                           "FEATV":FEATV_sim,
+                           "Disg":Disg_sim,
+                           "DisgVar":DisgVar_sim,
+                           "DisgATV":DisgATV_sim,
+                           "Var":Var_sim}
+        return self.SMMMoments
+    
+#################################
+######## New!!!!!!!!!!!!!!!!!!!!!!
+################################
+
+    def ProcessSMM(self):
+        
+        ## parameters and information set
+
+        ## model parameters 
+        gamma = self.process_para['gamma']
+        history = self.history
+        y = history['y'] ## true data 
+        n = len(y)
+        
+        y_sim = UCSV_simulator(gamma = gamma,
+                               nobs = n,
+                               eta0 = 0.1,
+                               seed = True)[0]  # multiple outputs, the first one is data 
+        ### setting seed is important 
+        
+        Ymean_sim = np.mean(y_sim)
+        YVar_sim = np.var(y_sim)
+        YATV_sim = np.cov(np.stack((y_sim[1:],y_sim[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessMoments= {"Ymean":Ymean_sim,
+                              "YVar":YVar_sim,
+                              "YATV":YATV_sim
+                             }
+        ## data moments 
+        Ymean_data = np.mean(y)
+        YVar_data = np.var(y)
+        YATV_data = np.cov(np.stack((y[1:],y[:-1]),axis=0))[0,1]
+        
+        
+        self.ProcessDataMoments = {"Ymean":Ymean_data,
+                                   "YVar": YVar_data,
+                                   "YATV":YATV_data
+                                  }
+    
+    def ForecasterbySim(self,
+                        n_sim = 100):
+        ## inputs 
+        real_time = self.real_time
+        history = self.history
+        n = self.n
+        realized = self.realized
+        
+        ## process parameters
+        gamma = self.process_para['gamma']
+        
+        ## exp parameter
+        lbd = self.exp_para['lambda']
+        sigma_pb = self.exp_para['sigma_pb']
+        sigma_pr =self.exp_para['sigma_pr']
+        var_init = 0.1
+        
+        horizon = self.horizon      
+        n_burn = len(history['eta']) - n
+        n_history = n + n_burn  # of course equal to len(history)
+    
+        infoset = history
+        
+        ## history 
+        eta_now_history = infoset['eta']
+        sigmas_now_history = infoset['vols']
+        
+        ## simulate signals 
+        self.SimulateSignals()
+        signals = self.signals
+        sigma_v = np.asmatrix([[sigma_pb**2,0],[0,sigma_pr**2]]) ## this need to change to time variant
+        nb_s = len(self.signals) ## # of signals 
+        H = np.asmatrix ([[1,1]]).T
+        
+        # randomly simulated signals 
+        signal_pb = self.signals_pb 
+        np.random.seed(12344)
+        signals_pr = eta_now_history + sigma_pr*np.random.randn(n_sim*n_history).reshape([n_sim,n_history])
+        
+        
+        ## simulation
+        ###################################
+        np.random.seed(12344)
+        ####################################
+        update_or_not = bernoulli.rvs(p = lbd,
+                                      size = [n_sim,n_history])
+        most_recent_when = np.matrix(np.empty([n_sim,n_history]),dtype=int)
+        nowsignals_pb_to_burn = np.matrix(np.empty([n_sim,n_history]))
+        nowsignals_pr_to_burn = np.matrix(np.empty([n_sim,n_history]))
                 
-    def ForecastPlotDiag2(self,
+        ## Sticky expectation. Look back for the most recent last update for each point of time  
+        for i in range(n_sim):
+            for j in range(n_history):
+                if any([x for x in range(j) if update_or_not[i,j-x] == True]):
+                    most_recent_when[i,j] = np.min([x for x in range(j) if update_or_not[i,j-x] == True])
+                else:
+                    most_recent_when[i,j] = j
+                ### different now #############################
+                nowsignals_pb_to_burn[i,j] = signal_pb[j - most_recent_when[i,j]]
+                nowsignals_pr_to_burn[i,j] = signals_pr[i,j - most_recent_when[i,j]]
+        
+        ## Noisy information. Filtering again
+        
+        ## prepare matricies 
+        nowcasts_to_burn = np.zeros([n_sim,n_history])
+        nowcasts_to_burn[:,0] = eta_now_history[0]
+        nowvars_to_burn = np.zeros([n_sim,n_history])
+        nowvars_to_burn[:,0] = var_init
+        Vars_to_burn = np.zeros([n_sim,n_history])
+        
+        
+        ## fill the matricies for individual moments        
+        for i in range(n_sim):
+            signals_this_i = np.asmatrix(np.array([nowsignals_pb_to_burn[i,:],nowsignals_pr_to_burn[i,:]]))
+            Pkalman = np.zeros([n_history,nb_s])
+            Pkalman[0,:] = 0 
+            for t in range(n_history-1):
+                step1var = hstepvarSV(1,
+                                      sigmas_now_history[:,t],
+                                      gamma)
+                step1_vars_to_burn = nowvars_to_burn[i,t] + step1var
+                nowvars_to_burn[i,t+1] = step1_vars_to_burn - step1_vars_to_burn*\
+                                          H.T*np.linalg.inv(H*step1_vars_to_burn*H.T+sigma_v)*H*step1_vars_to_burn
+                Pkalman[t+1,:] = step1_vars_to_burn*H.T*np.linalg.inv(H*step1_vars_to_burn*H.T+sigma_v)
+                nowcasts_to_burn[i,t+1] = (1-Pkalman[t+1,:]*H)*nowcasts_to_burn[i,t]+ Pkalman[t+1,:]*signals_this_i[:,t+1]
+            for t in range(n_history):
+                stephvar = hstepvarSV(horizon,
+                                  sigmas_now_history[:,t],
+                                  gamma)
+                Vars_to_burn[i,t] = nowvars_to_burn[i,t] + stephvar
+                
+        nowcasts = nowcasts_to_burn[:,n_burn:]
+        forecasts = nowcasts 
+        Vars = Vars_to_burn[:,n_burn:]
+        
+        ## compuate population moments
+        forecasts_mean = np.mean(forecasts,axis=0)
+        forecasts_var = np.var(forecasts,axis=0)
+        FEs_mean = forecasts_mean - self.realized
+        Vars_mean = np.mean(Vars,axis=0) ## need to change for time-variant volatility
+        
+        self.forecast_moments_sim = {"Forecast":forecasts_mean,
+                                     "FE":FEs_mean,
+                                     "Disg":forecasts_var,
+                                     "Var":Vars_mean}
+        return self.forecast_moments_sim
+    
+
+    def SENI_EstObjfuncSMM(self,
+                         paras):
+        """
+        input
+        -----
+        lbd: the parameter of SE model to be estimated
+        sigma_pb: the parameter of NI 
+        sigma_pr: the parameter of NI
+        output
+        -----
+        the objective function to minmize
+        """
+        moments = self.moments
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        
+        lbd = paras[0]
+        sigma_pb = paras[1]
+        sigma_pr = paras[2]
+        
+        SENI_para = {'lambda':lbd,
+                    'sigma_pb':sigma_pb,
+                    'sigma_pr':sigma_pr}
+        
+        self.exp_para = SENI_para  # give the new lambda
+        
+        SENI_moms_scalar_dct = self.SMM().copy()
+        SENI_moms_scalar = np.array([SENI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        obj_func = PrepMom(SENI_moms_scalar,data_moms_scalar)
+        return obj_func 
+    
+###################################
+######## New!!!!!!!!!!!
+#####################################
+
+    def SENI_EstObjfuncSMMJoint(self,
+                              paras):
+        lbd,sigma_pb,sigma_pr,gamma = paras
+        moments = self.moments
+        realized = self.realized
+        
+        process_para_joint = {'gamma':gamma,
+                              'eta0':0.1}
+        SENI_para = {'lambda':lbd,
+                    'sigma_pb':sigma_pb,
+                    'sigma_pr':sigma_pr}
+        
+        self.exp_para = SENI_para  # give the new lambda
+        self.process_para = process_para_joint
+        
+        ## for the new parameters, update process SMM 
+        self.ProcessSMM()
+        ProcessDataMoments = self.ProcessDataMoments
+        ProcessMoments = self.ProcessMoments
+        
+        ## get data and model moments conditions 
+        
+        data_moms_scalar_dct = self.data_moms_scalar_dct
+        SENI_moms_scalar_dct = self.SMM().copy()
+        SENI_moms_scalar = np.array([SENI_moms_scalar_dct[key] for key in moments] )
+        data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
+        
+        process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
+        data_process_moms = np.array([ProcessDataMoments[key] for key in ProcessDataMoments.keys()])
+        
+        SENI_moms_scalar_stack = np.concatenate((SENI_moms_scalar,process_moms))
+        data_moms_scalar_stack = np.concatenate((data_moms_scalar, data_process_moms))
+        
+        obj_func = PrepMom(SENI_moms_scalar_stack,data_moms_scalar_stack)
+        return obj_func
+    
+    ## feeds the instance with data moments dictionary 
+    def GetDataMoments(self,
+                       data_moms_dct):
+        self.data_moms_dct = data_moms_dct
+        
+#################################
+######## New
+################################
+
+        data_moms_scalar_dct = dict(zip(data_moms_dct.keys(),
+                                        [np.mean(data_moms_dct[key]) for key in data_moms_dct.keys()]
+                                       )
+                                   )
+        data_moms_scalar_dct['FEVar'] = data_moms_dct['FE'].var()
+        FE_stack = np.stack((data_moms_dct['FE'][1:],data_moms_dct['FE'][:-1]),axis = 0)
+        data_moms_scalar_dct['FEATV'] = np.cov(FE_stack)[0,1]
+        data_moms_scalar_dct['DisgVar'] = data_moms_dct['Disg'].var()
+        Disg_stack = np.stack((data_moms_dct['Disg'][1:],data_moms_dct['Disg'][:-1]),axis = 0)
+        data_moms_scalar_dct['DisgATV'] = np.cov(Disg_stack)[0,1]
+        
+        self.data_moms_scalar_dct = data_moms_scalar_dct
+        
+        
+    def ParaEstimateSMM(self,
+                        para_guess = (0.2,0.1,0.1),
+                        method='Nelder-Mead',
+                        bounds = None,
+                        options = None):
+        self.para_estSMM = Estimator(self.SENI_EstObjfuncSMM,
+                                     para_guess = para_guess,
+                                     method = method,
+                                     bounds = bounds,
+                                     options = options)
+        return self.para_estSMM
+    
+###################################
+######## New
+#####################################
+    
+    def ParaEstimateSMMJoint(self,
+                             para_guess = (0.5,0.1,0.1,0.2),  # lbd for SE and gamma for SV
+                             method='Nelder-Mead',
+                             bounds = None,
+                             options = None):
+        self.para_est_SMM_joint = Estimator(self.SENI_EstObjfuncSMMJoint,
+                                            para_guess = para_guess,
+                                            method = method,
+                                            bounds = bounds,
+                                            options = options)
+        return self.para_est_SMM_joint
+        
+    def ForecastPlot(self):
+        x = plt.figure(figsize=([3,13]))
+        for i,val in enumerate(self.moments):
+            plt.subplot(4,1,i+1)
+            plt.plot(self.forecast_moments[val],label=val)
+            plt.legend(loc=1)
+            
+    def ForecastPlotDiag(self,
                          all_moms = False,
-                         diff_scale = False):
-        exp_para_est_dct = {'lambda':self.para_est[0]}
+                         diff_scale = False,
+                         how = 'GMMs'):
+        if how =='GMMs':
+            exp_para_est_dct = {'lambda':self.para_est[0],
+                               'sigma_pb':self.para_est[1],
+                               'sigma_pr':self.para_est[2]}
+        elif how == "GMM":
+            exp_para_est_dct = {'lambda':self.para_estGMM[0],
+                               'sigma_pb':self.para_estGMM[1],
+                               'sigma_pr':self.para_estGMM[2]}
+        elif how == "SMM":
+            exp_para_est_dct = {'lambda':self.para_estSMM[0],
+                               'sigma_pb':self.para_estSMM[1],
+                               'sigma_pr':self.para_estSMM[2]}
+        elif how =="SMMs":
+            exp_para_est_dct = {'lambda':self.para_est_sim[0],
+                               'sigma_pb':self.para_est_sim[1],
+                               'sigma_pr':self.para_est_sim[2]}
+        elif how =="SMMjoint":
+            lbd,sigma_pb,sigma_pr,gamma = self.para_est_SMM_joint
+            exp_para_est_dct = {'lambda':lbd,
+                               'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            
+            process_para_est_dct = {'gamma':gamma,
+                                    'eta0':0.1}
+        elif how =="GMMsjoint":
+            lbd,sigma_pb,sigma_pr,gamma = self.para_est_joint
+            exp_para_est_dct = {'lambda':lbd,
+                               'sigma_pb':sigma_pb,
+                               'sigma_pr':sigma_pr}
+            process_para_est_dct = {'gamma':gamma,
+                                   'eta0':0.1}
+            
+        ## Estimate
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.Forecaster()
+        self.forecast_moments_est = new_instance.ForecasterbySim()
         plt.style.use('ggplot')
         if all_moms == False:
             moments_to_plot = self.moments
@@ -1362,17 +2344,19 @@ class NoisyInformationSV:
         if diff_scale == False:
             for i,val in enumerate(moments_to_plot):
                 plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
+                plt.plot(self.forecast_moments_est[val][:-1],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val][:-1]),'o-',label='data:'+ val)
                 plt.legend(loc=1)
         if diff_scale == True:
             for i,val in enumerate(moments_to_plot):
                 ax1 = plt.subplot(m_ct,1,i+1)
-                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.plot(self.forecast_moments_est[val][:-1],'rs-',label='model:'+ val)
                 ax1.legend(loc=0)
                 ax2 = ax1.twinx()
-                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.plot(np.array(self.data_moms_dct[val])[:-1],'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
+
+
 # + {"code_folding": [0, 2, 24, 35, 61, 86]}
 ### Paramter Learning(PL) class 
 

@@ -20,7 +20,7 @@ set more off
 use "${folder}/SCE/NYFED_SCE_2013.dta",clear
 
 append using "${folder}/SCE/NYFED_SCE_2014_2016.dta",force
-append using  "${folder}/SCE/NYFED_SCE_post2016.dta",force
+append using  "${folder}/SCE/NYFED_SCE_post2016new.dta",force
 
 sort date
 unique userid

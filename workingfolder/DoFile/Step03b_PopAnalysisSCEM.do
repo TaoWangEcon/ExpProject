@@ -216,7 +216,7 @@ twoway (tsline Inf1yf_CPIAU,ytitle(" ",axis(1))lp("shortdash") lwidth(thick)) //
 	   caption("{superscript:Corr Coeff: `rho'}", ///
 	   justification(left) position(11) size(large))
 graph export "${sum_graph_folder}/true_varSCEM", as(png) replace 
-
+*/
 
 ********************************************
 ** These are the charts for paper draft 
@@ -300,7 +300,7 @@ eststo clear
 */
 
 ****************************************
-**** Stay in Monthly   Analysis  ******
+**** Stay in Monthly  Analysis  ******
 ****************************************
 
 *******************************************

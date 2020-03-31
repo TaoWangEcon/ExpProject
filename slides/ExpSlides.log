@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  5 MAR 2020 23:15
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2019.5.8)  31 MAR 2020 13:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1020,19 +1020,19 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 [8
 
 ]
-<figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png, id=372, 932.98563pt x 678.535pt>
+<figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png, id=393, 932.98563pt x 678.535pt>
 File: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png Graphic file (type png)
 <use figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png>
 Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png  used on inpu
 t line 203.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/Inf1yf_PCE_varSPFPCEQ.png, id=374, 932.98563pt x 678.535pt>
+<figuresDraft/Inf1yf_PCE_varSPFPCEQ.png, id=395, 932.98563pt x 678.535pt>
 File: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png Graphic file (type png)
 <use figuresDraft/Inf1yf_PCE_varSPFPCEQ.png>
 Package pdftex.def Info: figuresDraft/Inf1yf_PCE_varSPFPCEQ.png  used on input 
 line 203.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/Inf1yf_CPIAU_varSCEM.png, id=375, 932.98563pt x 678.535pt>
+<figuresDraft/Inf1yf_CPIAU_varSCEM.png, id=396, 932.98563pt x 678.535pt>
 File: figuresDraft/Inf1yf_CPIAU_varSCEM.png Graphic file (type png)
 <use figuresDraft/Inf1yf_CPIAU_varSCEM.png>
 Package pdftex.def Info: figuresDraft/Inf1yf_CPIAU_varSCEM.png  used on input l
@@ -1047,24 +1047,24 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
  <./figuresDraft/Inf1yf_CPIAU_varSPFCPIQ.png> <./figuresDraft/Inf1yf_PCE_varSPF
 PCEQ.png> <./figuresDraft/Inf1yf_CPIAU_varSCEM.png>]
-<figuresDraft/SPFCPI_abFE_varSPFCPIQ.png, id=406, 932.98563pt x 678.535pt>
+<figuresDraft/SPFCPI_abFE_varSPFCPIQ.png, id=428, 932.98563pt x 678.535pt>
 File: figuresDraft/SPFCPI_abFE_varSPFCPIQ.png Graphic file (type png)
 <use figuresDraft/SPFCPI_abFE_varSPFCPIQ.png>
 Package pdftex.def Info: figuresDraft/SPFCPI_abFE_varSPFCPIQ.png  used on input
  line 217.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/SPFPCE_abFE_varSPFPCEQ.png, id=407, 932.98563pt x 678.535pt>
+<figuresDraft/SPFPCE_abFE_varSPFPCEQ.png, id=429, 932.98563pt x 678.535pt>
 File: figuresDraft/SPFPCE_abFE_varSPFPCEQ.png Graphic file (type png)
 <use figuresDraft/SPFPCE_abFE_varSPFPCEQ.png>
 Package pdftex.def Info: figuresDraft/SPFPCE_abFE_varSPFPCEQ.png  used on input
  line 217.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/SCE_abFE_varSCEM.png, id=408, 932.98563pt x 678.535pt>
+<figuresDraft/SCE_abFE_varSCEM.png, id=430, 585.18625pt x 425.59pt>
 File: figuresDraft/SCE_abFE_varSCEM.png Graphic file (type png)
 <use figuresDraft/SCE_abFE_varSCEM.png>
 Package pdftex.def Info: figuresDraft/SCE_abFE_varSCEM.png  used on input line 
 217.
-(pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
+(pdftex.def)             Requested size: 102.68962pt x 74.68066pt.
 
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
@@ -1074,24 +1074,24 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
  <./figuresDraft/SPFCPI_abFE_varSPFCPIQ.png> <./figuresDraft/SPFPCE_abFE_varSPF
 PCEQ.png> <./figuresDraft/SCE_abFE_varSCEM.png>]
-<figuresDraft/CPI_disg_varSPFCPIQ.png, id=442, 932.98563pt x 678.535pt>
+<figuresDraft/CPI_disg_varSPFCPIQ.png, id=463, 932.98563pt x 678.535pt>
 File: figuresDraft/CPI_disg_varSPFCPIQ.png Graphic file (type png)
 <use figuresDraft/CPI_disg_varSPFCPIQ.png>
 Package pdftex.def Info: figuresDraft/CPI_disg_varSPFCPIQ.png  used on input li
 ne 230.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/PCE_disg_varSPFPCEQ.png, id=443, 932.98563pt x 678.535pt>
+<figuresDraft/PCE_disg_varSPFPCEQ.png, id=464, 932.98563pt x 678.535pt>
 File: figuresDraft/PCE_disg_varSPFPCEQ.png Graphic file (type png)
 <use figuresDraft/PCE_disg_varSPFPCEQ.png>
 Package pdftex.def Info: figuresDraft/PCE_disg_varSPFPCEQ.png  used on input li
 ne 230.
 (pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
-<figuresDraft/Q9_disg_varSCEM.png, id=444, 932.98563pt x 678.535pt>
+<figuresDraft/Q9_disg_varSCEM.png, id=465, 585.18625pt x 425.59pt>
 File: figuresDraft/Q9_disg_varSCEM.png Graphic file (type png)
 <use figuresDraft/Q9_disg_varSCEM.png>
 Package pdftex.def Info: figuresDraft/Q9_disg_varSCEM.png  used on input line 2
 30.
-(pdftex.def)             Requested size: 102.68962pt x 74.68048pt.
+(pdftex.def)             Requested size: 102.68962pt x 74.68066pt.
 
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
@@ -1163,115 +1163,48 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [18
 
-] (./ExpSlides.toc)
+]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [19
 
-]
-<figuresDraft/spf_se_est_diag0.png, id=757, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_diag0.png Graphic file (type png)
-<use figuresDraft/spf_se_est_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_diag0.png  used on input line 
-400.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_diag1.png, id=758, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_diag1.png Graphic file (type png)
-<use figuresDraft/spf_se_est_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_diag1.png  used on input line 
-400.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_diag2.png, id=759, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_diag2.png Graphic file (type png)
-<use figuresDraft/spf_se_est_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_diag2.png  used on input line 
-400.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_diag3.png, id=760, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_diag3.png Graphic file (type png)
-<use figuresDraft/spf_se_est_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_diag3.png  used on input line 
-400.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-
-Overfull \vbox (3.77354pt too high) detected at line 400
- []
-
-
+] (./ExpSlides.toc)
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [20
 
- <./figuresDraft/spf_se_est_diag0.png> <./figuresDraft/spf_se_est_diag1.png> <.
-/figuresDraft/spf_se_est_diag2.png> <./figuresDraft/spf_se_est_diag3.png>]
-<figuresDraft/spf_se_est_joint_diag0.png, id=794, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_joint_diag0.png Graphic file (type png)
-<use figuresDraft/spf_se_est_joint_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag0.png  used on input
- line 428.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_joint_diag1.png, id=795, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_joint_diag1.png Graphic file (type png)
-<use figuresDraft/spf_se_est_joint_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag1.png  used on input
- line 428.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_joint_diag2.png, id=796, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_joint_diag2.png Graphic file (type png)
-<use figuresDraft/spf_se_est_joint_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag2.png  used on input
- line 428.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_joint_diag3.png, id=797, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_joint_diag3.png Graphic file (type png)
-<use figuresDraft/spf_se_est_joint_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag3.png  used on input
- line 428.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-
-Overfull \vbox (3.77354pt too high) detected at line 428
- []
-
-
+]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [21
 
- <./figuresDraft/spf_se_est_joint_diag0.png> <./figuresDraft/spf_se_est_joint_d
-iag1.png> <./figuresDraft/spf_se_est_joint_diag2.png> <./figuresDraft/spf_se_es
-t_joint_diag3.png>]
-<figuresDraft/sce_se_est_diag0.png, id=829, 216.81pt x 650.43pt>
-File: figuresDraft/sce_se_est_diag0.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag0.png  used on input line 
-456.
+]
+<figuresDraft/spf_se_est_diag0.png, id=860, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_diag0.png Graphic file (type png)
+<use figuresDraft/spf_se_est_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_diag0.png  used on input line 
+432.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_se_est_diag1.png, id=830, 216.81pt x 650.43pt>
-File: figuresDraft/sce_se_est_diag1.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag1.png  used on input line 
-456.
+<figuresDraft/spf_se_est_diag1.png, id=861, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_diag1.png Graphic file (type png)
+<use figuresDraft/spf_se_est_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_diag1.png  used on input line 
+432.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_se_est_diag2.png, id=831, 216.81pt x 650.43pt>
-File: figuresDraft/sce_se_est_diag2.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag2.png  used on input line 
-456.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_se_est_diag3.png, id=832, 216.81pt x 650.43pt>
-File: figuresDraft/sce_se_est_diag3.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag3.png  used on input line 
-456.
+<figuresDraft/spf_se_est_diag2.png, id=862, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_diag2.png Graphic file (type png)
+<use figuresDraft/spf_se_est_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_diag2.png  used on input line 
+432.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 456
+Overfull \vbox (3.77354pt too high) detected at line 432
  []
 
 
@@ -1281,30 +1214,28 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [22
 
- <./figuresDraft/sce_se_est_diag0.png> <./figuresDraft/sce_se_est_diag1.png> <.
-/figuresDraft/sce_se_est_diag2.png> <./figuresDraft/sce_se_est_diag3.png>]
-File: figuresDraft/sce_se_est_diag0.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag0.png  used on input line 
-484.
+ <./figuresDraft/spf_se_est_diag0.png> <./figuresDraft/spf_se_est_diag1.png> <.
+/figuresDraft/spf_se_est_diag2.png>]
+<figuresDraft/spf_se_est_joint_diag0.png, id=893, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_joint_diag0.png Graphic file (type png)
+<use figuresDraft/spf_se_est_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag0.png  used on input
+ line 454.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-File: figuresDraft/sce_se_est_diag1.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag1.png  used on input line 
-484.
+<figuresDraft/spf_se_est_joint_diag1.png, id=894, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_joint_diag1.png Graphic file (type png)
+<use figuresDraft/spf_se_est_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag1.png  used on input
+ line 454.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-File: figuresDraft/sce_se_est_diag2.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag2.png  used on input line 
-484.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-File: figuresDraft/sce_se_est_diag3.png Graphic file (type png)
-<use figuresDraft/sce_se_est_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_diag3.png  used on input line 
-484.
+<figuresDraft/spf_se_est_joint_diag2.png, id=895, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_joint_diag2.png Graphic file (type png)
+<use figuresDraft/spf_se_est_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_joint_diag2.png  used on input
+ line 454.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 484
+Overfull \vbox (3.77354pt too high) detected at line 454
  []
 
 
@@ -1314,9 +1245,28 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [23
 
-]
-Overfull \hbox (289.3225pt too wide) in paragraph at lines 505--505
- [] 
+ <./figuresDraft/spf_se_est_joint_diag0.png> <./figuresDraft/spf_se_est_joint_d
+iag1.png> <./figuresDraft/spf_se_est_joint_diag2.png>]
+<figuresDraft/sce_se_est_diag0.png, id=927, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_diag0.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag0.png  used on input line 
+476.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_diag1.png, id=928, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_diag1.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag1.png  used on input line 
+476.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_diag2.png, id=929, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_diag2.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag2.png  used on input line 
+476.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 476
  []
 
 
@@ -1326,33 +1276,25 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [24
 
-]
-<figuresDraft/spf_ni_est_diag0.png, id=921, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_diag0.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_diag0.png  used on input line 
-532.
+ <./figuresDraft/sce_se_est_diag0.png> <./figuresDraft/sce_se_est_diag1.png> <.
+/figuresDraft/sce_se_est_diag2.png>]
+File: figuresDraft/sce_se_est_diag0.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag0.png  used on input line 
+498.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_diag1.png, id=922, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_diag1.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_diag1.png  used on input line 
-532.
+File: figuresDraft/sce_se_est_diag1.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag1.png  used on input line 
+498.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_diag2.png, id=923, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_diag2.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_diag2.png  used on input line 
-532.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_diag3.png, id=924, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_diag3.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_diag3.png  used on input line 
-532.
+File: figuresDraft/sce_se_est_diag2.png Graphic file (type png)
+<use figuresDraft/sce_se_est_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_diag2.png  used on input line 
+498.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 532
+Overfull \vbox (3.77354pt too high) detected at line 498
  []
 
 
@@ -1362,72 +1304,34 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [25
 
- <./figuresDraft/spf_ni_est_diag0.png> <./figuresDraft/spf_ni_est_diag1.png> <.
-/figuresDraft/spf_ni_est_diag2.png> <./figuresDraft/spf_ni_est_diag3.png>]
-<figuresDraft/spf_ni_est_joint_diag0.png, id=957, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_joint_diag0.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_joint_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag0.png  used on input
- line 559.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_joint_diag1.png, id=958, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_joint_diag1.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_joint_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag1.png  used on input
- line 559.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_joint_diag2.png, id=959, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_joint_diag2.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_joint_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag2.png  used on input
- line 559.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_ni_est_joint_diag3.png, id=960, 216.81pt x 650.43pt>
-File: figuresDraft/spf_ni_est_joint_diag3.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_joint_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag3.png  used on input
- line 559.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-
-Overfull \vbox (3.77354pt too high) detected at line 559
- []
-
-
+]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [26
 
- <./figuresDraft/spf_ni_est_joint_diag0.png> <./figuresDraft/spf_ni_est_joint_d
-iag1.png> <./figuresDraft/spf_ni_est_joint_diag2.png> <./figuresDraft/spf_ni_es
-t_joint_diag3.png>]
-<figuresDraft/sce_ni_est_diag0.png, id=992, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_diag0.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_diag0.png  used on input line 
-586.
+]
+<figuresDraft/spf_de_est_diag0.png, id=1020, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_diag0.png Graphic file (type png)
+<use figuresDraft/spf_de_est_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_diag0.png  used on input line 
+548.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_diag1.png, id=993, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_diag1.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_diag1.png  used on input line 
-586.
+<figuresDraft/spf_de_est_diag1.png, id=1021, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_diag1.png Graphic file (type png)
+<use figuresDraft/spf_de_est_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_diag1.png  used on input line 
+548.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_diag2.png, id=994, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_diag2.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_diag2.png  used on input line 
-586.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_diag3.png, id=995, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_diag3.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_diag3.png  used on input line 
-586.
+<figuresDraft/spf_de_est_diag2.png, id=1022, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_diag2.png Graphic file (type png)
+<use figuresDraft/spf_de_est_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_diag2.png  used on input line 
+548.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 586
+Overfull \vbox (3.77354pt too high) detected at line 548
  []
 
 
@@ -1437,34 +1341,39 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [27
 
- <./figuresDraft/sce_ni_est_diag0.png> <./figuresDraft/sce_ni_est_diag1.png> <.
-/figuresDraft/sce_ni_est_diag2.png> <./figuresDraft/sce_ni_est_diag3.png>]
-<figuresDraft/sce_ni_est_joint_diag0.png, id=1027, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_joint_diag0.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_joint_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag0.png  used on input
- line 613.
+ <./figuresDraft/spf_de_est_diag0.png> <./figuresDraft/spf_de_est_diag1.png> <.
+/figuresDraft/spf_de_est_diag2.png>]
+
+LaTeX Warning: File `figuresDraft/spf_de_est_joint_diag0.png' not found on inpu
+t line 571.
+
+
+! Package pdftex.def Error: File `figuresDraft/spf_de_est_joint_diag0.png' not 
+found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.571 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+<figuresDraft/spf_de_est_joint_diag1.png, id=1053, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_joint_diag1.png Graphic file (type png)
+<use figuresDraft/spf_de_est_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_joint_diag1.png  used on input
+ line 571.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_joint_diag1.png, id=1028, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_joint_diag1.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_joint_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag1.png  used on input
- line 613.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_joint_diag2.png, id=1029, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_joint_diag2.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_joint_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag2.png  used on input
- line 613.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/sce_ni_est_joint_diag3.png, id=1030, 216.81pt x 650.43pt>
-File: figuresDraft/sce_ni_est_joint_diag3.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_joint_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag3.png  used on input
- line 613.
+<figuresDraft/spf_de_est_joint_diag2.png, id=1054, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_joint_diag2.png Graphic file (type png)
+<use figuresDraft/spf_de_est_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_joint_diag2.png  used on input
+ line 571.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 613
+Overfull \vbox (3.79057pt too high) detected at line 571
  []
 
 
@@ -1474,42 +1383,71 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [28
 
- <./figuresDraft/sce_ni_est_joint_diag0.png> <./figuresDraft/sce_ni_est_joint_d
-iag1.png> <./figuresDraft/sce_ni_est_joint_diag2.png> <./figuresDraft/sce_ni_es
-t_joint_diag3.png>] (./ExpSlides.toc)
+ <./figuresDraft/spf_de_est_joint_diag1.png> <./figuresDraft/spf_de_est_joint_d
+iag2.png>]
+<figuresDraft/sce_de_est_diag0.png, id=1085, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_diag0.png Graphic file (type png)
+<use figuresDraft/sce_de_est_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_diag0.png  used on input line 
+594.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_diag1.png, id=1086, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_diag1.png Graphic file (type png)
+<use figuresDraft/sce_de_est_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_diag1.png  used on input line 
+594.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_diag2.png, id=1087, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_diag2.png Graphic file (type png)
+<use figuresDraft/sce_de_est_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_diag2.png  used on input line 
+594.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 594
+ []
+
+
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [29
 
-]
-<figuresDraft/spf_se_est_sv_diag0.png, id=1109, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_sv_diag0.png Graphic file (type png)
-<use figuresDraft/spf_se_est_sv_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag0.png  used on input li
-ne 641.
+ <./figuresDraft/sce_de_est_diag0.png> <./figuresDraft/sce_de_est_diag1.png> <.
+/figuresDraft/sce_de_est_diag2.png>]
+<figuresDraft/sce_de_est_joint_diag0.png, id=1118, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_joint_diag0.png Graphic file (type png)
+<use figuresDraft/sce_de_est_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_joint_diag0.png  used on input
+ line 616.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_sv_diag1.png, id=1110, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_sv_diag1.png Graphic file (type png)
-<use figuresDraft/spf_se_est_sv_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag1.png  used on input li
-ne 641.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_sv_diag2.png, id=1111, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_sv_diag2.png Graphic file (type png)
-<use figuresDraft/spf_se_est_sv_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag2.png  used on input li
-ne 641.
-(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
-<figuresDraft/spf_se_est_sv_diag3.png, id=1112, 216.81pt x 650.43pt>
-File: figuresDraft/spf_se_est_sv_diag3.png Graphic file (type png)
-<use figuresDraft/spf_se_est_sv_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag3.png  used on input li
-ne 641.
+<figuresDraft/sce_de_est_joint_diag1.png, id=1119, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_joint_diag1.png Graphic file (type png)
+<use figuresDraft/sce_de_est_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_joint_diag1.png  used on input
+ line 616.
 (pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77354pt too high) detected at line 641
+
+LaTeX Warning: File `figuresDraft/sce_de_est_joint_diag2.png' not found on inpu
+t line 616.
+
+
+! Package pdftex.def Error: File `figuresDraft/sce_de_est_joint_diag2.png' not 
+found: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.616 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \vbox (3.79057pt too high) detected at line 616
  []
 
 
@@ -1519,60 +1457,66 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [30
 
- <./figuresDraft/spf_se_est_sv_diag0.png> <./figuresDraft/spf_se_est_sv_diag1.p
-ng> <./figuresDraft/spf_se_est_sv_diag2.png> <./figuresDraft/spf_se_est_sv_diag
-3.png>]
-Overfull \hbox (488.4515pt too wide) in paragraph at lines 666--666
- [] 
- []
-
-
+ <./figuresDraft/sce_de_est_joint_diag0.png> <./figuresDraft/sce_de_est_joint_d
+iag1.png>]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [31
 
-] (./ExpSlides.toc)
+]
+<figuresDraft/spf_ni_est_diag0.png, id=1182, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_diag0.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_diag0.png  used on input line 
+666.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_diag1.png, id=1183, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_diag1.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_diag1.png  used on input line 
+666.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_diag2.png, id=1184, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_diag2.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_diag2.png  used on input line 
+666.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 666
+ []
+
+
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [32
 
-]
-<figuresDraft/sce_se_est_sv_diag0.png, id=1222, 216.81pt x 867.24pt>
-File: figuresDraft/sce_se_est_sv_diag0.png Graphic file (type png)
-<use figuresDraft/sce_se_est_sv_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag0.png  used on input li
-ne 706.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_se_est_sv_diag1.png, id=1223, 216.81pt x 867.24pt>
-File: figuresDraft/sce_se_est_sv_diag1.png Graphic file (type png)
-<use figuresDraft/sce_se_est_sv_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag1.png  used on input li
-ne 706.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_se_est_sv_diag2.png, id=1224, 216.81pt x 867.24pt>
-File: figuresDraft/sce_se_est_sv_diag2.png Graphic file (type png)
-<use figuresDraft/sce_se_est_sv_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag2.png  used on input li
-ne 706.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_se_est_sv_diag3.png, id=1225, 216.81pt x 867.24pt>
-File: figuresDraft/sce_se_est_sv_diag3.png Graphic file (type png)
-<use figuresDraft/sce_se_est_sv_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag3.png  used on input li
-ne 706.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_se_est_sv_diag4.png, id=1226, 216.81pt x 867.24pt>
-File: figuresDraft/sce_se_est_sv_diag4.png Graphic file (type png)
-<use figuresDraft/sce_se_est_sv_diag4.png>
-Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag4.png  used on input li
-ne 706.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
+ <./figuresDraft/spf_ni_est_diag0.png> <./figuresDraft/spf_ni_est_diag1.png> <.
+/figuresDraft/spf_ni_est_diag2.png>]
+<figuresDraft/spf_ni_est_joint_diag0.png, id=1215, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_joint_diag0.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag0.png  used on input
+ line 688.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_joint_diag1.png, id=1216, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_joint_diag1.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag1.png  used on input
+ line 688.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_joint_diag2.png, id=1217, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_joint_diag2.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_joint_diag2.png  used on input
+ line 688.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77356pt too high) detected at line 706
+Overfull \vbox (3.77354pt too high) detected at line 688
  []
 
 
@@ -1582,48 +1526,59 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [33
 
- <./figuresDraft/sce_se_est_sv_diag0.png> <./figuresDraft/sce_se_est_sv_diag1.p
-ng> <./figuresDraft/sce_se_est_sv_diag2.png> <./figuresDraft/sce_se_est_sv_diag
-3.png> <./figuresDraft/sce_se_est_sv_diag4.png>]
+ <./figuresDraft/spf_ni_est_joint_diag0.png> <./figuresDraft/spf_ni_est_joint_d
+iag1.png> <./figuresDraft/spf_ni_est_joint_diag2.png>]
+<figuresDraft/sce_ni_est_diag0.png, id=1248, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_diag0.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_diag0.png  used on input line 
+710.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_diag1.png, id=1249, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_diag1.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_diag1.png  used on input line 
+710.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_diag2.png, id=1250, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_diag2.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_diag2.png  used on input line 
+710.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 710
+ []
+
+
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [34
 
-]
-<figuresDraft/spf_ni_est_sv_diag0.png, id=1289, 216.81pt x 867.24pt>
-File: figuresDraft/spf_ni_est_sv_diag0.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_sv_diag0.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag0.png  used on input li
-ne 762.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/spf_ni_est_sv_diag1.png, id=1290, 216.81pt x 867.24pt>
-File: figuresDraft/spf_ni_est_sv_diag1.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_sv_diag1.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag1.png  used on input li
-ne 762.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/spf_ni_est_sv_diag2.png, id=1291, 216.81pt x 867.24pt>
-File: figuresDraft/spf_ni_est_sv_diag2.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_sv_diag2.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag2.png  used on input li
-ne 762.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/spf_ni_est_sv_diag3.png, id=1292, 216.81pt x 867.24pt>
-File: figuresDraft/spf_ni_est_sv_diag3.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_sv_diag3.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag3.png  used on input li
-ne 762.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/spf_ni_est_sv_diag4.png, id=1293, 216.81pt x 867.24pt>
-File: figuresDraft/spf_ni_est_sv_diag4.png Graphic file (type png)
-<use figuresDraft/spf_ni_est_sv_diag4.png>
-Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag4.png  used on input li
-ne 762.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
+ <./figuresDraft/sce_ni_est_diag0.png> <./figuresDraft/sce_ni_est_diag1.png> <.
+/figuresDraft/sce_ni_est_diag2.png>]
+<figuresDraft/sce_ni_est_joint_diag0.png, id=1282, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_joint_diag0.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag0.png  used on input
+ line 732.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_joint_diag1.png, id=1283, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_joint_diag1.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag1.png  used on input
+ line 732.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_joint_diag2.png, id=1284, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_joint_diag2.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_joint_diag2.png  used on input
+ line 732.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
 
-Overfull \vbox (3.77356pt too high) detected at line 762
+Overfull \vbox (3.77354pt too high) detected at line 732
  []
 
 
@@ -1633,72 +1588,480 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 
 [35
 
- <./figuresDraft/spf_ni_est_sv_diag0.png> <./figuresDraft/spf_ni_est_sv_diag1.p
-ng> <./figuresDraft/spf_ni_est_sv_diag2.png> <./figuresDraft/spf_ni_est_sv_diag
-3.png> <./figuresDraft/spf_ni_est_sv_diag4.png>]
-<figuresDraft/sce_ni_est_sv_diag0.png, id=1326, 216.81pt x 867.24pt>
-File: figuresDraft/sce_ni_est_sv_diag0.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_sv_diag0.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag0.png  used on input li
-ne 794.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_ni_est_sv_diag1.png, id=1327, 216.81pt x 867.24pt>
-File: figuresDraft/sce_ni_est_sv_diag1.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_sv_diag1.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag1.png  used on input li
-ne 794.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_ni_est_sv_diag2.png, id=1328, 216.81pt x 867.24pt>
-File: figuresDraft/sce_ni_est_sv_diag2.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_sv_diag2.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag2.png  used on input li
-ne 794.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_ni_est_sv_diag3.png, id=1329, 216.81pt x 867.24pt>
-File: figuresDraft/sce_ni_est_sv_diag3.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_sv_diag3.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag3.png  used on input li
-ne 794.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-<figuresDraft/sce_ni_est_sv_diag4.png, id=1330, 216.81pt x 867.24pt>
-File: figuresDraft/sce_ni_est_sv_diag4.png Graphic file (type png)
-<use figuresDraft/sce_ni_est_sv_diag4.png>
-Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag4.png  used on input li
-ne 794.
-(pdftex.def)             Requested size: 65.03688pt x 208.38005pt.
-
-Overfull \vbox (3.77356pt too high) detected at line 794
- []
-
-
+ <./figuresDraft/sce_ni_est_joint_diag0.png> <./figuresDraft/sce_ni_est_joint_d
+iag1.png> <./figuresDraft/sce_ni_est_joint_diag2.png>]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [36
 
- <./figuresDraft/sce_ni_est_sv_diag0.png> <./figuresDraft/sce_ni_est_sv_diag1.p
-ng> <./figuresDraft/sce_ni_est_sv_diag2.png> <./figuresDraft/sce_ni_est_sv_diag
-3.png> <./figuresDraft/sce_ni_est_sv_diag4.png>]
+]
+<figuresDraft/spf_seni_est_diag0.png, id=1346, 216.81pt x 650.43pt>
+File: figuresDraft/spf_seni_est_diag0.png Graphic file (type png)
+<use figuresDraft/spf_seni_est_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_seni_est_diag0.png  used on input lin
+e 783.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_seni_est_diag1.png, id=1347, 216.81pt x 650.43pt>
+File: figuresDraft/spf_seni_est_diag1.png Graphic file (type png)
+<use figuresDraft/spf_seni_est_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_seni_est_diag1.png  used on input lin
+e 783.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_seni_est_diag2.png, id=1348, 216.81pt x 650.43pt>
+File: figuresDraft/spf_seni_est_diag2.png Graphic file (type png)
+<use figuresDraft/spf_seni_est_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_seni_est_diag2.png  used on input lin
+e 783.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 783
+ []
+
+
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [37
 
-]
+ <./figuresDraft/spf_seni_est_diag0.png> <./figuresDraft/spf_seni_est_diag1.png
+> <./figuresDraft/spf_seni_est_diag2.png>]
+<figuresDraft/sce_seni_est_diag0.png, id=1380, 216.81pt x 650.43pt>
+File: figuresDraft/sce_seni_est_diag0.png Graphic file (type png)
+<use figuresDraft/sce_seni_est_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_seni_est_diag0.png  used on input lin
+e 806.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+
+LaTeX Warning: File `figuresDraft/sce_seni_est_diag1.png' not found on input li
+ne 806.
+
+
+! Package pdftex.def Error: File `figuresDraft/sce_seni_est_diag1.png' not foun
+d: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.806 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+LaTeX Warning: File `figuresDraft/sce_seni_est_diag2.png' not found on input li
+ne 806.
+
+
+! Package pdftex.def Error: File `figuresDraft/sce_seni_est_diag2.png' not foun
+d: using draft setting.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.806 \end{frame}
+                 
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+Overfull \vbox (3.79057pt too high) detected at line 806
+ []
+
+
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [38
 
-]
+ <./figuresDraft/sce_seni_est_diag0.png>] (./ExpSlides.toc)
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
 [39
+
+]
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[40
+
+]
+<figuresDraft/spf_se_est_sv_diag0.png, id=1507, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag0.png  used on input li
+ne 859.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_se_est_sv_diag1.png, id=1508, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_diag1.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag1.png  used on input li
+ne 859.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_se_est_sv_diag2.png, id=1509, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_diag2.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_diag2.png  used on input li
+ne 859.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 859
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[41
+
+ <./figuresDraft/spf_se_est_sv_diag0.png> <./figuresDraft/spf_se_est_sv_diag1.p
+ng> <./figuresDraft/spf_se_est_sv_diag2.png>]
+<figuresDraft/spf_se_est_sv_joint_diag0.png, id=1539, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_joint_diag0.png  used on in
+put line 882.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_se_est_sv_joint_diag1.png, id=1540, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_joint_diag1.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_joint_diag1.png  used on in
+put line 882.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_se_est_sv_joint_diag2.png, id=1541, 216.81pt x 650.43pt>
+File: figuresDraft/spf_se_est_sv_joint_diag2.png Graphic file (type png)
+<use figuresDraft/spf_se_est_sv_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_se_est_sv_joint_diag2.png  used on in
+put line 882.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 882
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[42
+
+ <./figuresDraft/spf_se_est_sv_joint_diag0.png> <./figuresDraft/spf_se_est_sv_j
+oint_diag1.png> <./figuresDraft/spf_se_est_sv_joint_diag2.png>]
+<figuresDraft/sce_se_est_sv_diag0.png, id=1572, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag0.png  used on input li
+ne 903.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_sv_diag1.png, id=1573, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_diag1.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag1.png  used on input li
+ne 903.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_sv_diag2.png, id=1574, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_diag2.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_diag2.png  used on input li
+ne 903.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 903
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[43
+
+ <./figuresDraft/sce_se_est_sv_diag0.png> <./figuresDraft/sce_se_est_sv_diag1.p
+ng> <./figuresDraft/sce_se_est_sv_diag2.png>]
+<figuresDraft/sce_se_est_sv_joint_diag0.png, id=1606, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_joint_diag0.png  used on in
+put line 925.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_sv_joint_diag1.png, id=1607, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_joint_diag1.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_joint_diag1.png  used on in
+put line 925.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_se_est_sv_joint_diag2.png, id=1608, 216.81pt x 650.43pt>
+File: figuresDraft/sce_se_est_sv_joint_diag2.png Graphic file (type png)
+<use figuresDraft/sce_se_est_sv_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_se_est_sv_joint_diag2.png  used on in
+put line 925.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 925
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[44
+
+ <./figuresDraft/sce_se_est_sv_joint_diag0.png> <./figuresDraft/sce_se_est_sv_j
+oint_diag1.png> <./figuresDraft/sce_se_est_sv_joint_diag2.png>]
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[45
+
+]
+<figuresDraft/spf_de_est_sv_diag0.png, id=1674, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_diag0.png  used on input li
+ne 979.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_de_est_sv_diag1.png, id=1675, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_diag1.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_diag1.png  used on input li
+ne 979.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_de_est_sv_diag2.png, id=1676, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_diag2.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_diag2.png  used on input li
+ne 979.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 979
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[46
+
+ <./figuresDraft/spf_de_est_sv_diag0.png> <./figuresDraft/spf_de_est_sv_diag1.p
+ng> <./figuresDraft/spf_de_est_sv_diag2.png>]
+<figuresDraft/spf_de_est_sv_joint_diag0.png, id=1706, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_joint_diag0.png  used on in
+put line 1001.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_de_est_sv_joint_diag1.png, id=1707, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_joint_diag1.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_joint_diag1.png  used on in
+put line 1001.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_de_est_sv_joint_diag2.png, id=1708, 216.81pt x 650.43pt>
+File: figuresDraft/spf_de_est_sv_joint_diag2.png Graphic file (type png)
+<use figuresDraft/spf_de_est_sv_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/spf_de_est_sv_joint_diag2.png  used on in
+put line 1001.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1001
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[47
+
+ <./figuresDraft/spf_de_est_sv_joint_diag0.png> <./figuresDraft/spf_de_est_sv_j
+oint_diag1.png> <./figuresDraft/spf_de_est_sv_joint_diag2.png>]
+<figuresDraft/sce_de_est_sv_diag0.png, id=1739, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_diag0.png  used on input li
+ne 1025.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_sv_diag1.png, id=1740, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_diag1.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_diag1.png  used on input li
+ne 1025.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_sv_diag2.png, id=1741, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_diag2.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_diag2.png  used on input li
+ne 1025.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1025
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[48
+
+ <./figuresDraft/sce_de_est_sv_diag0.png> <./figuresDraft/sce_de_est_sv_diag1.p
+ng> <./figuresDraft/sce_de_est_sv_diag2.png>]
+<figuresDraft/sce_de_est_sv_joint_diag0.png, id=1773, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_joint_diag0.png  used on in
+put line 1047.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_sv_joint_diag1.png, id=1774, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_joint_diag1.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_joint_diag1.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_joint_diag1.png  used on in
+put line 1047.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_de_est_sv_joint_diag2.png, id=1775, 216.81pt x 650.43pt>
+File: figuresDraft/sce_de_est_sv_joint_diag2.png Graphic file (type png)
+<use figuresDraft/sce_de_est_sv_joint_diag2.png>
+Package pdftex.def Info: figuresDraft/sce_de_est_sv_joint_diag2.png  used on in
+put line 1047.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1047
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[49
+
+ <./figuresDraft/sce_de_est_sv_joint_diag0.png> <./figuresDraft/sce_de_est_sv_j
+oint_diag1.png> <./figuresDraft/sce_de_est_sv_joint_diag2.png>]
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[50
+
+]
+<figuresDraft/spf_ni_est_sv_diag0.png, id=1841, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag0.png  used on input li
+ne 1093.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_sv_diag3.png, id=1842, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_sv_diag3.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_sv_diag3.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_sv_diag3.png  used on input li
+ne 1093.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1093
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[51
+
+ <./figuresDraft/spf_ni_est_sv_diag0.png> <./figuresDraft/spf_ni_est_sv_diag3.p
+ng>]
+<figuresDraft/spf_ni_est_sv_joint_diag0.png, id=1871, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_sv_joint_diag0.png  used on in
+put line 1110.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/spf_ni_est_sv_joint_diag3.png, id=1872, 216.81pt x 650.43pt>
+File: figuresDraft/spf_ni_est_sv_joint_diag3.png Graphic file (type png)
+<use figuresDraft/spf_ni_est_sv_joint_diag3.png>
+Package pdftex.def Info: figuresDraft/spf_ni_est_sv_joint_diag3.png  used on in
+put line 1110.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1110
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[52
+
+ <./figuresDraft/spf_ni_est_sv_joint_diag0.png> <./figuresDraft/spf_ni_est_sv_j
+oint_diag3.png>]
+<figuresDraft/sce_ni_est_sv_diag0.png, id=1903, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_sv_diag0.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_sv_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag0.png  used on input li
+ne 1128.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_sv_diag3.png, id=1904, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_sv_diag3.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_sv_diag3.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_sv_diag3.png  used on input li
+ne 1128.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1128
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[53
+
+ <./figuresDraft/sce_ni_est_sv_diag0.png> <./figuresDraft/sce_ni_est_sv_diag3.p
+ng>]
+<figuresDraft/sce_ni_est_sv_joint_diag0.png, id=1934, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_sv_joint_diag0.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_sv_joint_diag0.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_sv_joint_diag0.png  used on in
+put line 1145.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+<figuresDraft/sce_ni_est_sv_joint_diag3.png, id=1935, 216.81pt x 650.43pt>
+File: figuresDraft/sce_ni_est_sv_joint_diag3.png Graphic file (type png)
+<use figuresDraft/sce_ni_est_sv_joint_diag3.png>
+Package pdftex.def Info: figuresDraft/sce_ni_est_sv_joint_diag3.png  used on in
+put line 1145.
+(pdftex.def)             Requested size: 68.45761pt x 208.38004pt.
+
+Overfull \vbox (3.77354pt too high) detected at line 1145
+ []
+
+
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[54
+
+ <./figuresDraft/sce_ni_est_sv_joint_diag0.png> <./figuresDraft/sce_ni_est_sv_j
+oint_diag3.png>]
+Overfull \hbox (150.04823pt too wide) has occurred while \output is active
+ [][][][]  
+ []
+
+[55
 
 ] (./ExpSlides.bbl
 
@@ -1710,19 +2073,19 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[40
+[56
 
 ]
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[41])
+[57])
 Overfull \hbox (150.04823pt too wide) has occurred while \output is active
  [][][][]  
  []
 
-[42]
+[58]
 \tf@nav=\write6
 \openout6 = `ExpSlides.nav'.
 
@@ -1732,44 +2095,65 @@ Overfull \hbox (150.04823pt too wide) has occurred while \output is active
 \tf@snm=\write8
 \openout8 = `ExpSlides.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 844.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 844.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 1170.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 1170.
  (./ExpSlides.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 844.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 844.
-Package rerunfilecheck Info: File `ExpSlides.out' has not changed.
-(rerunfilecheck)             Checksum: A1B223F4D409DBDA8FFD74CA017169B5;426.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 1170.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 1170.
+
+
+
+Package rerunfilecheck Warning: File `ExpSlides.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `ExpSlides.out':
+(rerunfilecheck)             Before: E7CF0588FAD889E3C31AEDCB7D7F0102;348
+(rerunfilecheck)             After:  AC526E983F54BE27829ED796E523E10F;348.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
  ) 
 Here is how much of TeX's memory you used:
- 20545 strings out of 492616
- 392800 string characters out of 6129482
- 462725 words of memory out of 5000000
- 23808 multiletter control sequences out of 15000+600000
- 15740 words of font info for 57 fonts, out of 8000000 for 9000
+ 20796 strings out of 492616
+ 399603 string characters out of 6129482
+ 464811 words of memory out of 5000000
+ 23978 multiletter control sequences out of 15000+600000
+ 15908 words of font info for 58 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,16n,96p,796b,732s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb
-></usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb>
-</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></
-usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></us
-r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/
-local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/lo
-cal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local
-/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/
-texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/t
-exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/tex
-live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/texli
-ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texl
-ive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texl
-ive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texli
-ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texliv
-e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/
-2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/20
-19/texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
-Output written on ExpSlides.pdf (42 pages, 3262565 bytes).
+pdfTeX warning (dest): name{Navigation59} has been referenced but does not ex
+ist, replaced by a fixed one
+
+pdfTeX warning (dest): name{Navigation60} has been referenced but does not exis
+t, replaced by a fixed one
+
+pdfTeX warning (dest): name{Outline0.3.2.41} has been referenced but does not e
+xist, replaced by a fixed one
+
+</usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><
+/usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></
+usr/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></us
+r/local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+local/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/lo
+cal/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/loca
+l/texlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/t
+exlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss10.pfb></usr/local/te
+xlive/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss12.pfb></usr/local/tex
+live/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss8.pfb></usr/local/texli
+ve/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmss9.pfb></usr/local/texlive
+/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssbx10.pfb></usr/local/texliv
+e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi10.pfb></usr/local/texliv
+e/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmssi8.pfb></usr/local/texlive
+/2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/texlive/
+2019/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/20
+19/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb></usr/local/texlive/2019
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2019/
+texmf-dist/fonts/type1/public/amsfonts/symbols/msam7.pfb>
+Output written on ExpSlides.pdf (58 pages, 3865019 bytes).
 PDF statistics:
- 1630 PDF objects out of 1728 (max. 8388607)
- 1358 compressed objects within 14 object streams
- 137 named destinations out of 1000 (max. 500000)
- 849 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 2186 PDF objects out of 2487 (max. 8388607)
+ 1831 compressed objects within 19 object streams
+ 195 named destinations out of 1000 (max. 500000)
+ 1067 words of extra memory for PDF output out of 10000 (max. 10000000)
 
