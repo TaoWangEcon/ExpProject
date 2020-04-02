@@ -10,6 +10,8 @@
 \usepackage{natbib}
 \usepackage{adjustbox}
 \usepackage{subcaption}
+\usepackage{verbatim}
+
 %\usetheme{AnnArbor}
 %\usetheme{Antibes}
 %\usetheme{Bergen}
@@ -38,8 +40,8 @@
 %\usetheme{Szeged}
 %\usetheme{Warsaw}
 
-\title{Rigidity of Expectations: Additional Evidence from Density Forecasts of Professionals and Households}
 
+\title{Rigidity of Expectations: Additional Evidence from Density Forecasts of Professionals and Households}
 
 % A subtitle is optional and this may be deleted
 
@@ -372,10 +374,10 @@
 
 
 \begin{frame}{Scoring card for a theory of expectation formation}
-	To look if the parameter and fitness is relatively robust to 
+	To look if the parameter and goodness of fit is robust to 
 	\begin{enumerate}
 		\item use of different moments in estimation
-		\item alternative assumption about underlying process 
+		\item alternative assumption about the underlying process 
 		\item two-step estimation or joint-estimation 
 		\item relatively fit with professionals and households  
 	\end{enumerate}
@@ -732,7 +734,7 @@
 \end{frame}
 
 
-
+\begin{comment}
 %%%%%%%%%%%%%%%%%%%
 \subsubsection{Hybird of NI and SE}
 
@@ -805,6 +807,8 @@
 	\end{figure}
 \end{frame}
 
+
+\end{comment}
 
 
 \subsection{Stocastic volatility}
@@ -1145,8 +1149,25 @@
 \end{frame}
 
 
-
-
+\begin{frame}{Taking stock}
+	\begin{table}[]
+		\caption{A scoring card of different theory} 
+		\begin{tabular}{llll}
+				\hline 
+			Criteria                                    & SE     & NI  & DE     \\
+				\hline 
+			Sensitive to moments used for estimation?   & No     & No  & No     \\
+			Sensitive to the assumed inflation process? & No     & Yes & No     \\
+			Sensitive to a two-step or joint estimate?  & No     & Yes & No     \\
+			Sensitive to the type of agents?            & Yes    & Yes & Yes    \\
+			Matching with FE                            & Yes    & Yes & Yes    \\
+			Matching with disagreement                  & Yes    & No  & Unsure \\
+			Matching with uncertainty                   & Unsure & No  & No    \\
+			\hline 
+		\end{tabular}
+	\end{table}
+	
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
@@ -1155,8 +1176,8 @@
 
 \begin{frame}{Conclusion}
 	\begin{itemize}
-		\item Sticky expectation (SE) matches data of inflation and expectations better compared to noisy information (NI) 
-		\item Within each model,  households are more irrational compared to professionals
+		\item Sticky expectation (SE) augmented with stochastic volatility of inflation process matches data of inflation and expectations better than other theories for both professionals and households.
+		\item Within each model,  households are more inconsistent  compared to professionals
 		\item Incorporating higher moments, i.e. uncertainty,  helps ``discipline'' theories on expectation formation
 		\item  Higher moments from surveys also contain useful information about the inflation dynamics itself
 	\end{itemize}	
