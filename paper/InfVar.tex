@@ -158,7 +158,7 @@ footskip=.25in]{geometry}
 		\bar \sigma^{*2}_{t+h|t} = \sum^{h}_{s=1}\rho^{2s} \sigma^2_{\omega}
 	\end{eqnarray}
 	
-	The time series behavior of h-year-ahead uncertainty, i.e. $\sigma^2_{t+h|t}$, $\sigma^2_{t+h+1|t+1}$, etc, depends on the true process of $y$. Specifically, it depends if $\sigma^2_\omega$ is time-varying. If time-invariant, h-period-ahead uncertainty is simply as constant. In baseline case, I make such an assumption, in general it may not be true. \footnote{For example, \citet{justiniano2008time}, \citet{vavra2013inflation} on time-varying volatility of inflation.} 
+	The time series behavior of h-year-ahead uncertainty, i.e. $\sigma^2_{t+h|t}$, $\sigma^2_{t+h+1|t+1}$, etc, depends on the true process of $y$. Specifically, it depends if $\sigma^2_\omega$ is time-varying. If time-invariant, h-period-ahead uncertainty is simply as constant. In baseline case, I make such an assumption, in general it may not be true. In the later section, I make the alternative assumptions of the inflation process allowing for  stochastic volatility.\footnote{For example, \citet{justiniano2008time}, \citet{vavra2013inflation} on time-varying volatility of inflation.} 
 	
 	The testable implication of rationality lies in the revision of uncertainty. Hereafter, we refer revision (instead of change) as the difference of moments across vintages of the forecast with the fixed terminate date of realization. For instance, the difference between the uncertainty about $y_{t+h}$ at time $t$ and the uncertainty about $y_{t+h}$ at time $t-1$.
 	
@@ -279,7 +279,7 @@ footskip=.25in]{geometry}
 		\item Population's mean forecast partially responds to shocks and with lags. 
 		\item Forecast errors are serially correlated. 
 		\item Population disagreements increase in response to new shocks and return to steady-state level gradually. 
-		\item Population average uncertainty revision under-reacts volatility of the shocks.
+		\item Population average uncertainty revision under-reacts to the volatility of the shocks.
 	\end{itemize}
 	
 	\subsection{Noisy information(NI)}
@@ -415,8 +415,11 @@ footskip=.25in]{geometry}
 		\item  Population disagreement rises in each period as the time approaches the period of realization. Disagreements will never be zero. 
 	\end{itemize}
 	
+	\subsection{Diagnostic Expectations (DE)}
 	
-	\subsection{Comparing FIRE, SE, and NI}
+	Different from the previous two theories, diagnostic expectation (\cite{bordalo2018diagnostic}) is developed in the literature to account for extrapolative expectation formation that features overreactions to news. Both SE and NI deviate from FIRE in terms of the information set available to the agents, while DE deviates from FIRE in terms of the process of the otherwise perfect information set. 		
+	
+	\subsection{Comparing Different Theories}
 	
 	Taking stock, both SE and NI predict rigidity in incorporating the arrival of new information. In the former context, the rigidity comes from the simple non-updating of the most realization of the variable. In the latter case, the rigidity comes from a partial reaction to new information due to the nosiness of the signals.  In addition to forecast and disagreements, the rigidity is also reflected in the dynamics of uncertainty.  Uncertainty in SE does not resolve as rapidly as in FIRE because the newly realized shocks do not get updated by some of the agents. While in NI, the drop in uncertainty is dampened because there is additional uncertainty associated with the real-time realization of the variable.  
 	
@@ -463,6 +466,199 @@ footskip=.25in]{geometry}
 	
 	In summary, although NI and SE both predict the similar qualitative predictions of rigidity when it comes to the behavior of FE and disagreements, de facto, the efficiency of forecasting from NI is higher than SE. The only additional uncertainty in NI to that in FIRE is the nowcasting uncertainty, which is discounted in the future. While in SE, the uncertainty does come from the lagged update of information, which involve uncertainties about all the shocks that are not yet updated in agents' information set. 
 		
+		
+	
+	\subsection{Stochastic volatility model of inflation}
+	
+	This section considers an alternative inflation process for which the volatility of shocks to the inflation are stochastic. In particular, assume that the inflation has unobserved permanent and transitory components. 
+		
+	\begin{eqnarray}
+	\begin{split}
+	& y_t = \tau_t + \eta_t,\quad \textrm{where } \eta_t =\sigma_{\eta,t} \xi_{\eta,t} \\
+	& \tau_t = \tau_{t-1} + \epsilon_t, \quad \textrm{where }  \epsilon_t =\sigma_{\epsilon,t} \xi_{\epsilon,t} \\
+	& \log\sigma^2_{\eta,t} = \log\sigma^2_{\eta,t-1} + \mu_{\eta,t} \\
+	& \log\sigma^2_{\epsilon,t} = \log\sigma^2_{\epsilon,t-1} + \mu_{\epsilon,t} 
+	\end{split}
+	\end{eqnarray}
+	
+	The distributions of shocks to levels of the components and their volatilities are, respectively, the following.
+	
+	\begin{eqnarray}
+	\begin{split}
+	& \xi_t =[\xi_{\eta,t},\xi_{\epsilon,t}] \sim N(0,I_2) \\
+	& \mu_{t} = [\mu_{\eta,t},\mu_{\epsilon,t}]' \sim N(0,\gamma I_2) 
+	\end{split}
+	\end{eqnarray}
+	
+	The only parameter of the model is $\gamma$, which determines the time-varying volatilities. 
+	
+	Consider the rational expectation as the benchmark, again. At the point of time $t$, the RE agent sees the realization of all stochastic variables above with subscript $t$, $t-1$, etc, including $y_t$, $\tau_t$, $\eta_t$, $\sigma_{\eta,t}$, $\sigma_{\epsilon,t}$ and their realizations in the whose past. Again, $*$ stands for FIRE benchmark. 
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline y^*_{t+h|t} \equiv y^*_{t+h|i,t} & =  E^*_{i,t}(y_{t+h}|I_{i,t}) = \theta_t 
+	\end{split}
+	\end{eqnarray}
+	
+	Forecast error is simply the cumulated sum of unrealized shocks from $t$ to $t+h$, which is 
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline{FE}^*_{t+h|t} \equiv  FE^*_{t+h|i,t} & =  \sum^{h}_{s=1} (\eta_{t+s} + \epsilon_{t+s})
+	\end{split}
+	\end{eqnarray}
+	
+	
+	
+	h-step-ahead conditional variance, namely the uncertainty is
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline{Var}^*_{t+h|t} \equiv  Var^*_{t+h|i,t} & = \sum^{h}_{k=1} E_{i,t}(\sigma^2_{\eta,t+k}) +  E_{i,t}(\sigma^2_{\epsilon,t+k})  \\
+	& = \sum^{h}_{k=1} E_{i,t}(exp^{\log \sigma^2_{\eta,t}+\sum^h_{k=1}\mu_{\eta,t+k}}) +  E_{i,t}(exp^{\log \sigma^2_{\epsilon,t}+\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+	& = \sum^{h}_{k=1}\sigma^2_{\eta,t} E_{i,t}(exp^{\sum^h_{k=1}\mu_{t+h,\eta}}) +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+	& = \sum^{h}_{k=1}\sigma^2_{\eta,t}  exp^{E_{i,t}({\sum^h_{k=1}\mu_{t+k,\eta}})- 0.5Var_{i,t}(\sum^h_{k=1}\mu_{t+k,\eta})} +  \sigma^2_{\epsilon,t} E_{i,t}(exp^{\sum^h_{f=1}\mu_{\epsilon,t+f}} ) \\
+	& = \sigma^2_{\eta,t} \sum^{h}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t} exp^{- 0.5h\gamma_{\epsilon}} 
+	\end{split} 
+	\end{eqnarray}
+	
+	One could immediately see that now the volatility is stochastic at any point of the time. 
+	
+	For instance, set $h=1$, the conditional volatility for the 1-step-ahead inflation is 
+	
+	\begin{eqnarray}
+	\begin{split}
+	Var^*_{t+1|i,t} =  exp^{- 0.5\gamma_{\eta}} \sigma^2_{\eta,t}  +  exp^{- 0.5\gamma_{\epsilon}} \sigma^2_{\epsilon,t} 
+	\end{split} 
+	\end{eqnarray}
+	
+	Disgreement is zero across agents in RE.
+	
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline{Disg}^*_{t+h|t} =  0 
+	\end{split} 
+	\end{eqnarray}
+	
+	Under the sticky expectation (SE), an agent whose most recent up-do-date update happened at $t-\tau$, thus she sees all the realizations of stochastic variables up to $t-\tau$, including $y_{t-\tau}$, $\tau_{t-\tau}$, $\eta_{t-\tau}$, $\sigma_{\eta,t-\tau}$, $\sigma_{\epsilon,t-\tau}$. 
+	
+	Her forecast is the permanent component that realized at time $t-\tau$. 
+	
+	\begin{eqnarray}
+	\begin{split}
+	y_{t+h|i,t-\tau}  = \theta_{t-\tau} 
+	\end{split}
+	\end{eqnarray}
+	
+	Her forecast uncertainty is 
+	
+
+	\begin{eqnarray}
+	\begin{split}
+	Var_{t+h|i,t-\tau} & = \sigma^2_{\eta,t-\tau} \sum^{h+\tau}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t-\tau} exp^{- 0.5(h+\tau)\gamma_{\epsilon}}
+	\end{split} 
+	\end{eqnarray}
+	
+	The population average of the two are, respectively, a weighted average of people whose the most update was in $t, t-1... t-\tau, t-\infty$, respectively. 
+	
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline y^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda y_{t+h|t-\tau} \\
+	& = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \theta_{t-\tau}
+	\end{split} 
+	\end{eqnarray}
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline {Var}^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda Var_{t+h|t-\tau} \\
+	& = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda [ \sigma^2_{\eta,t-\tau} \sum^{h+\tau}_{k=1} exp^{- 0.5k\gamma_{\eta}} +  \sigma^2_{\epsilon,t-\tau} exp^{- 0.5(h+\tau)\gamma_{\epsilon}}]
+	\end{split} 
+	\end{eqnarray}
+	
+	Both forecast errors $\overline{FE}_{t+h|t}$ and disagreements takes similar form to that in AR process with time-invariant volatility. 
+	
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline {FE}^{se}_{t+h|t} & = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda {FE}^*_{t+h|t-\tau} 
+	& = \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \sum^{\tau+h}_{s=1} (\theta_{t+s} + \epsilon_{t+s})  
+	\end{split} 
+	\end{eqnarray}
+	
+	The disagreement is the following. 
+	
+	
+	\begin{eqnarray}
+	\begin{split}
+	\overline{Disg}^{se}_{t+h|t} & =  \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 (y_{t+h|t-\tau} - \overline y^{se}_{t+h|t})^2  \\
+	& = \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 (\theta_{t-\tau} - \overline y^{se}_{t+h|t})^2  \\
+	& = \sum^{\infty}_{\tau=0} (1-\lambda)^{2\tau} \lambda^2 \{\theta_{t-\tau} - \sum^{\infty}_{\tau=0} (1-\lambda)^\tau\lambda \theta_{t-\tau}\}^2  
+	\end{split} 
+	\end{eqnarray}
+	
+	
+	Under nosiy information (NI), the agent at time $t$ needs to recover the real-time permanent component $\theta_t$ to make the best forecast for future $y_{t+h}$ using nosiy signals.   
+	
+	
+	\begin{eqnarray}
+	y^{ni}_{t+h|t}  \equiv  y^{ni}_{t+h|i,t} = \bar \theta_{t|t}
+	\end{eqnarray}
+	
+	where $\bar \theta_{t|t}$ is generated through Kalman filtering.  
+	
+	Assume that the nosiy signals of $\theta_t$ consists of a public signals $s^{pb}_{t}$ and the private signals $s^{pr}_{i,t}$. For simplicity, let us assume the public signal is basically the $y_t$. A more general case would be an independently drawn public signal sequence. The two signals can be again stacked into a vector of $2\times 1$ to $s^\theta_{i,t}$. 
+	
+	Then the filterred $\theta_{t}$ by agent $i$ is 
+	
+	\begin{eqnarray}
+	\begin{split}
+	\bar \theta_{t|t} =  (1-\tilde P_{t} H) \bar \theta_{t|t-1} + \tilde P s^\theta_{i,t} \\
+	\end{split}
+	\end{eqnarray}
+	
+	where $\theta_{t|t-k}$ is the filterred forecast of $\theta_t$ using all the information up to $t-k$., and $\tilde Pt$ is the time-specific Kalman gain that is dependent on the noisy ratios of signals. 
+	
+	\begin{eqnarray}
+	\begin{split}
+	\tilde P_{t} =  \Sigma^\theta_{i,t|t-1} H(H'\Sigma^\theta_{i,t|t-1} H + \Sigma^\theta_{t})^{-1} 
+	\end{split}
+	\end{eqnarray}
+	
+	Now the noisiness of signals are time varying as well. 
+	
+	\begin{eqnarray}
+	\begin{split}
+	\Sigma^\theta_t =  \left[ \begin{matrix} 
+	\sigma^2_{\eta,t} &  0 \\ 
+	0 & \sigma^2_\xi \end{matrix}\right] 
+	\end{split}               
+	\end{eqnarray}
+	
+	where the variance of public signal is the time-varying $\sigma^2_{\eta,t}$ and let us assume the private signals have constant nosiness $\sigma^2_{\xi}$.
+	
+	The uncertainty matrix evolves in the following manner. 
+	
+	\begin{eqnarray}
+	\Sigma^\theta_{i,t|t} = \Sigma^\theta_{i,t|t-1} - \Sigma^\theta_{i,t|t-1} H'(H \Sigma^\theta_{i,t-1} H' +\Sigma^\theta_{t}) H \Sigma^\theta_{i,t|t-1} 
+	\end{eqnarray}
+	
+	Notice now that since prior of $\theta_t$ before time period $t$ is a weighted average of previous realizations of $y$ and past signals, current forecast depends on the past realizations even though the rational forecast is up-to-date $\theta_t$. 
+	
+	Due to the time-varying volatility $\sigma^2_{\eta,t}$, the noisyness of the public signal is also time-varying, which governs the degree of rigidity. For instance, if volatility to the transitory shock is high, the Kalman gain is low, the forecast responds less to the new realizations. 
+	
+	It is also worth thinking about what is the one-step ahead uncertainty in the context of stochastic valotility world. 
+	
+	
+	\begin{eqnarray}
+	\begin{split}
+	\Sigma^\theta_{i,t|t-1} & = \Sigma^\theta_{i,t-1|t-1} + Var^*_{t|t-1}(y_t) \\
+	& = \Sigma^\theta_{i,t-1|t-1} +  exp^{- 0.5\gamma_{\eta}} \sigma^2_{\eta,t-1}  +  exp^{- 0.5\gamma_{\epsilon}} \sigma^2_{\epsilon,t-1} 
+	\end{split}
+	\end{eqnarray}
+	
+	
 	
 	\section{Empirical Results}\label{empirical}
 	
@@ -1052,9 +1248,8 @@ footskip=.25in]{geometry}
 		\caption{ Responses of Inflation and Household Forecast Moments: 2013-2019}
 		\label{SCE_IR}
 	\end{figure}
-	
-	
-	\subsection{Discussion of the results and next step}
+		
+	\subsection{Discussion of the results}
 	
 	This section presents one major additional insight in addition to \cite{coibion2012can}: expectation rigidity is dependent on the type of shock. In particular, professional forecasters are slow in digesting oil and technology shock to resolve disagreements and reduce forecast error while reacting to monetary policy shocks relatively more efficient. This is the easiest seen in the non-response or instantaneous response if any of forecast error and disagreements to monetary policy shocks. The similar can be said for households, in contrast, for oil price shock instead of monetary policy shocks.
 	
@@ -1064,8 +1259,51 @@ footskip=.25in]{geometry}
 	
 	Efficient revision implies uncertainty drop as much as the volatility of the realized shock as one approach the terminate date. Given the volatility of shocks are different, this provides the possibility of identifying rigidity by directly comparing the observed revision in uncertainty with the externally identified volatility of various shocks. This will be the next step of the analysis.  
 	
-	\section{Conclusion}\label{Conclusion}
 	
+	\section{Simulated Method of Moments Estimation of different models} 
+	
+	For a given process of inflation and a particular theory of expectation formation, the GMM estimate of the vector of parameters $\Omega$ is defined as the following. 
+	
+	\begin{eqnarray*}
+		\widehat \Omega = \underset{\{\Omega \in \Gamma\} }{argmin} (M_{\textrm{data} } - F^{o}(\Omega, Y)) W  (M_{\textrm{data} } - F^{o}(\Omega, Y))'
+	\end{eqnarray*}
+	
+	\begin{itemize}
+		\item  $\Omega$: parameters of the particular $o \in \{{fire}, {se}, {ni},{de},{seni} \} \times \{ar, sv\}$
+		\item  $\Gamma$: constraints for the parameter. 
+		\item $M_{data}$: data moments
+		\item $F$: simulated model moments according to a particular theory $o$, a function of parameters $\Omega$ as well as the $Y$, the real-time data (including history) up till each point of the time $t$. 
+		\begin{itemize}
+			\item unconditional moments, not specific to time
+			\item moments selected from average forecast, variance and autocovariance of forecasts, average diagreement, variance and autovariance of disagreement, average uncertainty, etc. 
+		\end{itemize}
+		\item  $W$: weight matrix, identity matrix for now 
+	\end{itemize}
+
+The estimation procedure is as followed. 
+
+	\begin{enumerate}
+	\item for each theory of expectation formation and the inflation process, start with an initial value for the parameter(s) of interest
+	\item simulate individual forecasts for a large enough ($N=200$) number of forecasters
+	\item compute the average forecast errors, disagreement and average uncertainty across all agents
+	\item compute the time-series moments of the average forecast, disagreement, and uncertainty
+	\item compute the difference between the simulated moments and the data moments 
+	\item keep searching the parameter value until reaching below a threshold of the loss
+\end{enumerate}
+
+We evaluate a particular theory of expectation formation based on following four sensitivity criteria: if the parameter and goodness of fit is robust to 
+\begin{enumerate}
+	\item use of different moments in estimation
+	\item alternative assumption about the underlying process 
+	\item two-step estimation or joint-estimation 
+	\item relatively fit with professionals and households  
+\end{enumerate}
+
+\subsection{Moments matching and parameter estimates}
+
+\subsection{The scoring card of different theories}
+
+\section{Conlusion}	
 	In summary, three major conclusions can be drawn from this paper.  First, full information rational expectation implicitly assumes agents share the common information and agree on the model that generates the data. Therefore, agents do not only agree on the mean forecast of a macroeconomic variable but also share the same degree of uncertainty. The empirical dispersion of individual uncertainty in future inflation seems to be inconsistent with this simple prediction. 
 	
 	Second, the rigidity of expectation from either inattention or under-reaction due to noisiness of the signals implies agents do not revise forecasts as efficiently as they do in FIRE in the face of new information. This can be seen from both a sluggish pattern of forecast revision or uncertainty reduction across different vintages of the forecast. A weaker test of this spirit uses the changes in mean forecasts and uncertainty with fixed forecasting horizon. These tests support rigidity models in addition to other null hypotheses tests of rational expectation including unbiasedness,  non-serial-correlation of forecast errors, etc.
