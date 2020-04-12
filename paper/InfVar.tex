@@ -31,7 +31,7 @@ footskip=.25in]{geometry}
 	\maketitle
 	
 	\begin{abstract}
-	Density forecasts of macroeconomic variables provide one additional moment restriction, uncertainty, for testing and exploring the implications of theories about how people form expectations differently from full-information rationality benchmark. This paper first documents the persistent dispersion in inflation uncertainty of professionals and households, and how it conveys different information from the widely used proxies to uncertainty such as cross-sectional disagreement and forecast errors. Second, utilizing the panel data structure of both surveys, I provide additional reduced-form test results as well as structural estimates for each particular theory of ``irrational expectation'' by jointly accounting for its predictions for different moments. This is a natural extension of \citet{coibion2012can}, which examines different moments separately. Also, motivated by the time-varying pattern of the uncertainty observed from surveys, I extend their work to allow for an alternative inflation process featuring stochastic volatility. These extensions allow me to match the joint dynamics of inflation and forecast moments in a better degree of fitness. It also illustrates how incorporating higher moments from survey data helps understand both the expectation formation mechanisms and inflation dynamics.   
+	Density forecasts of macroeconomic variables provide one additional moment restriction, uncertainty, for testing and exploring the implications of theories about how people form expectations differently from full-information rationality benchmark. This paper first documents the persistent dispersion in inflation uncertainty of professionals and households, and how it conveys different information from the widely used proxies to uncertainty such as cross-sectional disagreement and forecast errors. Second, utilizing the panel data structure of both surveys, I provide additional reduced-form test results as well as structural estimates for each particular theory of ``irrational expectation'' by jointly accounting for its predictions for different moments. This is a natural extension of \citet{coibion2012can}, which examines different moments separately. Also, motivated by the time-varying pattern of the uncertainty observed from surveys, I extend their work to allow for an alternative inflation process featuring stochastic volatility. These extensions allow me to match the joint dynamics of inflation and forecast moments in better goodness of fit. It also testifies how incorporating higher moments from survey data helps understand both the expectation formation mechanisms and inflation dynamics.   
 	\end{abstract}
 	
 	\newpage 
@@ -107,7 +107,7 @@ footskip=.25in]{geometry}
 	
 	To abuse the word moment in a way not completely complying with its statistical definition, I refer to the 3 individual indicators and 4 population indicators defined above as moments and they are  listed in Table \ref{MomSum}.
 	
-	\begin{table}[ht]
+	\begin{table}[p]
 		\centering
 		\caption{Definition and Notation of Moments}
 		\label{MomSum}
@@ -387,7 +387,7 @@ footskip=.25in]{geometry}
 	
 	In the first sight, the sharp rise in nowcasting uncertainty at the beginning of the period being only humbly reflected in the forecasting uncertainty seems counterintuitive. Actually, this is due to nowcasting uncertainty is discounted by the factor of $\rho^{2(h-k)}$.  (Equation \ref{VarNIEq}). It is also interesting that for the particular configurations of the noisiness of the signals, the drop in forecasting uncertainty from NI is not as inefficient as one may have expected compared to FIRE.  This has important quantitative implications for NI models. In particular, the nosiness of the signals needs to be consistent with the degree of rigidity. I will return this point in the next section.  
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\centering
 		\includegraphics[width=13cm]{figures/ni_illustration.png}  \\
 		\begin{flushleft}
@@ -447,7 +447,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	For the same parameters, however, the inefficiency seen in dynamics of uncertainty seems to be much more substantial for SE than in NI. Overall, the uncertainty drops almost as efficiently as in FIRE. The difference between SE and the FIRE benchmark is more notable. This is the graphical illustration of Equation \ref{VarSERv}. 
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\centering
 		\includegraphics[width=\textwidth]{figures/ir_popseni.png} 
 		\begin{flushleft}
@@ -468,7 +468,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	In order to understand why the rigidity seen from uncertainty is de facto much lower in NI that in SE for a sensible values of the noisiness of signals, I plot the implied rigidity from two models in Figure \ref{rigidity} for three different values of nosiness of signals in NI while fixing rigidity in SE to be $1-\lambda =0.75$. In particular, the noisiness range from $0.1$, $1$ and $10$ times of the long-run variance of $y$. 
 	
 
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\centering
 		\includegraphics[width=0.7\textwidth]{figures/rigidity.png} 
 		\begin{flushleft}
@@ -691,7 +691,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	
 	A summary of the data information is in Table \ref{DataInfo}. 
 
-	\begin{table}[ht]
+	\begin{table}[p]
 		\caption{Information of Data}
 		\label{DataInfo}
 		\begin{tabularx}{\textwidth}{|X|X|X|}
@@ -740,7 +740,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	FIRE also predicts an unambiguous reduction in uncertainty as one approaches the date of realization, where the drop is exactly equal to the volatility of the realized shocks. Although quantitatively it is hard to check this, one can look if the distribution of the uncertainty revision concentrates in the negative range. Figure \ref{RevisionHist} plots the average revision in mean forecasts and uncertainty from 1-year-ahead forecast in year $t-1$ to the current-year nowcast in year $t$. The more negative range in which the revision lies, the more ``rational'' of the forecast. Looking from the histograms, uncertainty revision shows left-skewness relative to zero. This implies on average,  forecasters feel more certain for her nowcasts relative to her forecast made one year before.  Unfortunately, since SCE does not provide the data structure for this purpose, I cannot make a comparison between two types of agents. A formal test of revision equal to zero or being negative will be carried out in Section \ref{NullTest}. 
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\centering
 		\begin{subfigure}[b]{\textwidth}
 			\centering
@@ -778,7 +778,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	\end{figure}
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\caption{Mean Forecasts}
@@ -803,7 +803,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	\end{figure}
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\caption{Mean Forecasts}
@@ -827,7 +827,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	\end{figure}
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\caption{Revision in Mean Forecasts}
@@ -863,7 +863,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	
 	Lastly, test 4 in Table \ref{NullTestTable} presents a higher serial correlation of forecast errors produced within a year. For SPF forecasts, the serial correlation does not exist beyond 1 quarter, implying relative efficiency of forecasts. For the households, the forecast errors are more persistent over the entire year in that current forecast errors are correlated with all past forecast errors over the past three quarters.  Again, although the persistence of 1-year forecast errors within one year does not directly violate FIRE, the fact that households' forecast errors being more persistent than professionals provide useful clues about the relative rigidity of the two types of agents. 
 	
-	\begin{table}[ht]
+	\begin{table}[p]
 		\caption{Tests of Rationality and Efficiency Using Forecast Errors}
 		\label{NullTestTable}
 		\centering 
@@ -940,7 +940,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	
 	The second to fourth column shows a positive serial correlation of revision in uncertainty for both CPI and PCE forecasts. The revision to CPI seems more efficient as serial correlation is with only one-quarter lag. For PCE, the revisions in uncertainty are serially correlated with all past three quarters. 
 	
-		\begin{sidewaystable}[ht]
+		\begin{sidewaystable}[p]
 			\begin{adjustbox}{width={24cm},totalheight={14cm}}
 				\begin{threeparttable}
 					\caption{Tests of Revision Efficiency Using Mean Revision and Uncertainty}
@@ -1015,7 +1015,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
    The most natural explanation for this that repeatedly surveyed households have become more informative about inflation over time. Given the unconditional forecast errors of inflation by households are positive, a downward adjustment of inflation stands for a less-biased forecast.   \footnote{The possibility that the surveys' information set is influenced by the survey itself is a double-edged sword. On one hand, this poses a methodological challenge to the survey designers of expectations as to if surveys can objectively elicit the ``true’’ expectations held by the respondents. On the other hand, researchers can use the survey as a meaningful intervention tool to identify the effect of factors such as information provision and attention. Recent examples of this type of research includes: \citet{coibion2018firms} for firms and \citet{coibion2019monetary} for households.}
     
 	
-	\begin{sidewaystable}[ht]
+	\begin{sidewaystable}[p]
 		\begin{adjustbox}{width={24cm},totalheight={14cm}}
 			\begin{threeparttable}
 				\caption{Weak Tests of Revision Efficiency Using Change in Forecasts and Uncertainty}
@@ -1102,7 +1102,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	
 	In Figure \ref{Inflationshocks}, all four shocks are plotted in quarterly between 1985-2019 and normalized by its respective sample standard deviations. 
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		\centering
 		\includegraphics[width=0.8\textwidth,totalheight=0.6\textwidth]{figures/inf_shocksQ.png}
 			\begin{flushleft}
@@ -1141,7 +1141,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	Or there are other explanations.  First, overall the monetary policy shocks contribute only a small part of the variation in inflation compared to supply shocks. This was actually used by \cite{coibion2012can} to justify why monetary policy shock was not used in their exercise.  Second,  I am just running into the same difficulty in identifying real impacts of monetary policy shocks from low frequency data as all other papers addressing this issue. 
 	
 
-\begin{figure}[ht]
+\begin{figure}[p]
 	\begin{subfigure}[b]{0.5\textwidth}
 		\centering
 		\caption{Technology and Oil Shocks}
@@ -1186,7 +1186,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	Lastly, average uncertainty does not react to monetary policy shocks in the extended period. None of the response is significantly different from zero. This is the same with technology and oil price shocks. 
 	
 
-		\begin{figure}[ht]
+		\begin{figure}[p]
 		\begin{subfigure}[b]{0.5\textwidth}
 			\centering
 			\caption{Technology and Oil Shocks}
@@ -1234,7 +1234,7 @@ Omitting the micro foundation, the following equation captures the essence of DE
 	
 	
 	
-	\begin{figure}[ht]
+	\begin{figure}[p]
 		
 		\begin{subfigure}[b]{0.35\textwidth}
 			\centering
@@ -1313,9 +1313,189 @@ We evaluate a particular theory of expectation formation based on following four
 	\item relatively fit with professionals and households  
 \end{enumerate}
 
-\subsection{Moments matching and parameter estimates}
+\subsection{Moments matching and parameter estimates (draft in process)}
 
-\subsection{The scoring card of different theories}
+Table \ref{SMM_Est_SPF} presents the SMM estimates of different model parameters. For each theory, I estimate the theory both in two-steps or jointly using expectation and inflation data. Different rows without each panel reports the estimates by using different sets of moments:forecast errors only,  forecast error and disagreement, and the two plus uncertainty.  
+
+\begin{table}[p]
+	\caption{SMM Estimates of Different Models: Professionals}
+	\label{SMM_Est_SPF}
+	\begin{tabular}{lllllll}
+		\hline 
+		\multicolumn{7}{c}{SE}                            \\
+		\hline 
+		Moments Used & \multicolumn{1}{c}{2-Step Estimate} & \multicolumn{3}{c}{Joint Estimate}                                                 &            &              \\
+			\hline 
+		& SE: $\hat\lambda_{SPF}$(Q)          & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$                & SE: $\sigma$              &            &              \\
+			\hline 
+		FE       & 0.47                                & 0.36                       & 1                         & 0.08                      &            &              \\
+		FE+Disg      & 0.47                                & 0.38                       & 1                         & 0.1                       &            &              \\
+		FE+Disg+Var  & 0.47                                & 0.36                       & 1                         & 0.08                      &            &              \\
+			\hline 
+		\multicolumn{7}{c}{NI}                                                                                                                                              \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                              & \multicolumn{4}{c}{Joint Estimate}              
+		                                  \\
+		                                  	\hline 
+		& NI: $\hat\sigma_{pb,SPF}$           & $\hat\sigma_{pr,SPF}$      & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$     & NI: $\rho$ & NI: $\sigma$ \\
+			\hline 
+		FE        & 0.09                                & 2.77                       & 0.093                     & 1.408                     & 0.911      & 0.422        \\
+		FE+Disg      & 0.09                                & 2.77                       & 0.093                     & 1.408                     & 0.911      & 0.422        \\
+		FE+Disg+Var  & 0.14                                & 3.85                       & 0.133                     & 1.359                     & 0.911      & 0.422        \\
+			\hline 
+		\multicolumn{7}{c}{DE}                                                                                                                                              \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                              & \multicolumn{4}{c}{Joint Estimate}                                                \\
+			\hline 
+		& DE: $\theta_{SPF}$                  & DE: $\sigma_{\theta,SPF}$  & DE: $\theta_{SPF}$        & DE: $\sigma_{\theta,SPF}$ & DE: $\rho$ & DE: $\sigma$ \\
+			\hline 
+		FE       & -0.23                               & 0.22                       & NA                        & NA                        & NA         & NA           \\
+		FE+Disg      & -0.26                               & 1.41                       & -0.14                     & 1.44                      & 0.99       & 0.16         \\
+		FE+Disg+Var  & -0.24                               & 1.43                       & -0.17                     & 1.44                      & 0.99       & 0.16       \\ 
+			\hline 
+	\end{tabular}
+\end{table}
+
+\begin{table}[p]
+	\caption{SMM Estimates of Different Models: Households}
+	\label{SMM_Est_SCE}
+	\begin{tabular}{lllllll}
+		\hline 
+		\multicolumn{7}{c}{SE}                                                               
+		                                                      \\
+		                                          \hline 
+		Moments Used & 2-Step Estimate            & \multicolumn{3}{c}{Joint Estimate}                                                 &            &              \\
+		\hline 
+		& SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\rho$                & SE: $\sigma$              &            &              \\
+			\hline   
+		FE        & 0.2                        & 0.5                        & 0.84                      & 0.25                      &            &              \\
+		FE+Disg      & 0.21                       & 0.54                       & 0.92                      & 0.18                      &            &              \\
+		FE+Disg+Var  & 0.21                       & 0.5                        & 0.84                      & 0.25                      &            &              \\
+			\hline   
+		\multicolumn{7}{c}{NI}                                                                                                                                   \\
+			\hline   
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                     & \multicolumn{4}{c}{Joint Estimate}                                                \\
+		\hline 
+		& NI: $\hat\sigma_{pb,SPF}$  & $\hat\sigma_{pr,SPF}$      & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$     & NI: $\rho$ & NI: $\sigma$ \\
+		\hline 
+		FE        & 3.4                        & 15.4                       & 3.397                     & 15.395                    & 0.997      & 0.027        \\
+		FE+Disg      & 3.4                        & 15.4                       & 3.397                     & 15.395                    & 0.997      & 0.027        \\
+		FE+Disg+Var  & 4.9                        & 22.4                       & 4.860                     & 22.367                    & 0.997      & 0.027        \\
+		\hline 
+		\multicolumn{7}{c}{DE}                                                                                                                                     \\
+		\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                     & \multicolumn{4}{c}{Joint Estimate}                                                \\
+		\hline 
+		& DE: $\theta_{SPF}$         & DE: $\sigma_{\theta,SPF}$  & DE: $\theta_{SPF}$        & DE: $\sigma_{\theta,SPF}$ & DE: $\rho$ & DE: $\sigma$ \\
+		\hline 
+		FE       & 9.35                       & 10.65                      & 0.82                      & 0.85                      & 1          & 0            \\
+		FE+Disg      & 8.2                        & 9.52                       & 4.79                      & 4.59                      & 0.58       & 0.55         \\
+		FE+Disg+Var  & 4.78                       & 3.01                       & NA                        & NA                        & NA         & NA          \\
+		\hline 
+	\end{tabular}
+\end{table}
+
+\begin{table}[p]
+		\centering
+		\caption{SMM Estimates of Different Models under Stocastic Volatility: Professionals}
+	\label{SMM_Est_sv_SPF}
+	\begin{tabular}{llllll}
+			\hline 
+		\multicolumn{6}{c}{SE}                                                                                                                         \\
+			\hline 
+		Moments Used & \multicolumn{1}{c}{2-Step Estimate} & \multicolumn{2}{c}{Joint Estimate}                     &                       &          \\
+			\hline 
+		& SE: $\hat\lambda_{SPF}$(Q)          & SE: $\hat\lambda_{SPF}$(Q) & SE: $\gamma$              &                       &          \\
+			\hline 
+		FE        & 0.3                                 & 0.46                       & 2.52                      &                       &          \\
+		FE+Disg      & 0.3                                 & 0.46                       & 2.53                      &                       &          \\
+		FE+Disg+Var  & 0.3                                 & 0.46                       & 1.26                      &                       &          \\
+			\hline 
+		\multicolumn{6}{c}{NI}                                                                                                                         \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                              & \multicolumn{3}{l}{Joint Estimate}                           \\
+			\hline 
+		& NI: $\hat\sigma_{pb,SPF}$           & $\hat\sigma_{pr,SPF}$      & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $\gamma$ \\
+			\hline 
+		FE       & 2.35                                & 2                          & 2.04                      & 23.01                 & 2.53     \\
+		FE+Disg      & 37475663924                         & 4.8                        & 70269682.39               & 10.18                 & -2.91    \\
+		FE+Disg+Var  & 3.33                                & 1.71                       & 2.04                      & 22.96                 & 2.53     \\
+			\hline 
+		\multicolumn{6}{c}{DE}                                                                                                                         \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                              & \multicolumn{3}{c}{Joint Estimate}                           \\
+		& DE: $\theta$                        & $\sigma_\theta$            & DE: $\theta$              & $\sigma_\theta$       & $\gamma$ \\
+			\hline 
+		FE        & -0.44                               & 0.36                       & -0.43                     & 1.03                  & 0.13     \\
+		FE+Disg      & -0.44                               & 0.27                       & -0.44                     & -0.27                 & 0.3      \\
+		FE+Disg+Var  & -0.43                               & 0.26                       & -0.43                     & 0.26                  & 0.14    \\
+		\hline 
+	\end{tabular}
+\end{table}
+
+\begin{table}[p]
+		\centering
+		\caption{SMM Estimates of Different Models under Stocastic Volatility: Households}
+	\label{SMM_Est_sv_SCE}
+	\begin{tabular}{llllll}
+			\hline 
+		\multicolumn{6}{c}{SE}         \\
+			\hline            
+		Moments Used & 2-Step Estimate            & \multicolumn{2}{c}{Joint Estimate}                     &                       &          \\
+			\hline 
+		& SE: $\hat\lambda_{SPF}$(Q) & SE: $\hat\lambda_{SPF}$(Q) & SE: $\gamma$      
+		        &                       &          \\
+		        	\hline 
+		FE           & 0.09                       & 0.09                       & 0.7                       &                       &          \\
+		FE+Disg      & 0.07                       & 0.07                       & 0.26                      &                       &          \\
+		FE+Disg+Var  & 0.07                       & 0.07                       & 0.26                      &                       &          \\
+			\hline 
+		\multicolumn{6}{c}{NI}                                                                                                                \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                     & \multicolumn{3}{c}{Joint Estimate}                           \\
+			\hline 
+		& NI: $\hat\sigma_{pb,SPF}$  & $\hat\sigma_{pr,SPF}$      & NI: $\hat\sigma_{pb,SPF}$ & $\hat\sigma_{pr,SPF}$ & $\gamma$ \\
+			\hline 
+		FE           & NA                         & NA                         & NA                        & NA                    & NA       \\
+		FE+Disg      & NA                         & NA                         & NA                        & NA                    & NA       \\
+		FE+Disg+Var  & NA                         & NA                         & NA                        & NA                    & NA       \\
+			\hline 
+		\multicolumn{6}{l}{DE}                                                                                                                \\
+			\hline 
+		Moments Used & \multicolumn{2}{c}{2-Step Estimate}                     & \multicolumn{3}{c}{Joint Estimate}                           \\
+			\hline 
+		& DE: $\theta$               & $\sigma_\theta$            & DE: $\theta$              & $\sigma_\theta$       & $\gamma$ \\
+			\hline 
+		FE           & 7.81                       & 4.39                       & 7.81                      & 2.99                  & 0.7      \\
+		FE+Disg      & 7.64                       & 6.46                       & 7.64                      & 6.46                  & 0.7      \\
+		FE+Disg+Var  & 1.03                       & 0                          & 1.03                      & 0                     & 0.2     \\
+		\hline 
+	\end{tabular}
+\end{table}
+
+
+\subsection{The scoring card of different theories (draft in process)}}
+
+Table \ref{scoringcard} presents the evaluation of the three theories based on its sensitivity of goodnedss of fit and parameter estimate with respect to four criteria. Based on the evaluation, sticky expectation seems to capture the average behavior of expectations better than the other two theories. Diagnostic expectation shows similar degree of performance according to these criteria, but the average estimation does not show overreaction in lign with the premise of the theory. 
+
+	\begin{table}[p]
+	\caption{A scoring card of different theory} 
+	\label{scoringcard}
+	\centering
+	\begin{tabular}{llll}
+		\hline 
+		Criteria                                    & SE     & NI  & DE     \\
+		\hline 
+		Sensitive to moments used for estimation?   & No     & No  & No     \\
+		Sensitive to the assumed inflation process? & No     & Yes & No     \\
+		Sensitive to a two-step or joint estimate?  & No     & Yes & No     \\
+		Sensitive to the type of agents?            & Yes    & Yes & Yes    \\
+		Matching with FE                            & Yes    & Yes & Yes    \\
+		Matching with disagreement                  & Yes    & No  & Unsure \\
+		Matching with uncertainty                   & Unsure & No  & No    \\
+		\hline 
+	\end{tabular}
+\end{table}
 
 \section{Conlusion}	
 	In summary, three major conclusions can be drawn from this paper.  First, full information rational expectation implicitly assumes agents share the common information and agree on the model that generates the data. Therefore, agents do not only agree on the mean forecast of a macroeconomic variable but also share the same degree of uncertainty. The empirical dispersion of individual uncertainty in future inflation seems to be inconsistent with this simple prediction. 
@@ -1324,7 +1504,8 @@ We evaluate a particular theory of expectation formation based on following four
 	
 	Lastly, the directly estimated response of households and professional forecasters' expectation to shocks to inflation suggest that rigidity differs across the shocks. In particular, professional forecasters are more responsive to monetary policy shocks and households are more responsive to oil price shocks. This motivates a next-step analysis of how much resolution of uncertainty can be attributed to the volatility of various shocks. This shows the use of uncertainty.
 	
-	So far, the dynamics of moments are separately estimated for each moment. Therefore, as a natural extension of the current analysis, one can undertake a generalized method of moment (GMM) estimation that simultaneously utilizes multi-moment restrictions to recover a better estimate of the rigidity parameters.  This will provide a better parameter that can be used in structural macro models that build in the rigidity of expectations. 
+	Finally, the cross-moment estimation developed by this paper jointly accounting for the moments predictions provides a unified framework of evaluating different theories. The estimation suggest that among all combined theory of expectation formation and inflation process, sticky expectation (SE) augmented with stochastic volatility of inflation process matches data of inflation and expectations better than other theories for both professionals and households. The exercise also shows that incorporating higher moments, i.e. uncertainty,  helps ``discipline'' theories on expectation formation. Besides, higher moments from surveys also contain useful information about the inflation dynamics itself
+	
 	
 	\bibliographystyle{apalike}
 	\bibliography{InfVar}
