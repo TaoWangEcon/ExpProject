@@ -19,45 +19,45 @@ Warning--there's a number but no volume in armantier2017overview
 Warning--empty journal in fuhrer2018intrinsic
 Warning--empty journal in laseen2011anticipated
 Warning--there's a number but no volume in van2008rethinking
-You've used 44 entries,
+You've used 45 entries,
             1935 wiz_defined-function locations,
-            732 strings with 10472 characters,
-and the built_in function-call counts, 16940 in all, are:
-= -- 1715
-> -- 592
+            735 strings with 10602 characters,
+and the built_in function-call counts, 17299 in all, are:
+= -- 1749
+> -- 615
 < -- 29
-+ -- 200
-- -- 190
-* -- 1488
-:= -- 2952
-add.period$ -- 130
-call.type$ -- 44
-change.case$ -- 319
++ -- 209
+- -- 198
+* -- 1518
+:= -- 3023
+add.period$ -- 133
+call.type$ -- 45
+change.case$ -- 329
 chr.to.int$ -- 44
-cite$ -- 48
-duplicate$ -- 607
-empty$ -- 1222
-format.name$ -- 260
-if$ -- 3261
-int.to.chr$ -- 1
+cite$ -- 49
+duplicate$ -- 618
+empty$ -- 1240
+format.name$ -- 269
+if$ -- 3326
+int.to.chr$ -- 2
 int.to.str$ -- 0
 missing$ -- 40
-newline$ -- 221
-num.names$ -- 132
-pop$ -- 221
+newline$ -- 226
+num.names$ -- 135
+pop$ -- 229
 preamble$ -- 1
-purify$ -- 315
+purify$ -- 324
 quote$ -- 0
-skip$ -- 467
+skip$ -- 474
 stack$ -- 0
-substring$ -- 1402
+substring$ -- 1414
 swap$ -- 46
 text.length$ -- 1
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 262
+type$ -- 268
 warning$ -- 4
-while$ -- 159
+while$ -- 161
 width$ -- 0
-write$ -- 567
+write$ -- 580
 (There were 3 error messages)

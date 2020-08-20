@@ -38,8 +38,13 @@ Bloom, N. (2009).
 \newblock The impact of uncertainty shocks.
 \newblock {\em econometrica}, 77(3):623--685.
 
-\bibitem[Bordalo et~al., 2018]{bordalo2018diagnostic}
-Bordalo, P., Gennaioli, N., and Shleifer, A. (2018).
+\bibitem[Bordalo et~al., 2018a]{bordalo2018over}
+Bordalo, P., Gennaioli, N., Ma, Y., and Shleifer, A. (2018a).
+\newblock Over-reaction in macroeconomic expectations.
+\newblock Technical report, National Bureau of Economic Research.
+
+\bibitem[Bordalo et~al., 2018b]{bordalo2018diagnostic}
+Bordalo, P., Gennaioli, N., and Shleifer, A. (2018b).
 \newblock Diagnostic expectations and credit cycles.
 \newblock {\em The Journal of Finance}, 73(1):199--227.
 

@@ -417,18 +417,18 @@ footskip=.25in]{geometry}
 	
 	\subsection{Diagnostic Expectations (DE)}
 	
-	Different from the previous two theories, diagnostic expectation (\cite{bordalo2018diagnostic}) is developed in the literature to account for extrapolative expectations that feature overreactions to the news. Both SE and NI deviate from FIRE in terms of the information set available to the agents, while DE deviates from FIRE in terms of the processing of an otherwise fully updated information set. 		
+	Different from the previous two theories, diagnostic expectation (\cite{bordalo2018diagnostic}) is developed in the literature to account for extrapolative expectations that feature overreactions to the news  (\cite{bordalo2018over}). Both SE and NI deviate from FIRE in terms of the information set available to the agents, while DE deviates from FIRE in terms of the processing of an otherwise fully updated information set. 		
 
 Omitting the micro foundation, the following equation captures the essence of DE's mechanism. Each individual $i$'s h-period-ahead forecast consists of two components. The first component can be considered as a rational forecast based on the fully updated $y_t$. The second component corresponds to the potential overreaction to the unexpected shock to inflation at time t, i.e. the forecast error. The degree of overreaction is governed by the parameter $\theta$. The premise of DE models is that $\theta \geq 0$. The forecast collapses to the FIRE when $\theta = 0$. Any $\theta>0$ implies cases in which the agent revises her forecast overly to the realized forecast error in the same direction.
 
- while since agents extrapolates whatever is considered 
+
 		\begin{eqnarray}
 		\begin{aligned}
 			\bar y_{i,t+h|t}  =  \rho^h y_{t} + \theta_i (\rho^h y_t - \bar y_{i,t+h|t-1})
 		\end{aligned}
 	\end{eqnarray}
 	
-	 I allow $\theta$ to be different across different agents, therefore, I add the subscript $i$ to the parameter. Since agents are equally informed about the realizations of the variable, the only room for disagreement to rise is either difference in the initial information set or the degree of overreaction differs across people. To capture this, I assume $\theta_i$ to follow a normal distribution across the population with a variance of $\sigma_{\epsilon}$. It will be estimated along with $\theta$. 
+	 I allow $\theta$ to be different across different agents, therefore, I add the subscript $i$ to the parameter. Since agents are equally informed about the realizations of the variable, the only room for disagreement to rise is either difference in the initial information set or the degree of overreaction differs across people. To capture this, I assume $\theta_i$ to follow a normal distribution across the population with a variance of $\sigma_{\epsilon}$. It will be estimated along with $\theta_i$. 
 	 
 	 Finally as to the uncertainty, since the mechanism of extrapolation in DE does not change the agent's perceived distribution of the future shocks, benchmark DE theory predicts the forecast uncertainty to remain the same as the rational expectation. 
 
@@ -1315,7 +1315,7 @@ We evaluate a particular theory of expectation formation based on following four
 
 \subsection{Moments matching and parameter estimates (draft in process)}
 
-Table \ref{SMM_Est_SPF} presents the SMM estimates of different model parameters. For each theory, I estimate the theory both in two-steps or jointly using expectation and inflation data. Different rows without each panel reports the estimates by using different sets of moments:forecast errors only,  forecast error and disagreement, and the two plus uncertainty.  
+Table \ref{SMM_Est_SPF} presents the SMM estimates of different model parameters. For each theory, I estimate the theory both in two steps or jointly using expectations and inflation data. Different rows within each panel reports the estimates depending on various choices of moments used for estimation: forecast errors only,  forecast error and disagreement, and the two plus uncertainty.  
 
 \begin{table}[p]
 	\caption{SMM Estimates of Different Models: Professionals}
@@ -1473,13 +1473,12 @@ Table \ref{SMM_Est_SPF} presents the SMM estimates of different model parameters
 	\end{tabular}
 \end{table}
 
+\subsection{The scoring card of different theories (draft in process)}
 
-\subsection{The scoring card of different theories (draft in process)}}
-
-Table \ref{scoringcard} presents the evaluation of the three theories based on its sensitivity of goodnedss of fit and parameter estimate with respect to four criteria. Based on the evaluation, sticky expectation seems to capture the average behavior of expectations better than the other two theories. Diagnostic expectation shows similar degree of performance according to these criteria, but the average estimation does not show overreaction in lign with the premise of the theory. 
+Table \ref{scoringcard} reports my evaluation of the three theories based on four sensitivity criteria we discussed in the previous section. According to this evaluation, the sticky expectation seems to capture the average behavior of expectations better than the other two theories. Diagnostic expectation shows similar degree of performance according to these criteria, but the average estimation does not show overreaction in lign with the premise of the theory. 
 
 	\begin{table}[p]
-	\caption{A scoring card of different theory} 
+	\caption{A scoring card of different theories} 
 	\label{scoringcard}
 	\centering
 	\begin{tabular}{llll}
