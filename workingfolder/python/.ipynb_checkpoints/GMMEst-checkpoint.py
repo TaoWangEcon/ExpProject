@@ -15,7 +15,7 @@
 
 # ## GMM Estimation of Model Parameters of Expectation Formation
 #
-# - This notebook includes functions that estimate the parameter of rigidity for different models
+# - This notebook includes functions that estimate the parameters of different theories
 # - It allows for flexible choices of moments to be used, forecast error, disagreement, and uncertainty, etc. 
 # - It includes 
 #   - A general function that implements the estimation using the minimum distance algorithm. 
@@ -143,7 +143,7 @@ process_para = {'rho':rho,
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.4}
 
-# + {"code_folding": [0, 3, 4, 30, 43, 59, 110, 144, 180, 249, 319, 348, 377, 387, 395, 418, 441, 468, 506, 544, 576, 605, 630, 644, 671, 683, 695, 710, 725, 737, 759, 813, 829]}
+# + {"code_folding": [0, 4, 30, 43, 59, 110, 144, 180, 249, 319, 348, 377, 387, 395, 418, 441, 468, 506, 544, 576, 605, 630, 644, 671, 683, 695, 710, 725, 737, 813, 829]}
 ## Sticky Expectation(SE) class 
 
 
@@ -929,7 +929,7 @@ class StickyExpectation:
         ## plot 
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.ForecasterSim()
+        self.forecast_moments_est = new_instance.ForecasterbySim()
         plt.style.use('ggplot')
         if all_moms == False:
             moments_to_plot = self.moments
@@ -998,7 +998,7 @@ class StickyExpectation:
         self.wm_boot = np.linalg.inv(self.vcv_boot)               
 
 
-# + {"code_folding": [3, 32, 45, 59, 129, 207, 222, 234, 286, 319, 356, 389, 401, 422, 455, 484, 495, 507, 522, 550, 587, 595, 610, 626, 657, 670, 682, 694, 713, 774, 791]}
+# + {"code_folding": [3, 32, 45, 59, 129, 207, 222, 234, 286, 319, 356, 389, 401, 422, 455, 484, 495, 507, 522, 550, 587, 595, 610, 626, 657, 670, 682, 694, 774, 791]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1743,7 +1743,7 @@ class NoisyInformation:
         
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.ForecasterSim()
+        self.forecast_moments_est = new_instance.ForecasterbySim()
         plt.style.use('ggplot')
         if all_moms == False:
             moments_to_plot = self.moments
@@ -1818,7 +1818,7 @@ class NoisyInformation:
 DE_para_default = {'theta':0.1,
                   'theta_sigma':0.1}
 
-# + {"code_folding": [4, 24, 28, 45, 79, 120, 188, 218, 259, 289, 314, 344, 362, 385]}
+# + {"code_folding": [4, 24, 28, 45, 79, 120, 188, 218, 259, 289, 314, 344, 362, 446, 463]}
 ## Diagnostic Expectation(DE) class
 
 
@@ -1965,11 +1965,11 @@ class DiagnosticExpectation:
         nowcasts_to_burn[:,0] = history[0]
         Vars_to_burn[:,:] = hstepvar(horizon,sigma,rho)
         
-        ## look back for the most recent last update for each point of time  
+        ## diagnostic and extrapolative expectations 
         for i in range(n_sim):
             this_theta = thetas[i]
             for j in range(n_history-1):
-                nowcasts_to_burn[i,j+1] = history[j]+ this_theta*(history[j+1]-rho*history[j])  # can be nowcasting[j-1] instead
+                nowcasts_to_burn[i,j+1] = history[j+1]+ this_theta*(history[j+1]-rho*history[j])  # can be nowcasting[j-1] instead
         
         ## burn initial forecasts since history is too short 
         nowcasts = np.array( nowcasts_to_burn[:,n_burn:] )
@@ -2023,7 +2023,7 @@ class DiagnosticExpectation:
         
         DE_para = {"theta":paras[0],
                   "theta_sigma":paras[1]}
-        self.exp_para = DE_para  # give the new lambda
+        self.exp_para = DE_para  
         
         DE_moms_scalar_dct = self.SMM().copy()
         DE_moms_scalar = np.array([DE_moms_scalar_dct[key] for key in moments] )
@@ -2059,8 +2059,8 @@ class DiagnosticExpectation:
         ## get data and model moments conditions 
         
         data_moms_scalar_dct = self.data_moms_scalar_dct
-        SE_moms_scalar_dct = self.SMM().copy()
-        SE_moms_scalar = np.array([SE_moms_scalar_dct[key] for key in moments] )
+        DE_moms_scalar_dct = self.SMM().copy()
+        DE_moms_scalar = np.array([DE_moms_scalar_dct[key] for key in moments] )
         data_moms_scalar = np.array([data_moms_scalar_dct[key] for key in moments] )
         
         process_moms = np.array([ProcessMoments[key] for key in ProcessMoments.keys()])
@@ -2236,7 +2236,7 @@ class DiagnosticExpectation:
         ## plot 
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.ForecasterSim()
+        self.forecast_moments_est = new_instance.ForecasterbySim()
         plt.style.use('ggplot')
         if all_moms == False:
             moments_to_plot = self.moments
@@ -2248,16 +2248,16 @@ class DiagnosticExpectation:
         if diff_scale == False:
             for i,val in enumerate(moments_to_plot):
                 plt.subplot(m_ct,1,i+1)
-                plt.plot(self.forecast_moments_est[val],'s-',label='model:'+ val)
-                plt.plot(np.array(self.data_moms_dct[val]),'o-',label='data:'+ val)
-                plt.legend(loc=1)
+                plt.plot(self.forecast_moments_est[val][:-1],'s-',label='model:'+ val)
+                plt.plot(np.array(self.data_moms_dct[val][:-1]),'o-',label='data:'+ val)
+                plt.legend(loc = 1)
         if diff_scale == True:
             for i,val in enumerate(moments_to_plot):
                 ax1 = plt.subplot(m_ct,1,i+1)
-                ax1.plot(self.forecast_moments_est[val],'rs-',label='model:'+ val)
+                ax1.plot(self.forecast_moments_est[val][:-1],'rs-',label='model:'+ val)
                 ax1.legend(loc=0)
                 ax2 = ax1.twinx()
-                ax2.plot(np.array(self.data_moms_dct[val]),'o-',color='steelblue',label='(RHS) data:'+ val)
+                ax2.plot(np.array(self.data_moms_dct[val][:-1]),'o-',color='steelblue',label='(RHS) data:'+ val)
                 ax2.legend(loc=3)
                 
                 
@@ -2313,7 +2313,7 @@ SENI_para_default = {'lambda':0.1,
                      'sigma_pb':0.1,
                      'sigma_pr':0.1}
 
-# + {"code_folding": [6, 30, 44, 61, 95, 136, 245, 276, 316, 350, 382, 407, 438, 456, 522, 540]}
+# + {"code_folding": [30, 44, 61, 95, 245, 276, 316, 350, 382, 407, 438, 522, 540]}
 ## Hybrid SENI Class 
 
 ## Diagnostic Expectation(DE) class
@@ -2775,24 +2775,24 @@ class StickyNoisyHybrid:
                          diff_scale = False,
                          how ="GMMs"):
         if how =="GMMs":
-            exp_para_est_dct = {'lbd':self.para_est[0],
+            exp_para_est_dct = {'lambda':self.para_est[0],
                                 'sigma_pb':self.para_est[1],
                                'sigma_pr':self.para_est[2]}
         elif how == "GMM":
-            exp_para_est_dct = {'lbd':self.para_estGMM[0],
+            exp_para_est_dct = {'lambda':self.para_estGMM[0],
                                 'sigma_pb':self.para_estGMM[1],
                                'sigma_pr':self.para_estGMM[2]}
         elif how == "SMM":
-            exp_para_est_dct = {'lbd':self.para_estSMM[0],
+            exp_para_est_dct = {'lambda':self.para_estSMM[0],
                                 'sigma_pb':self.para_estSMM[1],
                                'sigma_pr':self.para_estSMM[2]}
         elif how =="SMMs":
-            exp_para_est_dct = {'lbd':self.para_est_sim[0],
+            exp_para_est_dct = {'lambda':self.para_est_sim[0],
                                 'sigma_pb':self.para_est_sim[1],
                                'sigma_pr':self.para_est_sim[2]}
         elif how =="SMMjoint":
             lbd,sigma_pb,sigma_pr,rho,sigma = self.para_est_SMM_joint
-            exp_para_est_dct = {'labmda':lbd,
+            exp_para_est_dct = {'lambda':lbd,
                                 'sigma_pb':sigma_pb,
                                'sigma_pr':sigma_pr}
             process_para_est_dct = {'rho':rho,
@@ -2807,7 +2807,7 @@ class StickyNoisyHybrid:
         
         new_instance = cp.deepcopy(self)
         new_instance.exp_para = exp_para_est_dct
-        self.forecast_moments_est = new_instance.ForecasterSim()
+        self.forecast_moments_est = new_instance.ForecasterbySim()
         plt.style.use('ggplot')
         if all_moms == False:
             moments_to_plot = self.moments

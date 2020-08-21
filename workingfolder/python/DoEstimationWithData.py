@@ -26,10 +26,10 @@ import numpy as np
 from scipy.optimize import minimize
 
 import statsmodels.api as sm
-from statsmodels.tsa.api import AR
+from statsmodels.tsa.api import AutoReg as AR
 # -
 
-from GMMEst import RationalExpectation as re
+#from GMMEst import RationalExpectation as re
 from GMMEst import StickyExpectation as se
 from GMMEst import NoisyInformation as ni
 from GMMEst import ParameterLearning as pl
@@ -160,21 +160,21 @@ CPICQ = InfQ['Inf1y_CPICore'].copy().loc[start_t:end_t]
 Y = np.array(CPICQ[1:])
 X = np.array(CPICQ[:-1])
 
-ARmodel = AR(CPICQ)
-ar_rs = ARmodel.fit(1,trend='nc')
+ARmodel = AR(CPICQ,lags=1,trend='n')
+ar_rs = ARmodel.fit()
 rhoQ_est = ar_rs.params[0]
 sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 
 ###################
 ### monthly data ##
-####################
+###################
 
 CPIM = InfM['Inf1y_CPIAU'].copy().loc[start_t:end_t]
 Y = np.array(CPIM[1:])
 X = np.array(CPIM[:-1])
 
-ARmodel2 = AR(CPIM)
-ar_rs2 = ARmodel2.fit(1,trend='nc')
+ARmodel2 = AR(CPIM,lags=1,trend='n')
+ar_rs2 = ARmodel2.fit()
 rhoM_est = ar_rs2.params[0]
 sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
 
@@ -195,7 +195,12 @@ ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 indexQ = CPICQ.index
 
 ## get history data quarterly and monthly respectively 
-historyQ = real_time_inf.loc[indexQ].loc[st_t_history:ed_t_SPF] ## this is monthly. wrong. 
+af = indexQ >= st_t_history 
+bf = indexQ <=ed_t_SPF
+time_filter = np.logical_and(af,bf)
+time_filter_idx = indexQ[time_filter]
+
+historyQ = real_time_inf.loc[time_filter_idx] ## this is monthly. wrong. 
 historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
 
 # + {"code_folding": [0]}
@@ -246,7 +251,7 @@ exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 data_moms_dct_SCE = dict(exp_data_SCE)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## real time and history 
 
 ################
@@ -274,6 +279,8 @@ process_paraM_est = {'rho':rhoM_est,
                     'sigma':sigmaM_est}
 
 # + {"code_folding": []}
+"""
+###############
 ## RE for SPF #
 ###############
 
@@ -291,7 +298,11 @@ re_data_plot = ForecastPlotDiag(re_dict,
                                 data_moms_dctQ)
 plt.savefig('figures/spf_re_est_diag.png')
 
+"""
+
+
 # + {"code_folding": []}
+"""
 ## RE for SCE #
 ###############
 
@@ -310,7 +321,9 @@ re_data_plot2 = ForecastPlotDiag(re_dict2,
                                  diff_scale = True)
 plt.savefig('figures/sce_re_est_diag.png')
 
-# + {"code_folding": []}
+"""
+
+# + {"code_folding": [0, 14]}
 ## SE loop estimation overdifferent choieces of moments for SPF
 
 moments_choices_short = [['Forecast']]
@@ -373,10 +386,10 @@ spf_se_joint_est_para = pd.DataFrame(para_est_SPF_joint_holder,
 
 spf_se_est_para
 
-# +
+# + {"code_folding": []}
 #spf_se_joint_est_para
 
-# + {"code_folding": [13, 20]}
+# + {"code_folding": [0, 13, 20]}
 ## SE loop estimation over different choieces of moments for SCE
 
 moments_choices_short =[['Forecast']]
@@ -680,5 +693,7 @@ pl_plot = ForecastPlotDiag(moms_pl_sim2,
 
 plt.savefig('figures/sce_pl_est_diag.png')
 # -
+
+
 
 

@@ -98,7 +98,7 @@ real_time_inf.tail()
 # ### 3. Estimating using real-time inflation and expectation data
 #
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## exapectation data from SPF 
 PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
 PopQ = PopQ[-PopQ.date.isnull()]
@@ -125,7 +125,7 @@ dateQ_str2 = dateQ2.dt.year.astype(int).astype(str) + \
              "Q" + dateQ2.dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## process parameters estimation 
 # period filter 
 start_t='1995-01-01'
@@ -195,7 +195,7 @@ SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var',
 SPF_est = pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
 SCE_est = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## hisotries data, the series ends at the same dates with real-time data but startes earlier 
 
 st_t_history = '2000-01-01'
@@ -204,6 +204,9 @@ ed_t_SCE = SCE_est.index[-1].strftime('%Y-%m-%d')
 
 historyQ = real_time_inf.copy().loc[st_t_history:ed_t_SPF]
 historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
+# -
+
+historyQ.index
 
 # + {"code_folding": [0]}
 # How large is the difference between current vintage and real-time data
@@ -287,7 +290,7 @@ process_paraM_est = {'rho':rhoM_est,
                     'sigma':sigmaM_est}
 
 
-# +
+# + {"code_folding": [0]}
 ## function of moving average 
 def mvavg(array,
           window = 3):

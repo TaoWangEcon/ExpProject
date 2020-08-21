@@ -15,7 +15,7 @@
 
 # ## GMM Estimation of Model Parameters of Expectation Formation
 #
-# - This notebook includes functions that estimate the parameter of rigidity for different models
+# - This notebook includes functions that estimate the parameters of different theories
 # - It allows for flexible choices of moments to be used, forecast error, disagreement, and uncertainty, etc. 
 # - It includes 
 #   - A general function that implements the estimation using the minimum distance algorithm. 
@@ -129,21 +129,21 @@ def AR1_simulator(rho,sigma,nobs):
     return xxx[1:]
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## some process parameters 
 rho = 0.95
 sigma = 0.1
 process_para = {'rho':rho,
                 'sigma':sigma}
 
-# +
+# + {"code_folding": []}
 ## Rational Expectation
 
 # + {"code_folding": []}
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.4}
 
-# + {"code_folding": [0, 4, 30, 43, 59, 110, 144, 180, 249, 319, 348, 377, 387, 395, 418, 441, 468, 506, 544, 576, 605, 630, 644, 671, 683, 695, 710, 725, 737, 813, 829]}
+# + {"code_folding": [3, 30, 43, 59, 110, 144, 180, 249, 319, 348, 377, 387, 395, 418, 441, 468, 506, 544, 576, 605, 630, 644, 671, 683, 695, 710, 725, 737, 813, 829]}
 ## Sticky Expectation(SE) class 
 
 
@@ -998,7 +998,7 @@ class StickyExpectation:
         self.wm_boot = np.linalg.inv(self.vcv_boot)               
 
 
-# + {"code_folding": [3, 32, 45, 59, 129, 207, 222, 234, 286, 319, 356, 389, 401, 422, 455, 484, 495, 507, 522, 550, 587, 595, 610, 626, 657, 670, 682, 694, 774, 791]}
+# + {"code_folding": [2, 3, 32, 45, 59, 129, 207, 222, 234, 286, 319, 356, 389, 401, 422, 455, 484, 495, 507, 522, 550, 587, 595, 610, 626, 657, 670, 682, 694, 774, 791]}
 ## Noisy Information(NI) class 
 
 class NoisyInformation:
@@ -1818,7 +1818,7 @@ class NoisyInformation:
 DE_para_default = {'theta':0.1,
                   'theta_sigma':0.1}
 
-# + {"code_folding": [4, 24, 28, 45, 79, 120, 188, 218, 259, 289, 314, 344, 362, 446, 463]}
+# + {"code_folding": [0, 4, 24, 28, 45, 79, 120, 188, 218, 259, 289, 314, 344, 362, 385, 446, 463]}
 ## Diagnostic Expectation(DE) class
 
 
@@ -2313,7 +2313,7 @@ SENI_para_default = {'lambda':0.1,
                      'sigma_pb':0.1,
                      'sigma_pr':0.1}
 
-# + {"code_folding": [30, 44, 61, 95, 245, 276, 316, 350, 382, 407, 438, 522, 540]}
+# + {"code_folding": [5, 30, 44, 61, 95, 245, 276, 316, 350, 382, 407, 438, 522, 540]}
 ## Hybrid SENI Class 
 
 ## Diagnostic Expectation(DE) class
