@@ -188,7 +188,7 @@ process_para = {'rho':rho,
 
 # ## RE model 
 
-# + {"code_folding": [0, 2, 16, 19, 30, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
+# + {"code_folding": [2, 16, 19, 66, 93, 135, 160, 187, 201, 216, 229, 232, 250, 281]}
 ## Rational Expectation (RE) class 
 class RationalExpectation:
     def __init__(self,
@@ -546,7 +546,7 @@ class RationalExpectation:
 ## SE expectation parameters 
 SE_para_default = {'lambda':0.4}
 
-# + {"code_folding": [3, 4, 26, 30, 43, 59, 111, 145, 183, 252, 322, 351, 380, 390, 398, 420, 442, 468, 506, 544, 576, 605, 613, 630, 644, 657, 663, 671, 683, 695, 710, 725, 737, 759, 813, 829]}
+# + {"code_folding": [4, 30, 43, 59, 111, 145, 183, 252, 322, 351, 380, 390, 398, 420, 442, 468, 506, 544, 576, 605, 613, 630, 644, 657, 663, 671, 683, 695, 710, 725, 737, 759, 813, 829]}
 ## Sticky Expectation(SE) class 
 
 

@@ -98,7 +98,7 @@ real_time_inf.tail()
 # ### 3. Estimating using real-time inflation and expectation data
 #
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## exapectation data from SPF 
 PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
 PopQ = PopQ[-PopQ.date.isnull()]
@@ -125,7 +125,7 @@ dateQ_str2 = dateQ2.dt.year.astype(int).astype(str) + \
              "Q" + dateQ2.dt.quarter.astype(int).astype(str)
 InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## process parameters estimation 
 # period filter 
 start_t='1995-01-01'
@@ -168,7 +168,7 @@ rhoM_est = ar_rs2.params[0]
 sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
 print('Monthly CPI AR1 model estimates are '+ str([rhoM_est,sigmaM_est]))
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## expectation data from SCE
 
 PopM = pd.read_stata('../SurveyData/InfExpM.dta')
@@ -243,7 +243,7 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 #SPF_est['Inf1yf_CPICore'].plot()
 #plt.title('Realized 1-year-ahead Core CPI Inflation')
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## preparing data moments
 
 ####################################################
@@ -290,7 +290,7 @@ process_paraM_est = {'rho':rhoM_est,
                     'sigma':sigmaM_est}
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## function of moving average 
 def mvavg(array,
           window = 3):
@@ -315,7 +315,7 @@ sce_data_mv = ForecastPlot(data_moms_dct_SCE_mv)
 
 # ### Rational Expectation 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #################
 ## RE for SPF #
 ###############
@@ -337,7 +337,7 @@ sce_data_mv = ForecastPlot(data_moms_dct_SCE_mv)
 
 # ### SE Estimation
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## SE loop SMM estimation over different choieces of moments for SPF
 
 moments_choices_short = [ ['FE','FEVar','FEATV','DisgVar','DisgATV']]
