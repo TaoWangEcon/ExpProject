@@ -2313,7 +2313,7 @@ SENI_para_default = {'lambda':0.1,
                      'sigma_pb':0.1,
                      'sigma_pr':0.1}
 
-# + {"code_folding": [5, 30, 44, 61, 95, 245, 276, 316, 350, 382, 407, 438, 522, 540]}
+# + {"code_folding": [6, 30, 44, 61, 95, 136, 245, 276, 316, 350, 382, 407, 438, 522, 540]}
 ## Hybrid SENI Class 
 
 ## Diagnostic Expectation(DE) class
