@@ -181,7 +181,7 @@ CPIM_UCSV_Est.columns = ['sd_eta_est','sd_eps_est','tau']  ## Loading ucsv model
  ######################################################################################
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## Combine expectation data and real-time data 
 
 SPF_est = pd.concat([SPFCPI,real_time_inf,
@@ -248,7 +248,7 @@ n_burn_M = len(history_etaM) - len(SCE_est['RTCPI'])
 real_time_volsM = history_volsM[:,n_burn_M:]
 real_time_etaM = history_etaM[n_burn_M:]
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## realized 1-year-ahead inflation
 realized_CPIC = np.array(SPF_est['Inf1yf_CPICore'])
 realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
@@ -266,7 +266,7 @@ plt.plot(history_vol_epsQ,'--',
          label = r'$\widehat\sigma^2_{\epsilon}$')
 plt.legend(loc = 0)
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ## inflation and the permanent component quarterly 
 
 #plt.plot(np.array(CPICQ),
@@ -313,7 +313,7 @@ plt.plot(history_etaM,
          label=r'$\widehat\theta$')
 plt.legend(loc = 0)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## preparing for data moments  
 
 ## quarterly 
@@ -332,7 +332,7 @@ data_moms_dct_SCE = dict(exp_data_SCE)
 ## sce
 #sce_data = ForecastPlot(data_moms_dct_SCE)
 
-# +
+# + {"code_folding": [1]}
 ## function of moving average 
 def mvavg(array,
           window = 3):
@@ -359,7 +359,7 @@ sce_data_mv = ForecastPlot(data_moms_dct_SCE_mv)
 #
 # #### SPF
 
-# + {"code_folding": [0, 18, 33, 52]}
+# + {"code_folding": [18, 52]}
 ## SE SMM loop estimation over different choieces of moments for SPF
 
 moments_choices_short = [['FEVar','FEATV','DisgVar','DisgATV','Var']]

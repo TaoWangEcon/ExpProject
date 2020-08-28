@@ -31,10 +31,15 @@ from scipy.optimize import minimize
 import matplotlib.pyplot as plt
 import numba as nb
 from numba import jit, njit, jitclass, float64, int64
+import pandas as pd
+from statsmodels.tsa.api import AutoReg as AR
+import copy as cp
 #import statsmodels.api as sm
 #from numba.typed import List
 
-# + {"code_folding": [2, 11, 35, 48]}
+# ## Model 
+
+# + {"code_folding": [2, 11, 35, 47]}
 ## auxiliary functions 
 @njit
 def hstepvar(h,
@@ -79,7 +84,6 @@ def SimAR1(ρ,
     for i in range(T):
         xxx[i+1] = ρ*xxx[i] + shocks[i+1]
     return xxx[1:]
-
 
 ### UC-SV simulator 
 @njit
@@ -269,7 +273,7 @@ class RationalExpectationAR:
         return SMMMoments
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 model_sv_data = [
                 ('exp_para', float64[:]),             # parameters for expectation formation, empty for re
                 ('process_para', float64[:]),         # parameters for inflation process, 1 entry for SV 
@@ -284,7 +288,7 @@ model_sv_data = [
 
 # ### Rational Expectation (RE) + SV
 
-# + {"code_folding": [2, 14, 49, 81]}
+# + {"code_folding": [1, 2, 14, 18, 50]}
 @jitclass(model_sv_data)
 class RationalExpectationSV:
     def __init__(self,
@@ -380,7 +384,7 @@ class RationalExpectationSV:
         return SMMMoments
 
 
-# + {"code_folding": []}
+# + {"code_folding": [0]}
 ### create a RESV instance 
 
 p0_fake = 0
@@ -413,8 +417,6 @@ resv = RationalExpectationSV(exp_para = np.array([]),
 
 resv.GetRealization(xx_realized)
 # -
-
-resv.SMM()
 
 # #### Estimation inflation only 
 
@@ -464,14 +466,12 @@ def Objrear(paras):
     return scalor
 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## invoke estimation 
 
-ParaEst(Objrear,
-        para_guess = (0.8,0.1)
-       )
-
-
+#ParaEst(Objrear,
+#        para_guess = (0.8,0.1)
+#       )
 # -
 
 # ### Sticky Expectation (SE) + AR1
@@ -792,14 +792,14 @@ sear0.GetRealization(realized0)
 
 # + {"code_folding": []}
 ## intialize the sv instnace 
-sesv = StickyExpectationSV(exp_para = np.array([0.3]),
+sesv0 = StickyExpectationSV(exp_para = np.array([0.3]),
                            process_para = np.array([0.1]),
                            real_time = xx_real_time,
                            history = xx_real_time) ## history does not matter here, 
 
 ## get the realization 
 
-sesv.GetRealization(xx_realized)
+sesv0.GetRealization(xx_realized)
 # -
 
 # #### Estimating SE with RE 
@@ -822,16 +822,16 @@ def Objsear_re(paras):
 
 
 ## invoke estimation 
-ParaEst(Objsear_re,
-        para_guess = (0.2),
-        method='Nelder-Mead',
-        bounds = ((0,1),)
-       )
+#ParaEst(Objsear_re,
+#        para_guess = (0.2),
+#        method='Nelder-Mead',
+#        bounds = ((0,1),)
+#       )
 # -
 
 # #### Estimating SE with SE 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## get a fake data moment dictionary under a different parameter 
 
 sear1 = StickyExpectationAR(exp_para = np.array([0.4]),
@@ -857,11 +857,11 @@ def Objsear_se(paras):
 
 
 ## invoke estimation 
-ParaEst(Objsear_se,
-        para_guess = (0.2),
-        method='Nelder-Mead',
-        bounds = ((0,1),)
-       )
+#ParaEst(Objsear_se,
+#        para_guess = (0.2),
+#        method='Nelder-Mead',
+#        bounds = ((0,1),)
+#       )
 # -
 
 # #### Joint Estimation 
@@ -887,10 +887,10 @@ def Objsear_joint(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objsear_joint,
-        para_guess = np.array([0.2,0.8,0.2]),
-        method='Nelder-Mead'
-       )
+#ParaEst(Objsear_joint,
+#        para_guess = np.array([0.2,0.8,0.2]),
+#        method='Nelder-Mead'
+#       )
 
 
 # -
@@ -1065,7 +1065,7 @@ class NoisyInformationAR:
 #
 #
 
-# + {"code_folding": [2, 63, 124]}
+# + {"code_folding": [2, 14, 18, 63, 124]}
 @jitclass(model_sv_data)
 class NoisyInformationSV:
     def __init__(self,
@@ -1234,7 +1234,7 @@ class NoisyInformationSV:
                       "Var":Var_sim}
         return SMMMoments
 
-# + {"code_folding": [0, 1]}
+# + {"code_folding": [1]}
 ## intialize the ar instance 
 niar0 = NoisyInformationAR(exp_para = np.array([0.1,0.2]),
                             process_para = np.array([ρ0,σ0]),
@@ -1246,19 +1246,19 @@ niar0.GetRealization(realized0)
 
 # + {"code_folding": []}
 ## initial a sv instance
-nisv = NoisyInformationSV(exp_para = np.array([0.3,0.2]),
+nisv0 = NoisyInformationSV(exp_para = np.array([0.3,0.2]),
                            process_para = np.array([0.1]),
                            real_time = xx_real_time,
                            history = xx_real_time) ## history does not matter here, 
 
 ## get the realization 
 
-nisv.GetRealization(xx_realized)
+nisv0.GetRealization(xx_realized)
 # -
 
 # #### Estimating NI using RE data 
 
-# + {"code_folding": [0, 8, 9, 17]}
+# + {"code_folding": [0, 9]}
 moments0 = ['FE',
             'FEATV',
             'FEVar',
@@ -1276,14 +1276,16 @@ def Objniar_re(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objniar_re,
-        para_guess = np.array([0.2,0.1]),
-        method='Nelder-Mead')
+#ParaEst(Objniar_re,
+#        para_guess = np.array([0.2,0.1]),
+#        method='Nelder-Mead')
+
+
 # -
 
 # #### Estimate NI with NI
 
-# + {"code_folding": [0, 2]}
+# + {"code_folding": [2]}
 ## get a fake data moment dictionary under a different parameter 
 
 niar1 = NoisyInformationAR(exp_para = np.array([0.3,0.1]),
@@ -1313,17 +1315,19 @@ def Objniar_ni(paras):
 
 ## invoke estimation 
 
-ParaEst(Objniar_ni,
-        para_guess = np.array([0.2,0.3]),
-        method='L-BFGS-B',
-        bounds = ((0,None),(0,None),)
-       )
+#ParaEst(Objniar_ni,
+#        para_guess = np.array([0.2,0.3]),
+#        method='L-BFGS-B',
+#        bounds = ((0,None),(0,None),)
+#       )
+
+
 # -
 
 # #### Joint Estimation
 #
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## for joint estimation 
 
 moments1 = ['InfAV',
@@ -1344,10 +1348,10 @@ def Objniar_joint(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objniar_joint,
-        para_guess = np.array([0.2,0.3,0.8,0.2]),
-        method='Nelder-Mead'
-       )
+#ParaEst(Objniar_joint,
+#        para_guess = np.array([0.2,0.3,0.8,0.2]),
+#        method='Nelder-Mead'
+#       )
 
 
 # -
@@ -1604,7 +1608,7 @@ class DiagnosticExpectationSV:
                       "Var":Var_sim}
         return SMMMoments
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## intialize the ar instance 
 dear0 = DiagnosticExpectationAR(exp_para = np.array([0.5,0.2]),
                                 process_para = np.array([ρ0,σ0]),
@@ -1616,19 +1620,19 @@ dear0.GetRealization(realized0)
 
 # + {"code_folding": []}
 ## initial a sv instance
-desv = DiagnosticExpectationSV(exp_para = np.array([0.3,0.2]),
+desv0 = DiagnosticExpectationSV(exp_para = np.array([0.3,0.2]),
                                process_para = np.array([0.1]),
                                real_time = xx_real_time,
                                history = xx_real_time) ## history does not matter here, 
 
 ## get the realization 
 
-desv.GetRealization(xx_realized)
+desv0.GetRealization(xx_realized)
 # -
 
 # #### Estimating DE using RE data
 
-# + {"code_folding": [0]}
+# + {"code_folding": [2, 9]}
 ## only expectation estimation 
 
 moments0 = ['FE',
@@ -1648,14 +1652,14 @@ def Objdear_re(paras):
 
 
 ## invoke estimation 
-ParaEst(Objdear_re,
-        para_guess = np.array([0.2,0.3]),
-        method='Nelder-Mead')
+#ParaEst(Objdear_re,
+#        para_guess = np.array([0.2,0.3]),
+#        method='Nelder-Mead')
 # -
 
 # #### Estimating DE using DE data 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## get a fake data moment dictionary under a different parameter 
 
 dear1 = DiagnosticExpectationAR(exp_para = np.array([0.3,0.1]),
@@ -1688,14 +1692,14 @@ def Objdear_de(paras):
 
 
 ## invoke estimation 
-ParaEst(Objdear_de,
-        para_guess = np.array([0.2,0.3]),
-        method='Nelder-Mead')
+#ParaEst(Objdear_de,
+#        para_guess = np.array([0.2,0.3]),
+#        method='Nelder-Mead')
 # -
 
 # #### Joint Estimation 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## for joint estimation 
 
 moments1 = ['InfAV',
@@ -1716,9 +1720,9 @@ def Objdear_joint(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objdear_joint,
-        para_guess = np.array([0.2,0.3,0.8,0.2]),
-        method='Nelder-Mead')
+#ParaEst(Objdear_joint,
+#        para_guess = np.array([0.2,0.3,0.8,0.2]),
+#        method='Nelder-Mead')
 
 
 # -
@@ -1927,7 +1931,7 @@ class SENIHybridAR:
 #
 #
 
-# + {"code_folding": [2, 14, 73, 101, 163]}
+# + {"code_folding": [2, 14, 18, 164]}
 #@jitclass(model_sv_data)
 class SENIHybridSV:
     def __init__(self,
@@ -2148,18 +2152,18 @@ seniar0.GetRealization(realized0)
 
 # +
 ## initial a sv instance
-senisv = SENIHybridSV(exp_para = np.array([0.5,0.23,0.32]),
+senisv0 = SENIHybridSV(exp_para = np.array([0.5,0.23,0.32]),
                                process_para = np.array([0.1]),
                                real_time = xx_real_time,
                                history = xx_real_time) ## history does not matter here, 
 
 
-senisv.GetRealization(xx_realized)
+senisv0.GetRealization(xx_realized)
 # -
 
 # #### Estimate Hybrid using RE data 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## only expectation estimation 
 
 moments0 = ['FE',
@@ -2179,16 +2183,18 @@ def Objseniar_re(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objseniar_re,
-        para_guess = np.array([0.5,0.5,0.5]),
-        method='Nelder-Mead')
+#ParaEst(Objseniar_re,
+#        para_guess = np.array([0.5,0.5,0.5]),
+#        method='Nelder-Mead')
+
+
 # -
 
 # #### Estimate Hybrid using Hybrid 
 #
 #
 
-# + {"code_folding": [0, 2]}
+# + {"code_folding": [2]}
 ## get a fake data moment dictionary under a different parameter 
 
 seniar1 = SENIHybridAR(exp_para = np.array([0.2,0.4,0.5]),
@@ -2210,14 +2216,16 @@ def Objseniar_seni(paras):
     return scalor
 
 ## invoke estimation 
-ParaEst(Objseniar_seni,
-        para_guess = np.array([0.5,0.5,0.5]),
-        method='Nelder-Mead')
+#ParaEst(Objseniar_seni,
+#        para_guess = np.array([0.5,0.5,0.5]),
+#        method='Nelder-Mead')
+
+
 # -
 
 # #### Joint Estimation 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## for joint estimation 
 
 moments1 = ['InfAV',
@@ -2241,6 +2249,462 @@ def Objseniar_joint(paras):
     return scalor
 
 ## invoek estimation 
-ParaEst(Objseniar_joint,
-        para_guess = np.array([0.4,0.2,0.3,0.8,0.2]),
-        method='Nelder-Mead')
+#ParaEst(Objseniar_joint,
+#        para_guess = np.array([0.4,0.2,0.3,0.8,0.2]),
+#        method='Nelder-Mead')
+
+
+# -
+
+# ## Data Estimation  
+
+# ### Prepare the data 
+
+# #### Real-time Inflation data
+
+# + {"code_folding": [0]}
+## CPI Core
+InfCPICMRT=pd.read_stata('../OtherData/InfCPICMRealTime.dta')  
+InfCPICMRT = InfCPICMRT[-InfCPICMRT.date.isnull()]
+
+## CPI 
+InfCPIMRT=pd.read_stata('../OtherData/InfCPIMRealTime.dta')  
+InfCPIMRT = InfCPIMRT[-InfCPIMRT.date.isnull()]
+
+## dealing with dates 
+dateM_cpic = pd.to_datetime(InfCPICMRT['date'],format='%Y%m%d')
+dateM_cpi = pd.to_datetime(InfCPIMRT['date'],format='%Y%m%d')
+
+InfCPICMRT.index = pd.DatetimeIndex(dateM_cpic,freq='infer')
+InfCPIMRT.index = pd.DatetimeIndex(dateM_cpi,freq='infer')
+
+
+# + {"code_folding": [0]}
+## a function that turns vintage matrix to a one-dimension vector of real time data
+def GetRealTimeData(matrix):
+    periods = len(matrix)
+    real_time = np.zeros(periods)
+    for i in range(periods):
+        real_time[i] = matrix.iloc[i,i+1]
+    return real_time
+
+
+## generate real-time series 
+matrix_cpic = InfCPICMRT.copy().drop(columns=['date','year','month'])
+matrix_cpi = InfCPIMRT.copy().drop(columns=['date','year','month'])
+
+real_time_cpic = pd.Series(GetRealTimeData(matrix_cpic) )
+real_time_cpi =  pd.Series(GetRealTimeData(matrix_cpi) ) 
+real_time_cpic.index =  InfCPICMRT.index #+ pd.DateOffset(months=1) 
+real_time_cpi.index = InfCPIMRT.index #+ pd.DateOffset(months=1)
+
+## turn index into yearly inflation
+real_time_index =pd.concat([real_time_cpic,real_time_cpi], join='inner', axis=1)
+real_time_index.columns=['RTCPI','RTCPICore']
+real_time_inf = real_time_index.pct_change(periods=12)*100
+# -
+
+# #### Realized inflation data 
+
+# + {"code_folding": [0]}
+#################
+### quarterly ###
+#################
+
+InfQ = pd.read_stata('../OtherData/InfShocksQClean.dta')
+InfQ = InfQ[-InfQ.date.isnull()]
+dateQ2 = pd.to_datetime(InfQ['date'],format='%Y%m%d')
+dateQ_str2 = dateQ2 .dt.year.astype(int).astype(str) + \
+             "Q" + dateQ2 .dt.quarter.astype(int).astype(str)
+InfQ.index = pd.DatetimeIndex(dateQ_str2,freq='infer')
+
+###############
+## monthly ### 
+###############
+
+## inflation data monthly
+InfM = pd.read_stata('../OtherData/InfShocksMClean.dta')
+InfM = InfM[-InfM.date.isnull()]
+dateM = pd.to_datetime(InfM['date'],format='%Y%m%d')
+#dateM_str = dateM .dt.year.astype(int).astype(str) + \
+#             "M" + dateM .dt.month.astype(int).astype(str)
+InfM.index = pd.DatetimeIndex(dateM,freq='infer')
+# -
+
+# #### Expectation data
+
+# + {"code_folding": [0]}
+## expectation data from SPF 
+
+PopQ=pd.read_stata('../SurveyData/InfExpQ.dta')  
+PopQ = PopQ[-PopQ.date.isnull()]
+dateQ = pd.to_datetime(PopQ['date'],format='%Y%m%d')
+dateQ_str = dateQ.dt.year.astype(int).astype(str) + \
+             "Q" + dateQ.dt.quarter.astype(int).astype(str)
+PopQ.index = pd.DatetimeIndex(dateQ_str)
+SPFCPI = PopQ[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']].dropna(how='any')
+
+## expectation data from SCE
+PopM = pd.read_stata('../SurveyData/InfExpM.dta')
+PopM = PopM[-PopM.date.isnull()]
+dateM = pd.to_datetime(PopM['date'],format='%Y%m%d')
+dateM_str = dateM.dt.year.astype(int).astype(str) + \
+             "M" + dateM.dt.month.astype(int).astype(str)
+PopM.index = pd.DatetimeIndex(dateM)
+SCECPI = PopM[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']].dropna(how='any')
+# -
+
+# #### AR1 data
+
+# + {"code_folding": [0]}
+## process parameters estimation AR1 
+# period filter 
+start_t='1995-01-01'
+end_t = '2019-03-30'   # the same period as in Gali (1991)
+
+
+######################
+### quarterly data ##
+#####################
+
+CPICQ = InfQ['Inf1y_CPICore'].copy().loc[start_t:end_t]
+Y = np.array(CPICQ[1:])
+X = np.array(CPICQ[:-1])
+
+ARmodel = AR(CPICQ,lags=1,trend='n')
+ar_rs = ARmodel.fit()
+rhoQ_est = ar_rs.params[0]
+sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
+
+###################
+### monthly data ##
+###################
+
+CPIM = InfM['Inf1y_CPIAU'].copy().loc[start_t:end_t]
+Y = np.array(CPIM[1:])
+X = np.array(CPIM[:-1])
+
+ARmodel2 = AR(CPIM,lags=1,trend='n')
+ar_rs2 = ARmodel2.fit()
+rhoM_est = ar_rs2.params[0]
+sigmaM_est = np.sqrt(sum(ar_rs2.resid**2)/(len(CPIM)-1))
+
+# + {"code_folding": [0]}
+## Combine expectation data and real-time data 
+
+SPF_est_ar= pd.concat([SPFCPI,real_time_inf,InfQ['Inf1y_CPICore'],InfQ['Inf1yf_CPICore']], join='inner', axis=1)
+SCE_est_ar = pd.concat([SCECPI,real_time_inf,InfM['Inf1yf_CPIAU']], join='inner', axis=1)
+
+# + {"code_folding": [0]}
+## hisotries data, the series ends at the same dates with real-time data but startes earlier 
+
+st_t_history = '2000-01-01'
+ed_t_SPF = SPF_est_ar.index[-1].strftime('%Y%m%d')
+ed_t_SCE = SCE_est_ar.index[-1].strftime('%Y-%m-%d')
+
+## get the quarterly index 
+indexQ = CPICQ.index
+
+## get history data quarterly and monthly respectively 
+af = indexQ >= st_t_history 
+bf = indexQ <=ed_t_SPF
+time_filter = np.logical_and(af,bf)
+time_filter_idx = indexQ[time_filter]
+
+historyQ = real_time_inf.loc[time_filter_idx] ## this is monthly. wrong. 
+historyM = real_time_inf.loc[st_t_history:ed_t_SCE]
+
+#real_time = np.array(SPF_est['RTCPI'])
+
+# + {"code_folding": [0]}
+## realized 1-year-ahead inflation
+
+realized_CPIC = np.array(SPF_est_ar['Inf1yf_CPICore'])
+realized_CPI = np.array(SCE_est_ar['Inf1yf_CPIAU'])
+
+# + {"code_folding": [0]}
+## real time and history 
+
+################
+## quarterly ###
+#################
+
+real_time_Q_ar = np.array(SPF_est_ar['RTCPI'])
+history_Q_ar = historyQ['RTCPICore']
+
+process_paraQ_est_ar = np.array([rhoQ_est,sigmaQ_est])
+
+##############
+## monthly ###
+#############
+
+real_time_M_ar = np.array(SCE_est_ar['RTCPI'])
+history_M_ar = historyM['RTCPI']
+
+process_paraM_est_ar = np.array([rhoM_est,
+                                 sigmaM_est])
+
+# + {"code_folding": [], "cell_type": "markdown"}
+# #### SV  data 
+
+# + {"code_folding": [0]}
+## process parameters estimation for SV 
+
+################
+## quarterly ##
+################
+
+### quarterly data 
+### exporting inflation series for process estimation using UCSV model in matlab
+
+CPICQ.to_excel("../OtherData/CPICQ.xlsx")  ## this is for matlab estimation of UCSV model
+
+### import the estimated results 
+CPICQ_UCSV_Est = pd.read_excel('../OtherData/UCSVestQ.xlsx',
+                               header = None)  
+CPICQ_UCSV_Est.columns = ['sd_p_est','sd_t_est','p']  ## Loading ucsv model estimates 
+
+
+################
+## monthly ####
+################
+
+### process parameters estimation 
+
+### exporting monthly inflation series for process estimation using UCSV model in matlab
+CPIM.to_excel("../OtherData/CPIM.xlsx")  ## this is for matlab estimation of UCSV model
+
+### import the estimated results 
+CPIM_UCSV_Est = pd.read_excel('../OtherData/UCSVestM.xlsx',header=None)  
+CPIM_UCSV_Est.columns = ['sd_p_est','sd_t_est','p']  ## Loading ucsv model estimates 
+
+########################################################################################
+## be careful with the order, I define eta as the permanent and eps to be the tansitory 
+ ######################################################################################
+
+# + {"code_folding": [0, 2, 8]}
+## Combine expectation data and real-time data 
+
+SPF_est_sv = pd.concat([SPFCPI,
+                        real_time_inf,
+                        InfQ['Inf1y_CPICore'],
+                        InfQ['Inf1yf_CPICore']], 
+                       join='inner', 
+                       axis=1)
+SCE_est_sv = pd.concat([SCECPI,
+                        real_time_inf,
+                        InfM['Inf1yf_CPIAU']],
+                       join='inner',
+                       axis=1)
+
+# + {"code_folding": [0]}
+#########################################################
+## specific to SV model  
+######################################################
+
+#############
+## quarterly 
+##############
+
+n_burn_rt_historyQ = len(CPICQ_UCSV_Est) - len(historyQ)  
+
+history_yQ = historyQ['RTCPICore'] 
+history_vol_pQ = np.array(CPICQ_UCSV_Est['sd_p_est'][n_burn_rt_historyQ:])**2  ## permanent
+history_vol_tQ = np.array(CPICQ_UCSV_Est['sd_t_est'][n_burn_rt_historyQ:])**2 ## transitory
+
+#history_volsQ = np.array([history_vol_pQ,
+#                          history_vol_tQ])
+history_pQ = np.array(CPICQ_UCSV_Est['p'][n_burn_rt_historyQ:])
+
+## to burn 
+n_burn_Q = len(history_pQ) - len(SPF_est_sv['RTCPI'])
+real_time_yQ = history_yQ[n_burn_Q:]
+real_time_vol_pQ = history_vol_pQ[n_burn_Q:]
+real_time_vol_tQ = history_vol_tQ[n_burn_Q:]
+real_time_pQ = history_pQ[n_burn_Q:]
+
+############
+## monthly
+############
+
+n_burn_rt_historyM = len(CPIM_UCSV_Est) - len(historyM)  
+
+history_yM = historyM['RTCPI'] 
+history_vol_pM = np.array(CPIM_UCSV_Est['sd_p_est'][n_burn_rt_historyM:])**2
+history_vol_tM = np.array(CPIM_UCSV_Est['sd_t_est'][n_burn_rt_historyM:])**2
+
+#history_volsM = np.array([history_vol_pM,
+#                          history_vol_tM])  ## order is import 
+
+history_pM = np.array(CPIM_UCSV_Est['p'][n_burn_rt_historyM:])
+
+## to burn 
+n_burn_M = len(history_pM) - len(SCE_est_sv['RTCPI'])
+real_time_yM = history_yM[n_burn_M:]
+real_time_vol_pM = history_vol_pM[n_burn_M:]
+real_time_vol_tM = history_vol_tM[n_burn_M:]
+real_time_pM = history_pQ[n_burn_M:]
+
+# + {"code_folding": [0]}
+## generate histories and real time array 
+
+history_Q_sv = np.array([history_yQ,
+                           history_pQ,
+                           history_vol_pQ,
+                           history_vol_tQ])
+history_M_sv = np.array([history_yM,
+                           history_pM,
+                           history_vol_pM,
+                           history_vol_tM])
+
+history_Q_sv = np.array([real_time_yQ,
+                         real_time_pQ,
+                         real_time_vol_pQ,
+                         real_time_vol_tQ])
+history_M_sv = np.array([real_time_yM,
+                         real_time_pM,
+                         real_time_vol_pM,
+                         real_time_vol_tM])
+# -
+
+## process parameters 
+process_paraQ_est_sv = np.array([0.2])
+process_paraM_est_sv = np.array([0.2])
+
+# #### Data moments 
+
+# + {"code_folding": []}
+#####################################
+######### need to chnage here 
+## preparing data moments
+#####################################
+
+exp_data_SPF = SPF_est_ar[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
+exp_data_SPF.columns = ['Forecast','FE','Disg','Var']
+data_moms_dct_SPF = dict(exp_data_SPF)
+
+exp_data_SCE = SCE_est_ar[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
+exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
+data_moms_dct_SCE = dict(exp_data_SCE)
+
+
+############# need to compute the unconditional moments here 
+# -
+
+# ### Estimation 
+
+# + {"code_folding": [9, 14, 34, 39]}
+moments_list = [['FE','FEVar','FEATV'],
+               ['FE','FEVar','FEATV','Disg','DisgVar','DisgATV']]
+
+ex_model_list = ['se','ni','de','seni']
+
+process_list = ['ar','sv']
+
+agents_list = ['sce','spf']
+
+model_list = [sear0,niar0,dear0,seniar0,
+             sesv0,nisv0,desv0,senisv0]
+
+data_mom_dict_list = [data_moms_dctQ,data_moms_dctM]
+
+process_paras_list = [process_paraQ_est_ar,
+                      process_paraM_est_ar,
+                      process_paraQ_est_sv,
+                      process_paraM_est_sv]
+
+
+realized_list = [realized_CPIC.astype(np.float64),
+                 realized_CPI.astype(np.float64)]
+
+real_time_list = [np.array(real_time_Q_ar),
+                 np.array(real_time_M_ar),
+                 np.array(real_time_Q_sv),  ## 4 x t array 
+                 np.array(real_time_M_sv)]  ## 4 x t array 
+
+history_list = [np.array(history_Q_ar),
+               np.array(history_M_ar), 
+               np.array(history_Q_sv),     ## 4 x t array 
+               np.array(history_Q_sv)]     ## 4 x t array 
+
+## parameter guesses 
+guesses_list = [np.array([0.3]),  ## se lbd 
+               np.array([0.1,0.2]),  ## ni sigma_pb, sigma_pr
+               np.array([0.3,0.4]),   ## de theta theta_sigma
+               np.array([0.1,0.2,0.3])]  ## seni lbd, sigma_pb, sigma_pr
+
+guesses_joint_list = [np.array([0.3,0.8,0.1]),            ## se lbd 
+                       np.array([0.1,0.2,0.8,0.1]),      ## ni sigma_pb, sigma_pr
+                       np.array([0.3,0.4,0.8,0.1]),      ## de theta theta_sigma
+                       np.array([0.1,0.2,0.3,0.8,0.1]),
+                       ## for sv models not used
+                       np.array([0.3,0.2]),            ## se lbd 
+                       np.array([0.1,0.2,0.2]),      ## ni sigma_pb, sigma_pr
+                       np.array([0.3,0.4,0.2]),      ## de theta theta_sigma
+                       np.array([0.1,0.2,0.2]),]  ## seni lbd, sigma_pb, sigma_pr]
+
+## estimate the model for different agents, theory, inflation process and joint/theory 
+
+for pg_id,process in enumerate(process_list):
+    for agent_id,agent in enumerate(agents_list):
+        realized_this = realized_list[agent_id]
+        data_mom_dict_this = data_mom_dict_list[agent_id]
+        ## history and real-time inflation that is fed in the model depends on agent type and process
+        agent_process_id = pg_id*2+agent_id       
+        process_paras_this = process_paras_list[agent_process_id]
+        real_time_this = real_time_list[agent_process_id]
+        history_this = history_list[agent_process_id] 
+        
+        for exp_id,ex_model in enumerate(ex_model_list):
+            model_idx  = pg_id*2+exp_id
+            model_instance = model_list[model_idx]
+
+            ## feed inputs to the instance 
+            instance = model_instance
+            instance.GetRealization(realized_this)
+            instance.real_time = real_time_this
+            instance.history = history_this
+            instance.process_para = process_paras_this 
+            
+            ## specific objetive function to minimize (only for expectation)
+
+            for mom_id, moments_this in enumerate(moments_list):
+                def Obj_this(paras):
+                    scalor = ObjGen(instance,
+                                    paras = paras,
+                                    data_mom_dict = data_mom_dict_this,
+                                    moment_choice = moments_this,
+                                    how = 'expectation')
+                    return scalor
+                
+                guess_this = guesses_list[exp_id]
+                ## estimating
+                paras  = ParaEst(Obj_this,
+                                 para_guess = guess_this,
+                                 method='Nelder-Mead')
+                
+                paras_list.append(paras)
+
+                n_exp_paras_this = n_exp_paras_list[exp_id]
+                ##  joint estimation 
+                moments_this_ = moments_this+['InfAV','InfVar','InfATV'] ## added inflation moments 
+                def Obj_joint_this(paras):
+                    scalor = ObjGen(instance,
+                                    paras = paras,
+                                    data_mom_dict = data_mom_dict_this,
+                                    moment_choice = moments_this_,
+                                    how = 'joint',
+                                    n_exp_paras = n_exp_paras_this)
+                    return scalor
+               
+                guess_this_ = guesses_joint_list[model_idx]
+                ## estimating
+                paras_joint = ParaEst(Obj_joint_this,
+                                      para_guess = guess_this_,
+                                      method='Nelder-Mead')
+                paras_joint_list.append(paras)
+# -
+
+
+
+
