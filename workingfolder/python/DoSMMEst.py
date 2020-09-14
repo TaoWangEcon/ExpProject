@@ -3207,7 +3207,7 @@ for agent_id,agent in enumerate(agents_list):
                 print(paras_joint_est)
                 paras_joint_list.append(paras_joint_est)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## create multiple index to save coefficients estimates 
 
 iterables = [agents_list, process_list, ex_model_list,moments_list_general]
@@ -3314,7 +3314,7 @@ mom_joint_compare_spf = smm_data_spf.append(smm_joint_model.loc['spf','ar'])
 mom_joint_compare_sce = smm_data_sce.append(smm_joint_model.loc['sce','ar'])
 # -
 
-mom_joint_compare_spf
+mom_compare_spf
 
 mom_joint_compare_sce
 
