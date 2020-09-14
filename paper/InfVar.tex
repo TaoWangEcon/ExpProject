@@ -359,14 +359,14 @@ footskip=.25in]{geometry}
 	
 	\begin{eqnarray}
 		\begin{aligned}
-			\Sigma^y_{i,t|t} = \Sigma^y_{i,t|t-1} - \Sigma^y_{i,t|t-1} H'{(H \Sigma^y_{i,t-1} H' +\Sigma^v)}^{-1} H \Sigma^y_{i,t|t-1} 
+			\Sigma^y_{i,t|t} = \Sigma^y_{i,t|t-1} - \Sigma^y_{i,t|t-1} H'{(H \Sigma^y_{i,t|t-1} H' +\Sigma^v)}^{-1} H \Sigma^y_{i,t|t-1} 
 		\end{aligned}
 	\end{eqnarray}
 	
 	This directly gives the revision in uncertainty from time $t-1$ to $t$. The newly arrived information, although noisy, still brings about information gains, thus leading to an unambiguously drop in uncertainty. But due to the signal is not perfect, i.e. $\Sigma^v \neq 0$, there is inefficiency in reducing uncertainty compared to FIRE. 
 	
 	\begin{eqnarray}\label{VarNIRv}
-		\Sigma^y_{i,t|t} - \Sigma^y_{i,t|t-1} = - \Sigma^y_{i,t|t-1} H'{(H \Sigma^y_{i,t-1} H' +\Sigma^v)}^{-1} H \Sigma^y_{i,t|t-1} <0
+		\Sigma^y_{i,t|t} - \Sigma^y_{i,t|t-1} = - \Sigma^y_{i,t|t-1} H'{(H \Sigma^y_{i,t|t-1} H' +\Sigma^v)}^{-1} H \Sigma^y_{i,t|t-1} <0
 	\end{eqnarray}
 	
 	In order to be directly comparable with the revision in uncertainty in FIRE (Equation \ref{VarREPopRv}) and SE (Equation \ref{VarSERv}), the nowcasting uncertainty about $y_t$ needs to be converted to $h$-period-ahead forecasting uncertainty. This is simply to add the nowcasting uncertainty discounted by $\rho^{2h}$ to the uncertainty about future unrealized shocks.   
