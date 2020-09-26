@@ -143,7 +143,7 @@ def d1tod2(x):
     return x.reshape(1,-1)
 
 
-# + {"code_folding": [1]}
+# + {"code_folding": [1, 23]}
 @njit
 def ObjGen(model,
            paras,
@@ -166,8 +166,30 @@ def ObjGen(model,
     
     return distance
 
+@njit
+def ObjWeight(model,
+           paras,
+           data_mom_dict,
+           moment_choice,
+           weight,
+           how = 'expectation',
+           n_exp_paras = 0):
+    if how =='expectation':
+        model.exp_para = paras
+    elif how=='process':
+        model.process_para = paras
+    elif how=='joint':
+        model.exp_para = paras[0:n_exp_paras]
+        model.process_para = paras[n_exp_paras:]
+        
+    # simulated moments 
+    model_mom_dict = model.SMM()
+    diff = np.array([model_mom_dict[mom] - data_mom_dict[mom] for mom in moment_choice])
+    distance = np.dot(np.dot(diff,weight),diff.T)  ## need to make sure it is right. 
+    return distance
 
-# + {"code_folding": [1]}
+
+# + {"code_folding": []}
 ## parameter estimation non-jitted because jit does not support scipy.optimize
 def ParaEst(ObjSpec,
             para_guess,
@@ -175,11 +197,16 @@ def ParaEst(ObjSpec,
             bounds = None,
             options = {'disp': True}):
     
-    parameter = minimize(ObjSpec,
+    results = minimize(ObjSpec,
                          x0 = para_guess,
                          method = method,
                          bounds = bounds,
-                         options = options)['x']
+                         options = options)
+    if results['success']==True:
+        parameter = results['x']
+    else:
+        parameter = np.array([])
+    
     return parameter 
 
 
@@ -198,7 +225,7 @@ model_data = [
 ]
 
 
-# + {"code_folding": [1, 2, 14, 18, 39]}
+# + {"code_folding": [1, 2, 14, 18, 34, 73]}
 @jitclass(model_data)
 class RationalExpectationAR:
     def __init__(self,
@@ -248,7 +275,7 @@ class RationalExpectationAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -269,6 +296,8 @@ class RationalExpectationAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -279,7 +308,9 @@ class RationalExpectationAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -298,7 +329,7 @@ model_sv_data = [
 ]
 
 
-# + {"code_folding": [1, 2, 14, 18, 50]}
+# + {"code_folding": [2, 14, 18, 50, 84]}
 @jitclass(model_sv_data)
 class RationalExpectationSV:
     def __init__(self,
@@ -380,6 +411,8 @@ class RationalExpectationSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -390,7 +423,9 @@ class RationalExpectationSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -525,7 +560,7 @@ def np_min(array, axis):
     return np_apply_along_axis(np.min, axis, array)
 
 
-# + {"code_folding": [2, 18, 81, 113]}
+# + {"code_folding": [2, 18, 81, 115]}
 @jitclass(model_data)
 class StickyExpectationAR:
     def __init__(self,
@@ -617,7 +652,7 @@ class StickyExpectationAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -638,6 +673,8 @@ class StickyExpectationAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -648,7 +685,9 @@ class StickyExpectationAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -656,7 +695,7 @@ class StickyExpectationAR:
 
 # ### Sticky Expectation (SE) + SV
 
-# + {"code_folding": [1, 2, 14, 18, 88]}
+# + {"code_folding": [2, 14, 18, 88, 122]}
 @jitclass(model_sv_data)
 class StickyExpectationSV:
     def __init__(self,
@@ -776,6 +815,8 @@ class StickyExpectationSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -786,11 +827,13 @@ class StickyExpectationSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 ## intialize the ar instance 
 sear0 = StickyExpectationAR(exp_para = np.array([0.2]),
                             process_para = np.array([ρ0,σ0]),
@@ -876,7 +919,7 @@ def Objsear_se(paras):
 
 # #### Joint Estimation 
 
-# + {"code_folding": [2, 10]}
+# + {"code_folding": [0, 2, 10]}
 ## for joint estimation 
 
 moments1 = ['InfAV',
@@ -921,7 +964,7 @@ def SteadyStateVar(process_para,
     return nowcast_var_ss
 
 
-# + {"code_folding": [2, 18, 62, 117]}
+# + {"code_folding": [2, 14, 18, 151]}
 @jitclass(model_data)
 class NoisyInformationAR:
     def __init__(self,
@@ -1049,7 +1092,7 @@ class NoisyInformationAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -1070,6 +1113,8 @@ class NoisyInformationAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -1080,7 +1125,9 @@ class NoisyInformationAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -1090,7 +1137,7 @@ class NoisyInformationAR:
 #
 #
 
-# + {"code_folding": [2, 14, 18, 62, 123]}
+# + {"code_folding": [2, 14, 18, 62, 123, 157]}
 @jitclass(model_sv_data)
 class NoisyInformationSV:
     def __init__(self,
@@ -1128,7 +1175,7 @@ class NoisyInformationSV:
         γ = self.process_para
         ## exp parameters 
         sigma_pb,sigma_pr = self.exp_para
-        var_init = 2
+        var_init = sigmas_now[0,0]**2+sigmas_now[1,0]**2
         
         ## other parameters 
         sigma_v = np.array([[sigma_pb**2,0.0],[0.0,sigma_pr**2]]) ## variance matrix of signal noises         
@@ -1245,6 +1292,8 @@ class NoisyInformationSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -1255,10 +1304,12 @@ class NoisyInformationSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 ## intialize the ar instance 
 niar0 = NoisyInformationAR(exp_para = np.array([0.1,0.2]),
                             process_para = np.array([ρ0,σ0]),
@@ -1382,7 +1433,7 @@ def Objniar_joint(paras):
 
 # ###  Diagnostic Expectation(DE) + AR1
 
-# + {"code_folding": [2, 14, 18, 71]}
+# + {"code_folding": [1, 2, 14, 18, 71]}
 @jitclass(model_data)
 class DiagnosticExpectationAR:
     def __init__(self,
@@ -1464,7 +1515,7 @@ class DiagnosticExpectationAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -1485,6 +1536,8 @@ class DiagnosticExpectationAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -1495,7 +1548,9 @@ class DiagnosticExpectationAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -1503,7 +1558,7 @@ class DiagnosticExpectationAR:
 
 # ###  Diagnostic Expectation(DE) + SV
 
-# + {"code_folding": [1, 2, 18, 55, 84]}
+# + {"code_folding": [2, 18, 84, 118]}
 @jitclass(model_sv_data)
 class DiagnosticExpectationSV:
     def __init__(self,
@@ -1567,7 +1622,7 @@ class DiagnosticExpectationSV:
                 Var_now_re = hstepvarSV(horizon,
                                         sigmas_now[:,j+1],
                                         γ[0])
-                Vars_to_burn[i,j+1] = Var_now_re + this_theta*(Var_now_re - Vars_to_burn[i,j])
+                Vars_to_burn[i,j+1] = Var_now_re #+ this_theta*(Var_now_re - Vars_to_burn[i,j])
                 ######### this line of codes needs to be double checked!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                 ##########################################################################################
                 
@@ -1619,6 +1674,8 @@ class DiagnosticExpectationSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -1629,7 +1686,9 @@ class DiagnosticExpectationSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 # + {"code_folding": [0]}
@@ -1753,7 +1812,7 @@ def Objdear_joint(paras):
 
 # ###  Sticky Expectation and Noisy Information Hybrid(SENI) + AR1
 
-# + {"code_folding": [2, 14, 18, 150]}
+# + {"code_folding": [1, 14, 18]}
 @jitclass(model_data)
 class SENIHybridAR:
     def __init__(self,
@@ -1914,7 +1973,7 @@ class SENIHybridAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -1935,6 +1994,8 @@ class SENIHybridAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -1945,7 +2006,9 @@ class SENIHybridAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -1955,7 +2018,7 @@ class SENIHybridAR:
 #
 #
 
-# + {"code_folding": [1, 2, 14, 18, 164]}
+# + {"code_folding": [1, 2, 14, 18, 164, 198]}
 @jitclass(model_sv_data)
 class SENIHybridSV:
     def __init__(self,
@@ -2151,6 +2214,8 @@ class SENIHybridSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -2161,7 +2226,9 @@ class SENIHybridSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 # + {"code_folding": [0]}
@@ -2282,7 +2349,7 @@ def Objseniar_joint(paras):
 
 # ###  Diagnostic Expectation and Noisy Information Hybrid(DENI) + AR1
 
-# + {"code_folding": [2, 14, 18, 62, 117, 149]}
+# + {"code_folding": [2, 14, 18, 62, 69, 117]}
 @jitclass(model_data)
 class DENIHybridAR:
     def __init__(self,
@@ -2410,7 +2477,7 @@ class DENIHybridAR:
 
         InfAV  = 0.0
         InfVar = σ**2/(1-ρ**2)
-        InfATV = ρ**2*InfVar
+        InfATV = ρ*InfVar
         
         #################################
         # expectation moments 
@@ -2431,6 +2498,8 @@ class DENIHybridAR:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -2441,7 +2510,9 @@ class DENIHybridAR:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
 
@@ -2451,7 +2522,7 @@ class DENIHybridAR:
 #
 #
 
-# + {"code_folding": [2, 14, 18, 62, 123]}
+# + {"code_folding": [1, 2, 14, 18, 62]}
 @jitclass(model_sv_data)
 class DENIHybridSV:
     def __init__(self,
@@ -2606,6 +2677,8 @@ class DENIHybridSV:
         DisgATV_sim = np.cov(np.stack( (Disgs_sim[1:],Disgs_sim[:-1]),axis = 0))[0,1]
         
         Var_sim = np.mean(Vars_sim)
+        VarVar_sim = np.var(Vars_sim)
+        VarATV_sim = np.cov(np.stack( (Vars_sim[1:],Vars_sim[:-1]),axis = 0))[0,1]
     
         SMMMoments = {"InfAV":InfAV,
                       "InfVar":InfVar,
@@ -2616,10 +2689,12 @@ class DENIHybridSV:
                       "Disg":Disg_sim,
                       "DisgVar":DisgVar_sim,
                       "DisgATV":DisgATV_sim,
-                      "Var":Var_sim}
+                      "Var":Var_sim,
+                      'VarVar':VarVar_sim,
+                      'VarATV':VarATV_sim}
         return SMMMoments
 
-# + {"code_folding": [0]}
+# + {"code_folding": [1]}
 ## intialize the ar instance 
 deniar0 = DENIHybridAR(exp_para = np.array([0.1,0.1,0.2]),
                             process_para = np.array([ρ0,σ0]),
@@ -2629,7 +2704,7 @@ deniar0 = DENIHybridAR(exp_para = np.array([0.1,0.1,0.2]),
 
 deniar0.GetRealization(realized0)
 
-# +
+# + {"code_folding": [0]}
 ## initial a sv instance
 denisv0 = DENIHybridSV(exp_para = np.array([0.1,0.3,0.2]),
                            process_para = np.array([0.1]),
@@ -2802,19 +2877,22 @@ realized_CPI = np.array(SCE_est['Inf1yf_CPIAU'])
 
 # #### Data moments 
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 #####################################
 ######### need to chnage here 
 ## preparing data moments
 #####################################
 
+## Be careful with frequency here when computing auto-correlation. 
+### SPF: quarters 
+### SCE: month
 
 ### inflation moments 
 
 realized_CPIC = realized_CPIC[~np.isnan(realized_CPIC)]
 InfAV_data = np.mean(realized_CPIC)
 InfVar_data = np.var(realized_CPIC)
-InfATV_data = np.cov(np.stack( (realized_CPIC[1:],realized_CPIC[:-1]),axis = 0 ))[0,1]
+InfATV_data = np.cov(np.stack( (realized_CPIC[4:],realized_CPIC[:-4]),axis = 0 ))[0,1]
 
 ### expectation moments 
 exp_data_SPF = SPF_est[['SPFCPI_Mean','SPFCPI_FE','SPFCPI_Disg','SPFCPI_Var']]
@@ -2826,11 +2904,13 @@ Vars_data = exp_data_SPF['Var']
 
 FE_data = np.mean(FEs_data)
 FEVar_data = np.var(FEs_data)
-FEATV_data = np.cov(np.stack( (FEs_data[1:],FEs_data[:-1]),axis = 0 ))[0,1]
+FEATV_data = np.cov(np.stack( (FEs_data[4:],FEs_data[:-4]),axis = 0 ))[0,1]  ## 4 quarters apart 
 Disg_data = np.mean(Disgs_data)
 DisgVar_data = np.var(Disgs_data)
-DisgATV_data = np.cov(np.stack( (Disgs_data[1:],Disgs_data[:-1]),axis = 0))[0,1]
+DisgATV_data = np.cov(np.stack( (Disgs_data[4:],Disgs_data[:-4]),axis = 0))[0,1]
 Var_data = np.mean(Vars_data)
+VarVar_data = np.var(Vars_data)
+VarATV_data = np.cov(np.stack( (Vars_data[12:],Vars_data[:-12]),axis = 0))[0,1]
 
 
 data_moms_dct_SPF = Dict.empty(
@@ -2847,7 +2927,8 @@ data_moms_dct_SPF['Disg'] = InfAV_data
 data_moms_dct_SPF['DisgVar'] = DisgVar_data
 data_moms_dct_SPF['DisgATV'] = DisgATV_data
 data_moms_dct_SPF['Var'] = Var_data
-
+data_moms_dct_SPF['VarVar'] = VarVar_data
+data_moms_dct_SPF['VarATV'] = VarATV_data
 
 exp_data_SCE = SCE_est[['SCE_Mean','SCE_FE','SCE_Disg','SCE_Var']]
 exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
@@ -2858,7 +2939,7 @@ exp_data_SCE.columns = ['Forecast','FE','Disg','Var']
 realized_CPI = realized_CPI[~np.isnan(realized_CPI)]
 InfAV_data = np.mean(realized_CPI)
 InfVar_data = np.var(realized_CPI)
-InfATV_data = np.cov(np.stack( (realized_CPI[1:],realized_CPI[:-1]),axis = 0 ))[0,1]
+InfATV_data = np.cov(np.stack( (realized_CPI[12:],realized_CPI[:-12]),axis = 0 ))[0,1]
 
 ## expectation moments 
 FEs_data = exp_data_SCE['FE']
@@ -2867,11 +2948,13 @@ Vars_data = exp_data_SCE['Var']
 
 FE_data = np.mean(FEs_data)
 FEVar_data = np.var(FEs_data)
-FEATV_data = np.cov(np.stack( (FEs_data[1:],FEs_data[:-1]),axis = 0 ))[0,1]
+FEATV_data = np.cov(np.stack( (FEs_data[12:],FEs_data[:-12]),axis = 0 ))[0,1]
 Disg_data = np.mean(Disgs_data)
 DisgVar_data = np.var(Disgs_data)
-DisgATV_data = np.cov(np.stack( (Disgs_data[1:],Disgs_data[:-1]),axis = 0))[0,1]
+DisgATV_data = np.cov(np.stack( (Disgs_data[12:],Disgs_data[:-12]),axis = 0))[0,1]
 Var_data = np.mean(Vars_data)
+VarVar_data = np.var(Vars_data)
+VarATV_data = np.cov(np.stack( (Vars_data[12:],Vars_data[:-12]),axis = 0))[0,1]
 
 
 
@@ -2889,7 +2972,8 @@ data_moms_dct_SCE['Disg'] = InfAV_data
 data_moms_dct_SCE['DisgVar'] = DisgVar_data
 data_moms_dct_SCE['DisgATV'] = DisgATV_data
 data_moms_dct_SCE['Var'] = Var_data
-
+data_moms_dct_SCE['VarVar'] = VarVar_data
+data_moms_dct_SCE['VarATV'] = VarATV_data
 
 
 ############# need to compute the unconditional moments here 
@@ -2902,8 +2986,8 @@ data_moms_dct_SCE['Var'] = Var_data
 ### quarterly data ##
 #####################
 
-Y = np.array(CPICQ[1:])
-X = np.array(CPICQ[:-1])
+Y = np.array(CPICQ[4:])
+X = np.array(CPICQ[:-4])
 
 ARmodel = AR(CPICQ,lags=1,trend='n')
 ar_rs = ARmodel.fit()
@@ -2914,8 +2998,8 @@ sigmaQ_est = np.sqrt(sum(ar_rs.resid**2)/(len(CPICQ)-1))
 ### monthly data ##
 ###################
 
-Y = np.array(CPIM[1:])
-X = np.array(CPIM[:-1])
+Y = np.array(CPIM[12:])
+X = np.array(CPIM[:-12])
 
 ARmodel2 = AR(CPIM,lags=1,trend='n')
 ar_rs2 = ARmodel2.fit()
@@ -3058,25 +3142,24 @@ process_paraM_est_sv = np.array([0.2])
 
 # ### Estimation 
 
-# + {"code_folding": [4, 10, 19, 22, 25, 30, 33, 38, 44, 50, 61, 72, 76, 84, 101, 104, 113, 126, 127]}
-agents_list = ['spf','sce']
+# + {"code_folding": [4, 10, 18, 21, 24, 29, 32, 37, 43, 49, 60, 78, 133, 158]}
+agents_list = ['SPF','SCE']
 
-process_list = ['ar','sv']
+process_list = ['AR','SV']
 
-ex_model_list = ['se',
-                 'ni',
-                 'de',
-                 'deni'
+ex_model_list = ['SE',
+                 'NI',
+                 'DE',
+                 'DENI'
                 ]
 
 moments_list = [['FE','FEVar','FEATV'],
                ['FE','FEVar','FEATV','Disg','DisgVar','DisgATV'],
-               ['FE','FEVar','FEATV','Disg','DisgVar','DisgATV','Var']]
+               ['FE','FEVar','FEATV','Disg','DisgVar','DisgATV','Var','VarVar','VarATV']]
 
 how_list =['2-step','Joint']
 
 moments_list_general = ['FE','FE+Disg','FE+Disg+Var']
-
 
 model_list = [sear0,niar0,dear0,deniar0,
              sesv0,nisv0,desv0,denisv0]
@@ -3129,7 +3212,10 @@ n_exp_paras_list = [1,
 ## estimate the model for different agents, theory, inflation process and joint/theory 
 
 paras_list = []
+paras_step2_list = []
 paras_joint_list = []
+paras_joint_step2_list = []
+
 
 for agent_id,agent in enumerate(agents_list):
     print(agent)
@@ -3162,6 +3248,7 @@ for agent_id,agent in enumerate(agents_list):
 
             for mom_id, moments_this in enumerate(moments_list):
                 print(moments_this)
+                print('Step 1')
                 def Obj_this(paras_this):  
                     scalor = ObjGen(instance,
                                     paras = paras_this,
@@ -3175,17 +3262,44 @@ for agent_id,agent in enumerate(agents_list):
                 para_est  = ParaEst(Obj_this,
                                  para_guess = guess_this,
                                  method='Nelder-Mead')
-                
                 ## same para est
-                para_est = np.round(para_est,3)
-                print(para_est)
+                para_est = np.round(para_est,2)
+                print('Step 1:'+str(para_est))
                 paras_list.append(para_est)
-                
+                if len(para_est)>0:
+                    ## compute the efficient weighting matrix 
+                    instance.exp_para = para_est
+                    smm_dict_this = instance.SMM()
+                    distance = np.array([smm_dict_this[mom] - data_mom_dict_this[mom] for mom in moments_this]) 
+                    distance_diag = np.diag(distance*distance.T)
+                    wm1st = np.linalg.inv(distance_diag)
 
+                    ## 2-step estimation using efficient matrix 
+                    def Obj_this_step2(paras_this):
+                        scalor = ObjWeight(instance,
+                                           paras = paras_this,
+                                           weight = wm1st,
+                                           data_mom_dict = data_mom_dict_this,
+                                           moment_choice = moments_this,
+                                           how ='expectation')
+                        return scalor
+                    ## re-estimating
+                    para_est_step2  = ParaEst(Obj_this_step2,
+                                        para_guess = guess_this,
+                                        method='Nelder-Mead')
+                else:
+                    para_est_step2 = np.array([])
+                ## same para est
+                para_est_step2 = np.round(para_est_step2,2)
+
+                print('Step 2:'+str(para_est_step2))
+                paras_step2_list.append(para_est_step2)
+                
+                
                 ##  joint estimation 
                 n_exp_paras_this = n_exp_paras_list[exp_id]
                 moments_this_ = moments_this+['InfAV','InfVar','InfATV'] ## added inflation moments 
-                if pg_id <=0:
+                if pg_id <=0: ## no joint estimation for SV models 
                     def Obj_joint_this(paras):
                         scalor = ObjGen(instance,
                                         paras = paras,
@@ -3200,12 +3314,44 @@ for agent_id,agent in enumerate(agents_list):
                     paras_joint_est = ParaEst(Obj_joint_this,
                                               para_guess = guess_this_,
                                               method='Nelder-Mead')
-                    
+                    if len(paras_joint_est)>0:
+                        ## compute the efficient weighting matrix 
+                        instance.exp_para = paras_joint_est[0:n_exp_paras_this]     
+                        instance.process_para = paras_joint_est[n_exp_paras_this:]
+                        smm_dict_this = instance.SMM()
+                        distance = np.array([smm_dict_this[mom] - data_mom_dict_this[mom] for mom in moments_this_]) 
+                        distance_diag = np.diag(distance*distance.T)
+                        wm1st = np.linalg.inv(distance_diag)
+
+                        ## 2-step estimation using efficient matrix 
+                        def Obj_joint_this_step2(paras_this):
+                            scalor = ObjWeight(instance,
+                                               paras = paras_this,
+                                               weight = wm1st,
+                                               data_mom_dict = data_mom_dict_this,
+                                               moment_choice = moments_this_,
+                                               how ='joint',
+                                               n_exp_paras = n_exp_paras_this)
+                            return scalor
+                        ## re-estimating
+                        para_est_joint_step2  = ParaEst(Obj_joint_this_step2,
+                                                        para_guess = guess_this_,
+                                                        method='Nelder-Mead')                 
+                    else:
+                        para_est_joint_step2 = np.array([])
+                
                 else:
                     paras_joint_est = np.array([])
-                paras_joint_est = np.round(paras_joint_est,3)
-                print(paras_joint_est)
+                    para_est_joint_step2 = np.array([])
+                
+                ## save in the list 
+                paras_joint_est = np.round(paras_joint_est,2)
+                print('Step 1:'+str(paras_joint_est))
                 paras_joint_list.append(paras_joint_est)
+                
+                para_est_joint_step2 = np.round(para_est_joint_step2,2)
+                print('Step 2:'+str(para_est_joint_step2))
+                paras_joint_step2_list.append(para_est_joint_step2)
 
 # + {"code_folding": []}
 ## create multiple index to save coefficients estimates 
@@ -3213,21 +3359,61 @@ for agent_id,agent in enumerate(agents_list):
 iterables = [agents_list, process_list, ex_model_list,moments_list_general]
 midx = pd.MultiIndex.from_product(iterables, names=['Agents', 'Process','Model','Moments'])
 paras_table = pd.DataFrame(index = midx)
+
+## 2-step table
 paras_list = [tuple(paras) for paras in paras_list]
 paras_table['ParaEst'] = paras_list
-# -
 
-paras_table
+paras_step2_list = [tuple(paras) for paras in paras_step2_list]
+paras_table['ParaEst2step'] = paras_step2_list
 
+
+## joint table
 paras_joint_table = pd.DataFrame(index = midx)
+
 paras_joint_list = [tuple(paras) for paras in paras_joint_list]
 paras_joint_table['ParaEst'] = paras_joint_list
 
-paras_joint_table
+paras_joint_step2_list = [tuple(paras) for paras in paras_joint_step2_list]
+paras_joint_table['ParaEst2step'] = paras_joint_step2_list
 
-paras_joint_table.loc['spf','ar','se','FE']
+# -
+
+paras_table.columns = [['2-step Estimate','2-step Estimate 2nd step']]
+paras_joint_table.columns = [['Joint Estimate','Joint Estimate 2nd step']]
 
 # + {"code_folding": [0]}
+paras_combine_table = pd.merge(paras_table,
+                               paras_joint_table,
+                               how='outer',
+                               left_index=True,
+                               right_index=True)
+
+# + {"code_folding": [2, 13]}
+## Flag those under-identified cases 
+
+ui_list = [('SPF','AR','NI','FE'),
+          ('SCE','AR','NI','FE'),
+          ('SPF','AR','DENI','FE'),
+          ('SCE','AR','DENI','FE'),
+          ('SPF','SV','NI','FE'),
+          ('SCE','SV','NI','FE'),
+          ('SPF','SV','DENI','FE'),
+          ('SCE','SV','DENI','FE')
+          ]
+
+
+for case in ui_list:
+    for name in paras_combine_table.columns:
+        paras_combine_table.loc[case][name] = tuple(np.array([]))
+# -
+
+print(process_paraQ_est_ar)
+print(process_paraM_est_ar)
+
+paras_combine_table
+
+# + {"code_folding": [4, 8, 41, 52, 55]}
 ## generate model moments
 
 smm_list = []
@@ -3263,16 +3449,19 @@ for agent_id,agent in enumerate(agents_list):
             ## specific objetive function to minimize (only for expectation)
             for moments in moments_list_general:
                 ## 2-step moments 
-                para_est_this = np.array(list(paras_table.loc[agent,process,ex_model,moments])).flatten()
+                para_est_this = np.array(list(paras_combine_table.loc[agent,process,ex_model,moments]['2-step Estimate 2nd step'])).flatten()
                 print(para_est_this)
-                instance.process_para = process_paras_this
-                instance.exp_para = para_est_this
-                smm_this = instance.SMM()
+                try:
+                    instance.process_para = process_paras_this
+                    instance.exp_para = para_est_this
+                    smm_this = instance.SMM()
+                except:
+                    smm_this = {}
                 smm_list.append(smm_this)
-                
+
                 ## joint moments
                 n_exp_paras_this = n_exp_paras_list[exp_id]
-                para_est_this_ = np.array(list(paras_joint_table.loc[agent,process,ex_model,moments])).flatten()
+                para_est_this_ = np.array(list(paras_combine_table.loc[agent,process,ex_model,moments]['Joint Estimate 2nd step'])).flatten()
                 print(para_est_this_)
                 try:
                     instance.exp_para = para_est_this_[0:n_exp_paras_this]     
@@ -3287,7 +3476,7 @@ for agent_id,agent in enumerate(agents_list):
                     smm_this = {}
                     smm_joint_list.append(smm_this)
 
-# + {"code_folding": []}
+# + {"code_folding": [1]}
 ## model moments 
 smm_model = pd.DataFrame(smm_list,
                          columns = list(smm_list[0].keys()),
@@ -3297,7 +3486,7 @@ smm_joint_model = pd.DataFrame(smm_joint_list,
                                columns = list(smm_joint_list[1].keys()),
                                index = midx)
 
-# + {"code_folding": [0]}
+# + {"code_folding": []}
 ## data moments
 
 smm_data_spf =  pd.DataFrame(data_moms_dct_SPF.values()).T
@@ -3307,15 +3496,19 @@ smm_data_sce =  pd.DataFrame(data_moms_dct_SCE.values()).T
 smm_data_sce.columns = data_moms_dct_SCE.keys()
 
 # +
-mom_compare_spf = smm_data_spf.append(smm_model.loc['spf'])
-mom_compare_sce = smm_data_sce.append(smm_model.loc['sce'])
+mom_compare_spf = smm_data_spf.append(smm_model.loc['SPF'])
+mom_compare_sce = smm_data_sce.append(smm_model.loc['SCE'])
 
-mom_joint_compare_spf = smm_data_spf.append(smm_joint_model.loc['spf','ar'])
-mom_joint_compare_sce = smm_data_sce.append(smm_joint_model.loc['sce','ar'])
+mom_joint_compare_spf = smm_data_spf.append(smm_joint_model.loc['SPF','AR'])
+mom_joint_compare_sce = smm_data_sce.append(smm_joint_model.loc['SCE','AR'])
 # -
 
 mom_compare_spf
 
-mom_joint_compare_sce
+mom_compare_sce
+
+
+
+
 
 
